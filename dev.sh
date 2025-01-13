@@ -17,7 +17,7 @@ watch() {
 			clear
 			info "HEY BRO 👋 $(date)"
 			sync_sources
-			print_norminette
+			norminette_pretty $SRC_DIR
 			
 			rm -f "$PROG"
 			make
@@ -60,8 +60,8 @@ sync_sources() {
 	fi
 }
 
-print_norminette() {
-	NORM_ERROR=$(sed -e '/.*: OK!/d' <(norminette $SRC_DIR))
+norminette_pretty() {
+	NORM_ERROR=$(sed -e '/.*: OK!/d' <(norminette $1))
 	if [[ $NORM_ERROR == "" ]] ; then
 		success "\nNORMINETTE OK\n"
 	else

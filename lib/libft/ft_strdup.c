@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/13 15:20:40 by jvoisard         ###   ########.fr       */
+/*   Created: 2024/09/27 19:51:11 by jvoisard          #+#    #+#             */
+/*   Updated: 2024/10/08 16:33:13 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+char	*ft_strdup(const char *str)
 {
-	(void)ac;
-	(void)av;
-	printf("HEY MINISHELL \n");
+	char	*dup;
+	size_t	len;
+
+	len = ft_strlen(str) + 1;
+	dup = ft_calloc(len, sizeof(*dup));
+	if (dup)
+		ft_strlcpy(dup, str, len);
+	return (dup);
 }

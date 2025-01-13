@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/13 15:20:40 by jvoisard         ###   ########.fr       */
+/*   Created: 2024/10/06 00:19:30 by jvoisard          #+#    #+#             */
+/*   Updated: 2024/10/08 16:32:45 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+void	ft_putendl_fd(char *s, int fd)
 {
-	(void)ac;
-	(void)av;
-	printf("HEY MINISHELL \n");
+	if (!s)
+		return ;
+	while (*s)
+		write(fd, s++, 1);
+	write (fd, "\n", 1);
 }

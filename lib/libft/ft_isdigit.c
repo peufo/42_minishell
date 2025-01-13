@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/13 15:20:40 by jvoisard         ###   ########.fr       */
+/*   Created: 2024/09/22 23:53:41 by jvoisard          #+#    #+#             */
+/*   Updated: 2024/10/08 16:31:23 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+int	ft_isdigit(int c)
 {
-	(void)ac;
-	(void)av;
-	printf("HEY MINISHELL \n");
+	return ('0' <= c && c <= '9');
 }
