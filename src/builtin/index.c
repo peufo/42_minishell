@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:20:54 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/13 16:23:35 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/13 16:40:00 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int	ft_test(void)
 {
-	printf("test");
+	printf("test2");
 	return (2);
 }
