@@ -51,7 +51,7 @@ get_state() {
 }
 
 sync_sources() {
-	SOURCES=$(ls $SRC_DIR/*.c | sed "s;$SRC_DIR/;;g" | tr '\n' ' ')
+	SOURCES=$(ls $SRC_DIR/*.c $SRC_DIR/**/*.c | sed "s;$SRC_DIR/;;g" | tr '\n' ' ')
 	SED_COMMAND="s;^SOURCES	.*;SOURCES			=	$SOURCES;"
 	if [ $(uname) = "Linux" ];  then
 		sed -i -e "$SED_COMMAND" "./Makefile"

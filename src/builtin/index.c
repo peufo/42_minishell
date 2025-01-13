@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   index.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/13 16:23:59 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/01/13 16:20:54 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/13 16:23:35 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av)
+int	ft_test(void)
 {
-	(void)ac;
-	(void)av;
-	printf("HELLO MINISHELL \n");
-	ft_test();
+	printf("test");
+	return (2);
 }
