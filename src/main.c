@@ -6,15 +6,15 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/13 14:13:53 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:18:42 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-    (void)ac;
-    (void)av;
-    printf("HEY MINISHELL \n");
+	(void)ac;
+	(void)av;
+	printf("HEY MINISHELL \n");
 }

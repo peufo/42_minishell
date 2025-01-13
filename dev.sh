@@ -1,15 +1,5 @@
 #!/bin/bash
 
-info() {
-	echo -e "\033[36m$1\033[0m"
-}
-warning() {
-	echo -e "\033[31m$1\033[0m"
-}
-success() {
-	echo -e "\033[32m$1\033[0m"
-}
-
 SRC_DIR="./src"
 PROG="./minishell"
 
@@ -27,8 +17,7 @@ watch() {
 			clear
 			info "HEY BRO 👋 $(date)"
 			sync_sources
-			print_norm_error
-
+			print_norminette
 			
 			rm -f "$PROG"
 			make
@@ -71,7 +60,7 @@ sync_sources() {
 	fi
 }
 
-print_norm_error() {
+print_norminette() {
 	NORM_ERROR=$(sed -e '/.*: OK!/d' <(norminette $SRC_DIR))
 	if [[ $NORM_ERROR == "" ]] ; then
 		success "\nNORMINETTE OK\n"
@@ -92,6 +81,16 @@ print_norm_error() {
 		echo "$NORM_ERROR" | awk "$AWK_SCRIPT"
 		echo -e "\n"
 	fi
+}
+
+info() {
+	echo -e "\033[36m$1\033[0m"
+}
+warning() {
+	echo -e "\033[31m$1\033[0m"
+}
+success() {
+	echo -e "\033[32m$1\033[0m"
 }
 
 watch

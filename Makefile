@@ -1,7 +1,7 @@
 NAME			=	minishell
 DIR_SRC			=	./src
 DIR_BUILD		=	./build
-SOURCES			=	main.c utils.c 
+SOURCES			=	main.c 
 SOURCES_NAME	=	$(basename $(SOURCES))
 OBJECTS			=	$(addsuffix .o, $(addprefix $(DIR_BUILD)/, $(SOURCES_NAME)))
 FLAGS			=	-Wall -Wextra -Werror
