@@ -15,7 +15,7 @@ watch() {
 				kill $PROG_PID
 			fi
 			clear
-			info "HEY BRO 👋 $(date)"
+			info "───────── $(date) ─────────"
 			sync_sources
 			norminette_pretty $SRC_DIR
 			
@@ -24,8 +24,8 @@ watch() {
 			if [ ! -f "$PROG" ]; then
 				warning "COMPILATION FAILED"
 			else
-				success "COMPILATION OK"
-
+				success "COMPILATION OK\n"
+				info "───────────────────────────────────────────────────\n"
 				if [ $(uname) = "Linux" ]; then
 					valgrind --leak-check=full --track-origins=yes --log-file=leaks.log -s $PROG &
 					#valgrind --tool=helgrind --log-file=leaks.log -s $PROG "5" "2500" "1000" "1500" "3" &
