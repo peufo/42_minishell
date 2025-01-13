@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/13 15:20:40 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:53:21 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@ int	main(int ac, char **av)
 {
 	(void)ac;
 	(void)av;
-	printf("HEY MINISHELL \n");
+	printf("HELLO MINISHELL \n");
 }
