@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   index.c                                            :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 16:20:54 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/13 16:40:00 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/14 13:42:29 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_test(void)
+void	prompt(void)
 {
-	printf("test2");
-	return (2);
+	char *input;
+
+	input = readline("minishell>");
+	ft_putstr("Do something with ");
+	ft_putstr(input);
+	ft_putstr("\n");
+	free(input);
 }
