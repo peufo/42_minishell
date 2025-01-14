@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/14 18:39:08 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/14 19:26:14 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ typedef union u_pipe
 typedef struct s_sh
 {
 	char	*name;
+	char	*line;
 	bool	is_running;
 	bool	is_interactive;
 	t_pipe	pipe;
-	char	*line;
 }	t_sh;
 
 void	shell_init(t_sh *shell);
