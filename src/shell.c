@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/14 14:37:32 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/14 14:37:54 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av)
+int	shell_exit(t_sh *shell, char *error)
 {
-	t_sh	shell;
-	t_pipe	p;
+	(void)shell;
+	if (!error)
+		return (0);
+	perror(error);
+	return (1);
+}
 
-	(void)ac;
-	(void)av;
-	p.in = STDIN_FILENO;
-	p.out = STDOUT_FILENO;
-	shell_init(&shell, p);
-	printf("HELLO MINISHELL \n");
-	prompt();
+void	shell_init(t_sh *shell, t_pipe p)
+{
+	shell->pipe = p;
+	shell->is_interactive = isatty(p.in);
 }

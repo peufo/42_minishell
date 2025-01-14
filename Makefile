@@ -1,7 +1,7 @@
 NAME			=	minishell
 DIR_SRC			=	./src
 DIR_BUILD		=	./build
-SOURCES			=	main.c prompt/prompt.c 
+SOURCES			=	main.c prompt/prompt.c shell.c 
 SOURCES_NAME	=	$(basename $(SOURCES))
 OBJECTS			=	$(addsuffix .o, $(addprefix $(DIR_BUILD)/, $(SOURCES_NAME)))
 FLAGS			=	-Wall -Wextra -Werror
@@ -17,11 +17,9 @@ $(NAME): $(OBJECTS)
 	@make -sC $(LIBFT)
 	@cc $(OBJECTS) $(FLAGS) $(LIBS_LINK_DIR) $(LIBS_LINK) -o $@
 
-$(DIR_BUILD)/%.o: $(DIR_SRC)/%.c | $(dir $(OBJECTS))
+$(DIR_BUILD)/%.o: $(DIR_SRC)/%.c
+	@mkdir -p $(dir $@)
 	@cc $(FLAGS) $(LIBS_INCLUDE) -c $^ -o $@
-
-$(dir $(OBJECTS)):
-	@mkdir -p $@
 
 clean:
 	make clean -C $(LIBFT)
