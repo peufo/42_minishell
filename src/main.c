@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/14 13:37:05 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/14 13:56:18 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,4 +17,5 @@ int	main(int ac, char **av)
 	(void)ac;
 	(void)av;
 	printf("HELLO MINISHELL \n");
+	prompt();
 }

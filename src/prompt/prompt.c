@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/14 13:42:29 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/14 13:56:38 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	prompt(void)
 {
-	char *input;
+	char	*input;
 
 	input = readline("minishell>");
 	ft_putstr("Do something with ");
