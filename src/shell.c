@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/14 18:18:45 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/14 18:38:52 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,19 @@ void	shell_exec(t_sh *shell)
 	shell->is_interactive = isatty(shell->pipe.in);
 	errno = false;
 	shell->is_running = true;
-	shell->line.no = 0;
 	while (shell->is_running)
 	{
 		input_read(shell);
-		ft_putstr_fd("TODO parse: ", shell->pipe.out);
-		ft_putstr_fd(shell->line.content, shell->pipe.out);
+		input_parse(shell);
 	}	
 }
 
 void	shell_exit(t_sh *shell)
 {
-	if (shell->line.content)
+	if (shell->line)
 	{
-		free(shell->line.content);
-		shell->line.content = NULL;
+		free(shell->line);
+		shell->line = NULL;
 	}
 	if (!shell->is_interactive && shell->pipe.in != -1)
 		close(shell->pipe.in);
