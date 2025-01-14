@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/14 13:56:38 by jvoisard         ###   ########.fr       */
+/*   Created: 2024/10/12 19:30:22 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/14 16:11:17 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# include <stdlib.h>
+# include <sys/types.h>
+# include <sys/uio.h>
+# include <unistd.h>
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
 
-void	prompt(void)
-{
-	char	*input;
+char	*get_next_line(int fd);
 
-	input = readline("minishell>");
-	ft_putstr("Do something with ");
-	ft_putstr(input);
-	ft_putstr("\n");
-	free(input);
-}
+#endif
