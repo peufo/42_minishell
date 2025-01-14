@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/14 17:53:49 by jvoisard         ###   ########.fr       */
+/*   Created: 2024/10/03 20:20:52 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/14 15:27:52 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	t_sh	shell;
-
-	shell.name = "minishell";
-	if (ac == 2)
+	while (*s1 && *s2 && *s1 == *s2)
 	{
-		shell.pipe.in = open(av[1], O_RDONLY | O_NONBLOCK);
-		if (shell.pipe.in == -1)
-			return (shell_exit(&shell));
-		shell.name = av[1];
+		s1++;
+		s2++;
 	}
-	shell_exec(&shell);
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }

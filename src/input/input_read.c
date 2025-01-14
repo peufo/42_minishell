@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   input_read.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/14 17:53:49 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/14 18:05:02 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "get_next_line.h"
 
-int	main(int ac, char **av)
+void	input_read(t_sh	*shell)
 {
-	t_sh	shell;
-
-	shell.name = "minishell";
-	if (ac == 2)
+	if (shell->line.content)
+		free(shell->line.content);
+	if (shell->is_interactive)
+		shell->line.content = readline("minishell>");
+	else
+		shell->line.content = get_next_line(shell->pipe.in);
+	if (errno)
+		shell_exit(shell);
+	if (!shell->line.content)
 	{
-		shell.pipe.in = open(av[1], O_RDONLY | O_NONBLOCK);
-		if (shell.pipe.in == -1)
-			return (shell_exit(&shell));
-		shell.name = av[1];
+		shell->is_running = false;
+		return ;
 	}
-	shell_exec(&shell);
+	shell->line.no++;
 }

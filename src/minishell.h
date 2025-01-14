@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/14 14:37:50 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/14 18:01:13 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
+# include <errno.h>
 # include "libft.h"
 
 typedef union u_pipe
@@ -38,14 +39,23 @@ typedef union u_pipe
 	};
 }	t_pipe;
 
+typedef struct s_line
+{
+	char	*content;
+	int		no;
+}	t_line;
+
 typedef struct s_sh
 {
+	char	*name;
+	bool	is_running;
 	bool	is_interactive;
 	t_pipe	pipe;
+	t_line	line;
 }	t_sh;
 
-void	shell_init(t_sh *shell, t_pipe pipe);
-int		shell_exit(t_sh *shell, char *error);
-void	prompt(void);
+void	shell_exec(t_sh *shell);
+void	shell_exit(t_sh *shell);
+void	input_read(t_sh	*shell);
 
 #endif
