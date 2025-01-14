@@ -9,7 +9,7 @@ FLAGS			=	-Wall -Wextra -Werror
 LIBFT			=	./lib/libft
 LIBS_INCLUDE	=	-I$(LIBFT) -I$(DIR_SRC)
 LIBS_LINK_DIR	=	-L$(LIBFT)
-LIBS_LINK		=	-lft
+LIBS_LINK		=	-lft -lreadline
 
 all: $(NAME)
 
