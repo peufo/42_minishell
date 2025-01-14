@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/14 18:18:34 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/14 18:39:08 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,19 @@ typedef union u_pipe
 	};
 }	t_pipe;
 
-typedef struct s_line
-{
-	char	*content;
-	int		no;
-}	t_line;
-
 typedef struct s_sh
 {
 	char	*name;
 	bool	is_running;
 	bool	is_interactive;
 	t_pipe	pipe;
-	t_line	line;
+	char	*line;
 }	t_sh;
 
 void	shell_init(t_sh *shell);
 void	shell_exec(t_sh *shell);
 void	shell_exit(t_sh *shell);
-void	input_read(t_sh	*shell);
+void	input_read(t_sh *shell);
+void	input_parse(t_sh *shell);
 
 #endif
