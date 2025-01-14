@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/14 17:53:49 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/14 18:19:51 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@ int	main(int ac, char **av)
 {
 	t_sh	shell;
 
-	shell.name = "minishell";
+	shell_init(&shell);
 	if (ac == 2)
 	{
 		shell.pipe.in = open(av[1], O_RDONLY | O_NONBLOCK);
 		if (shell.pipe.in == -1)
-			return (shell_exit(&shell));
+			shell_exit(&shell);
 		shell.name = av[1];
 	}
 	shell_exec(&shell);
+	return (0);
 }

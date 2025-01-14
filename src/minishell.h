@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/14 18:01:13 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/14 18:18:34 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_sh
 	t_line	line;
 }	t_sh;
 
+void	shell_init(t_sh *shell);
 void	shell_exec(t_sh *shell);
 void	shell_exit(t_sh *shell);
 void	input_read(t_sh	*shell);
