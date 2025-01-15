@@ -6,16 +6,15 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/15 18:43:45 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/15 20:02:22 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "input_parse.h"
 
 static t_parser_state	get_next_state(t_parser *parser)
 {
-	static t_parser_state	next_stats[5][255] = {
+	static t_parser_state	next_stats[][255] = {
 	[PARSE_DEFAULT]['"'] = PARSE_DQUOTE,
 	[PARSE_DEFAULT]['\''] = PARSE_QUOTE,
 	[PARSE_DEFAULT]['$'] = PARSE_VAR,
@@ -36,19 +35,27 @@ static t_parser_state	get_next_state(t_parser *parser)
 static void	input_line_to_tokens(t_parser *parser)
 {
 	t_parser_state	next_state;
-	char			current;
 
-	while (*(parser->line))
+	while (*(parser->line) && parser->state != PARSE_ERROR)
 	{
 		next_state = get_next_state(parser);
-		current = *(parser->line++);
 		if (next_state)
 		{
 			parser->state = next_state;
+			parser->line++;
 			continue ;
 		}
-		ft_putchar_fd(current, STDOUT_FILENO);
 	}
+}
+
+static void	input_parse_exit(t_parser *parser)
+{
+	if (parser->token.value)
+	{
+		free(parser->token.value);
+		parser->token.value = NULL;
+	}
+	ft_lstclear(&parser->tokens, free);
 }
 
 void	input_parse(t_sh *shell)
@@ -59,7 +66,6 @@ void	input_parse(t_sh *shell)
 	parser.line = shell->line;
 	parser.state = PARSE_DEFAULT;
 	input_line_to_tokens(&parser);
+	input_parse_exit(&parser);
 	shell->tokens = parser.tokens;
-	ft_putstr_fd("TODO parse: ", shell->pipe.out);
-	ft_putstr_fd(shell->line, shell->pipe.out);
 }
