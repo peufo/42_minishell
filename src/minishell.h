@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/14 19:26:14 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/15 15:55:05 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_sh
 {
 	char	*name;
 	char	*line;
+	t_list	*tokens;
 	bool	is_running;
 	bool	is_interactive;
 	t_pipe	pipe;
