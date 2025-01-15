@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/14 18:38:52 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/15 18:40:12 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	shell_exec(t_sh *shell)
 	while (shell->is_running)
 	{
 		input_read(shell);
-		input_parse(shell);
+		if (shell->line)
+			input_parse(shell);
 	}	
 }
 

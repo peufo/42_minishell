@@ -1,32 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_read.c                                       :+:      :+:    :+:   */
+/*   input_parse.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/15 18:40:26 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/01/15 13:25:41 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/15 18:10:48 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "get_next_line.h"
+#ifndef INPUT_PARSE_H
+# define INPUT_PARSE_H
+# include "libft.h"
 
-void	input_read(t_sh	*shell)
+typedef enum e_parser_state
 {
-	if (shell->line)
-		free(shell->line);
-	if (shell->is_interactive)
-		shell->line = readline("minishell>");
-	else
-		shell->line = get_next_line(shell->pipe.in);
-	if (errno)
-		shell_exit(shell);
-	if (!shell->line)
-	{
-		shell->is_running = false;
-		return ;
-	}
-	add_history(shell->line);
-}
+	PARSE_DEFAULT,
+	PARSE_QUOTE,
+	PARSE_DQUOTE,
+	PARSE_VAR,
+	PARSE_VAR_DQUOTE
+}	t_parser_state;
+
+typedef struct s_parser
+{
+	t_parser_state		state;
+	t_parser_state		next_states[5][256];
+	char				*line;
+	char				*token;
+	t_list				*tokens;
+}	t_parser;
+
+#endif
