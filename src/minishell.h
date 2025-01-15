@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/15 15:55:05 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/15 19:59:01 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <stdbool.h>
 # include <errno.h>
 # include "libft.h"
+# include "input/input_parse.h"
 
 typedef union u_pipe
 {
@@ -52,7 +53,7 @@ typedef struct s_sh
 void	shell_init(t_sh *shell);
 void	shell_exec(t_sh *shell);
 void	shell_exit(t_sh *shell);
-void	input_read(t_sh *shell);
 void	input_parse(t_sh *shell);
+void	input_read(t_sh *shell);
 
 #endif

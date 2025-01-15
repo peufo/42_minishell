@@ -1,1 +1,1 @@
-echo "prout $@"
+echo "SALUT $USERNAME"

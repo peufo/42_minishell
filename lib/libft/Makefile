@@ -18,7 +18,7 @@ ifeq ($(OS),Linux)
 	LIBS += -lbsd -ldl
 endif
 
-all: $(NAME)
+all: $(NAME) bonus
 
 $(NAME): $(OBJECTS)
 	@ar -cr $@ $^
