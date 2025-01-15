@@ -2,6 +2,14 @@
 
 SRC_DIR="./src"
 PROG="./minishell"
+ARGS="./test.sh"
+LEAKS_CHECK=true
+
+if [ $(uname) = "Linux" ]; then
+	LEAKS_CMD="valgrind --leak-check=full --track-origins=yes --log-file=leaks.log -s"
+else
+	LEAKS_CMD="leaks -quiet --atExit --"
+fi
 
 watch() {
 	STATE_A=""
@@ -22,16 +30,14 @@ watch() {
 			rm -f "$PROG"
 			make
 			if [ ! -f "$PROG" ]; then
-				warning "COMPILATION FAILED"
+				warning "COMPILATION\ERROR"
 			else
-				success "COMPILATION OK\n"
+				success "COMPILATION\tOK\n"
 				info "───────────────────────────────────────────────────\n"
-				if [ $(uname) = "Linux" ]; then
-					valgrind --leak-check=full --track-origins=yes --log-file=leaks.log -s $PROG ./test.sh &
-					#valgrind --tool=helgrind --log-file=leaks.log -s $PROG "5" "2500" "1000" "1500" "3" &
+				if $LEAKS_CHECK ; then
+					$LEAKS_CMD $PROG $ARGS &
 				else
-					#leaks -quiet --atExit -- $PROG "25" "4000" "1000" "1500" &
-					$PROG "5" "1500" "1000" "1400" "3" &
+					$PROG $ARGS &
 				fi
 				PROG_PID=$!
 				trap 'kill "$PROG_PID" & return' 2
@@ -63,9 +69,9 @@ sync_sources() {
 norminette_pretty() {
 	NORM_ERROR=$(sed -e '/.*: OK!/d' <(norminette $1))
 	if [[ $NORM_ERROR == "" ]] ; then
-		success "\nNORMINETTE OK\n"
+		success "\nNORMINETTE\tOK\n"
 	else
-		warning "\nNORMINETTE ERROR"
+		warning "\nNORMINETTE\tERROR"
 		AWK_SCRIPT='{
 			if($2 == "Error!") {
 				filename = $1;
