@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 19:21:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/15 19:53:21 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/16 16:37:10 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,12 @@ t_string_result	string_push(t_string *string, char c)
 		return (STRING_ERROR);
 	ft_strlcat(string->value, (char []){c, '\0'}, string->len);
 	return (STRING_SUCCESS);
+}
+
+void	string_free(t_string *string)
+{
+	if (!string->value)
+		return ;
+	free(string->value);
+	string->value = NULL;
 }
