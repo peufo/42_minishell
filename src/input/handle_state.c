@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:49:27 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/16 10:52:59 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/16 15:57:48 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	handle_state_default(t_parser *parser)
 
 static void	handle_state_end_token(t_parser *parser)
 {
-	printf("ADD TOKEN : %s\n", parser->token.value);
 	ft_lstadd_back(&parser->tokens, ft_lstnew(parser->token.value));
 	parser->token.value = NULL;
 	parser->state = PARSE_DEFAULT;

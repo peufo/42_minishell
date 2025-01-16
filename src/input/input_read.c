@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_read.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/16 01:07:28 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/16 16:17:46 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	input_read(t_sh	*shell)
 	if (shell->line)
 		free(shell->line);
 	if (shell->is_interactive)
+	{
 		shell->line = readline("minishell>");
+		add_history(shell->line);
+	}
 	else
 		shell->line = get_next_line(shell->pipe.in);
 	if (errno)
@@ -28,5 +31,4 @@ void	input_read(t_sh	*shell)
 		shell->is_running = false;
 		return ;
 	}
-	add_history(shell->line);
 }
