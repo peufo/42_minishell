@@ -3,7 +3,7 @@
 SRC_DIR="./src"
 PROG="./minishell"
 ARGS="./test.sh"
-LEAKS_CHECK=true
+LEAKS_CHECK=false
 
 if [ $(uname) = "Linux" ]; then
 	LEAKS_CMD="valgrind --leak-check=full --track-origins=yes --log-file=leaks.log -s"
@@ -35,9 +35,9 @@ watch() {
 				success "COMPILATION\tOK\n"
 				info "───────────────────────────────────────────────────\n"
 				if $LEAKS_CHECK ; then
-					$LEAKS_CMD $PROG $ARGS &
+					$LEAKS_CMD $PROG "$ARGS" &
 				else
-					$PROG $ARGS &
+					$PROG "$ARGS" &
 				fi
 				PROG_PID=$!
 				trap 'kill "$PROG_PID" & return' 2

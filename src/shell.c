@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/15 22:43:14 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/16 01:11:05 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ void	shell_init(t_sh *shell)
 	shell->pipe.out = STDOUT_FILENO;
 }
 
+static void	print_token(void *token)
+{
+	printf("%s\n", (char *)token);
+}
+
 void	shell_exec(t_sh *shell)
 {
 	shell->is_interactive = isatty(shell->pipe.in);
@@ -28,8 +33,12 @@ void	shell_exec(t_sh *shell)
 	while (shell->is_running)
 	{
 		input_read(shell);
+		printf("READED: %s\n", shell->line);
 		if (shell->line)
 			input_parse(shell);
+		printf("TOKENS:\n");
+		ft_lstiter(shell->tokens, print_token);
+		shell->is_running = false;
 	}
 }
 
