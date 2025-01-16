@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string.h                                           :+:      :+:    :+:   */
+/*   handle_state_var.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/15 19:22:34 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/16 16:34:06 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/01/16 16:26:29 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/16 16:31:34 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRING_H
-# define STRING_H
-# define STRING_INITAL_LEN 64
-# include <unistd.h>
-# include "libft.h"
+#include "minishell.h"
 
-typedef enum e_string_result
+void	handle_state_var(t_parser *parser)
 {
-	STRING_SUCCESS = 0,
-	STRING_ERROR = 1
-}	t_string_result;
+	string_push(&parser->token, *parser->line);
+	parser->line++;
+}
 
-typedef struct s_string
+void	handle_state_var_dquote(t_parser *parser)
 {
-	char			*value;
-	unsigned int	len;
-}	t_string;
-
-t_string_result	string_push(t_string *string, char c);
-void			string_free(t_string *string);
-
-#endif
+	string_push(&parser->token, *parser->line);
+	parser->line++;
+}
