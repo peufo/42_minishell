@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/16 01:11:05 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/16 11:45:23 by aseite           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	shell_init(t_sh *shell)
 	shell->name = "minishell";
 	shell->pipe.in = STDIN_FILENO;
 	shell->pipe.out = STDOUT_FILENO;
+	printf("Hello<n");
 }
 
 static void	print_token(void *token)
