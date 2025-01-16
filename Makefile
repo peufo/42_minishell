@@ -4,7 +4,7 @@ DIR_BUILD		=	./build
 SOURCES			=	input/get_next_line.c input/handle_state.c input/input_parse.c input/input_read.c main.c shell.c utils/string.c 
 SOURCES_NAME	=	$(basename $(SOURCES))
 OBJECTS			=	$(addsuffix .o, $(addprefix $(DIR_BUILD)/, $(SOURCES_NAME)))
-FLAGS			=	-Wall -Wextra -Werror
+FLAGS			=	-Wall -Wextra -Werror -g
 
 LIBFT			=	./lib/libft
 LIBS_INCLUDE	=	-I$(LIBFT) -I$(DIR_SRC)

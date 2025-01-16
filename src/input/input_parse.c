@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/16 10:54:36 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/16 15:55:18 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,11 @@ static t_parser_state	get_next_state(t_parser *parser)
 	[PARSE_DEFAULT]['\t'] = PARSE_END_TOKEN,
 	[PARSE_DEFAULT]['\n'] = PARSE_END_TOKEN,
 	[PARSE_QUOTE]['\''] = PARSE_DEFAULT,
-	[PARSE_QUOTE]['\n'] = PARSE_ERROR,
 	[PARSE_DQUOTE]['"'] = PARSE_DEFAULT,
 	[PARSE_DQUOTE]['$'] = PARSE_VAR_DQUOTE,
-	[PARSE_DQUOTE]['\n'] = PARSE_ERROR,
 	[PARSE_VAR_DQUOTE]['"'] = PARSE_DEFAULT,
 	[PARSE_VAR_DQUOTE][' '] = PARSE_DQUOTE,
 	[PARSE_VAR_DQUOTE]['\t'] = PARSE_DQUOTE,
-	[PARSE_VAR_DQUOTE]['\n'] = PARSE_ERROR,
 	[PARSE_VAR]['"'] = PARSE_DQUOTE,
 	[PARSE_VAR]['\''] = PARSE_QUOTE,
 	[PARSE_VAR][' '] = PARSE_END_TOKEN,
@@ -80,6 +77,7 @@ void	input_parse(t_sh *shell)
 	parser.line = shell->line;
 	parser.state = PARSE_DEFAULT;
 	input_line_to_tokens(&parser);
-	input_parse_exit(&parser);
+	if (parser.state == PARSE_ERROR)
+		input_parse_exit(&parser);
 	shell->tokens = parser.tokens;
 }
