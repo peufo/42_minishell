@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/16 01:08:48 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/16 10:54:36 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,11 @@ static void	input_line_to_tokens(t_parser *parser)
 		}
 		handle_state(parser);
 	}
-	handle_state(parser);
+	if (parser->state != PARSE_ERROR)
+	{
+		parser->state = PARSE_END_TOKEN;
+		handle_state(parser);
+	}
 }
 
 static void	input_parse_exit(t_parser *parser)
