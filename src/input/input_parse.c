@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/15 20:02:22 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/16 01:08:48 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,27 @@
 
 static t_parser_state	get_next_state(t_parser *parser)
 {
-	static t_parser_state	next_stats[][255] = {
+	static t_parser_state	next_stats[][256] = {
 	[PARSE_DEFAULT]['"'] = PARSE_DQUOTE,
 	[PARSE_DEFAULT]['\''] = PARSE_QUOTE,
 	[PARSE_DEFAULT]['$'] = PARSE_VAR,
+	[PARSE_DEFAULT][' '] = PARSE_END_TOKEN,
+	[PARSE_DEFAULT]['\t'] = PARSE_END_TOKEN,
+	[PARSE_DEFAULT]['\n'] = PARSE_END_TOKEN,
 	[PARSE_QUOTE]['\''] = PARSE_DEFAULT,
-	[PARSE_DQUOTE]['$'] = PARSE_VAR_DQUOTE,
+	[PARSE_QUOTE]['\n'] = PARSE_ERROR,
 	[PARSE_DQUOTE]['"'] = PARSE_DEFAULT,
+	[PARSE_DQUOTE]['$'] = PARSE_VAR_DQUOTE,
+	[PARSE_DQUOTE]['\n'] = PARSE_ERROR,
+	[PARSE_VAR_DQUOTE]['"'] = PARSE_DEFAULT,
 	[PARSE_VAR_DQUOTE][' '] = PARSE_DQUOTE,
 	[PARSE_VAR_DQUOTE]['\t'] = PARSE_DQUOTE,
-	[PARSE_VAR_DQUOTE]['"'] = PARSE_DEFAULT,
+	[PARSE_VAR_DQUOTE]['\n'] = PARSE_ERROR,
 	[PARSE_VAR]['"'] = PARSE_DQUOTE,
-	[PARSE_VAR][' '] = PARSE_DEFAULT,
-	[PARSE_VAR]['\t'] = PARSE_DEFAULT
+	[PARSE_VAR]['\''] = PARSE_QUOTE,
+	[PARSE_VAR][' '] = PARSE_END_TOKEN,
+	[PARSE_VAR]['\t'] = PARSE_END_TOKEN,
+	[PARSE_VAR]['\n'] = PARSE_END_TOKEN
 	};
 
 	return (next_stats[parser->state][(int)*(parser->line)]);
@@ -45,7 +53,9 @@ static void	input_line_to_tokens(t_parser *parser)
 			parser->line++;
 			continue ;
 		}
+		handle_state(parser);
 	}
+	handle_state(parser);
 }
 
 static void	input_parse_exit(t_parser *parser)

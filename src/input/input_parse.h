@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_parse.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:25:41 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/15 20:02:06 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/16 00:40:55 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef enum e_parser_state
 	PARSE_DQUOTE,
 	PARSE_VAR,
 	PARSE_VAR_DQUOTE,
-	PARSE_ERROR
+	PARSE_ERROR,
+	PARSE_END_TOKEN
 }	t_parser_state;
 
 typedef struct s_parser
@@ -34,6 +35,8 @@ typedef struct s_parser
 	t_list				*tokens;
 }	t_parser;
 
-void	input_parse_default(t_parser *parser);
+typedef void	(*t_char_handler)(t_parser *);
+
+void	handle_state(t_parser *parser);
 
 #endif
