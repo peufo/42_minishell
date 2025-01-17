@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/16 19:16:34 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/17 14:07:25 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,27 @@ static void	input_line_to_tokens(t_parser *parser)
 	handle_transition(parser, PARSE_DEFAULT);
 }
 
+// TODO: handle error malloc
+static void	tokens_to_commands(t_parser *parser)
+{
+	t_list		*token;
+	t_command	*cmd;
+
+	token = parser->tokens;
+	while (token)
+	{
+		cmd = malloc(sizeof(*cmd));
+		if (!cmd)
+			return ;
+		cmd->executable = token->content;
+		cmd->args = NULL;
+		cmd->pipe.in = STDIN_FILENO;
+		cmd->pipe.out = STDOUT_FILENO;
+		ft_lstadd_back(&parser->commands, ft_lstnew(cmd));
+		token = token->next;
+	}
+}
+
 void	input_parse(t_sh *shell)
 {
 	t_parser	parser;
@@ -63,5 +84,7 @@ void	input_parse(t_sh *shell)
 	input_line_to_tokens(&parser);
 	string_free(&parser.token);
 	string_free(&parser.varname);
+	tokens_to_commands(&parser);
 	shell->tokens = parser.tokens;
+	shell->commands = parser.commands;
 }
