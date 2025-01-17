@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/16 16:17:04 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/17 14:15:04 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@ static void	print_token(void *token)
 	printf("%d: %s\n", i++, (char *)token);
 }
 
+static void	exec_command(void *command)
+{
+	t_command	*cmd;
+
+	cmd = (t_command *)command;
+	executor(cmd);
+}
+
 void	shell_exec(t_sh *shell)
 {
 	shell->is_interactive = isatty(shell->pipe.in);
@@ -40,6 +48,7 @@ void	shell_exec(t_sh *shell)
 			input_parse(shell);
 		printf("TOKENS:\n");
 		ft_lstiter(shell->tokens, print_token);
+		ft_lstiter(shell->commands, exec_command);
 		shell->is_running = false;
 	}
 	shell_exit(shell);
