@@ -4,4 +4,4 @@ lib/**/*.a
 .DS_Store
 *.dSYM
 leaks.log
-test.log
+dev.log
