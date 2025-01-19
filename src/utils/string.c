@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 19:21:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/16 16:37:10 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/19 22:24:22 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,15 @@ static t_string_result	string_ensure_malloc(t_string *string)
 
 	if (!string->value)
 	{
-		string->value = malloc(STRING_INITAL_LEN);
+		string->value = ft_calloc(STRING_INITAL_LEN, 1);
 		if (!string->value)
 			return (STRING_ERROR);
-		ft_memset(string->value, 0, STRING_INITAL_LEN);
 		string->len = STRING_INITAL_LEN;
 		return (STRING_SUCCESS);
 	}
 	if (string->value[string->len - 2])
 	{
-		new = malloc(string->len * 2);
+		new = ft_calloc(string->len * 2, 1);
 		if (!new)
 			return (free(string->value), string->value = NULL, STRING_ERROR);
 		ft_memmove(new, string->value, string->len);
