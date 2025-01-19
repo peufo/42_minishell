@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   index.c                                            :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/19 19:14:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/19 19:21:20 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/01/19 23:15:32 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/19 23:32:36 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bfunc	get_builtin(t_command *cmd)
+int	builtin_env(t_sh *shell, t_command *cmd)
 {
-	int					i;
-	static t_builtin	builtins[] = {
-	{"echo", builtin_echo},
-	{"cd", builtin_echo},
-	{"pwd", builtin_echo},
-	{"export", builtin_echo},
-	{"unset", builtin_echo},
-	{"env", builtin_echo},
-	{"exit", builtin_exit},
-	{NULL, NULL}
-	};
+	char	**env;
 
-	i = 0;
-	while (builtins[i].name)
+	(void)cmd;
+	env = shell->env;
+	while (*env)
 	{
-		if (!ft_strcmp(cmd->executable, builtins[i].name))
-			return (builtins[i].function);
-		i++;
+		ft_putstr_fd(*env, shell->pipe.out);
+		ft_putstr_fd("\n", shell->pipe.out);
+		env++;
 	}
-	return (NULL);
+	return (0);
 }
