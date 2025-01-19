@@ -1,1 +1,1 @@
-echo "SALUT $USERNAME" "prout"
+echo "SALUT $LOGNAME" "prout"
