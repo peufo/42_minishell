@@ -1,24 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   index.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/19 19:37:47 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/01/19 19:14:44 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/19 19:21:20 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	executor(t_sh *shell, t_command *cmd)
+t_bfunc	get_builtin(t_command *cmd)
 {
-	t_bfunc	builtin;
+	int					i;
+	static t_builtin	builtins[] = {
+	{"echo", builtin_echo},
+	{"cd", builtin_echo},
+	{"pwd", builtin_echo},
+	{"export", builtin_echo},
+	{"unset", builtin_echo},
+	{"env", builtin_echo},
+	{"exit", builtin_exit},
+	{NULL, NULL}
+	};
 
-	builtin = get_builtin(cmd);
-	if (builtin)
-		return (builtin(shell, cmd));
-	printf("TODO: exec command (%s)\n", cmd->executable);
-	return (0);
+	i = 0;
+	while (builtins[i].name)
+	{
+		if (!ft_strcmp(cmd->executable, builtins[i].name))
+			return (builtins[i].function);
+		i++;
+	}
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/19 18:56:23 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/19 19:20:07 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	shell_exec(t_sh *shell);
 void	shell_exit(t_sh *shell);
 void	input_read(t_sh *shell);
 
-// ================= INPUT_PARSE ========================
+// INPUT_PARSE =================================================================
 
 typedef enum e_parser_state
 {
@@ -96,15 +96,20 @@ void	handle_state_var(t_parser *parser);
 void	handle_state_var_dquote(t_parser *parser);
 void	handle_transition(t_parser *parser, t_parser_state next_state);
 
-// ================= EXECUTOR ========================
+// EXECUTOR ====================================================================
 
-typedef int		(*t_builtin_function)(t_sh *, t_command *cmd);
+int		executor(t_sh *shell, t_command *cmd);
+
+// BUILTINS ====================================================================
+
+typedef int		(*t_bfunc)(t_sh *, t_command *cmd);
 typedef struct s_builtin
 {
-	char				*name;
-	t_builtin_function	function;
+	char	*name;
+	t_bfunc	function;
 }	t_builtin;
-int		executor(t_sh *shell, t_command *cmd);
-int		builtin_exit(t_sh *shell, t_command *cmd);
 
+t_bfunc	get_builtin(t_command *cmd);
+int		builtin_echo(t_sh *shell, t_command *cmd);
+int		builtin_exit(t_sh *shell, t_command *cmd);
 #endif
