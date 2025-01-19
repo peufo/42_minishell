@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/19 19:45:03 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/19 22:16:28 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ void	shell_exec(t_sh *shell)
 	while (shell->is_running)
 	{
 		input_read(shell);
-		printf("\nLINE: %s\n", shell->line);
-		if (shell->line)
-			input_parse(shell);
+		if (!shell->line || !*shell->line)
+			break ;
+		printf("\nINPUT: %s\n", shell->line);
+		input_parse(shell);
 		printf("TOKENS:\n");
 		ft_lstiter(shell->tokens, print_token);
 		exec_commands(shell);
-		shell->is_running = false;
 	}
 	shell_exit(shell);
 }

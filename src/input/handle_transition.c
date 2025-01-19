@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_transition.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 17:21:54 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/16 19:15:05 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/19 22:15:10 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ static void	handle_transition_next_char(t_parser *parser)
 	parser->line++;
 }
 
-static void	handle_transition_skip_blank(t_parser *parser)
+static void	handle_transition_skip_blank(t_parser *p)
 {
-	while (*parser->line == ' ' || *parser->line == '\t')
-		parser->line++;
+	while (*p->line == ' ' || *p->line == '\t' || *p->line == '\n')
+		p->line++;
 }
 
 static void	handle_transition_preserv_dollar(t_parser *parser)
