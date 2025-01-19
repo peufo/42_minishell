@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/19 19:36:28 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/19 22:21:54 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	tokens_to_commands(t_parser *parser)
 {
 	t_command	*cmd;
 
-	cmd = malloc(sizeof(*cmd));
+	cmd = ft_calloc(1, sizeof(*cmd));
 	if (!cmd)
 		return ;
 	cmd->executable = parser->tokens->content;
