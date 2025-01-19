@@ -4,6 +4,7 @@ SRC_DIR="./src"
 PROG="./minishell"
 ARGS="./test.sh"
 LEAKS_CHECK=true
+OUTPUT_FILE=./dev.log
 
 if [ $(uname) = "Linux" ]; then
 	LEAKS_CMD="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=leaks.log -s"
@@ -35,10 +36,15 @@ watch() {
 			else
 				success "COMPILATION\tOK\n"
 				info "───────────────────────────────────────────────────\n"
+				COMMAND="$PROG $ARGS"
 				if $LEAKS_CHECK ; then
-					$LEAKS_CMD $PROG $ARGS > test.log &
+					COMMAND="$LEAKS_CMD $COMMAND"
+				fi
+				if [[ $OUTPUT_FILE != "" ]] ; then
+					$COMMAND > "$OUTPUT_FILE" &
+					echo "See output file: $OUTPUT_FILE"
 				else
-					$PROG $ARGS > test.log &
+					$COMMAND
 				fi
 				PROG_PID=$!
 				trap 'kill "$PROG_PID" & return' 2

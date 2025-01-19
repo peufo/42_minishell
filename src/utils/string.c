@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 19:21:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/19 22:24:22 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/20 00:00:46 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_string_result	string_ensure_malloc(t_string *string)
 	{
 		new = ft_calloc(string->len * 2, 1);
 		if (!new)
-			return (free(string->value), string->value = NULL, STRING_ERROR);
+			return (string_free(string), STRING_ERROR);
 		ft_memmove(new, string->value, string->len);
 		free(string->value);
 		string->value = new;
