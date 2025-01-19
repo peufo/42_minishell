@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/17 14:10:43 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:56:23 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,13 @@ void	handle_transition(t_parser *parser, t_parser_state next_state);
 
 // ================= EXECUTOR ========================
 
-int		executor(t_command *cmd);
+typedef int		(*t_builtin_function)(t_sh *, t_command *cmd);
+typedef struct s_builtin
+{
+	char				*name;
+	t_builtin_function	function;
+}	t_builtin;
+int		executor(t_sh *shell, t_command *cmd);
+int		builtin_exit(t_sh *shell, t_command *cmd);
 
 #endif

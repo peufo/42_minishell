@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/17 14:15:04 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/19 18:36:45 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,16 @@ static void	print_token(void *token)
 	printf("%d: %s\n", i++, (char *)token);
 }
 
-static void	exec_command(void *command)
+static void	exec_commands(t_sh *shell)
 {
-	t_command	*cmd;
+	t_list	*cmd;
 
-	cmd = (t_command *)command;
-	executor(cmd);
+	cmd = shell->commands;
+	while (cmd)
+	{
+		executor(shell, cmd->content);
+		cmd = cmd->next;
+	}
 }
 
 void	shell_exec(t_sh *shell)
@@ -48,7 +52,7 @@ void	shell_exec(t_sh *shell)
 			input_parse(shell);
 		printf("TOKENS:\n");
 		ft_lstiter(shell->tokens, print_token);
-		ft_lstiter(shell->commands, exec_command);
+		exec_commands(shell);
 		shell->is_running = false;
 	}
 	shell_exit(shell);
