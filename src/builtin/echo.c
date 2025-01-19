@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/19 19:37:47 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/01/19 19:10:39 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/19 19:37:11 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	executor(t_sh *shell, t_command *cmd)
+int	builtin_echo(t_sh *shell, t_command *cmd)
 {
-	t_bfunc	builtin;
+	t_list	*arg;
 
-	builtin = get_builtin(cmd);
-	if (builtin)
-		return (builtin(shell, cmd));
-	printf("TODO: exec command (%s)\n", cmd->executable);
+	if (!cmd->args)
+		return (1);
+	arg = cmd->args->next;
+	while (arg)
+	{
+		ft_putstr_fd(arg->content, shell->pipe.out);
+		ft_putstr_fd(" ", shell->pipe.out);
+		arg = arg->next;
+	}
+	ft_putstr_fd("\n", shell->pipe.out);
 	return (0);
 }
