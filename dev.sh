@@ -36,9 +36,9 @@ watch() {
 				success "COMPILATION\tOK\n"
 				info "───────────────────────────────────────────────────\n"
 				if $LEAKS_CHECK ; then
-					$LEAKS_CMD $PROG "$ARGS" &
+					$LEAKS_CMD $PROG $ARGS > test.log &
 				else
-					$PROG "$ARGS" &
+					$PROG $ARGS > test.log &
 				fi
 				PROG_PID=$!
 				trap 'kill "$PROG_PID" & return' 2
