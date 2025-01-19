@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   index.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/19 23:27:08 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/01/19 19:14:44 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/19 23:17:03 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+t_bfunc	get_builtin(t_command *cmd)
 {
-	t_sh	shell;
+	int					i;
+	static t_builtin	builtins[] = {
+	{"echo", builtin_echo},
+	{"cd", builtin_echo},
+	{"pwd", builtin_echo},
+	{"export", builtin_echo},
+	{"unset", builtin_echo},
+	{"env", builtin_env},
+	{"exit", builtin_exit},
+	{NULL, NULL}
+	};
 
-	shell_init(&shell);
-	shell.env = env;
-	if (ac == 2)
+	i = 0;
+	while (builtins[i].name)
 	{
-		shell.pipe.in = open(av[1], O_RDONLY | O_NONBLOCK);
-		if (shell.pipe.in == -1)
-			shell_exit(&shell);
-		shell.name = av[1];
+		if (!ft_strcmp(cmd->executable, builtins[i].name))
+			return (builtins[i].function);
+		i++;
 	}
-	shell_exec(&shell);
-	return (0);
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/19 19:20:07 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/19 23:26:27 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_sh
 	bool	is_running;
 	bool	is_interactive;
 	t_pipe	pipe;
+	char	**env;
 }	t_sh;
 
 typedef struct s_command
@@ -111,5 +112,6 @@ typedef struct s_builtin
 
 t_bfunc	get_builtin(t_command *cmd);
 int		builtin_echo(t_sh *shell, t_command *cmd);
+int		builtin_env(t_sh *shell, t_command *cmd);
 int		builtin_exit(t_sh *shell, t_command *cmd);
 #endif
