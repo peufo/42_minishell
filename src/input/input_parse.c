@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/19 22:21:54 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:05:33 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,11 @@ static void	tokens_to_commands(t_parser *parser)
 	cmd = ft_calloc(1, sizeof(*cmd));
 	if (!cmd)
 		return ;
-	cmd->executable = parser->tokens->content;
-	cmd->args = parser->tokens;
+	if (parser->tokens)
+	{
+		cmd->executable = parser->tokens->content;
+		cmd->args = parser->tokens;
+	}
 	cmd->pipe.in = STDIN_FILENO;
 	cmd->pipe.out = STDOUT_FILENO;
 	ft_lstadd_back(&parser->commands, ft_lstnew(cmd));

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/19 19:37:47 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:06:39 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	executor(t_sh *shell, t_command *cmd)
 {
 	t_bfunc	builtin;
 
+	if (!cmd->executable)
+		return (0);
 	builtin = get_builtin(cmd);
 	if (builtin)
 		return (builtin(shell, cmd));
