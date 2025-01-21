@@ -15,6 +15,7 @@
 		"tuple": "c",
 		"type_traits": "c",
 		"utility": "c",
-		"locale": "c"
+		"locale": "c",
+		"string_array.h": "c"
 	}
 }
