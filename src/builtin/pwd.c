@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:33:56 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 14:48:09 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/21 15:19:18 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ int	builtin_pwd(t_sh *shell, t_command *cmd)
 		return (shell_exit(shell), 1);
 	ft_putstr_fd(pwd, shell->pipe.out);
 	ft_putstr_fd("\n", shell->pipe.out);
+	free(pwd);
 	return (0);
 }
