@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 17:21:54 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/19 22:15:10 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:59:12 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static void	handle_transition_preserv_dollar(t_parser *parser)
 
 static void	handle_transition_end_token(t_parser *parser)
 {
+	if (!parser->token.value)
+		return ;
 	ft_lstadd_back(&parser->tokens, ft_lstnew(parser->token.value));
 	parser->token.value = NULL;
 	handle_transition_skip_blank(parser);

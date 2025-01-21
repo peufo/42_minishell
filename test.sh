@@ -4,3 +4,7 @@ echo "SALUT $LOGNAME" "line 4"
 
 echo "I'M THE LAST ONE"
 
+pwd
+pwd
+
+echo "YOU ARE HERE"
