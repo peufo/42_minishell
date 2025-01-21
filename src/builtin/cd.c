@@ -1,37 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_builtin.c                                      :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/19 19:14:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 14:35:29 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/21 14:41:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bfunc	get_builtin(t_command *cmd)
+int	builtin_cd(t_sh *shell, t_command *cmd)
 {
-	int					i;
-	static t_builtin	builtins[] = {
-	{"echo", builtin_echo},
-	{"cd", builtin_cd},
-	{"pwd", builtin_pwd},
-	{"export", builtin_export},
-	{"unset", builtin_unset},
-	{"env", builtin_env},
-	{"exit", builtin_exit},
-	{NULL, NULL}
-	};
-
-	i = 0;
-	while (builtins[i].name)
-	{
-		if (!ft_strcmp(cmd->executable, builtins[i].name))
-			return (builtins[i].function);
-		i++;
-	}
-	return (NULL);
+	(void)cmd;
+	ft_putstr_fd("TODO\n", shell->pipe.out);
+	return (0);
 }
