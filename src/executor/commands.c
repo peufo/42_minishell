@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 15:36:14 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/01/21 18:41:37 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/21 19:21:23 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	command_free(t_cmd **cmd)
 {
-	t_sh	shell;
+	ft_lstclear(&(*cmd)->args, free);
+	free(*cmd);
+	*cmd = NULL;
+}
 
-	shell_init(&shell, env);
-	if (ac == 2)
+//TODO: Interpret pipe and redirection and return an execution structure
+t_cmd	*command_from(t_list *tokens)
+{
+	t_cmd	*cmd;
+
+	cmd = ft_calloc(1, sizeof(*cmd));
+	if (!cmd)
+		return (NULL);
+	if (tokens)
 	{
-		shell.pipe.in = open(av[1], O_RDONLY | O_NONBLOCK);
-		if (shell.pipe.in == -1)
-			shell_exit(&shell);
-		shell.name = av[1];
+		cmd->executable = tokens->content;
+		cmd->args = tokens;
 	}
-	shell_exec(&shell);
-	return (0);
+	cmd->pipe.in = STDIN_FILENO;
+	cmd->pipe.out = STDOUT_FILENO;
+	return (cmd);
 }

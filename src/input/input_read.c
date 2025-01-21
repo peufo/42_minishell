@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/19 21:49:46 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:21:46 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	input_read(t_sh	*shell)
 {
 	if (shell->line)
 		free(shell->line);
+	if (shell->cmd)
+		command_free(&shell->cmd);
 	if (shell->is_interactive)
 	{
 		shell->line = readline("minishell>");

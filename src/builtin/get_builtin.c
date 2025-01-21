@@ -6,13 +6,13 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:14:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 14:35:29 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:48:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bfunc	get_builtin(t_command *cmd)
+t_bfunc	get_builtin(t_cmd *cmd)
 {
 	int					i;
 	static t_builtin	builtins[] = {

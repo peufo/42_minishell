@@ -6,13 +6,13 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:33:56 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 15:19:18 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:48:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_pwd(t_sh *shell, t_command *cmd)
+int	builtin_pwd(t_sh *shell, t_cmd *cmd)
 {
 	char	*pwd;
 
