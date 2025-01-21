@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 19:21:54 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/21 21:55:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include "libft.h"
 # include "input/get_next_line.h"
 # include "utils/string.h"
+# include "utils/string_array.h"
 
 typedef union u_pipe
 {
@@ -119,7 +120,5 @@ int		builtin_export(t_sh *shell, t_cmd *cmd);
 int		builtin_unset(t_sh *shell, t_cmd *cmd);
 int		builtin_env(t_sh *shell, t_cmd *cmd);
 int		builtin_exit(t_sh *shell, t_cmd *cmd);
-void	env_init(t_sh *shell, char **env);
-void	env_free(char **env);
 
 #endif

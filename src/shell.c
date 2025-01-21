@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 19:21:36 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/21 21:56:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void	shell_init(t_sh *shell, char **env)
 	shell->name = "minishell";
 	shell->pipe.in = STDIN_FILENO;
 	shell->pipe.out = STDOUT_FILENO;
-	env_init(shell, env);
+	shell->env = string_array_dup(env);
+	if (!shell->env)
+		return (shell_exit(shell));
 }
 
 void	shell_exec(t_sh *shell)
@@ -47,7 +49,7 @@ void	shell_exit(t_sh *shell)
 	}
 	if (!shell->is_interactive && shell->pipe.in != -1)
 		close(shell->pipe.in);
-	env_free(shell->env);
+	string_array_free(&shell->env);
 	command_free(&shell->cmd);
 	printf("\n[ CLEAN EXIT OK ]\n");
 	if (!errno)
