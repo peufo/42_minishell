@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 15:05:33 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/21 19:15:01 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,6 @@ static void	input_line_to_tokens(t_parser *parser)
 	handle_transition(parser, PARSE_DEFAULT);
 }
 
-// TODO: handle error malloc
-static void	tokens_to_commands(t_parser *parser)
-{
-	t_command	*cmd;
-
-	cmd = ft_calloc(1, sizeof(*cmd));
-	if (!cmd)
-		return ;
-	if (parser->tokens)
-	{
-		cmd->executable = parser->tokens->content;
-		cmd->args = parser->tokens;
-	}
-	cmd->pipe.in = STDIN_FILENO;
-	cmd->pipe.out = STDOUT_FILENO;
-	ft_lstadd_back(&parser->commands, ft_lstnew(cmd));
-}
-
 void	input_parse(t_sh *shell)
 {
 	t_parser	parser;
@@ -81,7 +63,5 @@ void	input_parse(t_sh *shell)
 	input_line_to_tokens(&parser);
 	string_free(&parser.token);
 	string_free(&parser.varname);
-	tokens_to_commands(&parser);
-	shell->tokens = parser.tokens;
-	shell->commands = parser.commands;
+	shell->cmd = command_from(parser.tokens);
 }

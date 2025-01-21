@@ -1,7 +1,7 @@
 NAME			=	minishell
 DIR_SRC			=	./src
 DIR_BUILD		=	./build
-SOURCES			=	builtin/cd.c builtin/echo.c builtin/env.c builtin/exit.c builtin/export.c builtin/get_builtin.c builtin/pwd.c builtin/unset.c executor/executor.c input/get_next_line.c input/handle_state.c input/handle_state_var.c input/handle_transition.c input/input_parse.c input/input_read.c main.c shell.c utils/string.c 
+SOURCES			=	builtin/cd.c builtin/echo.c builtin/env.c builtin/exit.c builtin/export.c builtin/get_builtin.c builtin/pwd.c builtin/unset.c executor/commands.c executor/executor.c input/get_next_line.c input/handle_state.c input/handle_state_var.c input/handle_transition.c input/input_parse.c input/input_read.c main.c shell.c utils/string.c 
 SOURCES_NAME	=	$(basename $(SOURCES))
 OBJECTS			=	$(addsuffix .o, $(addprefix $(DIR_BUILD)/, $(SOURCES_NAME)))
 FLAGS			=	-Wall -Wextra -Werror -g

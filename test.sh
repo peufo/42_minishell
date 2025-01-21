@@ -1,10 +1,7 @@
-echo "SALUT $LOGNAME" "line 1"
-echo -n "SALUT $LOGNAME" "line 2"
-echo "SALUT $LOGNAME" "line 4"
-
-echo "I'M THE LAST ONE"
+echo "Bonjour $LOGNAME,"    "comment va ?"
+echo -n T"'as"   'deux '
+echo 'minutes ?'
 
 pwd
-pwd
-
-echo "YOU ARE HERE"
+echo
+env

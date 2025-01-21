@@ -6,13 +6,13 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 15:06:39 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:48:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	executor(t_sh *shell, t_command *cmd)
+int	executor(t_sh *shell, t_cmd *cmd)
 {
 	t_bfunc	builtin;
 
