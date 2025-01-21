@@ -4,7 +4,7 @@ SRC_DIR="./src"
 PROG="./minishell"
 ARGS="./test.sh"
 LEAKS_CHECK=true
-OUTPUT_FILE=./dev.log
+OUTPUT_FILE="./dev.log"
 
 if [ $(uname) = "Linux" ]; then
 	LEAKS_CMD="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=leaks.log -s"

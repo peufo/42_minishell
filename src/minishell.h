@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/19 23:26:27 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/21 14:36:06 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,11 @@ typedef struct s_builtin
 
 t_bfunc	get_builtin(t_command *cmd);
 int		builtin_echo(t_sh *shell, t_command *cmd);
+int		builtin_cd(t_sh *shell, t_command *cmd);
+int		builtin_pwd(t_sh *shell, t_command *cmd);
+int		builtin_export(t_sh *shell, t_command *cmd);
+int		builtin_unset(t_sh *shell, t_command *cmd);
 int		builtin_env(t_sh *shell, t_command *cmd);
 int		builtin_exit(t_sh *shell, t_command *cmd);
+
 #endif
