@@ -6,15 +6,16 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 20:01:09 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/21 21:59:36 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	env_set(char **env, char *name, char *value)
+//TODO
+static void	env_set(t_sh *shell, char *name, char *value)
 {
-	(void)env;
+	(void)shell;
 	free(name);
 	(void)value;
 }
@@ -41,6 +42,6 @@ int	builtin_export(t_sh *shell, t_cmd *cmd)
 		}
 		i++;
 	}
-	env_set(shell->env, name, value);
+	env_set(shell, name, value);
 	return (0);
 }
