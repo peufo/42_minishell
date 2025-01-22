@@ -6,31 +6,31 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:49:27 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/22 14:12:55 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:48:25 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	handle_state_default(t_lexer *lexer)
+static void	handle_state_default(t_sh *shell)
 {
-	string_push(&lexer->token, *lexer->line);
-	lexer->line++;
+	string_push(&shell->lexer.token, *shell->lexer.cursor);
+	shell->lexer.cursor++;
 }
 
-static void	handle_state_dquote(t_lexer *lexer)
+static void	handle_state_dquote(t_sh *shell)
 {
-	string_push(&lexer->token, *lexer->line);
-	lexer->line++;
+	string_push(&shell->lexer.token, *shell->lexer.cursor);
+	shell->lexer.cursor++;
 }
 
-static void	handle_state_quote(t_lexer *lexer)
+static void	handle_state_quote(t_sh *shell)
 {
-	string_push(&lexer->token, *lexer->line);
-	lexer->line++;
+	string_push(&shell->lexer.token, *shell->lexer.cursor);
+	shell->lexer.cursor++;
 }
 
-void	lexer_state(t_lexer *lexer)
+void	lexer_state(t_sh *shell)
 {
 	t_lexer_state_handler			handler;
 	static t_lexer_state_handler	handlers[] = {
@@ -41,7 +41,7 @@ void	lexer_state(t_lexer *lexer)
 	[LEXER_VAR_DQUOTE] = lexer_state_var_dquote,
 	};
 
-	handler = handlers[lexer->state];
+	handler = handlers[shell->lexer.state];
 	if (handler)
-		handler(lexer);
+		handler(shell);
 }

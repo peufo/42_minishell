@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 21:59:36 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:17:00 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ static void	env_set(t_sh *shell, char *name, char *value)
 	(void)value;
 }
 
-int	builtin_export(t_sh *shell, t_cmd *cmd)
+int	builtin_export(t_sh *shell)
 {
 	char	*name;
 	char	*value;
 	int		i;
+	t_cmd	*cmd;
 
+	cmd = &shell->exec.cmd;
 	if (!cmd->args->next->content)
 		return (0);
 	name = ft_strdup(cmd->args->next->content);
