@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 21:55:41 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:12:55 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,40 +64,43 @@ void	shell_init(t_sh *shell, char **env);
 void	shell_exec(t_sh *shell);
 void	shell_exit(t_sh *shell);
 
-// INPUT_PARSE =================================================================
+// INPUT =======================================================================
 
-typedef enum e_parser_state
-{
-	PARSE_NO_STATE,
-	PARSE_INIT,
-	PARSE_DEFAULT,
-	PARSE_QUOTE,
-	PARSE_DQUOTE,
-	PARSE_VAR,
-	PARSE_VAR_DQUOTE,
-}	t_parser_state;
+void	input_read(t_sh *shell);
 
-typedef struct s_parser
+// LEXER =======================================================================
+
+typedef enum e_lexer_state
 {
-	t_parser_state		state;
+	LEXER_NO_STATE,
+	LEXER_INIT,
+	LEXER_DEFAULT,
+	LEXER_QUOTE,
+	LEXER_DQUOTE,
+	LEXER_VAR,
+	LEXER_VAR_DQUOTE,
+}	t_lexer_state;
+
+typedef struct s_lexer
+{
+	t_lexer_state		state;
 	char				*line;
 	t_string			token;
 	t_string			varname;
 	t_list				*tokens;
 	t_cmd				*cmd;
-}	t_parser;
+}	t_lexer;
 
-typedef void	(*t_state_handler)(t_parser *);
-typedef void	(*t_transition_handler)(t_parser *);
+typedef void	(*t_lexer_state_handler)(t_lexer *);
+typedef void	(*t_lexer_transition_handler)(t_lexer *);
 
-void	input_read(t_sh *shell);
-void	input_parse(t_sh *shell);
-void	handle_state(t_parser *parser);
-void	handle_state_var(t_parser *parser);
-void	handle_state_var_dquote(t_parser *parser);
-void	handle_transition(t_parser *parser, t_parser_state next_state);
+void	lex(t_sh *shell);
+void	lexer_state(t_lexer *lexer);
+void	lexer_state_var(t_lexer *lexer);
+void	lexer_state_var_dquote(t_lexer *lexer);
+void	lexer_transition(t_lexer *lexer, t_lexer_state next_state);
 
-// EXECUTOR ====================================================================
+// EXEC ========================================================================
 
 int		executor(t_sh *shell, t_cmd *cmd);
 void	command_free(t_cmd **cmd);
