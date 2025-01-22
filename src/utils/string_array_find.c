@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 21:24:04 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 21:50:45 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:55:27 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static bool	match_start_with(char *pattern, char *str)
 	return (true);
 }
 
-char	*string_array_find(
+char	**string_array_find(
 	char **arr,
 	char *pattern,
 	bool (*match)(char *, char *)
@@ -35,13 +35,13 @@ char	*string_array_find(
 	while (*arr)
 	{
 		if (match(pattern, *arr))
-			return (*arr);
+			return (arr);
 		arr++;
 	}
 	return (NULL);
 }
 
-char	*string_array_find_start_with(char **arr, char *pattern)
+char	**string_array_find_start_with(char **arr, char *pattern)
 {
 	return (string_array_find(arr, pattern, match_start_with));
 }
