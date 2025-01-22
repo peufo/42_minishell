@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:05:13 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 21:50:19 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/22 17:06:19 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	string_array_push(char ***arr, char *str)
 		i++;
 	}
 	dup[i] = str;
+	free(*arr);
 	*arr = dup;
 	return ;
 }
