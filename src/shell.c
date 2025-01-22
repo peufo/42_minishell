@@ -6,11 +6,23 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/22 14:03:34 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:28:35 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	shell_free(t_sh *shell)
+{
+	if (shell->line)
+	{
+		free(shell->line);
+		shell->line = NULL;
+	}
+	if (!shell->is_interactive && shell->pipe.in != -1)
+		close(shell->pipe.in);
+	string_array_free(&shell->env);
+}
 
 void	shell_init(t_sh *shell, char **env)
 {
@@ -35,22 +47,17 @@ void	shell_exec(t_sh *shell)
 			break ;
 		printf("\nINPUT: %s\n", shell->line);
 		lex(shell);
-		executor(shell, shell->cmd);
+		parse(shell);
+		executor(shell);
 	}
 	shell_exit(shell);
 }
 
 void	shell_exit(t_sh *shell)
 {
-	if (shell->line)
-	{
-		free(shell->line);
-		shell->line = NULL;
-	}
-	if (!shell->is_interactive && shell->pipe.in != -1)
-		close(shell->pipe.in);
-	string_array_free(&shell->env);
-	command_free(&shell->cmd);
+	shell_free(shell);
+	lex_free(shell);
+	parse_free(shell);
 	printf("\n[ CLEAN EXIT OK ]\n");
 	if (!errno)
 		exit(0);

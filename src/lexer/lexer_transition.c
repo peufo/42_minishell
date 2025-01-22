@@ -6,40 +6,43 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 17:21:54 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/22 14:12:42 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:33:37 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	lexer_transition_next_char(t_lexer *lexer)
+static void	lexer_transition_next_char(t_sh *shell)
 {
-	lexer->line++;
+	shell->lexer.cursor++;
 }
 
-static void	lexer_transition_skip_blank(t_lexer *p)
+static void	lexer_transition_skip_blank(t_sh *shell)
 {
-	while (*p->line == ' ' || *p->line == '\t' || *p->line == '\n')
-		p->line++;
+	char	**cursor;
+
+	cursor = &shell->lexer.cursor;
+	while (**cursor == ' ' || **cursor == '\t' || **cursor == '\n')
+		(*cursor)++;
 }
 
-static void	lexer_transition_preserv_dollar(t_lexer *lexer)
+static void	lexer_transition_preserv_dollar(t_sh *shell)
 {
-	if (!lexer->varname.value)
-		string_push(&lexer->token, '$');
-	lexer->line++;
+	if (!shell->lexer.varname.value)
+		string_push(&shell->lexer.token, '$');
+	shell->lexer.cursor++;
 }
 
-static void	lexer_transition_end_token(t_lexer *lexer)
+static void	lexer_transition_end_token(t_sh *shell)
 {
-	if (!lexer->token.value)
+	if (!shell->lexer.token.value)
 		return ;
-	ft_lstadd_back(&lexer->tokens, ft_lstnew(lexer->token.value));
-	lexer->token.value = NULL;
-	lexer_transition_skip_blank(lexer);
+	ft_lstadd_back(&shell->lexer.tokens, ft_lstnew(shell->lexer.token.value));
+	shell->lexer.token.value = NULL;
+	lexer_transition_skip_blank(shell);
 }
 
-void	lexer_transition(t_lexer *lexer, t_lexer_state next_state)
+void	lexer_transition(t_sh *shell, t_lexer_state next_state)
 {
 	t_lexer_transition_handler			handler;
 	static t_lexer_transition_handler	handlers[][8] = {
@@ -48,9 +51,9 @@ void	lexer_transition(t_lexer *lexer, t_lexer_state next_state)
 	[LEXER_DEFAULT][LEXER_DEFAULT] = lexer_transition_end_token
 	};
 
-	handler = handlers[lexer->state][next_state];
+	handler = handlers[shell->lexer.state][next_state];
 	if (!handler)
 		handler = lexer_transition_next_char;
-	handler(lexer);
-	lexer->state = next_state;
+	handler(shell);
+	shell->lexer.state = next_state;
 }

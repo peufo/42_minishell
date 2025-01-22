@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/22 14:12:55 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:24:21 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,27 +42,10 @@ typedef union u_pipe
 	};
 }	t_pipe;
 
-typedef struct s_cmd
-{
-	char	*executable;
-	t_list	*args;
-	t_pipe	pipe;
-}	t_cmd;
-
-typedef struct s_sh
-{
-	char	*name;
-	char	*line;
-	t_cmd	*cmd;
-	char	**env;
-	bool	is_running;
-	bool	is_interactive;
-	t_pipe	pipe;
-}	t_sh;
-
-void	shell_init(t_sh *shell, char **env);
-void	shell_exec(t_sh *shell);
-void	shell_exit(t_sh *shell);
+typedef struct s_lexer	t_lexer;
+typedef struct s_parser	t_parser;
+typedef struct s_exec	t_exec;
+typedef struct s_sh		t_sh;
 
 // INPUT =======================================================================
 
@@ -81,34 +64,72 @@ typedef enum e_lexer_state
 	LEXER_VAR_DQUOTE,
 }	t_lexer_state;
 
-typedef struct s_lexer
+struct s_lexer
 {
 	t_lexer_state		state;
-	char				*line;
+	char				*cursor;
 	t_string			token;
 	t_string			varname;
 	t_list				*tokens;
-	t_cmd				*cmd;
-}	t_lexer;
+};
 
-typedef void	(*t_lexer_state_handler)(t_lexer *);
-typedef void	(*t_lexer_transition_handler)(t_lexer *);
+typedef void			(*t_lexer_state_handler)(t_sh *);
+typedef void			(*t_lexer_transition_handler)(t_sh *);
 
 void	lex(t_sh *shell);
-void	lexer_state(t_lexer *lexer);
-void	lexer_state_var(t_lexer *lexer);
-void	lexer_state_var_dquote(t_lexer *lexer);
-void	lexer_transition(t_lexer *lexer, t_lexer_state next_state);
+void	lex_free(t_sh *shell);
+void	lexer_state(t_sh *shell);
+void	lexer_state_var(t_sh *shell);
+void	lexer_state_var_dquote(t_sh *shell);
+void	lexer_transition(t_sh *shell, t_lexer_state next_state);
+
+// PARSER ======================================================================
+
+typedef struct s_cmd
+{
+	t_list	*args;
+	t_pipe	pipe;
+}	t_cmd;
+
+struct s_parser
+{
+	t_cmd	cmd;
+};
+
+void	parse(t_sh *shell);
+void	parse_free(t_sh *shell);
 
 // EXEC ========================================================================
 
-int		executor(t_sh *shell, t_cmd *cmd);
-void	command_free(t_cmd **cmd);
-t_cmd	*command_from(t_list *tokens);
+struct s_exec
+{
+	t_cmd	cmd;
+};
+
+int		executor(t_sh *shell);
+
+// SHELL =======================================================================
+
+struct s_sh
+{
+	char		*name;
+	char		*line;
+	char		**env;
+	t_pipe		pipe;
+	bool		is_running;
+	bool		is_interactive;
+	t_lexer		lexer;
+	t_parser	parser;
+	t_exec		exec;
+};
+
+void	shell_init(t_sh *shell, char **env);
+void	shell_exec(t_sh *shell);
+void	shell_exit(t_sh *shell);
 
 // BUILTINS ====================================================================
 
-typedef int		(*t_bfunc)(t_sh *, t_cmd *cmd);
+typedef int				(*t_bfunc)(t_sh *);
 typedef struct s_builtin
 {
 	char	*name;
@@ -116,12 +137,12 @@ typedef struct s_builtin
 }	t_builtin;
 
 t_bfunc	get_builtin(t_cmd *cmd);
-int		builtin_echo(t_sh *shell, t_cmd *cmd);
-int		builtin_cd(t_sh *shell, t_cmd *cmd);
-int		builtin_pwd(t_sh *shell, t_cmd *cmd);
-int		builtin_export(t_sh *shell, t_cmd *cmd);
-int		builtin_unset(t_sh *shell, t_cmd *cmd);
-int		builtin_env(t_sh *shell, t_cmd *cmd);
-int		builtin_exit(t_sh *shell, t_cmd *cmd);
+int		builtin_echo(t_sh *shell);
+int		builtin_cd(t_sh *shell);
+int		builtin_pwd(t_sh *shell);
+int		builtin_export(t_sh *shell);
+int		builtin_unset(t_sh *shell);
+int		builtin_env(t_sh *shell);
+int		builtin_exit(t_sh *shell);
 
 #endif

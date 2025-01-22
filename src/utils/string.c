@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 19:21:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/20 00:00:46 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:30:20 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_string_result	string_push(t_string *string, char c)
 
 void	string_free(t_string *string)
 {
-	if (!string->value)
+	if (!string || !string->value)
 		return ;
 	free(string->value);
 	string->value = NULL;
