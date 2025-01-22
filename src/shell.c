@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/21 21:56:30 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:03:34 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	shell_exec(t_sh *shell)
 		if (!shell->line || !*shell->line)
 			break ;
 		printf("\nINPUT: %s\n", shell->line);
-		input_parse(shell);
+		lex(shell);
 		executor(shell, shell->cmd);
 	}
 	shell_exit(shell);
