@@ -92,9 +92,8 @@ int 	lex(t_sh *shell)
 	lex_transition(shell, L_DEFAULT);
 	while (*(shell->lexer.cursor))
 	{
-		if (!get_next_state1(shell))
-			if (!get_next_state2(shell))
-				return (0);
+		if (get_next_state1(shell) == -1)
+			return (0);
 		if (shell->lexer.next_state != BULLSHIT)
 			lexer_transition(shell);
 		else
