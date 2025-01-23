@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 void	lexer_state_var(t_sh *shell)
 {
 	string_push(&shell->lexer.token, *shell->lexer.cursor);
@@ -23,3 +23,4 @@ void	lexer_state_var_dquote(t_sh *shell)
 	string_push(&shell->lexer.token, *shell->lexer.cursor);
 	shell->lexer.cursor++;
 }
+*/
