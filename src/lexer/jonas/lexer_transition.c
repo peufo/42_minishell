@@ -24,6 +24,11 @@ static void	lexer_transition_skip_blank(t_sh *shell)
 	cursor = &shell->lexer.cursor;
 	while (**cursor == ' ' || **cursor == '\t' || **cursor == '\n')
 		(*cursor)++;
+	if (**cursor == '#')
+	{
+		while (**cursor != '\0')
+			(*cursor)++;
+	}
 }
 
 static void	lexer_transition_preserv_dollar(t_sh *shell)
@@ -46,9 +51,10 @@ void	lexer_transition(t_sh *shell, t_lexer_state next_state)
 {
 	t_lexer_transition_handler			handler;
 	static t_lexer_transition_handler	handlers[][8] = {
-	[LEXER_INIT][LEXER_DEFAULT] = lexer_transition_skip_blank,
-	[LEXER_VAR][LEXER_DQUOTE] = lexer_transition_preserv_dollar,
-	[LEXER_DEFAULT][LEXER_DEFAULT] = lexer_transition_end_token
+	[L_INIT][L_DEFAULT] = lexer_transition_skip_blank,
+	[L_VAR][L_DQUOTE] = lexer_transition_preserv_dollar,
+	[L_DEFAULT][L_DEFAULT] = lexer_transition_end_token,
+	[L_IGNORE][L_DEFAULT] = lexer_transition_skip_blank
 	};
 
 	handler = handlers[shell->lexer.state][next_state];

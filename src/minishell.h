@@ -31,6 +31,7 @@
 # include "input/get_next_line.h"
 # include "utils/string.h"
 # include "utils/string_array.h"
+# include "macros.h"
 
 typedef union u_pipe
 {
@@ -53,20 +54,38 @@ void	input_read(t_sh *shell);
 
 // LEXER =======================================================================
 
+//////////////////////////////////
+//	==> look in MACROS_H <==	//
+//////////////////////////////////
+
+/*
 typedef enum e_lexer_state
 {
-	LEXER_NO_STATE,
-	LEXER_INIT,
-	LEXER_DEFAULT,
-	LEXER_QUOTE,
-	LEXER_DQUOTE,
-	LEXER_VAR,
-	LEXER_VAR_DQUOTE,
+	L_NO_STATE,
+	L_INIT,
+	L_DEFAULT,
+	L_QUOTE,
+	L_DQUOTE,
+	L_VAR,
+	L_VAR_DQUOTE,
+	L_IGNORE,
+	L_PAR_OPEN,		//	TODO
+	L_PAR_CLOSED,	//	TODO
+	L_PROCESS_GATE,	//	TODO
+	L_AND_GATE,		//	TODO
+	L_OR_GATE,		//	TODO
+	L_PIPE,			//	TODO
+	L_FLAG,			//	TODO
+	L_LEFT_DIR,		//	TODO
+	L_RIGHT_DIR,	//	TODO
+	L_LEFT_REDIR,	//	TODO
+	L_RIGHT_REDIR	//	TODO
 }	t_lexer_state;
-
+*/
 struct s_lexer
 {
-	t_lexer_state		state;
+	int					next_state;
+	t_list				*state;
 	char				*cursor;
 	t_string			token;
 	t_string			varname;
@@ -76,28 +95,45 @@ struct s_lexer
 typedef void			(*t_lexer_state_handler)(t_sh *);
 typedef void			(*t_lexer_transition_handler)(t_sh *);
 
-void	lex(t_sh *shell);
+int		lex(t_sh *shell);
 void	lex_free(t_sh *shell);
-void	lexer_state(t_sh *shell);
-void	lexer_state_var(t_sh *shell);
-void	lexer_state_var_dquote(t_sh *shell);
-void	lexer_transition(t_sh *shell, t_lexer_state next_state);
+//void	lexer_state(t_sh *shell);
+//void	lexer_state_var(t_sh *shell);
+//void	lexer_state_var_dquote(t_sh *shell);
+//void	lexer_transition(t_sh *shell);//, t_lexer_state next_state);
 
-// PARSER ======================================================================
+// PARSER ====================================================================
+
+typedef struct s_redir
+{
+	enum {
+		INPUT,
+		OUTPUT,
+		APPEND,
+	};
+	char 	*file;
+}	t_redir;
 
 typedef struct s_cmd
 {
-	t_list	*args;
-	t_pipe	pipe;
+	t_list		*args;
+	t_pipe		pipe;
+	t_list 		*c2ex;
+	int 	 	op;
+	t_redir 	*redir
 }	t_cmd;
 
-struct s_parser
+typedef struct s_pars
 {
-	t_cmd	cmd;
-};
+	t_list 	*cmds;
+}	t_pars;
 
 void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
+
+void 	check_priority(t_sh *shell);
+void 	check_arguments(t_sh *shell);
+void 	check_pipes(t_sh *shell);
 
 // EXEC ========================================================================
 
@@ -119,7 +155,7 @@ struct s_sh
 	bool		is_running;
 	bool		is_interactive;
 	t_lexer		lexer;
-	t_parser	parser;
+	t_pars		parser;
 	t_exec		exec;
 };
 
