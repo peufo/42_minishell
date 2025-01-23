@@ -109,7 +109,6 @@ typedef struct s_redir
 	enum {
 		INPUT,
 		OUTPUT,
-		APPEND,
 	};
 	char 	*file;
 }	t_redir;

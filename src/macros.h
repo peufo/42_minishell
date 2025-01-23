@@ -1,6 +1,8 @@
 #ifndef MACROS_H
 # define MACROS_H
 
+// -----===== LEXER PART =====----- //
+
 # define BULLSHIT -1
 # define L_NO_STATE 0
 # define L_INIT 1
@@ -27,5 +29,7 @@
 # define L_PROCESS_FLAG 40
 # define L_SINGLE_FLAG 41
 # define L_DOUBLE_FLAG 42
+
+// -----===== PARSING PART =====----- //
 
 #endif
