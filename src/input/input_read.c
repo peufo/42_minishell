@@ -19,7 +19,7 @@ void	input_read(t_sh	*shell)
 		free(shell->line);
 	if (shell->is_interactive)
 	{
-		shell->line = readline("minishell>");
+		shell->line = readline("MyMinishell>");
 		errno = 0;
 		add_history(shell->line);
 	}
