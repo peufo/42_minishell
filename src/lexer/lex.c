@@ -84,16 +84,28 @@ void	lex(t_sh *shell)
 	lexer_transition(shell, L_DEFAULT);
 }*/
 
+int		check_input_errors(t_sh *shell)
+{
+	(void)shell;
+}
+
 int 	lex(t_sh *shell)
 {
+	int		state;
+
 	lex_free(shell);
 	shell->lexer.state = L_INIT;
 	shell->lexer.cursor = shell->line;
 	lex_transition(shell, L_DEFAULT);
+	state = check_input_errors(shell);
+	if (state != OK)
+		return (message(state), 0);
 	while (*(shell->lexer.cursor))
 	{
-		if (get_next_state1(shell) == -1)
-			return (0);
+		state = get_char_state(shell);
+		if (state == -1)
+			return (message(404), 0);
+		if (state == L_QUOTE || state == L_DQUOTE)
 		if (shell->lexer.next_state != BULLSHIT)
 			lexer_transition(shell);
 		else

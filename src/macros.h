@@ -1,6 +1,13 @@
 #ifndef MACROS_H
 # define MACROS_H
 
+// -----===== ERROR MESSAGES =====----- //
+
+# define BAD_SYNTAX 1000
+# define BAD_PARENTHESIS 1001
+# define NO_INPUT_FILE 1002
+# define LALALA 1003
+
 // -----===== LEXER PART =====----- //
 
 # define BULLSHIT -1
@@ -8,12 +15,12 @@
 # define L_INIT 1
 # define L_DEFAULT 2
 # define L_QUOTE 3
-# define L_DQUOTE 33
-# define L_VAR 4
-# define L_DVAR 44
-# define L_IGNORE 5
-# define L_PAR_OPEN 6
-# define L_PAR_CLOSE 7
+# define L_DQUOTE 4
+# define L_VAR 5
+# define L_DVAR 6
+# define L_IGNORE 7
+# define L_PAR_OPEN 8
+# define L_PAR_CLOSE 9
 
 # define L_PROCESS_GATE 20
 # define PIPE 21
@@ -31,5 +38,8 @@
 # define L_DOUBLE_FLAG 42
 
 // -----===== PARSING PART =====----- //
+
+# define OK 999
+# define KO 666
 
 #endif
