@@ -21,7 +21,7 @@ static int	process_gate(t_sh *shell)
 	return (BULLSHIT);
 }
 
-static int	process_direction(t_sh *shell
+static int	process_direction(t_sh *shell)
 {
 	if (*shell->lexer.cursor == '>')
 	{
@@ -46,12 +46,12 @@ static int	process_direction(t_sh *shell
 	return (BULLSHIT);
 }
 
-int 	get_state(t_sh *shell)
+int 	get_char_state(t_sh *shell)
 {
 	if (*shell->lexer.cursor == "'")
-		return (L_QUOTE);
+		return (check_errors(shell, "'"));
 	if (*shell->lexer.cursor == '"')
-		return (L_DQUOTE);
+		return (check_errors(shell, '"'));
 	if (*shell->lexer.cursor == '$')
 		return (L_VAR);
 	if (*shell->lexer.cursor == "'")
