@@ -47,7 +47,7 @@ static void	lexer_transition_end_token(t_sh *shell)
 	lexer_transition_skip_blank(shell);
 }
 
-void	lexer_transition(t_sh *shell, t_lexer_state next_state)
+void	lexer_transition(t_sh *shell)//, t_lexer_state next_state)
 {
 	t_lexer_transition_handler			handler;
 	static t_lexer_transition_handler	handlers[][8] = {
