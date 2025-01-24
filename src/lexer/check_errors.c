@@ -2,7 +2,7 @@
 
 // ----==== CHECK IF NB PARENTHESIS IS OK ====---- //
 
-int		check_parenthesis(t_sh *shell)
+static int		check_parenthesis(t_sh *shell)
 {
 	int		i;
 
@@ -20,7 +20,7 @@ int		check_parenthesis(t_sh *shell)
 
 // ----==== CHECK IF GATE HAS SOMETHING ====---- //
 
-int		check_gate_following(t_sh *shell)
+static int		check_gate_following(t_sh *shell)
 {
 	int		i;
 
@@ -38,7 +38,7 @@ int		check_gate_following(t_sh *shell)
 
 // ----==== CHECK IF PIPE HAS SOMETHING ====---- //
 
-int		check_pipe_following(t_sh *shell)
+static int		check_pipe_following(t_sh *shell)
 {
 	int		i;
 
@@ -56,7 +56,7 @@ int		check_pipe_following(t_sh *shell)
 
 // ----==== CHECK IF REDIRECTION HAS SOMETHING ====---- //
 
-int		check_pipe_following(t_sh *shell)
+static int		check_redir_following(t_sh *shell)
 {
 	int		i;
 
@@ -69,5 +69,12 @@ int		check_pipe_following(t_sh *shell)
 			return (KO);
 		}
 	}
+	return (OK);
+}
+
+int 	check_errors(t_sh *shell, char c)
+{
+	(void)shell;
+	(void)c;
 	return (OK);
 }

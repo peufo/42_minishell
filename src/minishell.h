@@ -82,15 +82,24 @@ typedef enum e_lexer_state
 	L_RIGHT_REDIR	//	TODO
 }	t_lexer_state;
 */
+
+typedef struct s_token
+{
+	t_string 	value;
+	int 		type;
+}	t_token;
+
 struct s_lexer
 {
 	int					next_state;
 	t_list				*state;
 	char				*cursor;
-	t_string			token;
+	t_token				token;
 	t_string			varname;
 	t_list				*tokens;
 };
+
+
 
 typedef void			(*t_lexer_state_handler)(t_sh *);
 typedef void			(*t_lexer_transition_handler)(t_sh *);
