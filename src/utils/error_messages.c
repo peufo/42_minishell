@@ -1,41 +1,43 @@
 #include "minishell.h"
 
-static void		message5(int sig)
+static void		message5(int error)
 {
-	if (sig == BAD_PARENTHESIS)
+	if (error == BAD_PARENTHESIS)
 		ft_putstr_fd("\n", 1);
 	else
-		ft_putstr_fd("Unknown Error\n");
+		ft_putstr_fd("Unknown Error\n", 1);
 }
 
-static void		message4(int sig)
+static void		message4(int error)
 {
-	if (sig == BAD_PARENTHESIS)
+	if (error == BAD_PARENTHESIS)
 		ft_putstr_fd("\n", 1);
 	else
-		message5(sig);
+		message5(error);
 }
 
-static void		message3(int sig)
+static void		message3(int error)
 {
-	if (sig == BAD_PARENTHESIS)
+	if (error == BAD_PARENTHESIS)
 		ft_putstr_fd("\n", 1);
 	else
-		message4(sig);
+		message4(error);
 }
 
-static void		message2(int sig)
+static void		message2(int error)
 {
-	if (sig == BAD_PARENTHESIS)
+	if (error == BAD_PARENTHESIS)
 		ft_putstr_fd("Token '(' incomplete\n", 1);
 	else
-		message3(sig);
+		message3(error);
 }
 
-void	message(int sig)
+void	message(int error, int function)
 {
-	if (sig == BAD_PARENTHESIS)
+	if (error == BAD_PARENTHESIS)
 		ft_putstr_fd("Token '(' or ')' incomplete\n", 1);
 	else
-		message2(sig);
+		message2(error);
+	ft_putstr_fd("Error origin in function :", 1);
+	track_origin(function);
 }

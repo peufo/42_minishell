@@ -92,7 +92,8 @@
 # define TOKENISE_DIRECTION 2034
 # define TOKENISE_COMMENT 2035
 # define TOKENISE_PIPES 2036
-
+# define TOKENISE_VARIABLE 2037
+# define TOKEN_PARENTHESIS 2038
 
 //////////////////////////////////
 // -----===== PARSER =====----- //

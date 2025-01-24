@@ -99,26 +99,23 @@ struct s_lexer
 	t_list				*tokens;
 };
 
-
-
 typedef void			(*t_lexer_state_handler)(t_sh *);
 typedef void			(*t_lexer_transition_handler)(t_sh *);
 
 int		lex(t_sh *shell);
 void	lex_free(t_sh *shell);
-//void	lexer_state(t_sh *shell);
-//void	lexer_state_var(t_sh *shell);
-//void	lexer_state_var_dquote(t_sh *shell);
-//void	lexer_transition(t_sh *shell);//, t_lexer_state next_state);
+void 	string_push_and_go(t_sh *shell, t_token *token);
+void 	add_to_list(t_sh *shell, t_token *token, int c);
+void 	tokenise_parenthesis(t_sh *shell);
+void 	tokenise_quotes(t_sh *shell);
+void 	tokenise_gates(t_sh *shell);
+void 	tokenise_variable(t_sh *shell);
+void	tokenise_redirection(t_sh *shell);
 
 // PARSER ====================================================================
 
 typedef struct s_redir
 {
-	enum {
-		INPUT,
-		OUTPUT,
-	};
 	char 	*file;
 }	t_redir;
 
@@ -128,12 +125,12 @@ typedef struct s_cmd
 	t_pipe		pipe;
 	t_list 		*c2ex;
 	int 	 	op;
-	t_redir 	*redir
+	t_redir 	*redir;
 }	t_cmd;
 
 typedef struct s_pars
 {
-	t_list 	*cmds;
+	t_cmd 	*cmd;
 }	t_pars;
 
 void	parse(t_sh *shell);
@@ -188,5 +185,9 @@ int		builtin_export(t_sh *shell);
 int		builtin_unset(t_sh *shell);
 int		builtin_env(t_sh *shell);
 int		builtin_exit(t_sh *shell);
+
+// DIVERS 8===================================================================D
+
+int 	ft_isalphanum(int c);
 
 #endif

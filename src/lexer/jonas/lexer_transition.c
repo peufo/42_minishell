@@ -9,7 +9,7 @@
 /*   Updated: 2025/01/22 15:33:37 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+/*
 #include "minishell.h"
 
 static void	lexer_transition_next_char(t_sh *shell)
@@ -63,3 +63,4 @@ void	lexer_transition(t_sh *shell)//, t_lexer_state next_state)
 	handler(shell);
 	shell->lexer.state = next_state;
 }
+*/

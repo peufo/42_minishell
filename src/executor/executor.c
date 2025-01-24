@@ -16,7 +16,8 @@ int	executor(t_sh *shell)
 {
 	t_bfunc	builtin;
 
-	shell->exec.cmd = shell->parser.cmd;
+	return (0);
+//	shell->exec.cmd = (t_list)shell->parser.cmd;
 	if (!shell->exec.cmd.args)
 		return (0);
 	builtin = get_builtin(&shell->exec.cmd);
