@@ -8,13 +8,13 @@ static void		init_tracking(char **a, char **b, char **c)
 	*c = NULL;
 }
 
-static void 	get_fpath(char *buf, size_t len, const char *name)
+static void 	get_fpath(char *buf, size_t len)
 {
 	
 	if (getcwd(buf, len) != NULL)
 	{
 		ft_strlcat(buf, "/", len - ft_strlen(buf) - 1);
-		ft_strlcat(buf, name, len - ft_strlen(buf));
+		ft_strlcat(buf, "src/utils/macro.txt", len - ft_strlen(buf));
 	}
 	else
 		ft_putstr_fd("fak\n", 1);
@@ -26,10 +26,10 @@ void 	track_origin(int func)
 	char 	*line;
 	char 	*search;
 	char 	*found;
-	char 	path[128];
+	char 	path[256];
 
 	init_tracking(&line, &search, &found);
-	get_fpath(path, sizeof(path), "macro.txt");
+	get_fpath(path, sizeof(path) + 2);
 	printf("%s\n", path);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
