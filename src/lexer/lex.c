@@ -110,15 +110,15 @@ int 	lex(t_sh *shell)
 		state = get_char_state(shell);
 		if (state == -1)
 			return (message(404, LEX), 0);
-		if (state == L_QUOTE || state == L_DQUOTE)
+		else if (state == L_QUOTE || state == L_DQUOTE)
 			tokenise_quotes(shell);
-		if (state == AND_GATE || state == OR_GATE)
+		else if (state == AND_GATE || state == OR_GATE)
 			tokenise_gates(shell);
-		if (state == L_PAR_OPEN || state == L_PAR_CLOSE)
+		else if (state == L_PAR_OPEN || state == L_PAR_CLOSE)
 			tokenise_parenthesis(shell);
-		if (state == L_RDIR || L_LDIR)
+		else if (state == L_RDIR || L_LDIR)
 			tokenise_redirection(shell);
-		if (state == L_IGNORE)
+		else if (state == L_IGNORE)
 			tokenise_comment(shell);
 		shell->lexer.cursor++;
 	}
@@ -128,7 +128,7 @@ int 	lex(t_sh *shell)
 void	lex_free(t_sh *shell)
 {
 	t_token 	*token;
-	t_list		*current;
+	t_list 		*current;
 	t_list 		*next;
 
 	current = shell->lexer.tokens;
@@ -145,7 +145,4 @@ void	lex_free(t_sh *shell)
 		current = next;
 	}
 	shell->lexer.tokens = NULL;
-	string_free(&shell->lexer.varname);
-	shell->lexer.token.value.value = NULL;
-	shell->lexer.token.type = 0;
 }

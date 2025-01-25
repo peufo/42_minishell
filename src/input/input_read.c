@@ -20,6 +20,11 @@ void	input_read(t_sh	*shell)
 	if (shell->is_interactive)
 	{
 		shell->line = readline("MyMinishell>");
+		if (!shell->line)
+		{
+			message(BULLSHIT, INPUT_READ);
+			shell_exit(shell);
+		}
 		errno = 0;
 		add_history(shell->line);
 	}

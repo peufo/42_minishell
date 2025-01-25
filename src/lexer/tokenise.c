@@ -13,13 +13,13 @@ void	tokenise_parenthesis(t_sh *shell)
 		message(MALLOC_ERROR, TOKEN_PARENTHESIS);
 		return;
 	}
-	string_free(&token->value);
-	token->value.value = ft_strdup("");
+	token->value.value = NULL;
+	token->value.len = 0;
 	if (*shell->lexer.cursor == '(' || *shell->lexer.cursor == ')')
 	{
 		temp[0] = *shell->lexer.cursor;
 		temp[1] = '\0';
-		token->value.value = ft_strdup(temp);
+		string_push(&token->value, temp[0]);
 		shell->lexer.cursor++;
 	}
 	ft_lstadd_back(&shell->lexer.tokens, ft_lstnew(token));
@@ -36,13 +36,20 @@ void	tokenise_quotes(t_sh *shell)
 		message(MALLOC_ERROR, TOKENISE_QUOTES);
 		return ;
 	}
+	token->value.value = NULL;
+	token->value.len = 0;
 	string_free(&token->value);
-	token->value.value = ft_strdup("");
 	quote = *shell->lexer.cursor;
 	shell->lexer.cursor++;
 	while (*shell->lexer.cursor && *shell->lexer.cursor != quote)
 	{
-		string_push(&token->value, *shell->lexer.cursor);
+		if (string_push(&token->value, *shell->lexer.cursor) != STRING_SUCCESS)
+		{
+			message(MALLOC_ERROR, TOKENISE_QUOTES);
+			string_free(&token->value);
+			free(token);
+			return ;
+		}
 		shell->lexer.cursor++;
 	}
 	if (*shell->lexer.cursor == quote)
@@ -60,8 +67,8 @@ void	tokenise_gates(t_sh *shell)
 		message(MALLOC_ERROR, TOKENISE_GATES);
 		return ;
 	}
-	string_free(&token->value);
-	token->value.value = ft_strdup("");
+	token->value.value = NULL;
+	token->value.len = 0;
 	if (*shell->lexer.cursor == '&' && *(shell->lexer.cursor + 1) == '&')
 	{
 		string_push(&token->value, '&');
@@ -112,8 +119,8 @@ void	tokenise_redirection(t_sh *shell)
 		message(MALLOC_ERROR, TOKENISE_DIRECTION);
 		return ;
 	}
-	string_free(&token->value);
-	token->value.value = ft_strdup("");
+	token->value.value = NULL;
+	token->value.len = 0;
 	if (*shell->lexer.cursor == '>' && *(shell->lexer.cursor + 1) == '>')
 	{
 		string_push(&token->value, '>');
