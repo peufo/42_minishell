@@ -21,10 +21,10 @@ void	parse(t_sh *shell)
 {
 	t_list	*tokens = shell->lexer.tokens;
 
-	shell->parser.cmd.args = shell->lexer.tokens;
-	shell->parser.cmd.pipe.in = STDIN_FILENO;
-	shell->parser.cmd.pipe.out = STDOUT_FILENO;
-	if ((char *)shell->parser.cmd.args->content)
+	shell->parser.cmd->args = shell->lexer.tokens;
+	shell->parser.cmd->pipe.in = STDIN_FILENO;
+	shell->parser.cmd->pipe.out = STDOUT_FILENO;
+	if ((char *)shell->parser.cmd->args->content)
 	{
 		(void)tokens;
 	}

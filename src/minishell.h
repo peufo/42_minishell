@@ -109,8 +109,11 @@ void 	add_to_list(t_sh *shell, t_token *token, int c);
 void 	tokenise_parenthesis(t_sh *shell);
 void 	tokenise_quotes(t_sh *shell);
 void 	tokenise_gates(t_sh *shell);
+void 	tokenise_comment(t_sh *shell);
 void 	tokenise_variable(t_sh *shell);
 void	tokenise_redirection(t_sh *shell);
+int		get_char_state(t_sh *shell);
+int 	check_errors(t_sh *shell, char c);
 
 // PARSER ====================================================================
 
@@ -189,5 +192,7 @@ int		builtin_exit(t_sh *shell);
 // DIVERS 8===================================================================D
 
 int 	ft_isalphanum(int c);
+void 	message(int error, int function);
+void	track_origin(int func);
 
 #endif

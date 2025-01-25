@@ -2,30 +2,33 @@
 #include "macros.h"
 
 
-void 	tokenise_parenthesis(t_sh *shell)
+void	tokenise_parenthesis(t_sh *shell)
 {
-	t_token 	*token;
+	char	temp[2];
+	t_token	*token;
 
 	token = malloc(sizeof(t_token));
 	if (!token)
 	{
 		message(MALLOC_ERROR, TOKEN_PARENTHESIS);
-		return ;
+		return;
 	}
 	string_free(&token->value);
 	token->value.value = ft_strdup("");
 	if (*shell->lexer.cursor == '(' || *shell->lexer.cursor == ')')
 	{
-		token->value.value = ft_strdup(*shell->lexer.cursor);
+		temp[0] = *shell->lexer.cursor;
+		temp[1] = '\0';
+		token->value.value = ft_strdup(temp);
 		shell->lexer.cursor++;
 	}
 	ft_lstadd_back(&shell->lexer.tokens, ft_lstnew(token));
-
 }
 
-void 	tokenise_quotes(t_sh *shell)
+void	tokenise_quotes(t_sh *shell)
 {
-	t_token		*token;
+	t_token	*token;
+    char	quote;
 
 	token = malloc(sizeof(t_token));
 	if (!token)
@@ -35,20 +38,21 @@ void 	tokenise_quotes(t_sh *shell)
 	}
 	string_free(&token->value);
 	token->value.value = ft_strdup("");
+	quote = *shell->lexer.cursor;
 	shell->lexer.cursor++;
-	while (*shell->lexer.cursor && *shell->lexer.cursor != '"')
+	while (*shell->lexer.cursor && *shell->lexer.cursor != quote)
 	{
-		string_push(&token->value, &shell->lexer.cursor);
+		string_push(&token->value, *shell->lexer.cursor);
 		shell->lexer.cursor++;
 	}
-	if (*shell->lexer.cursor == '"')
+	if (*shell->lexer.cursor == quote)
 		shell->lexer.cursor++;
 	ft_lstadd_back(&shell->lexer.tokens, ft_lstnew(token));
 }
 
-void 	tokenise_gates(t_sh *shell)
+void	tokenise_gates(t_sh *shell)
 {
-	t_token		*token;
+	t_token *token;
 
 	token = malloc(sizeof(t_token));
 	if (!token)
@@ -58,28 +62,26 @@ void 	tokenise_gates(t_sh *shell)
 	}
 	string_free(&token->value);
 	token->value.value = ft_strdup("");
-	if (*shell->lexer.cursor == '&')
+	if (*shell->lexer.cursor == '&' && *(shell->lexer.cursor + 1) == '&')
 	{
-		shell->lexer.cursor++;
-		if (*shell->lexer.cursor == '&')
-			add_to_list(shell, token, '&');
-		return ;
+		string_push(&token->value, '&');
+		string_push(&token->value, '&');
+		shell->lexer.cursor += 2;
 	}
-	else if (*shell->lexer.cursor == '|')
+	else if (*shell->lexer.cursor == '|' && *(shell->lexer.cursor + 1) == '|')
 	{
-		shell->lexer.cursor++;
-		if (*shell->lexer.cursor == '|')
-			add_to_list(shell, token, '|');
-		return ;
+		string_push(&token->value, '|');
+		string_push(&token->value, '|');
+		shell->lexer.cursor += 2;
 	}
 	ft_lstadd_back(&shell->lexer.tokens, ft_lstnew(token));
 }
 
-void 	tokenise_variable(t_sh *shell)
+void	tokenise_variable(t_sh *shell)
 {
-	t_token 	*token;
+    t_token *token;
 
-	token = malloc(sizeof(token));
+	token = malloc(sizeof(t_token));
 	if (!token)
 	{
 		message(MALLOC_ERROR, TOKENISE_VARIABLE);
@@ -87,29 +89,52 @@ void 	tokenise_variable(t_sh *shell)
 	}
 	string_free(&token->value);
 	token->value.value = ft_strdup("");
-	shell->lexer.cursor++;
-	while (*shell->lexer.cursor && ft_isalphanum(*shell->lexer.cursor))
-		string_push_and_go(shell, token);
-	ft_lstadd_back(&shell->lexer.cursor, ft_lstnew(token));
+	if (*shell->lexer.cursor == '$')
+	{
+		string_push(&token->value, '$');
+		shell->lexer.cursor++;
+		while (*shell->lexer.cursor && (ft_isalnum(*shell->lexer.cursor) || *shell->lexer.cursor == '_'))
+		{
+			string_push(&token->value, *shell->lexer.cursor);
+			shell->lexer.cursor++;
+		}
+	}
+	ft_lstadd_back(&shell->lexer.tokens, ft_lstnew(token));
 }
 
-////////////
-// 	TODO ///
-/////////// 
-void 	tokenise_redirection(t_sh *shell)
+void	tokenise_redirection(t_sh *shell)
 {
-	t_token 	*token;
-	
+	t_token	*token;
+
 	token = malloc(sizeof(t_token));
 	if (!token)
 	{
 		message(MALLOC_ERROR, TOKENISE_DIRECTION);
 		return ;
 	}
-	return ;
-	if (*shell->lexer.cursor == '>')
+	string_free(&token->value);
+	token->value.value = ft_strdup("");
+	if (*shell->lexer.cursor == '>' && *(shell->lexer.cursor + 1) == '>')
 	{
-		if (shell->lexer.cursor[1] == '>')
-			return ;
+		string_push(&token->value, '>');
+		string_push(&token->value, '>');
+		shell->lexer.cursor += 2;
 	}
+	else if (*shell->lexer.cursor == '<' && *(shell->lexer.cursor + 1) == '<')
+	{
+		string_push(&token->value, '<');
+		string_push(&token->value, '<');
+		shell->lexer.cursor += 2;
+	}
+	else if (*shell->lexer.cursor == '>')
+	{
+		string_push(&token->value, '>');
+		shell->lexer.cursor++;
+	}
+	else if (*shell->lexer.cursor == '<')
+	{
+		string_push(&token->value, '<');
+		shell->lexer.cursor++;
+	}
+	ft_lstadd_back(&shell->lexer.tokens, ft_lstnew(token));
 }

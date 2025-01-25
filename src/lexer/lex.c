@@ -84,9 +84,16 @@ void	lex(t_sh *shell)
 	lexer_transition(shell, L_DEFAULT);
 }*/
 
+void 	tokenise_comment(t_sh *shell)
+{
+	while (*shell->lexer.cursor)
+		*shell->lexer.cursor += 1;
+}
+
 int		check_input_errors(t_sh *shell)
 {
 	(void)shell;
+	return (0);
 }
 
 int 	lex(t_sh *shell)
@@ -94,30 +101,52 @@ int 	lex(t_sh *shell)
 	int		state;
 
 	lex_free(shell);
-	shell->lexer.state = L_INIT;
 	shell->lexer.cursor = shell->line;
-	lex_transition(shell, L_DEFAULT);
 	state = check_input_errors(shell);
 	if (state != OK)
-		return (message(state), 0);
+		return (message(state, LEX), 0);
 	while (*(shell->lexer.cursor))
 	{
 		state = get_char_state(shell);
 		if (state == -1)
-			return (message(404), 0);
+			return (message(404, LEX), 0);
 		if (state == L_QUOTE || state == L_DQUOTE)
-		if (shell->lexer.next_state != BULLSHIT)
-			lexer_transition(shell);
-		else
-			lexer_state(shell);
+			tokenise_quotes(shell);
+		if (state == AND_GATE || state == OR_GATE)
+			tokenise_gates(shell);
+		if (state == L_PAR_OPEN || state == L_PAR_CLOSE)
+			tokenise_parenthesis(shell);
+		if (state == L_RDIR || L_LDIR)
+			tokenise_redirection(shell);
+		if (state == L_IGNORE)
+			tokenise_comment(shell);
+		shell->lexer.cursor++;
 	}
-	lexer_transition(shell);
 	return (1);
 }
 
 void	lex_free(t_sh *shell)
 {
-	string_free(&shell->lexer.token);
+	t_token 	*token;
+	t_list		*current;
+	t_list 		*next;
+
+	current = shell->lexer.tokens;
+	while (current)
+	{
+		token = (t_token *)current->content;
+		if (token)
+		{
+			string_free(&token->value);
+			free(token);
+		}
+		next = current->next;
+		free(current);
+		current = next;
+		
+	}
+	shell->lexer.tokens = NULL;
 	string_free(&shell->lexer.varname);
-	ft_lstclear(&shell->lexer.tokens, free);
+	shell->lexer.token.value.value = NULL;
+	shell->lexer.token.type = 0;
 }
