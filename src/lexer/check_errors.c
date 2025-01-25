@@ -74,7 +74,14 @@ static int		check_redir_following(t_sh *shell)
 
 int 	check_errors(t_sh *shell, char c)
 {
-	(void)shell;
 	(void)c;
+	if (!check_parenthesis(shell))
+		return (message(BULLSHIT, CHECK_ERRORS), 0);
+	if (!check_pipe_following(shell))
+		return (message(BULLSHIT, CHECK_ERRORS), 0);
+	if (!check_gate_following(shell))
+		return (message(BULLSHIT, CHECK_ERRORS), 0);
+	if (!check_redir_following(shell))
+		return (message(BULLSHIT, CHECK_ERRORS), 0);
 	return (OK);
 }
