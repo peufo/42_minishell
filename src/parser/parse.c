@@ -11,33 +11,59 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "macros.h"
 
 void	parse_free(t_sh *shell)
 {
 	(void)shell;
 }
 
+void	process_token(t_token *token)
+{
+	if (!token || !token->value.value)
+		return ;
+	printf("Processing token: %s\n", token->value.value);
+}
+
+void	print_tokens(t_list *tokens)
+{
+	t_list	*current;
+	t_token	*token;
+
+	current = tokens;
+	printf("Tokens received:\n");
+	while (current)
+	{
+		token = (t_token *)current->content;
+		if (token && token->value.value)
+			printf("- [%s]\n", token->value.value);
+		else
+			printf("- [NULL or invalid token]\n");
+		current = current->next;
+	}
+}
+
 void	parse(t_sh *shell)
 {
-	t_token 	*token;
-	t_list 		*current_token;
-	t_list		*tokens = shell->lexer.tokens;
+	t_list	*current;
+	t_token	*token;
 
-	if (!tokens)
+	if (!shell || !shell->lexer.tokens)
+	{
+		message(BULLSHIT, 123);
 		return ;
-	shell->parser.cmd->args = tokens;
-	shell->parser.cmd->pipe.in = STDIN_FILENO;
-	shell->parser.cmd->pipe.out = STDOUT_FILENO;
-	current_token = tokens;
-	while (current_token)
-	{
-		token = (t_token *)current_token->content;
-		if (token)
-			printf("Token : %s\n", token->value.value);
-		current_token = current_token->next;
 	}
-	if ((char *)shell->parser.cmd->args->content)
+	print_tokens(shell->lexer.tokens);
+	current = shell->lexer.tokens;
+	while (current)
 	{
-		(void)tokens;
+		token = (t_token *)current->content;
+		if (!token || !token->value.value)
+		{
+			message(BULLSHIT, 234);
+			current = current->next;
+		}
+		process_token(token);
+		current = current->next;
 	}
 }

@@ -12,7 +12,6 @@
 # define OUVERTURE 1004
 # define LALALA 1005	
 
-
 //////////////////////////////////////
 // -----===== LEXER PART =====----- //
 //////////////////////////////////////
@@ -28,6 +27,11 @@
 # define L_IGNORE 7
 # define L_PAR_OPEN 8
 # define L_PAR_CLOSE 9
+# define L_WHITESPACE 10
+# define L_PARENTHESIS 11
+# define L_GATE 12
+# define L_WORD 13
+# define L_OTHER 14
 
 # define L_PROCESS_GATE 20
 # define PIPE 21
@@ -46,14 +50,12 @@
 # define L_SINGLE_FLAG 41
 # define L_DOUBLE_FLAG 42
 
-
 ////////////////////////////////////////
 // -----===== PARSING PART =====----- //
 ////////////////////////////////////////
 
 # define OK 999
 # define KO 666
-
 
 //////////////////////////////////////
 // -----====== FUNCTIONS =====----- //
@@ -66,7 +68,6 @@
 
 # define INPUT_READ 2005
 
-
 /////////////////////////////////
 // -----===== UTILS =====----- //
 /////////////////////////////////
@@ -74,7 +75,6 @@
 # define STRING_ENSURE_MALLOC 2010
 # define STRING_PUSH 2011
 # define STRING_FREE 2012
-
 
 /////////////////////////////////
 // -----===== LEXER =====----- //
@@ -95,10 +95,14 @@
 # define TOKENISE_PIPES 2036
 # define TOKENISE_VARIABLE 2037
 # define TOKEN_PARENTHESIS 2038
+# define GET_CHAR_STATE 2039
 
 //////////////////////////////////
 // -----===== PARSER =====----- //
 //////////////////////////////////
+
+# define PARSE 2100
+# define PRINT_PARSE 2101
 
 ////////////////////////////////////
 // -----===== EXECUTOR =====----- //

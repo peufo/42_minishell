@@ -54,39 +54,10 @@ void	input_read(t_sh *shell);
 
 // LEXER =======================================================================
 
-//////////////////////////////////
-//	==> look in MACROS_H <==	//
-//////////////////////////////////
-
-/*
-typedef enum e_lexer_state
-{
-	L_NO_STATE,
-	L_INIT,
-	L_DEFAULT,
-	L_QUOTE,
-	L_DQUOTE,
-	L_VAR,
-	L_VAR_DQUOTE,
-	L_IGNORE,
-	L_PAR_OPEN,		//	TODO
-	L_PAR_CLOSED,	//	TODO
-	L_PROCESS_GATE,	//	TODO
-	L_AND_GATE,		//	TODO
-	L_OR_GATE,		//	TODO
-	L_PIPE,			//	TODO
-	L_FLAG,			//	TODO
-	L_LEFT_DIR,		//	TODO
-	L_RIGHT_DIR,	//	TODO
-	L_LEFT_REDIR,	//	TODO
-	L_RIGHT_REDIR	//	TODO
-}	t_lexer_state;
-*/
-
 typedef struct s_token
 {
-	t_string 	value;
-	int 		type;
+	t_string	value;
+	int			type;
 }	t_token;
 
 struct s_lexer
@@ -102,46 +73,37 @@ struct s_lexer
 typedef void			(*t_lexer_state_handler)(t_sh *);
 typedef void			(*t_lexer_transition_handler)(t_sh *);
 
-int		lex(t_sh *shell);
+void	lex(t_sh *shell);
 void	lex_free(t_sh *shell);
-void 	string_push_and_go(t_sh *shell, t_token *token);
-void 	add_to_list(t_sh *shell, t_token *token, int c);
-void 	tokenise_parenthesis(t_sh *shell);
-void 	tokenise_quotes(t_sh *shell);
-void 	tokenise_gates(t_sh *shell);
-void 	tokenise_comment(t_sh *shell);
-void 	tokenise_variable(t_sh *shell);
-void	tokenise_redirection(t_sh *shell);
-int		get_char_state(t_sh *shell);
-int 	check_errors(t_sh *shell, char c);
+void	lexer_add_token(t_lexer *lexer, int type, char *value);
+void	lexer_skip_whitespace(t_lexer *lexer);
 
 // PARSER ====================================================================
 
 typedef struct s_redir
 {
-	char 	*file;
+	char	*file;
 }	t_redir;
 
 typedef struct s_cmd
 {
 	t_list		*args;
 	t_pipe		pipe;
-	t_list 		*c2ex;
-	int 	 	op;
-	t_redir 	*redir;
+	t_list		*c2ex;
+	int			op;
+	t_redir		*redir;
 }	t_cmd;
 
 typedef struct s_pars
 {
-	t_cmd 	*cmd;
+	t_cmd	*cmd;
 }	t_pars;
 
 void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
-
-void 	check_priority(t_sh *shell);
-void 	check_arguments(t_sh *shell);
-void 	check_pipes(t_sh *shell);
+void	check_priority(t_sh *shell);
+void	check_arguments(t_sh *shell);
+void	check_pipes(t_sh *shell);
 
 // EXEC ========================================================================
 
@@ -191,8 +153,10 @@ int		builtin_exit(t_sh *shell);
 
 // DIVERS 8===================================================================D
 
-int 	ft_isalphanum(int c);
-void 	message(int error, int function);
+int		ft_isspace(char c);
+int		ft_isalphanum(int c);
+char	*ft_strndup(const char *str, size_t n);
+void	message(int error, int function);
 void	track_origin(int func);
 
 #endif

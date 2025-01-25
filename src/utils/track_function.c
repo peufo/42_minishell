@@ -1,16 +1,14 @@
 #include "minishell.h"
 
-
-static void		init_tracking(char **a, char **b, char **c)
+static void	init_tracking(char **a, char **b, char **c)
 {
 	*a = NULL;
 	*b = NULL;
 	*c = NULL;
 }
 
-static void 	get_fpath(char *buf, size_t len)
+static void	get_fpath(char *buf, size_t len)
 {
-	
 	if (getcwd(buf, len) != NULL)
 	{
 		ft_strlcat(buf, "/", len - ft_strlen(buf) - 1);
@@ -20,17 +18,16 @@ static void 	get_fpath(char *buf, size_t len)
 		ft_putstr_fd("fak\n", 1);
 }
 
-void 	track_origin(int func)
+void	track_origin(int func)
 {
-	int 	fd;
-	char 	*line;
-	char 	*search;
-	char 	*found;
-	char 	path[256];
+	int		fd;
+	char	*line;
+	char	*search;
+	char	*found;
+	char	path[256];
 
 	init_tracking(&line, &search, &found);
 	get_fpath(path, sizeof(path) + 2);
-	printf("%s\n", path);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 	{
@@ -44,7 +41,8 @@ void 	track_origin(int func)
 		close(fd);
 		return ;
 	}
-	while ((line = get_next_line(fd)) != NULL)
+	line = get_next_line(fd);
+	while (line != NULL)
 	{
 		if (ft_strnstr(line, search, ft_strlen(line)))
 		{
@@ -53,7 +51,9 @@ void 	track_origin(int func)
 			break ;
 		}
 		free(line);
+		line = get_next_line(fd);
 	}
+	free(line);
 	close(fd);
 	if (found)
 	{
