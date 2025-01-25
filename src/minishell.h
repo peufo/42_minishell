@@ -77,6 +77,7 @@ void	lex(t_sh *shell);
 void	lex_free(t_sh *shell);
 void	lexer_add_token(t_lexer *lexer, int type, char *value);
 void	lexer_skip_whitespace(t_lexer *lexer);
+void	look_for_quotes(t_lexer *lexer);
 
 // PARSER ====================================================================
 
