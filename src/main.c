@@ -21,9 +21,10 @@ int	main(int ac, char **av, char **env)
 	{
 		shell.pipe.in = open(av[1], O_RDONLY | O_NONBLOCK);
 		if (shell.pipe.in == -1)
-			shell_exit(&shell);
+			return (message(BULLSHIT, MAIN), shell_exit(&shell), 1);
 		shell.name = av[1];
 	}
 	shell_exec(&shell);
+	printf("fin d'execution\n");
 	return (0);
 }

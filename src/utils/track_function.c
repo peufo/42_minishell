@@ -49,11 +49,6 @@ void 	track_origin(int func)
 		if (ft_strnstr(line, search, ft_strlen(line)))
 		{
 			found = ft_strdup(line);
-			if (!found)
-			{
-				free(line);
-				break ;
-			}
 			free(line);
 			break ;
 		}

@@ -60,9 +60,11 @@ void	string_array_push(char ***arr, char *str)
 {
 	char	**dup;
 	int		i;
+	int 	len;
 
 	if (!str)
 		return ;
+	len = string_array_len(*arr);
 	dup = ft_calloc(string_array_len(*arr) + 2, sizeof(**arr));
 	if (!dup)
 		return ;
@@ -75,7 +77,6 @@ void	string_array_push(char ***arr, char *str)
 	dup[i] = str;
 	free(*arr);
 	*arr = dup;
-	return ;
 }
 
 void	string_array_delete(char **arr, char *str)

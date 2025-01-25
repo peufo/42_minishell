@@ -4,7 +4,7 @@ static int	process_gate(t_sh *shell)
 {
 	if (*shell->lexer.cursor == '&')
 	{
-		*shell->lexer.cursor += 1;
+		shell->lexer.cursor++;
 		if (*shell->lexer.cursor == '&')
 			return (AND_GATE);
 		else
@@ -12,7 +12,7 @@ static int	process_gate(t_sh *shell)
 	}
 	else if (*shell->lexer.cursor == '|')
 	{
-		*shell->lexer.cursor += 1;
+		shell->lexer.cursor++;
 		if (*shell->lexer.cursor == '|')
 			return (OR_GATE);
 		else if (*shell->lexer.cursor == ' ')
@@ -25,7 +25,7 @@ static int	process_direction(t_sh *shell)
 {
 	if (*shell->lexer.cursor == '>')
 	{
-		*shell->lexer.cursor += 1;
+		shell->lexer.cursor++;
 		if (*shell->lexer.cursor == '>')
 			return (RIGHT_DRDIR);
 		else if (*shell->lexer.cursor == ' ')
@@ -35,7 +35,7 @@ static int	process_direction(t_sh *shell)
 	}
 	if (*shell->lexer.cursor == '<')
 	{
-		*shell->lexer.cursor += 1;
+		shell->lexer.cursor++;
 		if (*shell->lexer.cursor == '>')
 			return (LEFT_DRDIR);
 		else if (*shell->lexer.cursor == ' ')

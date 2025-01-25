@@ -9,7 +9,8 @@
 # define BAD_PARENTHESIS 1001
 # define NO_INPUT_FILE 1002
 # define MALLOC_ERROR 1003
-# define LALALA 1004
+# define OUVERTURE 1004
+# define LALALA 1005	
 
 
 //////////////////////////////////////
