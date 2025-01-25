@@ -1,11 +1,11 @@
 #include "minishell.h"
 
-static void		id_p_marker(t_sh *shell)
+static void	id_p_marker(t_sh *shell)
 {
 	(void)shell;
 }
 
-void 	check_priority(t_sh *shell)
+void	check_priority(t_sh *shell)
 {
 	id_p_marker(shell);
 }
