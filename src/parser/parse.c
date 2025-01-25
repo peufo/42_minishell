@@ -19,6 +19,7 @@ void	parse_free(t_sh *shell)
 
 void	parse(t_sh *shell)
 {
+	return ;
 	t_list	*tokens = shell->lexer.tokens;
 
 	shell->parser.cmd->args = shell->lexer.tokens;
