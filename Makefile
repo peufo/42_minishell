@@ -17,7 +17,7 @@ PARSER_SRC      =   src/parser/parse.c src/parser/arguments.c src/parser/priorit
 UTILS_SRC       =   src/utils/string.c src/utils/string_array.c src/utils/string_array_find.c \
                    src/utils/error_messages.c src/utils/lib_plus_ft.c src/utils/track_function.c
 
-SOURCES         =   $(BUILTIN_SRC) $(INPUT_SRC) $(LEXER_SRC) src/main.c src/shell.c $(PARSER_SRC) $(UTILS_SRC)
+SOURCES         =   $(BUILTIN_SRC) $(EXECUTOR_SRC) $(INPUT_SRC) $(LEXER_SRC) src/main.c src/shell.c $(PARSER_SRC) $(UTILS_SRC)
 
 OBJECTS         =   $(SOURCES:src/%.c=$(DIR_BUILD)/%.o)
 
