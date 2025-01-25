@@ -93,7 +93,7 @@ void 	tokenise_comment(t_sh *shell)
 int		check_input_errors(t_sh *shell)
 {
 	(void)shell;
-	return (0);
+	return (OK);
 }
 
 int 	lex(t_sh *shell)
@@ -143,7 +143,6 @@ void	lex_free(t_sh *shell)
 		next = current->next;
 		free(current);
 		current = next;
-		
 	}
 	shell->lexer.tokens = NULL;
 	string_free(&shell->lexer.varname);

@@ -47,7 +47,9 @@ void	shell_exec(t_sh *shell)
 			break ;
 		printf("\nINPUT: %s\n", shell->line);
 		lex(shell);
+		printf("IS THERE AN ICK ?\n");
 		parse(shell);
+		printf("IS THERE AN ICK ?\n");
 	//s	executor(shell);
 	}
 	shell_exit(shell);
