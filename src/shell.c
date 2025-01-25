@@ -48,7 +48,7 @@ void	shell_exec(t_sh *shell)
 		printf("\nINPUT: %s\n", shell->line);
 		lex(shell);
 		parse(shell);
-	//s	executor(shell);
+		executor(shell);
 	}
 	shell_exit(shell);
 }

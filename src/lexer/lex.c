@@ -72,6 +72,7 @@ void	lex(t_sh *shell)
 	lexer.tokens = NULL;
 	while (*lexer.cursor)
 	{
+		look_for_quotes(&lexer);
 		lexer_skip_whitespace(&lexer);
 		lexer_process_parenthesis(&lexer);
 		lexer_process_redirection(&lexer);
