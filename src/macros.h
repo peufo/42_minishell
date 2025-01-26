@@ -31,7 +31,7 @@
 # define L_PARENTHESIS 11
 # define L_GATE 12
 # define L_WORD 13
-# define L_OTHER 14
+# define UNKNOWN_TOKEN 14
 
 # define L_PROCESS_GATE 20
 # define PIPE 21
@@ -49,6 +49,14 @@
 # define L_PROCESS_FLAG 40
 # define L_SINGLE_FLAG 41
 # define L_DOUBLE_FLAG 42
+
+# define S0 50
+# define D1 51
+# define D2 52
+# define D3 53
+# define Q1 54
+# define Q2 55
+# define Q3 56
 
 ////////////////////////////////////////
 // -----===== PARSING PART =====----- //
