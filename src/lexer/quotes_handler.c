@@ -6,7 +6,7 @@ static void	ignore_comment(t_lexer *lexer)
 		lexer->cursor++;
 }
 
-static void	func_S1(t_lexer *lexer)
+static void	func_V1(t_lexer *lexer)
 {
 	(void)lexer;
 }
@@ -27,5 +27,5 @@ void	look_for_quotes(t_lexer *lexer)
 	else if (lexer->cursor == '"')
 		func_D1(lexer);
 	else if (lexer->cursor == '$')
-		func_S1(lexer);
+		func_V1(lexer);
 }
