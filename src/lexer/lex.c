@@ -45,8 +45,25 @@ static void	lexer_process_pipe(t_lexer *lexer)
 {
 	if (*lexer->cursor == '|')
 	{
-		lexer_add_token(lexer, PIPE, "|");
 		lexer->cursor++;
+		if (*lexer->cursor == '|')
+		{
+			lexer_add_token(lexer, OR_GATE, "||");
+			lexer->cursor++;
+		}
+		else
+			lexer_add_token(lexer, PIPE, "|");
+	}
+	else if (*lexer->cursor == '&')
+	{
+		lexer->cursor++;
+		if (lexer->cursor == '&')
+		{
+			lexer_add_token(lexer, AND_GATE, "&&");
+			lexer->cursor++;
+		}
+		else
+			message(UNKNOWN_TOKEN, TOKENISE_GATES);
 	}
 }
 
@@ -70,6 +87,7 @@ void	lex(t_sh *shell)
 	ft_memset(&lexer, 0, sizeof(t_lexer));
 	lexer.cursor = shell->line;
 	lexer.tokens = NULL;
+	lexer.state = S0;
 	while (*lexer.cursor)
 	{
 		look_for_quotes(&lexer);
