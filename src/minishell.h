@@ -63,6 +63,7 @@ typedef struct s_token
 struct s_lexer
 {
 	int					state;
+	int					index;
 	char				*cursor;
 	t_token				token;
 	t_string			varname;
@@ -75,19 +76,15 @@ typedef void			(*t_lexer_transition_handler)(t_sh *);
 
 void	lex(t_sh *shell);
 void	lex_free(t_sh *shell);
+void	add_marker(t_lexer *lexer);
 void	lexer_add_token(t_lexer *lexer, int type, char *value);
 void	lexer_skip_whitespace(t_lexer *lexer);
-void	look_for_quotes(t_lexer *lexer);
-void	tokenise_single_quote(t_lexer *lexer);
-void	tokenise_double_quote(t_lexer *lexer);
+void	tokenise_quote(t_lexer *lexer);
 void	tokenise_variable(t_lexer *lexer);
-void	func_Q1(t_lexer *lexer);
-void	func_Q2(t_lexer *lexer);
-void	func_D1(t_lexer *lexer);
-void	func_D2(t_lexer *lexer);
-void	func_D3(t_lexer *lexer);
-void	func_D4(t_lexer *lexer);
-void	func_D5(t_lexer *lexer);
+void	lexer_process_word(t_lexer *lexer);
+void	lexer_process_variable(t_lexer *lexer);
+void	lexer_process_double_quote(t_lexer *lexer);
+void	lexer_process_single_quote(t_lexer *lexer);
 
 // PARSER ====================================================================
 

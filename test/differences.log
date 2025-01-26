@@ -1,0 +1,194 @@
+--- test_origin.log	2025-01-26 15:47:22.039118300 +0100
++++ test_minishell.log	2025-01-26 15:47:22.096107300 +0100
+@@ -1,95 +1,112 @@
+ Command: echo Hello, world!
+-Hello, world!
++
++INPUT: echo Hello, world!
++
++TOKEN: Type: 13, Value: echo
++TOKEN: Type: 13, Value: Hello,
++TOKEN: Type: 13, Value: world!
++Tokens received:
++- [echo]
++- [Hello,]
++- [world!]
++Processing token: echo
++Processing token: Hello,
++Processing token: world!
++
++[ CLEAN EXIT OK ]
+ 
+ Command: pwd
+-/mnt/c/Users/seite/la_zone/42_cursus/minishell/42_minishell
++
++INPUT: pwd
++
++TOKEN: Type: 13, Value: pwd
++Tokens received:
++- [pwd]
++Processing token: pwd
++
++[ CLEAN EXIT OK ]
+ 
+ Command: ls -la
+-total 444
+-drwxrwxrwx 1 delamancha delamancha    512 Jan 26 15:47 .
+-drwxrwxrwx 1 delamancha delamancha    512 Jan 16 19:35 ..
+--rwxrwxrwx 1 delamancha delamancha    145 Jan 16 19:35 .editorconfig
+-drwxrwxrwx 1 delamancha delamancha    512 Jan 26 15:36 .git
+--rwxrwxrwx 1 delamancha delamancha     61 Jan 22 17:24 .gitignore
+-drwxrwxrwx 1 delamancha delamancha    512 Jan 22 17:24 .vscode
+--rwxrwxrwx 1 delamancha delamancha   1237 Jan 26 15:44 Look_for_dif.sh
+--rwxrwxrwx 1 delamancha delamancha   1839 Jan 26 14:49 Makefile
+--rwxrwxrwx 1 delamancha delamancha 356847 Jan 16 19:35 bash.man
+-drwxrwxrwx 1 delamancha delamancha    512 Jan 25 18:53 build
+--rwxrwxrwx 1 delamancha delamancha   1048 Jan 23 13:22 dev.log
+--rwxrwxrwx 1 delamancha delamancha   2260 Jan 22 17:24 dev.sh
+--rwxrwxrwx 1 delamancha delamancha      0 Jan 26 15:47 differences.log
+--rwxrwxrwx 1 delamancha delamancha    592 Jan 23 13:22 leaks.log
+-drwxrwxrwx 1 delamancha delamancha    512 Jan 16 19:35 lib
+--rwxrwxrwx 1 delamancha delamancha  72960 Jan 25 19:36 minishell
+--rwxrwxrwx 1 delamancha delamancha     77 Jan 26 15:47 retest.sh
+-drwxrwxrwx 1 delamancha delamancha    512 Jan 23 17:05 src
+--rwxrwxrwx 1 delamancha delamancha    281 Jan 23 13:24 test.sh
+--rwxrwxrwx 1 delamancha delamancha      0 Jan 26 15:47 test_minishell.log
+--rwxrwxrwx 1 delamancha delamancha    133 Jan 26 15:47 test_origin.log
++
++INPUT: ls -la
++
++TOKEN: Type: 13, Value: ls
++TOKEN: Type: 13, Value: -la
++Tokens received:
++- [ls]
++- [-la]
++Processing token: ls
++Processing token: -la
++
++[ CLEAN EXIT OK ]
+ 
+ Command: cat /etc/os-release
+-PRETTY_NAME="Ubuntu 24.04.1 LTS"
+-NAME="Ubuntu"
+-VERSION_ID="24.04"
+-VERSION="24.04.1 LTS (Noble Numbat)"
+-VERSION_CODENAME=noble
+-ID=ubuntu
+-ID_LIKE=debian
+-HOME_URL="https://www.ubuntu.com/"
+-SUPPORT_URL="https://help.ubuntu.com/"
+-BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+-PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+-UBUNTU_CODENAME=noble
+-LOGO=ubuntu-logo
++
++INPUT: cat /etc/os-release
++
++TOKEN: Type: 13, Value: cat
++TOKEN: Type: 13, Value: /etc/os-release
++Tokens received:
++- [cat]
++- [/etc/os-release]
++Processing token: cat
++Processing token: /etc/os-release
++
++[ CLEAN EXIT OK ]
+ 
+ Command: env
+-SHELL=/bin/bash
+-COLORTERM=truecolor
+-WSL2_GUI_APPS_ENABLED=1
+-TERM_PROGRAM_VERSION=1.96.4
+-WSL_DISTRO_NAME=Ubuntu
+-WT_SESSION=8cb5fe93-2489-404d-bd11-0eeb2e2ded3f
+-NAME=Code
+-PWD=/mnt/c/Users/seite/la_zone/42_cursus/minishell/42_minishell
+-LOGNAME=delamancha
+-_=/usr/bin/env
+-VSCODE_GIT_ASKPASS_NODE=/home/delamancha/.vscode-server/bin/cd4ee3b1c348a13bafd8f9ad8060705f6d4b9cba/node
+-MOTD_SHOWN=update-motd
+-HOME=/home/delamancha
+-LANG=C.UTF-8
+-WSL_INTEROP=/run/WSL/57209_interop
+-LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:
+-WAYLAND_DISPLAY=wayland-0
+-GIT_ASKPASS=/home/delamancha/.vscode-server/bin/cd4ee3b1c348a13bafd8f9ad8060705f6d4b9cba/extensions/git/dist/askpass.sh
+-VSCODE_GIT_ASKPASS_EXTRA_ARGS=
+-LESSCLOSE=/usr/bin/lesspipe %s %s
+-TERM=xterm-256color
+-LESSOPEN=| /usr/bin/lesspipe %s
+-USER=delamancha
+-VSCODE_GIT_IPC_HANDLE=/run/user/1000/vscode-git-f810f6c58e.sock
+-DISPLAY=:0
+-SHLVL=4
+-XDG_RUNTIME_DIR=/run/user/1000/
+-DEBUGINFOD_URLS=https://debuginfod.ubuntu.com 
+-WSLENV=ELECTRON_RUN_AS_NODE/w:WT_SESSION:WT_PROFILE_ID:
+-VSCODE_GIT_ASKPASS_MAIN=/home/delamancha/.vscode-server/bin/cd4ee3b1c348a13bafd8f9ad8060705f6d4b9cba/extensions/git/dist/askpass-main.js
+-XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop
+-PATH=/home/delamancha/.vscode-server/bin/cd4ee3b1c348a13bafd8f9ad8060705f6d4b9cba/bin/remote-cli:/home/delamancha/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Users/seite/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/seite/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/seite/AppData/Local/GitHubDesktop/bin:/snap/bin:/home/delamancha/.local/bin:/home/delamancha/.local/bin:/home/delamancha/.local/bin
+-DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+-HOSTTYPE=x86_64
+-PULSE_SERVER=unix:/mnt/wslg/PulseServer
+-WT_PROFILE_ID={51855cb2-8cce-5362-8f54-464b92b32386}
+-OLDPWD=/mnt/c/Users/seite/la_zone/42_cursus
+-TERM_PROGRAM=vscode
+-VSCODE_IPC_HOOK_CLI=/run/user/1000/vscode-ipc-bc667e25-118c-4179-92dc-9dda6976c0c6.sock
++
++INPUT: env
++
++TOKEN: Type: 13, Value: env
++Tokens received:
++- [env]
++Processing token: env
++
++[ CLEAN EXIT OK ]
+ 
+ Command: whoami
+-delamancha
++
++INPUT: whoami
++
++TOKEN: Type: 13, Value: whoami
++Tokens received:
++- [whoami]
++Processing token: whoami
++
++[ CLEAN EXIT OK ]
+ 
+ Command: echo $HOME
+-/home/delamancha
++
++INPUT: echo $HOME
++
++TOKEN: Type: 13, Value: echo
++TOKEN: Type: 13, Value: $HOME
++Tokens received:
++- [echo]
++- [$HOME]
++Processing token: echo
++Processing token: $HOME
++
++[ CLEAN EXIT OK ]
+ 
+ Command: unset PATH && ls
+-bash: line 1: ls: No such file or directory
++
++INPUT: unset PATH && ls
++
++TOKEN: Type: 13, Value: unset
++TOKEN: Type: 13, Value: PATH
++TOKEN: Type: 13, Value: &&
++TOKEN: Type: 13, Value: ls
++Tokens received:
++- [unset]
++- [PATH]
++- [&&]
++- [ls]
++Processing token: unset
++Processing token: PATH
++Processing token: &&
++Processing token: ls
++
++[ CLEAN EXIT OK ]
+ 

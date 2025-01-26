@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	lexer_process_parenthesis(t_lexer *lexer)
+static void	process_parenthesis(t_lexer *lexer)
 {
 	if (*lexer->cursor == '(')
 	{
@@ -26,7 +26,7 @@ static void	lexer_process_parenthesis(t_lexer *lexer)
 	}
 }
 
-static void	lexer_process_redirection(t_lexer *lexer)
+static void	process_redirection(t_lexer *lexer)
 {
 	char	*sta;
 
@@ -41,7 +41,7 @@ static void	lexer_process_redirection(t_lexer *lexer)
 	}
 }
 
-static void	lexer_process_pipe(t_lexer *lexer)
+static void	process_gate_and_pipe(t_lexer *lexer)
 {
 	if (*lexer->cursor == '|')
 	{
@@ -57,7 +57,7 @@ static void	lexer_process_pipe(t_lexer *lexer)
 	else if (*lexer->cursor == '&')
 	{
 		lexer->cursor++;
-		if (lexer->cursor == '&')
+		if (*lexer->cursor == '&')
 		{
 			lexer_add_token(lexer, AND_GATE, "&&");
 			lexer->cursor++;
@@ -67,15 +67,16 @@ static void	lexer_process_pipe(t_lexer *lexer)
 	}
 }
 
-static void	lexer_process_word(t_lexer *lexer)
+static void	process_quotes_and_var(t_lexer *lexer)
 {
-	char	*start;
-
-	start = lexer->cursor;
-	while (*lexer->cursor && !ft_isspace(*lexer->cursor) && !ft_strchr("()|><"
-			, *lexer->cursor))
-		lexer->cursor++;
-	lexer_add_token(lexer, L_WORD, ft_substr(start, 0, lexer->cursor - start));
+	if (*lexer->cursor == '\'')
+		lexer_process_single_quote(lexer);
+	else if (*lexer->cursor == '"')
+		lexer_process_double_quote(lexer);
+	else if (*lexer->cursor == '$')
+		lexer_process_variable(lexer);
+	if (!ft_isspace(*lexer->cursor) && !ft_strchr("()|><", *lexer->cursor))
+		lexer_process_word(lexer);
 }
 
 void	lex(t_sh *shell)
@@ -90,13 +91,11 @@ void	lex(t_sh *shell)
 	lexer.state = S0;
 	while (*lexer.cursor)
 	{
-		look_for_quotes(&lexer);
 		lexer_skip_whitespace(&lexer);
-		lexer_process_parenthesis(&lexer);
-		lexer_process_redirection(&lexer);
-		lexer_process_pipe(&lexer);
-		if (!ft_isspace(*lexer.cursor) && !ft_strchr("()|><", *lexer.cursor))
-			lexer_process_word(&lexer);
+		process_parenthesis(&lexer);
+		process_redirection(&lexer);
+		process_gate_and_pipe(&lexer);
+		process_quotes_and_var(&lexer);
 	}
 	tokens = lexer.tokens;
 	while (tokens)
