@@ -11,7 +11,7 @@ EXECUTOR_SRC    =   src/executor/executor.c
 INPUT_SRC       =   src/input/get_next_line.c src/input/input_read.c
 
 LEXER_SRC       =   src/lexer/lex.c src/lexer/lex_helpers.c src/lexer/handle_quotes_and_var.c \
-					src/lexer/tokeniser.c
+					src/lexer/tokeniser.c src/lexer/check_errors.c
 
 PARSER_SRC      =   src/parser/parse.c src/parser/arguments.c src/parser/priority.c
 
