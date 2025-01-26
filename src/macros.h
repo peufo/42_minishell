@@ -11,6 +11,10 @@
 # define MALLOC_ERROR 1003
 # define OUVERTURE 1004
 # define LALALA 1005	
+# define NULL_STRING 1006
+# define NO_STARTER 1007
+# define TOKEN_PROBLEM 1008
+# define UNMATCHED_QUOTE 1009
 
 //////////////////////////////////////
 // -----===== LEXER PART =====----- //
@@ -109,6 +113,7 @@
 # define TOKENISE_VARIABLE 2037
 # define TOKEN_PARENTHESIS 2038
 # define GET_CHAR_STATE 2039
+# define ADD_MARKER 2040
 
 //////////////////////////////////
 // -----===== PARSER =====----- //

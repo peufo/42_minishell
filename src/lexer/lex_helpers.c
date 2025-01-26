@@ -1,5 +1,18 @@
 #include "minishell.h"
 
+void	add_marker(t_lexer *lexer)
+{
+	char	*marker;
+
+	if (!lexer || !lexer->cursor)
+	{
+		message(NULL_STRING, ADD_MARKER);
+		return ;
+	}
+	marker = lexer->cursor;
+	ft_lstadd_back(&lexer->starters, ft_lstnew(marker));
+}
+
 void	lexer_skip_whitespace(t_lexer *lexer)
 {
 	while (*lexer->cursor && ft_isspace(*lexer->cursor))
