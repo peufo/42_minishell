@@ -54,9 +54,14 @@
 # define D1 51
 # define D2 52
 # define D3 53
-# define Q1 54
-# define Q2 55
-# define Q3 56
+# define D4 54
+# define D5 55
+# define Q1 56
+# define Q2 57
+# define Q3 58
+# define Q4 59
+# define Q5 60
+# define S1 61
 
 ////////////////////////////////////////
 // -----===== PARSING PART =====----- //
