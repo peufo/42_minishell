@@ -15,6 +15,7 @@
 # define NO_STARTER 1007
 # define TOKEN_PROBLEM 1008
 # define UNMATCHED_QUOTE 1009
+# define UNMATCHED_PAR 1010
 
 //////////////////////////////////////
 // -----===== LEXER PART =====----- //
@@ -114,6 +115,7 @@
 # define TOKEN_PARENTHESIS 2038
 # define GET_CHAR_STATE 2039
 # define ADD_MARKER 2040
+# define CHECK_STRING 2041
 
 //////////////////////////////////
 // -----===== PARSER =====----- //

@@ -88,7 +88,9 @@ void	lex(t_sh *shell)
 	ft_memset(&lexer, 0, sizeof(t_lexer));
 	lexer.cursor = shell->line;
 	lexer.tokens = NULL;
-	lexer.state = S0;
+	if (!check_string(lexer.cursor))
+		return ;
+	printf("heyhey\n");
 	while (*lexer.cursor)
 	{
 		lexer_skip_whitespace(&lexer);
