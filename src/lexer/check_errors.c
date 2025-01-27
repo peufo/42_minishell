@@ -9,11 +9,6 @@ static int	look_inside_dquo(char *input, int *start)
 	{
 		if (input[*start] == '"')
 			return ((*start)++, 1);
-		if (input[*start] == '\'')
-		{
-			if (!look_inside_squo(input, start))
-				return (0);
-		}
 		(*start)++;
 	}
 	return (0);
@@ -26,11 +21,6 @@ static int	look_inside_squo(char *input, int *start)
 	{
 		if (input[*start] == '\'')
 			return ((*start)++, 1);
-		if (input[*start] == '"')
-		{
-			if (!look_inside_dquo(input, start))
-				return (0);
-		}
 		(*start)++;
 	}
 	return (0);

@@ -18,6 +18,32 @@ static void	get_fpath(char *buf, size_t len)
 		ft_putstr_fd("fak\n", 1);
 }
 
+static void	looking(int fd, char **line, char **search, char **found)
+{
+	*line = get_next_line(fd);
+	while (*line != NULL)
+	{
+		if (ft_strnstr(*line, *search, ft_strlen(*line)))
+		{
+			*found = ft_strdup(*line);
+			free(*line);
+			break ;
+		}
+		free(*line);
+		*line = get_next_line(fd);
+	}
+	free(*line);
+	close(fd);
+	if (*found)
+	{
+		ft_putstr_fd(*found, 1);
+		free(*found);
+	}
+	else
+		ft_putstr_fd("No match in tracking\n", 1);
+	free(*search);
+}
+
 void	track_origin(int func)
 {
 	int		fd;
@@ -41,26 +67,5 @@ void	track_origin(int func)
 		close(fd);
 		return ;
 	}
-	line = get_next_line(fd);
-	while (line != NULL)
-	{
-		if (ft_strnstr(line, search, ft_strlen(line)))
-		{
-			found = ft_strdup(line);
-			free(line);
-			break ;
-		}
-		free(line);
-		line = get_next_line(fd);
-	}
-	free(line);
-	close(fd);
-	if (found)
-	{
-		ft_putstr_fd(found, 1);
-		free(found);
-	}
-	else
-		ft_putstr_fd("No match in tracking\n", 1);
-	free(search);
+	looking(fd, &line, &search, &found);
 }

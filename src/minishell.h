@@ -62,13 +62,13 @@ typedef struct s_token
 
 struct s_lexer
 {
-	int					state;
-	int					index;
-	char				*cursor;
-	t_token				token;
-	t_string			varname;
-	t_list				*tokens;
-	t_list 				*starters;
+	int				state;
+	int				index;
+	char			*cursor;
+	t_token			token;
+	t_string		varname;
+	t_list			*tokens;
+	t_list			*starters;
 };
 
 typedef struct s_lerrors
