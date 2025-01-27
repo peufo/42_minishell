@@ -50,7 +50,7 @@ void	parse(t_sh *shell)
 
 	if (!shell || !shell->lexer.tokens)
 	{
-		message(BULLSHIT, 123);
+		message(123, 123);
 		return ;
 	}
 	print_tokens(shell->lexer.tokens);

@@ -47,6 +47,7 @@ void	shell_exec(t_sh *shell)
 			break ;
 		printf("\nINPUT: %s\n", shell->line);
 		lex(shell);
+		printf("heheheheh\n");
 		parse(shell);
 		executor(shell);
 	}
