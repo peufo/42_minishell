@@ -67,28 +67,26 @@ void	lexer_process_single_quote(t_lexer *lexer)
 
 void	lexer_process_double_quote(t_lexer *lexer)
 {
-	char	*start;
+	char	*i;
 
 	if (*lexer->cursor != '"')
 		return ;
-	start = ++lexer->cursor;
+	i = ++lexer->cursor;
 	while (*lexer->cursor && *lexer->cursor != '"')
 	{
 		if (*lexer->cursor == '$')
 		{
-			lexer_add_token(lexer, L_WORD, ft_substr(start, 0,
-					lexer->cursor - start));
+			lexer_add_token(lexer, L_WORD, ft_substr(i, 0, lexer->cursor - i));
 			lexer_process_variable(lexer);
-			start = lexer->cursor;
+			i = lexer->cursor;
 		}
 		else
 			lexer->cursor++;
 	}
 	if (*lexer->cursor == '"')
 	{
-		if (lexer->cursor > start)
-			lexer_add_token(lexer, L_WORD, ft_substr(start, 0,
-					lexer->cursor - start));
+		if (lexer->cursor > i)
+			lexer_add_token(lexer, L_WORD, ft_substr(i, 0, lexer->cursor - i));
 		lexer->cursor++;
 	}
 	else
