@@ -70,12 +70,16 @@ static void	process_gate_and_pipe(t_lexer *lexer)
 static void	process_quotes_and_var(t_lexer *lexer)
 {
 	if (*lexer->cursor == '\'')
+	{
 		lexer_process_single_quote(lexer);
+	}
 	else if (*lexer->cursor == '"')
+	{
 		lexer_process_double_quote(lexer);
+	}
 	else if (*lexer->cursor == '$')
 		lexer_process_variable(lexer);
-	if (!ft_isspace(*lexer->cursor) && !ft_strchr("()|><", *lexer->cursor))
+	else if (!ft_isspace(*lexer->cursor) && !ft_strchr("()|><", *lexer->cursor))
 		lexer_process_word(lexer);
 }
 
@@ -90,7 +94,6 @@ void	lex(t_sh *shell)
 	lexer.tokens = NULL;
 	if (!check_string(lexer.cursor))
 		return ;
-	printf("heyhey\n");
 	while (*lexer.cursor)
 	{
 		lexer_skip_whitespace(&lexer);

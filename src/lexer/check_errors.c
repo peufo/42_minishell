@@ -4,36 +4,44 @@ static int	look_inside_squo(char *input, int *start);
 
 static int	look_inside_dquo(char *input, int *start)
 {
-	while (input[*start] && input[*start] != '"')
+	(*start)++;
+	while (input[*start])
 	{
+		if (input[*start] == '"')
+			return ((*start)++, 1);
 		if (input[*start] == '\'')
-			look_inside_squo(input, start);
+		{
+			if (!look_inside_squo(input, start))
+				return (0);
+		}
 		(*start)++;
 	}
-	if (input[*start] != '"')
-		return (0);
-	return (1);
+	return (0);
 }
 
 static int	look_inside_squo(char *input, int *start)
 {
-	while (input[*start] && input[*start] != '\'')
+	(*start)++;
+	while (input[*start])
 	{
+		if (input[*start] == '\'')
+			return ((*start)++, 1);
 		if (input[*start] == '"')
-			look_inside_dquo(input, start);
+		{
+			if (!look_inside_dquo(input, start))
+				return (0);
+		}
 		(*start)++;
 	}
-	if (input[*start] != '\'')
-		return (0);
-	return (1);
+	return (0);
 }
 
 static void	helper(char *input, int *popen, int *pclos, int *start)
 {
 	if (input[*start] == '(')
-		popen++;
+		(*popen)++;
 	if (input[*start] == ')')
-		pclos++;
+		(*pclos)++;
 	(*start)++;
 }
 
@@ -58,11 +66,22 @@ int	check_string(char *input)
 			if (!look_inside_squo(input, &index))
 				return (message(UNMATCHED_QUOTE, CHECK_STRING), 0);
 		}
-		if (!input[index])
-			break ;
-		helper(input, &popen, &pclos, &index);
+		else
+			helper(input, &popen, &pclos, &index);
 	}
 	if (pclos != popen)
 		return (message(UNMATCHED_PAR, CHECK_STRING), 0);
 	return (1);
+}
+
+int	check_double(t_lexer *lexer, char c)
+{
+	lexer->cursor++;
+	if (*lexer->cursor == c)
+	{
+		lexer->cursor--;
+		return (1);
+	}
+	lexer->cursor--;
+	return (0);
 }

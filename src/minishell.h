@@ -86,6 +86,7 @@ void	lex(t_sh *shell);
 void	lex_free(t_sh *shell);
 int		check_string(char *input);
 void	add_marker(t_lexer *lexer);
+int		check_double(t_lexer *lexer, char c);
 void	lexer_add_token(t_lexer *lexer, int type, char *value);
 void	lexer_skip_whitespace(t_lexer *lexer);
 void	tokenise_quote(t_lexer *lexer);
