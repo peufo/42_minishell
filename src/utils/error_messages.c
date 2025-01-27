@@ -34,6 +34,9 @@ static void	message2(int error)
 
 void	message(int error, int function)
 {
+	ft_putstr_fd("\n\n", 1);
+	ft_putstr_fd("/------------------------------------\\", 1);
+	ft_putstr_fd("\n/************GOT AN ERROR !***********\\\n", 1);
 	ft_putstr_fd("Error code : ", 1);
 	ft_putnbr_fd(error, 1);
 	ft_putstr_fd("\nERROR DESCRIPTION : ", 1);
@@ -42,5 +45,9 @@ void	message(int error, int function)
 	else
 		message2(error);
 	ft_putstr_fd("Error origin in function : \n", 1);
+	(void)function;
 	track_origin(function);
+	ft_putstr_fd("\\************END OF MESSAGE***********/\n", 1);
+	ft_putstr_fd("\\-------------------------------------/\n", 1);
+	ft_putstr_fd("\n\n", 1);
 }

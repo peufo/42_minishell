@@ -32,7 +32,7 @@ static void	looking(int fd, char **line, char **search, char **found)
 		free(*line);
 		*line = get_next_line(fd);
 	}
-	free(*line);
+//	free(*line);
 	close(fd);
 	if (*found)
 	{
