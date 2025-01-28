@@ -35,6 +35,15 @@ void	look_for_quotes(t_lexer *lexer)
 }
 */
 
+/*I don't know exactly how to do that*/
+pid_t	get_the_pid(char *process)
+{
+	if (process != NULL)
+		return (getpid());
+	else
+		return (0);
+}
+
 void	lexer_process_word(t_lexer *lexer)
 {
 	char	*start;
@@ -104,7 +113,7 @@ void	lexer_process_variable(t_lexer *lexer)
 	lexer->len = 0;
 	if (start[0] == '?')
 	{
-		process_status(lexer, start);
+		lexer_process_status(lexer, start);
 		return ;
 	}
 	while (ft_isalnum(start[lexer->len]) || start[lexer->len] == '_')

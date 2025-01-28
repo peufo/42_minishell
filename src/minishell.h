@@ -44,7 +44,6 @@ typedef union u_pipe
 }	t_pipe;
 
 typedef struct s_lexer	t_lexer;
-typedef struct s_parser	t_parser;
 typedef struct s_exec	t_exec;
 typedef struct s_sh		t_sh;
 
@@ -72,14 +71,6 @@ struct s_lexer
 	size_t			len;
 };
 
-typedef struct s_lerrors
-{
-	int	o_par;
-	int	c_par;
-	int	quo;
-	int	dqu;
-}	t_lerrors;
-
 typedef void			(*t_lexer_state_handler)(t_sh *);
 typedef void			(*t_lexer_transition_handler)(t_sh *);
 
@@ -87,18 +78,15 @@ void	lex(t_sh *shell);
 void	lex_free(t_sh *shell);
 int		check_string(char *input);
 pid_t	get_the_pid(char *process);
-//void	add_marker(t_lexer *lexer);
 int		check_double(t_lexer *lexer, char c);
 void	lexer_add_token(t_lexer *lexer, int type, char *value);
 void	lexer_skip_whitespace(t_lexer *lexer);
 void	lexer_skip_comment(t_lexer *lexer);
-//void	tokenise_quote(t_lexer *lexer);
-//void	tokenise_variable(t_lexer *lexer);
 void	lexer_process_word(t_lexer *lexer);
 void	lexer_process_variable(t_lexer *lexer);
 void	lexer_process_double_quote(t_lexer *lexer);
 void	lexer_process_single_quote(t_lexer *lexer);
-void	process_status(t_lexer *lexer, char *start);
+void	lexer_process_status(t_lexer *lexer, char *start);
 
 // PARSER ====================================================================
 
@@ -116,10 +104,10 @@ typedef struct s_cmd
 	t_redir		*redir;
 }	t_cmd;
 
-typedef struct s_pars
+typedef struct s_parser	
 {
-	t_cmd	*cmd;
-}	t_pars;
+	t_cmd	cmd;
+}	t_parser;
 
 void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
@@ -150,7 +138,7 @@ struct s_sh
 	bool		is_running;
 	bool		is_interactive;
 	t_lexer		lexer;
-	t_pars		parser;
+	t_parser	ast;
 	t_exec		exec;
 };
 
