@@ -50,6 +50,7 @@
 # define LEFT_DRDIR 34
 # define L_LDIR 35
 # define L_RDIR 36
+# define L_PID 37
 
 # define L_PROCESS_FLAG 40
 # define L_SINGLE_FLAG 41

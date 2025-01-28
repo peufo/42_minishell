@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+/*I don't know exactly how to do that*/
+pid_t	get_the_pid(char *process)
+{
+	if (process != NULL)
+		return (getpid());
+	else
+		return (0);
+}
+/*
 static char	*extract_varname(t_lexer *lexer)
 {
 	char	*start;
@@ -52,3 +61,4 @@ void	tokenise_variable(t_lexer *lexer)
 	if (varname)
 		lexer_add_token(lexer, L_VAR, varname);
 }
+*/

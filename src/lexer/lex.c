@@ -97,11 +97,13 @@ void	lex(t_sh *shell)
 	while (*lexer.cursor)
 	{
 		lexer_skip_whitespace(&lexer);
+		lexer_skip_comment(&lexer);
 		process_parenthesis(&lexer);
 		process_redirection(&lexer);
 		process_gate_and_pipe(&lexer);
 		process_quotes_and_var(&lexer);
 	}
+	shell->lexer.tokens = lexer.tokens;
 	tokens = lexer.tokens;
 	while (tokens)
 	{

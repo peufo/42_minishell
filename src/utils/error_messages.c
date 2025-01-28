@@ -45,7 +45,6 @@ void	message(int error, int function)
 	else
 		message2(error);
 	ft_putstr_fd("Error origin in function : \n", 1);
-	(void)function;
 	track_origin(function);
 	ft_putstr_fd("\\************END OF MESSAGE***********/\n", 1);
 	ft_putstr_fd("\\-------------------------------------/\n", 1);
