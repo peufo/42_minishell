@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+/*
 void	add_marker(t_lexer *lexer)
 {
 	char	*marker;
@@ -11,9 +11,9 @@ void	add_marker(t_lexer *lexer)
 	}
 	marker = lexer->cursor;
 	ft_lstadd_back(&lexer->starters, ft_lstnew(marker));
-}
+}*/
 
-void	process_status(t_lexer *lexer, char *start)
+void	lexer_process_status(t_lexer *lexer, char *start)
 {
 	pid_t	status;
 
