@@ -48,12 +48,13 @@ void	parse(t_sh *shell)
 	t_list	*current;
 	t_token	*token;
 
+	print_tokens(shell->lexer.tokens);
 	if (!shell || !shell->lexer.tokens)
 	{
 		message(123, 123);
 		return ;
 	}
-	print_tokens(shell->lexer.tokens);
+//	print_tokens(shell->lexer.tokens);
 	current = shell->lexer.tokens;
 	while (current)
 	{

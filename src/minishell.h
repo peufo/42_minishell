@@ -66,9 +66,10 @@ struct s_lexer
 	int				index;
 	char			*cursor;
 	t_token			token;
-	t_string		varname;
+	char			*varname;
 	t_list			*tokens;
 	t_list			*starters;
+	size_t			len;
 };
 
 typedef struct s_lerrors
@@ -85,16 +86,19 @@ typedef void			(*t_lexer_transition_handler)(t_sh *);
 void	lex(t_sh *shell);
 void	lex_free(t_sh *shell);
 int		check_string(char *input);
-void	add_marker(t_lexer *lexer);
+pid_t	get_the_pid(char *process);
+//void	add_marker(t_lexer *lexer);
 int		check_double(t_lexer *lexer, char c);
 void	lexer_add_token(t_lexer *lexer, int type, char *value);
 void	lexer_skip_whitespace(t_lexer *lexer);
-void	tokenise_quote(t_lexer *lexer);
-void	tokenise_variable(t_lexer *lexer);
+void	lexer_skip_comment(t_lexer *lexer);
+//void	tokenise_quote(t_lexer *lexer);
+//void	tokenise_variable(t_lexer *lexer);
 void	lexer_process_word(t_lexer *lexer);
 void	lexer_process_variable(t_lexer *lexer);
 void	lexer_process_double_quote(t_lexer *lexer);
 void	lexer_process_single_quote(t_lexer *lexer);
+void	process_status(t_lexer *lexer, char *start);
 
 // PARSER ====================================================================
 
@@ -121,7 +125,10 @@ void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
 void	check_priority(t_sh *shell);
 void	check_arguments(t_sh *shell);
-void	check_pipes(t_sh *shell);
+void	print_tokens(t_list *tokens);
+void	look_for_special_commands(t_sh *shell); /*a deplacer in fine dans 
+													une section builtin speciale 
+													(exemple : exitshell)*/
 
 // EXEC ========================================================================
 

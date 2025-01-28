@@ -96,25 +96,29 @@ void	lexer_process_double_quote(t_lexer *lexer)
 void	lexer_process_variable(t_lexer *lexer)
 {
 	char	*start;
-	char	*varname;
 	char	*value;
-	size_t	len;
 
 	if (*lexer->cursor != '$')
 		return ;
 	start = ++lexer->cursor;
-	len = 0;
-	while (ft_isalnum(start[len]) || start[len] == '_')
-		len++;
-	if (len > 0)
+	lexer->len = 0;
+	if (start[0] == '?')
 	{
-		varname = ft_substr(start, 0, len);
-		value = getenv(varname);
+		process_status(lexer, start);
+		return ;
+	}
+	while (ft_isalnum(start[lexer->len]) || start[lexer->len] == '_')
+		lexer->len++;
+	if (lexer->len > 0)
+	{
+		lexer->varname = ft_substr(start, 0, lexer->len);
+		value = getenv(lexer->varname);
 		if (value)
 			lexer_add_token(lexer, L_VAR, ft_strdup(value));
 		else
 			lexer_add_token(lexer, L_VAR, ft_strdup(""));
-		free(varname);
+		free(lexer->varname);
 	}
-	lexer->cursor += len;
+	lexer->cursor += lexer->len;
+	lexer->varname = NULL;
 }
