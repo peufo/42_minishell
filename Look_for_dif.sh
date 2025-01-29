@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#merci chatGPT (mais il faut modifier quelques trucs, car c'est insalubre la...)
 # Fichiers de sortie
 BASH_LOG="test_origin.log"
 MINISHELL_LOG="test_minishell.log"

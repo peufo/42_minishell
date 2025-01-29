@@ -1,9 +1,13 @@
 #ifndef MACROS_H
 # define MACROS_H
 
+// -------------===========-------------//
+// -------------===========-------------//
 //////////////////////////////////////////
 // -----===== ERROR MESSAGES =====----- //
 //////////////////////////////////////////
+// -------------===========-------------//
+// -------------===========-------------//
 
 # define BAD_SYNTAX 1000
 # define BAD_PARENTHESIS 1001
@@ -42,43 +46,41 @@
 # define PIPE 21
 # define AND_GATE 22
 # define OR_GATE 23
-
-# define L_PROCESS_DIR 30
-# define RIGHT_RDIR 31
-# define LEFT_RDIR 32
-# define RIGHT_DRDIR 33
-# define LEFT_DRDIR 34
 # define L_LDIR 35
 # define L_RDIR 36
 # define L_PID 37
-
-# define L_PROCESS_FLAG 40
-# define L_SINGLE_FLAG 41
-# define L_DOUBLE_FLAG 42
-
-# define S0 50
-# define D1 51
-# define D2 52
-# define D3 53
-# define D4 54
-# define D5 55
-# define Q1 56
-# define Q2 57
-# define Q3 58
-# define Q4 59
-# define Q5 60
-# define S1 61
 
 ////////////////////////////////////////
 // -----===== PARSING PART =====----- //
 ////////////////////////////////////////
 
+# define PIPELINE 100		/* 		'|' 	*/
+# define SUFFIX 101			/*		'-'		*/
+# define REDIRECT 102		/*		<,>		*/
+# define DGREAT 103			/*		> >		*/
+# define DLESS 104			/*		< <		*/
+# define GREAT 105			/*		'>'		*/
+# define LESS 106			/*		'<'		*/
+# define COMMAND 107		/*		abc		*/
+# define WORD 108			/*		ABC		*/
+# define LOGICAL_EXP 109	/*		&/|		*/
+# define OR 110				/*		| |		*/
+# define AND 111			/*		& &		*/
+# define SUBSHELL 112		/*		( )		*/
+# define COMPOUND_LIST 113` /*		(.)		*/
+# define FILE 114			/*		'a'		*/
+# define UNKNOWN 120
+
 # define OK 999
 # define KO 666
 
+// -----------===========-----------//
+// -----------===========-----------//
 //////////////////////////////////////
 // -----====== FUNCTIONS =====----- //
 //////////////////////////////////////
+// -----------===========-----------//
+// -----------===========-----------//
 
 # define MAIN 2001
 # define SHELL_INIT 2002
@@ -123,7 +125,7 @@
 //////////////////////////////////
 
 # define PARSE 2100
-# define PRINT_PARSE 2101
+# define PRINT_AST 2101
 
 ////////////////////////////////////
 // -----===== EXECUTOR =====----- //
