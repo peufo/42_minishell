@@ -92,7 +92,7 @@ void	lexer_process_status(t_lexer *lexer, char *start);
 
 typedef struct s_branch
 {
-	char	*type;
+	int		type;
 	char	*text;
 }	t_branch;
 
@@ -102,17 +102,22 @@ typedef struct s_context
 	t_branch	right;
 }	t_context;
 
+typedef struct s_element
+{
+	t_context	context;
+	t_branch	data;
+}	t_element;
+
 typedef struct s_cmd
 {
-	t_list		*args;
-	t_pipe		pipe;
-	t_list		*c2ex;
-	int			op;
+	t_element	element;
+	t_list		*elements;
 }	t_cmd;
 
 typedef struct s_parser	
 {
 	t_cmd	cmd;
+
 }	t_parser;
 
 void	parse(t_sh *shell);
