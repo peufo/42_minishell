@@ -81,12 +81,12 @@ Command: echo $HOME
 INPUT: echo $HOME
 
 TOKEN: Type: 13, Value: echo
-TOKEN: Type: 13, Value: $HOME
+TOKEN: Type: 5, Value: /home/delamancha
 Tokens received:
 - [echo]
-- [$HOME]
+- [/home/delamancha]
 Processing token: echo
-Processing token: $HOME
+Processing token: /home/delamancha
 
 [ CLEAN EXIT OK ]
 
@@ -96,7 +96,7 @@ INPUT: unset PATH && ls
 
 TOKEN: Type: 13, Value: unset
 TOKEN: Type: 13, Value: PATH
-TOKEN: Type: 13, Value: &&
+TOKEN: Type: 22, Value: &&
 TOKEN: Type: 13, Value: ls
 Tokens received:
 - [unset]

@@ -90,10 +90,17 @@ void	lexer_process_status(t_lexer *lexer, char *start);
 
 // PARSER ====================================================================
 
-typedef struct s_redir
+typedef struct s_branch
 {
-	char	*file;
-}	t_redir;
+	char	*type;
+	char	*text;
+}	t_branch;
+
+typedef struct s_context
+{
+	t_branch	left;
+	t_branch	right;
+}	t_context;
 
 typedef struct s_cmd
 {
@@ -101,7 +108,6 @@ typedef struct s_cmd
 	t_pipe		pipe;
 	t_list		*c2ex;
 	int			op;
-	t_redir		*redir;
 }	t_cmd;
 
 typedef struct s_parser	

@@ -14,7 +14,11 @@
 
 void	print_AST(t_sh *shell)
 {
-	(void)shell;
+	t_cmd	current;
+	t_cmd	next;
+
+	current = shell->exec.cmd;
+	(void)next;
 }
 
 int	executor(t_sh *shell)
@@ -23,12 +27,12 @@ int	executor(t_sh *shell)
 
 	return (0);
 	print_AST(shell);
-//	shell->exec.cmd = NULL;
-//	if (!shell->exec.cmd.args)
-//		return (0);
-//	builtin = get_builtin(&shell->exec.cmd);
+	shell->exec.cmd = shell->ast.cmd;
+	if (!shell->exec.cmd.args)
+		return (0);
+	builtin = get_builtin(&shell->exec.cmd);
 	if (builtin)
 		return (builtin(shell));
-//	printf("TODO: exec command (%s)\n", (char *)shell->exec.cmd.args->content);
+	printf("TODO: exec command (%s)\n", (char *)shell->exec.cmd.args->content);
 	return (0);
 }
