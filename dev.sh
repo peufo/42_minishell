@@ -26,7 +26,7 @@ watch() {
 			clear
 			info "───────── $(date) ─────────"
 			sync_sources
-			#norminette_pretty $SRC_DIR
+			norminette_pretty $SRC_DIR
 			
 			rm -f "$PROG"
 			make
@@ -59,7 +59,7 @@ get_state() {
 	else
 		MD5="md5"
 	fi
-	echo $(find -L $SRC_DIR -type f -name "*.[c]" -exec $MD5 {} \;)
+	echo $(find -L $SRC_DIR -type f -name "*.[ch]" -exec $MD5 {} \;) $($MD5 ./test.sh)
 }
 
 sync_sources() {

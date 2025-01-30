@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 15:05:40 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:36:25 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,11 +170,11 @@ int		builtin_exit(t_sh *shell);
 
 // UTILS  =====================================================================
 
-void throw_error(char *error, char *file, int line);
+void	throw_error(char *error, char *file, int line);
 
 // LIB PLUS ====================================================================
 
 int		ft_isspace(char c);
-
+char	*ft_cut(char *from, char *to);
 
 #endif
