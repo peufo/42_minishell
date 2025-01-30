@@ -1,17 +1,16 @@
-#include "minishell.h"
-/*
-void	add_marker(t_lexer *lexer)
-{
-	char	*marker;
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lex_helpers.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/30 12:23:25 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/30 12:24:23 by jvoisard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-	if (!lexer || !lexer->cursor)
-	{
-		message(NULL_STRING, ADD_MARKER);
-		return ;
-	}
-	marker = lexer->cursor;
-	ft_lstadd_back(&lexer->starters, ft_lstnew(marker));
-}*/
+#include "minishell.h"
 
 void	lexer_process_status(t_lexer *lexer, char *start)
 {
