@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:23:04 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 15:14:58 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:37:32 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	lexer_process_word(t_lexer *lexer)
 	while (*lexer->cursor && !ft_isspace(*lexer->cursor) && !ft_strchr("()|><"
 			, *lexer->cursor))
 		lexer->cursor++;
-	lexer_add_token(lexer, TOKEN_WORD, ft_substr(start, 0, lexer->cursor - start));
+	lexer_add_token(lexer, TOKEN_WORD, ft_cut(start, lexer->cursor));
 }
 
 void	lexer_process_single_quote(t_lexer *lexer)
@@ -47,35 +47,35 @@ void	lexer_process_single_quote(t_lexer *lexer)
 		lexer->cursor++;
 	}
 	else
-		throw_error("Unclosed single quote", WHERE);
+		throw_error("Unclosed single quote", __FILE__, __LINE__);
 }
 
 void	lexer_process_double_quote(t_lexer *lexer)
 {
-	char	*i;
+	char	*start;
 
 	if (*lexer->cursor != '"')
 		return ;
-	i = ++lexer->cursor;
+	start = ++lexer->cursor;
 	while (*lexer->cursor && *lexer->cursor != '"')
 	{
 		if (*lexer->cursor == '$')
 		{
-			lexer_add_token(lexer, TOKEN_WORD, ft_substr(i, 0, lexer->cursor - i));
+			lexer_add_token(lexer, TOKEN_WORD, ft_cut(start, lexer->cursor));
 			lexer_process_variable(lexer);
-			i = lexer->cursor;
+			start = lexer->cursor;
 		}
 		else
 			lexer->cursor++;
 	}
 	if (*lexer->cursor == '"')
 	{
-		if (lexer->cursor > i)
-			lexer_add_token(lexer, TOKEN_WORD, ft_substr(i, 0, lexer->cursor - i));
+		if (lexer->cursor > start)
+			lexer_add_token(lexer, TOKEN_WORD, ft_cut(start, lexer->cursor));
 		lexer->cursor++;
 	}
 	else
-		throw_error("Unclosed double quote", WHERE);
+		throw_error("Unclosed double quote", __FILE__, __LINE__);
 }
 
 void	lexer_process_variable(t_lexer *lexer)

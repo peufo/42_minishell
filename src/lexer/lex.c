@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 15:20:15 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:38:18 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,17 @@ static void	process_parenthesis(t_lexer *lexer)
 
 static void	process_redirection(t_lexer *lexer)
 {
-	char	*sta;
+	char	*start;
 
-	sta = lexer->cursor;
+	start = lexer->cursor;
 	if (*lexer->cursor == '>' || *lexer->cursor == '<')
 	{
 		if (*(lexer->cursor + 1) == *lexer->cursor)
 			lexer->cursor += 2;
 		else
 			lexer->cursor++;
-		lexer_add_token(lexer, TOKEN_GROUP_REDIRECT, ft_substr(sta, 0, lexer->cursor - sta));
+		lexer_add_token(lexer, TOKEN_GROUP_REDIRECT,
+			ft_cut(start, lexer->cursor));
 	}
 }
 

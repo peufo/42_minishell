@@ -6,13 +6,13 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:20:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 14:43:55 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:31:27 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void throw_error(char *error, char *file, int line)
+void	throw_error(char *error, char *file, int line)
 {
 	ft_putstr_fd("\n\n", 1);
 	ft_putstr_fd("\033[31m", 1);

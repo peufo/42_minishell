@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 14:45:47 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:23:34 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	main(int ac, char **av, char **env)
 	t_sh	shell;
 
 	shell_init(&shell, env);
-	throw_error("T'as pas dis bonjour", WHERE);
-
 	if (ac == 2)
 	{
 		shell.pipe.in = open(av[1], O_RDONLY | O_NONBLOCK);

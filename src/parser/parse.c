@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 15:22:20 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:31:13 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	parse(t_sh *shell)
 	t_token	*token;
 
 	if (!shell || !shell->lexer.tokens)
-		return (throw_error("No tokens received", WHERE));
+		return (throw_error("No tokens received", __FILE__, __LINE__));
 	print_tokens(shell->lexer.tokens);
 	current = shell->lexer.tokens;
 	while (current)
