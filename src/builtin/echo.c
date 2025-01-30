@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:10:39 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 12:33:58 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:43:10 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,22 @@
 int	builtin_echo(t_sh *shell)
 {
 	t_list	*arg;
+	t_list	*args;
 	bool	new_line;
-	t_cmd	*cmd;
 
-	cmd = &shell->ast.cmd;
-	if (!cmd->args)
+	args = shell->ast.args;
+	if (!args)
 		return (1);
-	arg = cmd->args->next;
+	arg = args->next;
 	if (!arg)
 		new_line = true;
 	else
-		new_line = ft_strcmp(arg->content, "-n");
+		new_line = ft_strcmp(((t_token *)arg->content)->value, "-n");
 	if (!new_line)
 		arg = arg->next;
 	while (arg)
 	{
-		ft_putstr_fd(arg->content, shell->pipe.out);
+		ft_putstr_fd(((t_token *)arg->content)->value, shell->pipe.out);
 		if (arg->next && arg->next->content)
 			ft_putstr_fd(" ", shell->pipe.out);
 		arg = arg->next;

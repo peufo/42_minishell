@@ -6,28 +6,27 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 12:37:59 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:40:59 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_ast(t_sh *shell)
+static void	debug_ast(t_sh *shell)
 {
-	(void)shell;
+	debug(shell, "\ncmd:");
+	debug(shell, ((t_token *)shell->ast.args->content)->value);
+	debug(shell, "\n");
 }
 
 int	executor(t_sh *shell)
 {
 	t_bfunc	builtin;
 
-	return (0);
-	print_ast(shell);
-	if (!shell->ast.cmd.args)
-		return (printf("no elements to exec\n"), 0);
-	builtin = get_builtin(&shell->ast.cmd);
+	debug_ast(shell);
+	builtin = get_builtin(((t_token *)shell->ast.args->content)->value);
 	if (builtin)
 		return (builtin(shell));
-	printf("TODO: exec command (%s)\n", shell->ast.cmd.arg.data.text);
+	debug(shell, "TODO: exec command\n");
 	return (0);
 }

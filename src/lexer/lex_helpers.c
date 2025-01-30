@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:23:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 15:20:51 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:35:08 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	lexer_add_token(t_lexer *lexer, char *type, char *value)
 	if (!token)
 		return ;
 	token->type = type;
-	token->value.value = ft_strdup(value);
-	if (!token->value.value)
+	token->value = ft_strdup(value);
+	if (!token->value)
 	{
 		free(token);
 		return ;
@@ -84,8 +84,8 @@ void	lex_free(t_sh *shell)
 		token = (t_token *)current->content;
 		if (token)
 		{
-			if (token->value.value)
-				free(token->value.value);
+			if (token->value)
+				free(token->value);
 			free(token);
 		}
 		free(current);
