@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 12:21:54 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:37:59 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@ int	executor(t_sh *shell)
 
 	return (0);
 	print_ast(shell);
-	shell->exec.cmd = shell->ast.cmd;
-	if (!shell->exec.cmd.elements)
-		return (0);
-	builtin = get_builtin(&shell->exec.cmd);
+	if (!shell->ast.cmd.args)
+		return (printf("no elements to exec\n"), 0);
+	builtin = get_builtin(&shell->ast.cmd);
 	if (builtin)
 		return (builtin(shell));
-	printf("TODO: exec command (%s)\n", shell->exec.cmd.element.data.text);
+	printf("TODO: exec command (%s)\n", shell->ast.cmd.arg.data.text);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:10:39 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/22 15:16:28 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:33:58 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	builtin_echo(t_sh *shell)
 	bool	new_line;
 	t_cmd	*cmd;
 
-	cmd = &shell->exec.cmd;
+	cmd = &shell->ast.cmd;
 	if (!cmd->args)
 		return (1);
 	arg = cmd->args->next;
