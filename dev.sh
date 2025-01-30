@@ -4,10 +4,12 @@ SRC_DIR="./src"
 PROG="./minishell"
 ARGS="./test.sh"
 LEAKS_CHECK=true
-OUTPUT_FILE=""
+OUTPUT_FILE="log/test.log"
+
+mkdir log
 
 if [ $(uname) = "Linux" ]; then
-	LEAKS_CMD="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=leaks.log -s"
+	LEAKS_CMD="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=log/leaks.log -s"
 else
 	LEAKS_CMD="leaks -quiet --atExit --"
 fi
@@ -40,8 +42,9 @@ watch() {
 					COMMAND="$LEAKS_CMD $COMMAND"
 				fi
 				if [[ $OUTPUT_FILE != "" ]] ; then
-					$COMMAND > "$OUTPUT_FILE" &
-					echo "See output file: $OUTPUT_FILE"
+					$COMMAND > "$OUTPUT_FILE"
+					echo -e "Output minishell:\t $OUTPUT_FILE"
+					get_diff
 				else
 					$COMMAND
 				fi
@@ -51,6 +54,14 @@ watch() {
 		fi
 		sleep 0.1
 	done
+}
+
+get_diff() {
+	OUTPUT_ORIGINAL="log/test_original.log"
+	bash "$ARGS" > $OUTPUT_ORIGINAL
+	diff -u $OUTPUT_ORIGINAL $OUTPUT_FILE > "log/test.diff"
+	echo -e "Output bash:\t\t $OUTPUT_ORIGINAL"
+	echo -e "Diff:\t\t\t log/test.diff"
 }
 
 get_state() {
