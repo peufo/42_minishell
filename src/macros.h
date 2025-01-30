@@ -20,6 +20,7 @@
 # define TOKEN_PROBLEM 1008
 # define UNMATCHED_QUOTE 1009
 # define UNMATCHED_PAR 1010
+# define NO_PATH 1011
 
 //////////////////////////////////////
 // -----===== LEXER PART =====----- //
@@ -67,7 +68,7 @@
 # define OR 110				/*		| |		*/
 # define AND 111			/*		& &		*/
 # define SUBSHELL 112		/*		( )		*/
-# define COMPOUND_LIST 113` /*		(.)		*/
+# define COMPOUND_LIST 113	/*		(.)		*/
 # define FILE 114			/*		'a'		*/
 # define UNKNOWN 120
 
@@ -109,15 +110,7 @@
 
 # define LEX 2030
 # define TOKENISE 2031
-# define TOKENISE_GATES 2032
-# define TOKENISE_QUOTES 2033
-# define TOKENISE_DIRECTION 2034
-# define TOKENISE_COMMENT 2035
-# define TOKENISE_PIPES 2036
-# define TOKENISE_VARIABLE 2037
-# define TOKEN_PARENTHESIS 2038
 # define GET_CHAR_STATE 2039
-# define ADD_MARKER 2040
 # define CHECK_STRING 2041
 
 //////////////////////////////////
@@ -138,5 +131,8 @@
 /////////////////////////////////
 // -----===== UTILS =====----- //
 /////////////////////////////////
+
+# define TRACK_ARG 3000
+# define TRACK_FUNC 3001
 
 #endif

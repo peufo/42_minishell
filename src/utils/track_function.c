@@ -1,13 +1,18 @@
 #include "minishell.h"
 
-static void	init_tracking(char **a, char **b, char **c)
+static void	select_string(char *s)
+{
+	get_macro(s);
+}
+
+void	init_tracking(char **a, char **b, char **c)
 {
 	*a = NULL;
 	*b = NULL;
 	*c = NULL;
 }
 
-static void	get_fpath(char *buf, size_t len)
+void	get_fpath(char *buf, size_t len)
 {
 	if (getcwd(buf, len) != NULL)
 	{
@@ -32,11 +37,10 @@ static void	looking(int fd, char **line, char **search, char **found)
 		free(*line);
 		*line = get_next_line(fd);
 	}
-//	free(*line);
 	close(fd);
 	if (*found)
 	{
-		ft_putstr_fd(*found, 1);
+		select_string(*found);
 		free(*found);
 	}
 	else
