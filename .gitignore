@@ -3,5 +3,5 @@ build
 lib/**/*.a
 .DS_Store
 *.dSYM
-leaks.log
-dev.log
+*.log
+*.diff

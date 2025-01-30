@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 14:32:22 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:05:17 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	shell_exec(t_sh *shell)
 		input_read(shell);
 		if (!shell->line || !*shell->line)
 			break ;
-		printf("\nINPUT: %s\n", shell->line);
+		debug_arr(shell, (char *[]){"INPUT: ", shell->line, NULL});
 		lex(shell);
 		parse(shell);
 		executor(shell);
@@ -58,7 +58,8 @@ void	shell_exit(t_sh *shell)
 	shell_free(shell);
 	lex_free(shell);
 	parse_free(shell);
-	printf("\n[ CLEAN EXIT OK ]\n");
+	debug(shell, "\n[ CLEAN EXIT OK ]\n");
+	close(shell->debug_fd);
 	if (!errno)
 		exit(0);
 	perror(shell->name);

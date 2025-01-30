@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 16:12:40 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/01/30 15:43:54 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/30 16:01:18 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	debug(t_sh *shell, char *str)
 {
-	t_sh	shell;
+	ft_putstr_fd(str, shell->debug_fd);
+}
 
-	shell_init(&shell, env);
-	shell.debug_fd = open("./debug.log", O_RDWR | O_CREAT | O_NONBLOCK, 0666);
-	if (ac == 2)
+void	debug_arr(t_sh *shell, char **arr)
+{
+	while (*arr)
 	{
-		shell.pipe.in = open(av[1], O_RDONLY | O_NONBLOCK);
-		if (shell.pipe.in == -1)
-			return (shell_exit(&shell), 1);
-		shell.name = av[1];
+		debug(shell, *arr);
+		arr++;
 	}
-	shell_exec(&shell);
-	return (0);
 }
