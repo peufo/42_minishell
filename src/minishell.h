@@ -90,6 +90,32 @@ void	lexer_process_status(t_lexer *lexer, char *start);
 
 // PARSER ====================================================================
 
+typedef enum s_define_a
+{
+	D_PIPELINE,
+	D_SUFFIX,
+	D_REDIRECTS,
+	D_DGREAT,
+	D_DLESS,
+	D_GREAT,
+	D_LESS,
+	D_COMMAND,
+	D_WORD,
+	D_LOGICAL_EXP,
+	D_OR,
+	D_AND,
+	D_SUBSHELL,
+	D_FILE,
+	D_UNKNOWN
+}	t_define_a;
+
+typedef int				(*t_argdef)(t_sh *);
+typedef struct s_define_arg
+{
+	char		*name;
+	t_argdef	function;
+}	t_define_arg;
+
 typedef struct s_branch
 {
 	int		type;
@@ -112,12 +138,12 @@ typedef struct s_cmd
 {
 	t_element	element;
 	t_list		*elements;
+	t_list		*args;
 }	t_cmd;
 
 typedef struct s_parser	
 {
 	t_cmd	cmd;
-
 }	t_parser;
 
 void	parse(t_sh *shell);
@@ -182,5 +208,9 @@ int		ft_isalphanum(int c);
 char	*ft_strndup(const char *str, size_t n);
 void	message(int error, int function);
 void	track_origin(int func);
+void	init_tracking(char **a, char **b, char **c);
+void	track_argument_type(int element);
+void	get_macro(char *s);
+void	get_fpath(char *buf, size_t len);
 
 #endif

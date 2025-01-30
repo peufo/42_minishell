@@ -36,7 +36,10 @@ void	print_tokens(t_list *tokens)
 	{
 		token = (t_token *)current->content;
 		if (token && token->value.value)
-			printf("- [%s]\n", token->value.value);
+		{
+			printf("- [%s]\nArgument type : ", token->value.value);
+			track_origin(token->type);
+		}
 		else
 			printf("- [NULL or invalid token]\n");
 		current = current->next;

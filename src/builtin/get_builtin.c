@@ -29,7 +29,7 @@ t_bfunc	get_builtin(t_cmd *cmd)
 	i = 0;
 	while (builtins[i].name)
 	{
-		if (!ft_strcmp(cmd->args->content, builtins[i].name))
+		if (!ft_strcmp(cmd->element.data.text, builtins[i].name))
 			return (builtins[i].function);
 		i++;
 	}
