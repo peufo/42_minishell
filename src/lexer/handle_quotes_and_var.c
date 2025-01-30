@@ -1,41 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_quotes_and_var.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/30 12:23:04 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/30 12:25:28 by jvoisard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-/*
-static void	ignore_comment(t_lexer *lexer)
-{
-	while (*lexer->cursor)
-	{
-		lexer->cursor++;
-	}
-}
 
-static void	func_V1(t_lexer *lexer)
-{
-	if (!lexer || !lexer->cursor || !*(lexer->cursor))
-		return ;
-//	get all env variable
-}
-
-void	look_for_quotes(t_lexer *lexer)
-{
-	if (lexer->state == S1)
-		tokenise_variable(lexer);
-	else if (lexer->state != S0 && *lexer->cursor == '"')
-		tokenise_quote(lexer);
-	else if (lexer->state != S0 && *lexer->cursor == '\'')
-		tokenise_quote(lexer);
-	lexer->state = S0;
-	if (*lexer->cursor == '#')
-		ignore_comment(lexer);
-	else if (*lexer->cursor == '\'')
-		func_Q1(lexer);
-	else if (*lexer->cursor == '"')
-		func_D1(lexer);
-	else if (*lexer->cursor == '$')
-		func_V1(lexer);
-}
-*/
-
-/*I don't know exactly how to do that*/
 pid_t	get_the_pid(char *process)
 {
 	if (process != NULL)
@@ -112,10 +88,7 @@ void	lexer_process_variable(t_lexer *lexer)
 	start = ++lexer->cursor;
 	lexer->len = 0;
 	if (start[0] == '?')
-	{
-		lexer_process_status(lexer, start);
-		return ;
-	}
+		return (lexer_process_status(lexer, start));
 	while (ft_isalnum(start[lexer->len]) || start[lexer->len] == '_')
 		lexer->len++;
 	if (lexer->len > 0)

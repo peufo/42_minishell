@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/22 15:07:39 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:26:28 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ static void	process_quotes_and_var(t_lexer *lexer)
 void	lex(t_sh *shell)
 {
 	t_lexer	lexer;
-	t_token	*token;
-	t_list	*tokens;
 
 	ft_memset(&lexer, 0, sizeof(t_lexer));
 	lexer.cursor = shell->line;
@@ -102,14 +100,6 @@ void	lex(t_sh *shell)
 		process_redirection(&lexer);
 		process_gate_and_pipe(&lexer);
 		process_quotes_and_var(&lexer);
-	}
-	shell->lexer.tokens = lexer.tokens;
-	tokens = lexer.tokens;
-	while (tokens)
-	{
-		token = tokens->content;
-		printf("TOKEN: Type: %d, Value: %s\n", token->type, token->value.value);
-		tokens = tokens->next;
 	}
 	shell->lexer.tokens = lexer.tokens;
 }

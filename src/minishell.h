@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/22 15:24:21 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:20:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ typedef struct s_cmd
 	t_list		*args;
 }	t_cmd;
 
-typedef struct s_parser	
+typedef struct s_parser
 {
 	t_cmd	cmd;
 }	t_parser;

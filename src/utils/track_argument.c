@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   track_argument.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/30 12:20:48 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/30 12:21:00 by jvoisard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	type_or_func(char **s)
@@ -15,16 +27,6 @@ static void	type_or_func(char **s)
 	(void)number;
 	(void)i;
 	(void)j;
-//	while (*s[i])
-//	{
-//		if (!ft_isdigit(*s[i]))
-//			number[j++] = *s[i];
-//		i++;
-//	}
-//	number[j] = '\0';
-//	int_num = ft_atoi(number);
-//	if (int_num >= 100 && int_num <= 200)
-//		ft_putstr_fd("Argument type : ", 1);
 }
 
 void	get_macro(char *s)
