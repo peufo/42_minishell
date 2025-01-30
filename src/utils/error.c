@@ -1,46 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   track_argument.c                                   :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 12:20:48 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 12:21:00 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/01/30 14:20:31 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/01/30 14:43:55 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	type_or_func(char **s)
+void throw_error(char *error, char *file, int line)
 {
-	int		i;
-	int		j;
-	int		int_num;
-	char	number[256];
-
-	i = 0;
-	j = 0;
-	if (!*s)
-		return ;
-	(void)int_num;
-	(void)number;
-	(void)i;
-	(void)j;
-}
-
-void	get_macro(char *s)
-{
-	int	i;
-
-	i = 0;
-	type_or_func(&s);
-	while (s[i])
-	{
-		if (s[i] >= 'A' && s[i] <= 'Z')
-			ft_putchar_fd(s[i++], 1);
-		else
-			i++;
-	}
-	ft_putchar_fd('\n', 1);
+	ft_putstr_fd("\n\n", 1);
+	ft_putstr_fd("\033[31m", 1);
+	ft_putstr_fd("ERROR:\t", 1);
+	ft_putstr_fd("\033[0m", 1);
+	ft_putstr_fd(file, 1);
+	ft_putstr_fd(":", 1);
+	ft_putstr_fd(ft_itoa(line), 1);
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd(error, 1);
+	ft_putstr_fd("\n\n", 1);
 }

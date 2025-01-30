@@ -2,9 +2,9 @@
 
 SRC_DIR="./src"
 PROG="./minishell"
-ARGS="./tests/test.sh"
+ARGS="./test.sh"
 LEAKS_CHECK=true
-OUTPUT_FILE="./dev.log"
+OUTPUT_FILE=""
 
 if [ $(uname) = "Linux" ]; then
 	LEAKS_CMD="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=leaks.log -s"
@@ -26,7 +26,7 @@ watch() {
 			clear
 			info "───────── $(date) ─────────"
 			sync_sources
-			norminette_pretty $SRC_DIR
+			#norminette_pretty $SRC_DIR
 			
 			rm -f "$PROG"
 			make
@@ -59,7 +59,7 @@ get_state() {
 	else
 		MD5="md5"
 	fi
-	echo $(find -L $SRC_DIR -type f -name "*.[ch]" -exec $MD5 {} \;)
+	echo $(find -L $SRC_DIR -type f -name "*.[c]" -exec $MD5 {} \;)
 }
 
 sync_sources() {

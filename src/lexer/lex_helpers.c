@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:23:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 12:24:23 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:20:51 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	lexer_process_status(t_lexer *lexer, char *start)
 		if (status)
 		{
 			lexer->varname = ft_itoa(status);
-			lexer_add_token(lexer, L_PID, lexer->varname);
+			lexer_add_token(lexer, TOKEN_VAR_STATUS, lexer->varname);
 			free(lexer->varname);
 		}
 		else
-			lexer_add_token(lexer, L_PID, ft_strdup("0"));
+			lexer_add_token(lexer, TOKEN_VAR_STATUS, ft_strdup("0"));
 	}
 	lexer->cursor += lexer->len;
 }
@@ -50,7 +50,7 @@ void	lexer_skip_comment(t_lexer *lexer)
 	}
 }
 
-void	lexer_add_token(t_lexer *lexer, int type, char *value)
+void	lexer_add_token(t_lexer *lexer, char *type, char *value)
 {
 	t_token	*token;
 

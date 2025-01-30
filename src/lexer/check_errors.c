@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:22:03 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 12:22:10 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:52:36 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,18 @@ int	check_string(char *input)
 		if (input[index] == '"')
 		{
 			if (!look_inside_dquo(input, &index))
-				return (message(UNMATCHED_QUOTE, CHECK_STRING), 0);
+				return (throw_error("Unclosed double quote", WHERE), 0);
 		}
 		else if (input[index] == '\'')
 		{
 			if (!look_inside_squo(input, &index))
-				return (message(UNMATCHED_QUOTE, CHECK_STRING), 0);
+				return (throw_error("Unclosed single quote", WHERE), 0);
 		}
 		else
 			helper(input, &popen, &pclos, &index);
 	}
 	if (pclos != popen)
-		return (message(UNMATCHED_PAR, CHECK_STRING), 0);
+		return (throw_error("Unclosed parentheses", WHERE), 0);
 	return (1);
 }
 

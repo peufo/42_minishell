@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 12:26:28 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:20:15 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static void	process_parenthesis(t_lexer *lexer)
 {
 	if (*lexer->cursor == '(')
 	{
-		lexer_add_token(lexer, L_PAR_OPEN, "(");
+		lexer_add_token(lexer, TOKEN_PAR_OPEN, "(");
 		lexer->cursor++;
 	}
 	else if (*lexer->cursor == ')')
 	{
-		lexer_add_token(lexer, L_PAR_CLOSE, ")");
+		lexer_add_token(lexer, TOKEN_PAR_CLOSE, ")");
 		lexer->cursor++;
 	}
 }
@@ -37,7 +37,7 @@ static void	process_redirection(t_lexer *lexer)
 			lexer->cursor += 2;
 		else
 			lexer->cursor++;
-		lexer_add_token(lexer, L_RDIR, ft_substr(sta, 0, lexer->cursor - sta));
+		lexer_add_token(lexer, TOKEN_GROUP_REDIRECT, ft_substr(sta, 0, lexer->cursor - sta));
 	}
 }
 
@@ -48,22 +48,20 @@ static void	process_gate_and_pipe(t_lexer *lexer)
 		lexer->cursor++;
 		if (*lexer->cursor == '|')
 		{
-			lexer_add_token(lexer, OR_GATE, "||");
+			lexer_add_token(lexer, TOKEN_OR, "||");
 			lexer->cursor++;
 		}
 		else
-			lexer_add_token(lexer, PIPE, "|");
+			lexer_add_token(lexer, TOKEN_PIPELINE, "|");
 	}
 	else if (*lexer->cursor == '&')
 	{
 		lexer->cursor++;
 		if (*lexer->cursor == '&')
 		{
-			lexer_add_token(lexer, AND_GATE, "&&");
+			lexer_add_token(lexer, TOKEN_AND, "&&");
 			lexer->cursor++;
 		}
-		else
-			message(UNKNOWN_TOKEN, TOKENISE_GATES);
 	}
 }
 

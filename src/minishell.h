@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 12:36:23 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:05:40 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # include "input/get_next_line.h"
 # include "utils/string.h"
 # include "utils/string_array.h"
-# include "macros.h"
+# include "constants.h"
 
 typedef union u_pipe
 {
@@ -44,7 +44,7 @@ typedef union u_pipe
 }	t_pipe;
 
 typedef struct s_lexer	t_lexer;
-typedef struct s_exec	t_exec;
+typedef struct s_ast	t_ast;
 typedef struct s_sh		t_sh;
 
 // INPUT =======================================================================
@@ -56,7 +56,7 @@ void	input_read(t_sh *shell);
 typedef struct s_token
 {
 	t_string	value;
-	int			type;
+	char		*type;
 }	t_token;
 
 struct s_lexer
@@ -79,7 +79,7 @@ void	lex_free(t_sh *shell);
 int		check_string(char *input);
 pid_t	get_the_pid(char *process);
 int		check_double(t_lexer *lexer, char c);
-void	lexer_add_token(t_lexer *lexer, int type, char *value);
+void	lexer_add_token(t_lexer *lexer, char *type, char *value);
 void	lexer_skip_whitespace(t_lexer *lexer);
 void	lexer_skip_comment(t_lexer *lexer);
 void	lexer_process_word(t_lexer *lexer);
@@ -90,35 +90,9 @@ void	lexer_process_status(t_lexer *lexer, char *start);
 
 // PARSER ====================================================================
 
-typedef enum s_define_a
-{
-	D_PIPELINE,
-	D_SUFFIX,
-	D_REDIRECTS,
-	D_DGREAT,
-	D_DLESS,
-	D_GREAT,
-	D_LESS,
-	D_COMMAND,
-	D_WORD,
-	D_LOGICAL_EXP,
-	D_OR,
-	D_AND,
-	D_SUBSHELL,
-	D_FILE,
-	D_UNKNOWN
-}	t_define_a;
-
-typedef int				(*t_argdef)(t_sh *);
-typedef struct s_define_arg
-{
-	char		*name;
-	t_argdef	function;
-}	t_define_arg;
-
 typedef struct s_branch
 {
-	int		type;
+	char	*type;
 	char	*text;
 }	t_branch;
 
@@ -140,10 +114,10 @@ typedef struct s_cmd
 	t_list		*args;
 }	t_cmd;
 
-typedef struct s_ast
+struct s_ast
 {
 	t_cmd	cmd;
-}	t_ast;
+};
 
 void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
@@ -194,16 +168,13 @@ int		builtin_unset(t_sh *shell);
 int		builtin_env(t_sh *shell);
 int		builtin_exit(t_sh *shell);
 
-// DIVERS 8===================================================================D
+// UTILS  =====================================================================
+
+void throw_error(char *error, char *file, int line);
+
+// LIB PLUS ====================================================================
 
 int		ft_isspace(char c);
-int		ft_isalphanum(int c);
-char	*ft_strndup(const char *str, size_t n);
-void	message(int error, int function);
-void	track_origin(int func);
-void	init_tracking(char **a, char **b, char **c);
-void	track_argument_type(int element);
-void	get_macro(char *s);
-void	get_fpath(char *buf, size_t len);
+
 
 #endif
