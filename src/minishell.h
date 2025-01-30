@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 15:36:25 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 16:01:32 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
 void	check_priority(t_sh *shell);
 void	check_arguments(t_sh *shell);
-void	print_tokens(t_list *tokens);
 void	look_for_special_commands(t_sh *shell); /*a deplacer in fine dans 
 													une section builtin speciale 
 													(exemple : exitshell)*/
@@ -144,6 +143,7 @@ struct s_sh
 	bool		is_interactive;
 	t_lexer		lexer;
 	t_ast		ast;
+	int			debug_fd;
 };
 
 void	shell_init(t_sh *shell, char **env);
@@ -169,7 +169,8 @@ int		builtin_env(t_sh *shell);
 int		builtin_exit(t_sh *shell);
 
 // UTILS  =====================================================================
-
+void	debug(t_sh *shell, char *str);
+void	debug_arr(t_sh *shell, char **arr);
 void	throw_error(char *error, char *file, int line);
 
 // LIB PLUS ====================================================================
