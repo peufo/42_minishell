@@ -112,6 +112,11 @@
 # define TOKENISE 2031
 # define GET_CHAR_STATE 2039
 # define CHECK_STRING 2041
+# define TOKENISE_GATES 2042
+# define TOKENISE_QUOTES 2043
+# define TOKENISE_PIPES 2044
+# define TOKENISE_DQUOTES 2045
+# define TOKENISE_WORD 2046
 
 //////////////////////////////////
 // -----===== PARSER =====----- //
