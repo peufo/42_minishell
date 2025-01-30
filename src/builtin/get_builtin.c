@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:14:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/22 15:13:36 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:39:52 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_bfunc	get_builtin(t_cmd *cmd)
 	i = 0;
 	while (builtins[i].name)
 	{
-		if (!ft_strcmp(cmd->element.data.text, builtins[i].name))
+		if (!ft_strcmp(cmd->arg.data.text, builtins[i].name))
 			return (builtins[i].function);
 		i++;
 	}

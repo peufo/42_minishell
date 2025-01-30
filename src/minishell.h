@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 12:20:30 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:36:23 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,23 +128,22 @@ typedef struct s_context
 	t_branch	right;
 }	t_context;
 
-typedef struct s_element
+typedef struct s_arg
 {
 	t_context	context;
 	t_branch	data;
-}	t_element;
+}	t_arg;
 
 typedef struct s_cmd
 {
-	t_element	element;
-	t_list		*elements;
+	t_arg		arg;
 	t_list		*args;
 }	t_cmd;
 
-typedef struct s_parser
+typedef struct s_ast
 {
 	t_cmd	cmd;
-}	t_parser;
+}	t_ast;
 
 void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
@@ -156,11 +155,6 @@ void	look_for_special_commands(t_sh *shell); /*a deplacer in fine dans
 													(exemple : exitshell)*/
 
 // EXEC ========================================================================
-
-struct s_exec
-{
-	t_cmd	cmd;
-};
 
 int		executor(t_sh *shell);
 
@@ -175,8 +169,7 @@ struct s_sh
 	bool		is_running;
 	bool		is_interactive;
 	t_lexer		lexer;
-	t_parser	ast;
-	t_exec		exec;
+	t_ast		ast;
 };
 
 void	shell_init(t_sh *shell, char **env);
