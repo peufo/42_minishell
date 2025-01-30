@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 16:01:32 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 17:31:49 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	input_read(t_sh *shell);
 
 typedef struct s_token
 {
-	t_string	value;
+	char		*value;
 	char		*type;
 }	t_token;
 
@@ -90,33 +90,31 @@ void	lexer_process_status(t_lexer *lexer, char *start);
 
 // PARSER ====================================================================
 
-typedef struct s_branch
-{
-	char	*type;
-	char	*text;
-}	t_branch;
+typedef enum e_ast_type {
+	AST_SCRIPT,
+	AST_COMMAND,
+	AST_PIPELINE,
+	AST_LOGICAL,
+	AST_REDIRECT,
+}	t_ast_type;
 
-typedef struct s_context
-{
-	t_branch	left;
-	t_branch	right;
-}	t_context;
-
-typedef struct s_arg
-{
-	t_context	context;
-	t_branch	data;
-}	t_arg;
-
-typedef struct s_cmd
-{
-	t_arg		arg;
-	t_list		*args;
-}	t_cmd;
+typedef enum e_ast_op {
+	AST_OP_AND,
+	AST_OP_OR,
+	AST_OP_GREAT,
+	AST_OP_DGREAT,
+	AST_OP_LESS,
+	AST_OP_DLESS
+}	t_ast_op;
 
 struct s_ast
 {
-	t_cmd	cmd;
+	t_ast_type	type;
+	t_ast_op	op;
+	t_list		*args;
+	t_ast		*commands;
+	t_ast		*left;
+	t_ast		*right;
 };
 
 void	parse(t_sh *shell);
@@ -159,7 +157,7 @@ typedef struct s_builtin
 	t_bfunc	function;
 }	t_builtin;
 
-t_bfunc	get_builtin(t_cmd *cmd);
+t_bfunc	get_builtin(char *cmd);
 int		builtin_echo(t_sh *shell);
 int		builtin_cd(t_sh *shell);
 int		builtin_pwd(t_sh *shell);
