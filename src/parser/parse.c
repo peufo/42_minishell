@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/22 15:02:26 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:22:20 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "macros.h"
 
 void	parse_free(t_sh *shell)
 {
@@ -38,7 +37,7 @@ void	print_tokens(t_list *tokens)
 		if (token && token->value.value)
 		{
 			printf("- [%s]\nArgument type : ", token->value.value);
-			track_origin(token->type);
+			printf("%s\n", token->type);
 		}
 		else
 			printf("- [NULL or invalid token]\n");
@@ -52,20 +51,14 @@ void	parse(t_sh *shell)
 	t_token	*token;
 
 	if (!shell || !shell->lexer.tokens)
-	{
-		message(TOKEN_PROBLEM, PARSE);
-		return ;
-	}
+		return (throw_error("No tokens received", WHERE));
 	print_tokens(shell->lexer.tokens);
 	current = shell->lexer.tokens;
 	while (current)
 	{
 		token = (t_token *)current->content;
 		if (!token || !token->value.value)
-		{
-			message(BULLSHIT, 234);
 			current = current->next;
-		}
 		process_token(token);
 		current = current->next;
 	}

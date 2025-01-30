@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:23:04 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 12:25:28 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:14:58 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	lexer_process_word(t_lexer *lexer)
 	while (*lexer->cursor && !ft_isspace(*lexer->cursor) && !ft_strchr("()|><"
 			, *lexer->cursor))
 		lexer->cursor++;
-	lexer_add_token(lexer, L_WORD, ft_substr(start, 0, lexer->cursor - start));
+	lexer_add_token(lexer, TOKEN_WORD, ft_substr(start, 0, lexer->cursor - start));
 }
 
 void	lexer_process_single_quote(t_lexer *lexer)
@@ -42,12 +42,12 @@ void	lexer_process_single_quote(t_lexer *lexer)
 		lexer->cursor++;
 	if (*lexer->cursor == '\'')
 	{
-		lexer_add_token(lexer, L_WORD, ft_substr(start, 0,
+		lexer_add_token(lexer, TOKEN_WORD, ft_substr(start, 0,
 				lexer->cursor - start));
 		lexer->cursor++;
 	}
 	else
-		message(UNMATCHED_QUOTE, TOKENISE_QUOTES);
+		throw_error("Unclosed single quote", WHERE);
 }
 
 void	lexer_process_double_quote(t_lexer *lexer)
@@ -61,7 +61,7 @@ void	lexer_process_double_quote(t_lexer *lexer)
 	{
 		if (*lexer->cursor == '$')
 		{
-			lexer_add_token(lexer, L_WORD, ft_substr(i, 0, lexer->cursor - i));
+			lexer_add_token(lexer, TOKEN_WORD, ft_substr(i, 0, lexer->cursor - i));
 			lexer_process_variable(lexer);
 			i = lexer->cursor;
 		}
@@ -71,11 +71,11 @@ void	lexer_process_double_quote(t_lexer *lexer)
 	if (*lexer->cursor == '"')
 	{
 		if (lexer->cursor > i)
-			lexer_add_token(lexer, L_WORD, ft_substr(i, 0, lexer->cursor - i));
+			lexer_add_token(lexer, TOKEN_WORD, ft_substr(i, 0, lexer->cursor - i));
 		lexer->cursor++;
 	}
 	else
-		message(UNMATCHED_QUOTE, TOKENISE_QUOTES);
+		throw_error("Unclosed double quote", WHERE);
 }
 
 void	lexer_process_variable(t_lexer *lexer)
@@ -96,9 +96,9 @@ void	lexer_process_variable(t_lexer *lexer)
 		lexer->varname = ft_substr(start, 0, lexer->len);
 		value = getenv(lexer->varname);
 		if (value)
-			lexer_add_token(lexer, L_VAR, ft_strdup(value));
+			lexer_add_token(lexer, TOKEN_VAR, ft_strdup(value));
 		else
-			lexer_add_token(lexer, L_VAR, ft_strdup(""));
+			lexer_add_token(lexer, TOKEN_VAR, ft_strdup(""));
 		free(lexer->varname);
 	}
 	lexer->cursor += lexer->len;
