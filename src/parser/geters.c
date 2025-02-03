@@ -12,12 +12,14 @@
 
 #include "minishell.h"
 
-int	pars_get_type(int type)
+int	pars_get_type(int op)
 {
-	if (type == AST_OP_AND || type == AST_OP_OR)
+	if (op == AST_OP_AND || op == AST_OP_OR)
 		return (AST_LOGICAL);
-	else
+	if (op == AST_OP_DGREAT || op == AST_OP_DLESS
+		|| op == AST_OP_GREAT || op == AST_OP_LESS)
 		return (AST_REDIRECT);
+	return (AST_COMMAND);
 }
 
 int	pars_get_op(char *type)
@@ -40,7 +42,7 @@ int	pars_get_op(char *type)
 			return (i);
 		i++;
 	}
-	return (-1);
+	return (AST_OP_NULL);
 }
 
 int	pars_get_dir(int type)

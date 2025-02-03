@@ -134,6 +134,7 @@ int		pars_get_type(int type);
 int		pars_get_op(char *type);
 int		pars_get_dir(int type);
 int		pars_get_position(t_ast *ast, t_list *elements);
+void	pars_split_lr(t_ast *ast, t_ast *left, t_ast *right);
 
 // EXEC ========================================================================
 
@@ -185,5 +186,7 @@ void	throw_error(char *error, char *file, int line);
 
 int		ft_isspace(char c);
 char	*ft_cut(char *from, char *to);
+void	*ft_lstget_front(t_list *node);
+void	ft_lstremove_front(t_list *lst);
 
 #endif

@@ -23,3 +23,16 @@ char	*ft_cut(char *from, char *to)
 {
 	return (ft_substr(from, 0, to - from));
 }
+
+void	*ft_lstget_front(t_list *node)
+{
+	while (node && node->prev)
+		node = node->prev;
+	return (node);
+}
+
+void	ft_lstremove_front(t_list *lst)
+{
+	ft_lstget_front(lst);
+	ft_lstdelone(lst, free);
+}
