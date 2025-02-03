@@ -12,22 +12,24 @@
 
 #include "minishell.h"
 
-void	pars_find_next_operator(t_ast *ast)
+int	pars_find_next_operator(t_ast *ast)
 {
 	int		op;
+	int		index;
 	t_token	*element;
 	t_list	*elements;
 
 	if (!ast || !ast->args)
-		return ;
+		return (-1);
 	elements = ast->args;
-	pars_get_position(ast, elements);
+	index = pars_get_position(ast, elements);
 	element = (t_token *)elements->content;
 	op = pars_get_op(element->type);
 	if (op == AST_OP_NULL)
 		ast->type = AST_COMMAND;
 	else
 		ast->type = pars_get_type(op);
+	return (index);
 }
 
 void	pars_context_type(t_ast *ast)

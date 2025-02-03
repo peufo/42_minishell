@@ -14,14 +14,33 @@
 
 int	pars_get_type(int type)
 {
-	(void)type;
-	return (0);
+	if (type == AST_OP_AND || type == AST_OP_OR)
+		return (AST_LOGICAL);
+	else
+		return (AST_REDIRECT);
 }
 
 int	pars_get_op(char *type)
 {
-	(void)type;
-	return (AST_OP_NULL);
+	int			i;
+	static char	*find[] = {
+		"<",
+		"<<",
+		">",
+		">>",
+		"||",
+		"&&",
+		NULL
+	};
+
+	i = 0;
+	while (find[i])
+	{
+		if (ft_strncmp(find[i], type, ft_strlen(type)) == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 
 int	pars_get_dir(int type)
@@ -30,7 +49,7 @@ int	pars_get_dir(int type)
 	return (0);
 }
 
-void	pars_get_position(t_ast *ast, t_list *elements)
+int	pars_get_position(t_ast *ast, t_list *elements)
 {
 	int	i;
 
@@ -40,4 +59,5 @@ void	pars_get_position(t_ast *ast, t_list *elements)
 		elements->content = elements->next;
 		i++;
 	}
+	return (i);
 }

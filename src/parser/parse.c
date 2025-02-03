@@ -17,14 +17,18 @@ void	parse_free(t_sh *shell)
 	(void)shell;
 }
 
-static void	pars_process_tokens(t_ast *ast, t_sh *shell)
+static void	*get_first(t_list *node)
 {
-	int	index;
+	while (node && node->prev)
+		node = node->prev;
+	return (node);
+}
 
+static int	pars_process_tokens(t_ast *ast, t_sh *shell)
+{
 	if (!ast)
 		return ;
-	index = 0;
-	while (ast->args != NULL && index < 3)
+	while (ast->args != NULL)
 	{
 		pars_find_next_operator(ast);
 		pars_context_type(ast);
@@ -33,11 +37,15 @@ static void	pars_process_tokens(t_ast *ast, t_sh *shell)
 			"ast_type -> [",
 			ft_itoa(ast->type),
 			"]\nfor token indexed at -> [",
-			ft_itoa(index)
+			ft_itoa(ast->cursor)
 		});
 		debug(shell, "]\n");
-		index++;
+		while (ast->cursor-- > 0)
+			ast->args = ast->args->next;
+		ft_lstdelone(ast->args->content, free);
+		get_first(ast->args);
 	}
+	return (0);
 }
 
 static void	debug_tokens(t_sh *shell)

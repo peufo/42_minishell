@@ -112,15 +112,13 @@ typedef enum e_ast_op
 
 struct s_ast
 {
-	t_list		*args;
-	t_ast		*command;
-	t_ast		*suffix;
-	t_ast		*left;
-	t_ast		*right;
-	t_ast_type	type;
-	t_ast_op	op;
-	t_pipe		dir;
-	int			cursor;
+	t_list			*args;
+	struct s_ast	*left;
+	struct s_ast	*right;
+	t_ast_type		type;
+	t_ast_op		op;
+	int				cursor;
+	int				priority;
 };
 
 void	parse(t_sh *shell);
@@ -128,14 +126,14 @@ void	parse_free(t_sh *shell);
 void	look_for_special_commands(t_sh *shell); /*a deplacer in fine dans 
 													une section builtin speciale 
 													(exemple : exitshell)*/
-void	pars_find_next_operator(t_ast *ast);
+int		pars_find_next_operator(t_ast *ast);
 void	pars_context_type(t_ast *ast);
 void	pars_parse_command(t_ast *ast);
 
 int		pars_get_type(int type);
 int		pars_get_op(char *type);
 int		pars_get_dir(int type);
-void	pars_get_position(t_ast *ast, t_list *elements);
+int		pars_get_position(t_ast *ast, t_list *elements);
 
 // EXEC ========================================================================
 
