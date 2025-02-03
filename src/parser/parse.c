@@ -27,8 +27,8 @@ static void	pars_split_and_node(t_ast *ast, t_ast *ast_element, t_sh *shell)
 		ft_itoa(ast->cursor)
 	});
 	debug(shell, "]\n");
-	ft_lstaddfront(&ast_element, ft_lstnew(ast_element->right));
-	ft_lstaddfront(&ast_element, ft_lstnew(ast_element->left));
+	ft_lstadd_front(&ast_element, ft_lstnew(ast_element->right));
+	ft_lstadd_front(&ast_element, ft_lstnew(ast_element->left));
 }
 
 static int	pars_process_tokens(t_ast *ast, t_sh *shell)
@@ -40,7 +40,7 @@ static int	pars_process_tokens(t_ast *ast, t_sh *shell)
 	ft_lstadd_front(&tokens, ft_lstnew(ast));
 	while (tokens)
 	{
-		ast_element = (t_ast *)tokens->content;
+		ast_element = (t_list *)tokens->content;
 		ft_lstremove_front(&tokens);
 		ast->cursor = pars_find_next_operator(ast);
 		if (ast->cursor == -1)
