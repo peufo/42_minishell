@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   arguments.c                                        :+:      :+:    :+:   */
+/*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,30 @@
 
 #include "minishell.h"
 
-void	check_arguments(t_sh *shell)
+void	pars_find_next_operator(t_ast *ast)
 {
-	(void)shell;
+	int		op;
+	t_token	*element;
+	t_list	*elements;
+
+	if (!ast || !ast->args)
+		return ;
+	elements = ast->args;
+	pars_get_position(ast, elements);
+	element = (t_token *)elements->content;
+	op = pars_get_op(element->type);
+	if (op == AST_OP_NULL)
+		ast->type = AST_COMMAND;
+	else
+		ast->type = pars_get_type(op);
+}
+
+void	pars_context_type(t_ast *ast)
+{
+	(void)ast;
+}
+
+void	pars_parse_command(t_ast *ast)
+{
+	(void)ast;
 }

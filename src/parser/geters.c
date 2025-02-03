@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   priority.c                                         :+:      :+:    :+:   */
+/*   geters.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,12 +12,32 @@
 
 #include "minishell.h"
 
-static void	id_p_marker(t_sh *shell)
+int	pars_get_type(int type)
 {
-	(void)shell;
+	(void)type;
+	return (0);
 }
 
-void	check_priority(t_sh *shell)
+int	pars_get_op(char *type)
 {
-	id_p_marker(shell);
+	(void)type;
+	return (AST_OP_NULL);
+}
+
+int	pars_get_dir(int type)
+{
+	(void)type;
+	return (0);
+}
+
+void	pars_get_position(t_ast *ast, t_list *elements)
+{
+	int	i;
+
+	i = 0;
+	while (i < ast->cursor)
+	{
+		elements->content = elements->next;
+		i++;
+	}
 }

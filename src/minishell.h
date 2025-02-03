@@ -90,7 +90,8 @@ void	lexer_process_status(t_lexer *lexer, char *start);
 
 // PARSER ====================================================================
 
-typedef enum e_ast_type {
+typedef enum e_ast_type
+{
 	AST_SCRIPT,
 	AST_COMMAND,
 	AST_PIPELINE,
@@ -98,32 +99,43 @@ typedef enum e_ast_type {
 	AST_REDIRECT,
 }	t_ast_type;
 
-typedef enum e_ast_op {
+typedef enum e_ast_op
+{
 	AST_OP_AND,
 	AST_OP_OR,
 	AST_OP_GREAT,
 	AST_OP_DGREAT,
 	AST_OP_LESS,
-	AST_OP_DLESS
+	AST_OP_DLESS,
+	AST_OP_NULL
 }	t_ast_op;
 
 struct s_ast
 {
-	t_ast_type	type;
-	t_ast_op	op;
 	t_list		*args;
-	t_ast		*commands;
+	t_ast		*command;
+	t_ast		*suffix;
 	t_ast		*left;
 	t_ast		*right;
+	t_ast_type	type;
+	t_ast_op	op;
+	t_pipe		dir;
+	int			cursor;
 };
 
 void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
-void	check_priority(t_sh *shell);
-void	check_arguments(t_sh *shell);
 void	look_for_special_commands(t_sh *shell); /*a deplacer in fine dans 
 													une section builtin speciale 
 													(exemple : exitshell)*/
+void	pars_find_next_operator(t_ast *ast);
+void	pars_context_type(t_ast *ast);
+void	pars_parse_command(t_ast *ast);
+
+int		pars_get_type(int type);
+int		pars_get_op(char *type);
+int		pars_get_dir(int type);
+void	pars_get_position(t_ast *ast, t_list *elements);
 
 // EXEC ========================================================================
 

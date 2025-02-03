@@ -17,10 +17,27 @@ void	parse_free(t_sh *shell)
 	(void)shell;
 }
 
-void	process_token(t_token *token)
+static void	pars_process_tokens(t_ast *ast, t_sh *shell)
 {
-	if (!token || !token->value)
+	int	index;
+
+	if (!ast)
 		return ;
+	index = 0;
+	while (ast->args != NULL && index < 3)
+	{
+		pars_find_next_operator(ast);
+		pars_context_type(ast);
+		pars_parse_command(ast);
+		debug_arr(shell, (char *[]){
+			"ast_type -> [",
+			ft_itoa(ast->type),
+			"]\nfor token indexed at -> [",
+			ft_itoa(index)
+		});
+		debug(shell, "]\n");
+		index++;
+	}
 }
 
 static void	debug_tokens(t_sh *shell)
@@ -52,21 +69,12 @@ static void	debug_tokens(t_sh *shell)
 
 void	parse(t_sh *shell)
 {
-	t_list	*current;
-	t_token	*token;
-
 	if (!shell || !shell->lexer.tokens)
 		return (throw_error("No tokens received", __FILE__, __LINE__));
 	debug_tokens(shell);
 	shell->ast.type = AST_COMMAND;
 	shell->ast.args = shell->lexer.tokens;
-	current = shell->lexer.tokens;
-	while (current)
-	{
-		token = (t_token *)current->content;
-		if (!token || !token->value)
-			current = current->next;
-		process_token(token);
-		current = current->next;
-	}
+	if (ft_lstsize(shell->ast.args) == 1)
+		return ;
+	pars_process_tokens(&shell->ast, shell);
 }
