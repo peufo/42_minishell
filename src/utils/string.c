@@ -6,13 +6,16 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 19:21:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/04 18:26:56 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/04 22:13:34 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "string.h"
 
-static t_string_result	string_ensure_malloc(t_string *string, int needed_space)
+static t_string_result	string_ensure_malloc(
+	t_string *string,
+	unsigned int needed_space
+)
 {
 	char	*new;
 
@@ -22,9 +25,11 @@ static t_string_result	string_ensure_malloc(t_string *string, int needed_space)
 		if (!string->value)
 			return (STRING_ERROR);
 		string->len = STRING_INITAL_LEN;
-		return (STRING_SUCCESS);
 	}
-	while (string->value[string->len - needed_space - 1])
+	while (
+		(needed_space > string->len)
+		|| (string->value[string->len - needed_space - 1])
+	)
 	{
 		new = ft_calloc(string->len * 2, 1);
 		if (!new)
