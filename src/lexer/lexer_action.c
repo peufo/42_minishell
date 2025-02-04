@@ -52,7 +52,7 @@ void	lexer_action(t_sh *shell, t_lexer_state next_state)
 	[LEXER_VAR][LEXER_DQUOTE] = lexer_action_preserv_dollar,
 	[LEXER_VAR][LEXER_QUOTE] = lexer_action_expand_var,
 	[LEXER_VAR_DQUOTE][LEXER_DQUOTE] = lexer_action_expand_var,
-	[LEXER_VAR_DQUOTE][LEXER_DEFAULT] = lexer_action_expand_var,
+	[LEXER_VAR_DQUOTE][LEXER_DEFAULT] = lexer_action_preserv_dollar,
 	[LEXER_DEFAULT][LEXER_META] = lexer_action_end_token,
 	[LEXER_VAR][LEXER_META] = lexer_action_expand_var_end_token,
 	};
