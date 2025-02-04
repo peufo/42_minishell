@@ -76,14 +76,14 @@ int	check_string(char *input)
 	return (1);
 }
 
-int	check_double(t_lexer *lexer, char c)
+int	check_double(t_sh *shell, char c)
 {
-	lexer->cursor++;
-	if (*lexer->cursor == c)
+	shell->lex.cursor++;
+	if (*shell->lex.cursor == c)
 	{
-		lexer->cursor--;
+		shell->lex.cursor--;
 		return (1);
 	}
-	lexer->cursor--;
+	shell->lex.cursor--;
 	return (0);
 }

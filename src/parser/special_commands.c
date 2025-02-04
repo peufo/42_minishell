@@ -16,7 +16,7 @@ void	look_for_special_commands(t_sh *shell)
 {
 	char	*line;
 
-	line = shell->lexer.cursor;
+	line = shell->lex.cursor;
 	if (!line)
 		return ;
 	else if (!ft_strncmp(line, "exitshell", 9))

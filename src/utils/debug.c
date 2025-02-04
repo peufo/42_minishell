@@ -25,3 +25,12 @@ void	debug_arr(t_sh *shell, char **arr)
 		arr++;
 	}
 }
+
+void	debug_tokenisation(t_sh *shell, char *type, char *value)
+{
+	debug(shell, "\n INTO ADD_TOKEN \n");
+	debug(shell, "type is : ");
+	debug(shell, type);
+	debug(shell, "\nvalue is :");
+	debug(shell, value);
+}

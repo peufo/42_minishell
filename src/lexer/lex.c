@@ -13,96 +13,94 @@
 #include "minishell.h"
 #include "limits.h"
 
-static void	process_parenthesis(t_lexer *lexer, t_sh *shell)
+static void	process_parenthesis(t_sh *shell)
 {
 	debug(shell, "\n INTO PROCESS PAR \n");
-	if (*lexer->cursor == '(')
+	if (*shell->lex.cursor == '(')
 	{
-		lexer_add_token(lexer, TOKEN_PAR_OPEN, "(", shell);
-		lexer->cursor++;
+		lexer_add_token(TOKEN_PAR_OPEN, "(", shell);
+		shell->lex.cursor++;
 	}
-	else if (*lexer->cursor == ')')
+	else if (*shell->lex.cursor == ')')
 	{
-		lexer_add_token(lexer, TOKEN_PAR_CLOSE, ")", shell);
-		lexer->cursor++;
+		lexer_add_token(TOKEN_PAR_CLOSE, ")", shell);
+		shell->lex.cursor++;
 	}
 }
 
-static void	process_redirection(t_lexer *lexer, t_sh *shell)
+static void	process_redirection(t_sh *shell)
 {
 	char	*start;
 
 	debug(shell, "\n INTO PROCESS REDIRECTION \n");
-	start = lexer->cursor;
-	if (*lexer->cursor == '>' || *lexer->cursor == '<')
+	start = shell->lex.cursor;
+	if (*shell->lex.cursor == '>' || *shell->lex.cursor == '<')
 	{
-		if (*(lexer->cursor + 1) == *lexer->cursor)
-			lexer->cursor += 2;
+		if (*(shell->lex.cursor + 1) == *shell->lex.cursor)
+			shell->lex.cursor += 2;
 		else
-			lexer->cursor++;
-		lexer_add_token(lexer, TOKEN_GROUP_REDIRECT,
-			ft_cut(start, lexer->cursor), shell);
+			shell->lex.cursor++;
+		lexer_add_token(TOKEN_GROUP_REDIRECT,
+			ft_cut(start, shell->lex.cursor), shell);
 	}
 }
 
-static void	process_gate_and_pipe(t_lexer *lexer, t_sh *shell)
+static void	process_gate_and_pipe(t_sh *shell)
 {
-	if (*lexer->cursor == '|')
+	if (*shell->lex.cursor == '|')
 	{
-		lexer->cursor++;
-		if (*lexer->cursor == '|')
+		shell->lex.cursor++;
+		if (*shell->lex.cursor == '|')
 		{
-			lexer_add_token(lexer, TOKEN_OR, "||", shell);
-			lexer->cursor++;
+			lexer_add_token(TOKEN_OR, "||", shell);
+			shell->lex.cursor++;
 		}
 		else
-			lexer_add_token(lexer, TOKEN_PIPELINE, "|", shell);
+			lexer_add_token(TOKEN_PIPELINE, "|", shell);
 	}
-	else if (*lexer->cursor == '&')
+	else if (*shell->lex.cursor == '&')
 	{
-		lexer->cursor++;
-		if (*lexer->cursor == '&')
+		shell->lex.cursor++;
+		if (*shell->lex.cursor == '&')
 		{
-			lexer_add_token(lexer, TOKEN_AND, "&&", shell);
-			lexer->cursor++;
+			lexer_add_token(TOKEN_AND, "&&", shell);
+			shell->lex.cursor++;
 		}
 	}
 }
 
-static void	process_quotes_and_var(t_lexer *lexer, t_sh *shell)
+static void	process_quotes_and_var(t_sh *shell)
 {
 	debug(shell, "\n INTO PROCESS QUOTES AND VAR \n");
-	if (*lexer->cursor == '\'')
+	if (*shell->lex.cursor == '\'')
 	{
-		lexer_process_single_quote(lexer, shell);
+		lexer_process_single_quote(shell);
 	}
-	else if (*lexer->cursor == '"')
+	else if (*shell->lex.cursor == '"')
 	{
-		lexer_process_double_quote(lexer, shell);
+		lexer_process_double_quote(shell);
 	}
-	else if (*lexer->cursor == '$')
-		lexer_process_variable(lexer, shell);
-	else if (!ft_isspace(*lexer->cursor) && !ft_strchr("()|><", *lexer->cursor))
-		lexer_process_word(lexer, shell);
+	else if (*shell->lex.cursor == '$')
+		lexer_process_variable(shell);
+	else if (!ft_isspace(*shell->lex.cursor) && !ft_strchr("()|><",
+			*shell->lex.cursor))
+		lexer_process_word(shell);
 }
 
 void	lex(t_sh *shell)
 {
-	t_lexer	lexer;
-
 	debug(shell, "\n INTO MAIN LEXER \n");
-	ft_memset(&lexer, 0, sizeof(t_lexer));
-	shell->lexer.nbt = 0;
-	lexer.cursor = shell->line;
-	if (!check_string(lexer.cursor))
+	shell->lex.nbt = 0;
+	shell->lex.cursor = shell->line;
+	if (!check_string(shell->lex.cursor))
 		return (lex_free(shell));
-	while (*lexer.cursor)
+	while (*shell->lex.cursor)
 	{
-		lexer_skip_whitespace(&lexer, shell);
-		lexer_skip_comment(&lexer, shell);
-		process_parenthesis(&lexer, shell);
-		process_redirection(&lexer, shell);
-		process_gate_and_pipe(&lexer, shell);
-		process_quotes_and_var(&lexer, shell);
+		lexer_skip_whitespace(shell);
+		lexer_skip_comment(shell);
+		process_parenthesis(shell);
+		process_redirection(shell);
+		process_gate_and_pipe(shell);
+		process_quotes_and_var(shell);
 	}
 }

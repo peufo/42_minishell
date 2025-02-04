@@ -94,12 +94,13 @@ static void	debug_tokens(t_sh *shell)
 
 void	parse(t_sh *shell)
 {
-	return ;
+	return (lex_free(shell));
 	if (!shell)
 		return (throw_error("No tokens received", __FILE__, __LINE__));
 	debug_tokens(shell);
 	shell->ast.left = NULL;
 	shell->ast.right = NULL;
+	return ;
 	if (ft_lstsize(shell->ast.args) == 1)
 		return (throw_error("WTF", __FILE__, __LINE__));
 }

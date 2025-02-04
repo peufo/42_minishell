@@ -52,7 +52,9 @@ void	shell_exec(t_sh *shell)
 		debug(shell, "\n\nPARSE PASSED\n\n");
 		executor(shell);
 		debug(shell, "\n\nEXECUTOR PASSED\n\n");
+		debug(shell, "in da loop\n");
 	}
+	debug(shell, "out of loop\n");
 	shell_exit(shell);
 }
 

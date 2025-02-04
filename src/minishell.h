@@ -66,7 +66,6 @@ struct s_lexer
 	char			*cursor;
 	char			*varname;
 	char			**toks;
-	char			**toktypes;
 	int				nbt;
 	size_t			len;
 };
@@ -78,15 +77,15 @@ void	lex(t_sh *shell);
 void	lex_free(t_sh *shell);
 int		check_string(char *input);
 pid_t	get_the_pid(char *process);
-int		check_double(t_lexer *lexer, char c);
-void	lexer_add_token(t_lexer *lexer, char *type, char *value, t_sh *shell);
-void	lexer_skip_whitespace(t_lexer *lexer, t_sh *shell);
-void	lexer_skip_comment(t_lexer *lexer, t_sh *shell);
-void	lexer_process_word(t_lexer *lexer, t_sh *shell);
-void	lexer_process_variable(t_lexer *lexer, t_sh *shell);
-void	lexer_process_double_quote(t_lexer *lexer, t_sh *shell);
-void	lexer_process_single_quote(t_lexer *lexer, t_sh *shell);
-void	lexer_process_status(t_lexer *lexer, char *start, t_sh *shell);
+int		check_double(t_sh *shell, char c);
+void	lexer_add_token(char *type, char *value, t_sh *shell);
+void	lexer_skip_whitespace(t_sh *shell);
+void	lexer_skip_comment(t_sh *shell);
+void	lexer_process_word(t_sh *shell);
+void	lexer_process_variable(t_sh *shell);
+void	lexer_process_double_quote(t_sh *shell);
+void	lexer_process_single_quote(t_sh *shell);
+void	lexer_process_status(char *start, t_sh *shell);
 
 // PARSER ====================================================================
 
@@ -112,6 +111,7 @@ typedef enum e_ast_op
 
 struct s_ast
 {
+	t_lexer			data;
 	t_list			*args;
 	struct s_ast	*left;
 	struct s_ast	*right;
@@ -150,7 +150,7 @@ struct s_sh
 	t_pipe		pipe;
 	bool		is_running;
 	bool		is_interactive;
-	t_lexer		lexer;
+	t_lexer		lex;
 	t_ast		ast;
 	int			debug_fd;
 };
@@ -181,6 +181,7 @@ int		builtin_exit(t_sh *shell);
 void	debug(t_sh *shell, char *str);
 void	debug_arr(t_sh *shell, char **arr);
 void	throw_error(char *error, char *file, int line);
+void	debug_tokenisation(t_sh *shell, char *type, char *value);
 
 // LIB PLUS ====================================================================
 

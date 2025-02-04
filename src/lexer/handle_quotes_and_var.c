@@ -20,91 +20,91 @@ pid_t	get_the_pid(char *process)
 		return (0);
 }
 
-void	lexer_process_word(t_lexer *lexer, t_sh *shell)
+void	lexer_process_word(t_sh *shell)
 {
 	char	*start;
 
 	debug(shell, "\n INTO PROCESS WORD \n");
-	start = lexer->cursor;
-	while (*lexer->cursor && !ft_isspace(*lexer->cursor) && !ft_strchr("()|><"
-			, *lexer->cursor))
-		lexer->cursor++;
-	lexer_add_token(lexer, T_WORD, ft_cut(start, lexer->cursor), shell);
+	start = shell->lex.cursor;
+	while (*shell->lex.cursor && !ft_isspace(*shell->lex.cursor)
+		&& !ft_strchr("()|><", *shell->lex.cursor))
+		shell->lex.cursor++;
+	lexer_add_token(T_WORD, ft_cut(start, shell->lex.cursor), shell);
 }
 
-void	lexer_process_single_quote(t_lexer *lexer, t_sh *shell)
+void	lexer_process_single_quote(t_sh *shell)
 {
 	char	*start;
 
-	if (*lexer->cursor != '\'')
+	if (*shell->lex.cursor != '\'')
 		return ;
 	debug(shell, "\n INTO PROCESS SQUOTE \n");
-	start = ++lexer->cursor;
-	while (*lexer->cursor && *lexer->cursor != '\'')
-		lexer->cursor++;
-	if (*lexer->cursor == '\'')
+	start = ++shell->lex.cursor;
+	while (*shell->lex.cursor && *shell->lex.cursor != '\'')
+		shell->lex.cursor++;
+	if (*shell->lex.cursor == '\'')
 	{
-		lexer_add_token(lexer, T_WORD, ft_substr(start, 0,
-				lexer->cursor - start), shell);
-		lexer->cursor++;
+		lexer_add_token(T_WORD, ft_substr(start, 0,
+				shell->lex.cursor - start), shell);
+		shell->lex.cursor++;
 	}
 	else
 		throw_error("Unclosed single quote", __FILE__, __LINE__);
 }
 
-void	lexer_process_double_quote(t_lexer *lexer, t_sh *shell)
+void	lexer_process_double_quote(t_sh *shell)
 {
 	char	*i;
 
-	if (*lexer->cursor != '"')
+	if (*shell->lex.cursor != '"')
 		return ;
-	i = ++lexer->cursor;
-	while (*lexer->cursor && *lexer->cursor != '"')
+	i = ++shell->lex.cursor;
+	while (*shell->lex.cursor && *shell->lex.cursor != '"')
 	{
-		if (*lexer->cursor == '$')
+		if (*shell->lex.cursor == '$')
 		{
-			lexer_add_token(lexer, T_WORD, ft_cut(i, lexer->cursor),
+			lexer_add_token(T_WORD, ft_cut(i, shell->lex.cursor),
 				shell);
-			lexer_process_variable(lexer, shell);
-			i = lexer->cursor;
+			lexer_process_variable(shell);
+			i = shell->lex.cursor;
 		}
 		else
-			lexer->cursor++;
+			shell->lex.cursor++;
 	}
-	if (*lexer->cursor == '"')
+	if (*shell->lex.cursor == '"')
 	{
-		if (lexer->cursor > i)
-			lexer_add_token(lexer, T_WORD, ft_cut(i, lexer->cursor), shell);
-		lexer->cursor++;
+		if (shell->lex.cursor > i)
+			lexer_add_token(T_WORD, ft_cut(i, shell->lex.cursor), shell);
+		shell->lex.cursor++;
 	}
 	else
 		throw_error("Unclosed double quote", __FILE__, __LINE__);
 }
 
-void	lexer_process_variable(t_lexer *lexer, t_sh *shell)
+void	lexer_process_variable(t_sh *shell)
 {
 	char	*start;
 	char	*value;
 
-	if (*lexer->cursor != '$')
+	if (*shell->lex.cursor != '$')
 		return ;
 	debug(shell, "\n INTO PROCESS VARIABLE \n");
-	start = ++lexer->cursor;
-	lexer->len = 0;
+	start = ++shell->lex.cursor;
+	shell->lex.len = 0;
 	if (start[0] == '?')
-		return (lexer_process_status(lexer, start, shell));
-	while (ft_isalnum(start[lexer->len]) || start[lexer->len] == '_')
-		lexer->len++;
-	if (lexer->len > 0)
+		return (lexer_process_status(start, shell));
+	while (ft_isalnum(start[shell->lex.len]) || start[shell->lex.len] == '_')
+		shell->lex.len++;
+	if (shell->lex.len > 0)
 	{
-		lexer->varname = ft_substr(start, 0, lexer->len);
-		value = getenv(lexer->varname);
+		shell->lex.varname = ft_substr(start, 0, shell->lex.len);
+		value = getenv(shell->lex.varname);
 		if (value)
-			lexer_add_token(lexer, TOKEN_VAR, ft_strdup(value), shell);
+			lexer_add_token(TOKEN_VAR, ft_strdup(value), shell);
 		else
-			lexer_add_token(lexer, TOKEN_VAR, ft_strdup(""), shell);
-		free(lexer->varname);
+			lexer_add_token(TOKEN_VAR, ft_strdup(""), shell);
+		free(shell->lex.varname);
 	}
-	lexer->cursor += lexer->len;
-	lexer->varname = NULL;
+	shell->lex.cursor += shell->lex.len;
+	shell->lex.varname = NULL;
 }

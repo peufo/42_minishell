@@ -12,60 +12,67 @@
 
 #include "minishell.h"
 
-void	lexer_process_status(t_lexer *lexer, char *start, t_sh *shell)
+void	lexer_process_status(char *start, t_sh *shell)
 {
 	pid_t	status;
 
 	debug(shell, "\n INTO PROCESS STATUS \n");
-	while (ft_isalnum(start[lexer->len]) || start[lexer->len] == '?')
-		lexer->len++;
-	if (lexer->len > 0)
+	while (ft_isalnum(start[shell->lex.len]) || start[shell->lex.len] == '?')
+		shell->lex.len++;
+	if (shell->lex.len > 0)
 	{
-		lexer->varname = ft_substr(start, 0, lexer->len);
-		status = get_the_pid(lexer->varname);
-		free(lexer->varname);
+		shell->lex.varname = ft_substr(start, 0, shell->lex.len);
+		status = get_the_pid(shell->lex.varname);
+		free(shell->lex.varname);
 		if (status)
 		{
-			lexer->varname = ft_itoa(status);
-			lexer_add_token(lexer, TOKEN_VAR_STATUS, lexer->varname, shell);
-			free(lexer->varname);
+			shell->lex.varname = ft_itoa(status);
+			lexer_add_token(TOKEN_VAR_STATUS, shell->lex.varname, shell);
+			free(shell->lex.varname);
 		}
 		else
-			lexer_add_token(lexer, TOKEN_VAR_STATUS, ft_strdup("0"), shell);
+			lexer_add_token(TOKEN_VAR_STATUS, ft_strdup("0"), shell);
 	}
-	lexer->cursor += lexer->len;
+	shell->lex.cursor += shell->lex.len;
 }
 
-void	lexer_skip_whitespace(t_lexer *lexer, t_sh *shell)
+void	lexer_skip_whitespace(t_sh *shell)
 {
 	debug(shell, "\n INTO SKIP SPACE \n");
-	while (*lexer->cursor && ft_isspace(*lexer->cursor))
-		lexer->cursor++;
+	while (*shell->lex.cursor && ft_isspace(*shell->lex.cursor))
+		shell->lex.cursor++;
 }
 
-void	lexer_skip_comment(t_lexer *lexer, t_sh *shell)
+void	lexer_skip_comment(t_sh *shell)
 {
 	debug(shell, "\n INTO SKIP COMMENT \n");
-	if (*lexer->cursor == '#')
+	if (*shell->lex.cursor == '#')
 	{
-		while (*lexer->cursor)
-			lexer->cursor++;
+		while (*shell->lex.cursor)
+			shell->lex.cursor++;
 	}
 }
 
-void	lexer_add_token(t_lexer *lexer, char *type, char *value, t_sh *shell)
+void	lexer_add_token(char *type, char *value, t_sh *shell)
 {
-	debug(shell, "\n INTO ADD_TOKEN \n");
-	if (lexer->nbt >= 100)
+	int	size;
+
+	size = ft_strlen(shell->line);
+	debug_tokenisation(shell, type, value);
+	if (shell->lex.nbt >= size)
 		return (throw_error("token limit exceeded\n", __FILE__, __LINE__));
-	if (!lexer->toktypes)
-		lexer->toktypes = malloc(100 * sizeof(char *));
-	if (!lexer->toks)
-		lexer->toks = malloc(100 * sizeof(char *));
-	lexer->toktypes[lexer->nbt] = ft_strdup(type);
-	ft_memcpy(lexer->toks, value, (size_t)ft_strlen(value));
+	if (!shell->lex.toks)
+		shell->lex.toks = malloc(size * sizeof(char *));
+	if (!shell->lex.toks)
+		return (throw_error("malloc problem in :\n", __FILE__, __LINE__));
+	shell->lex.toks[shell->lex.nbt] = ft_strdup(value);
+	shell->lex.nbt++;
+	free(value);
 }
 	/*
+		shell->lex.toktypes[shell->lex.nbt] = ft_strdup(type);
+
+
 	t_token	*token;
 
 	token = ft_calloc(1, sizeof(t_token));
@@ -86,18 +93,17 @@ void	lex_free(t_sh *shell)
 	int	dcount;
 
 	dcount = 0;
-	if (!shell->lexer.toks || !shell->lexer.toktypes)
+	debug(shell, "hello i'm in lexfree\n");
+	if (!shell->lex.toks)
 		return (debug(shell, "No lexer to free\n"));
-	while (dcount < shell->lexer.nbt)
-		free(shell->lexer.toks[dcount++]);
-	free(shell->lexer.toks);
-	dcount = 0;
-	while (dcount < shell->lexer.nbt)
-		free(shell->lexer.toktypes[dcount++]);
-	free(shell->lexer.toktypes);
-	shell->lexer.toks = NULL;
-	shell->lexer.toktypes = NULL;
-	shell->lexer.nbt = 0;
+	debug(shell, "lexfree1\n");
+	while (dcount < shell->lex.nbt)
+		free(shell->lex.toks[dcount++]);
+	debug(shell, "lexfree2\n");
+	free(shell->lex.toks);
+	debug(shell, "lexfree5\n");
+	shell->lex.toks = NULL;
+	shell->lex.nbt = 0;
 }
 /*t_list	*current;
 	t_list	*next;
