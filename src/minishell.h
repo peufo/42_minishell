@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/04 19:12:01 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/04 19:51:39 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 # include "input/get_next_line.h"
 # include "utils/string.h"
 # include "utils/string_array.h"
-# include "constants.h"
 
 typedef union u_pipe
 {
@@ -52,6 +51,9 @@ typedef struct s_sh		t_sh;
 void	input_read(t_sh *shell);
 
 // LEXER =======================================================================
+
+# define CHARSET_META "|&;()<> \t\n"
+# define CHARSET_META_VISIBLE "|&;()<>"
 
 typedef enum e_lexer_state
 {
