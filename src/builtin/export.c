@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/04 21:58:17 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/05 00:11:26 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,14 @@ static int	find_index(char *str, char c)
 	return (-1);
 }
 
-static void	env_set(t_sh *shell, char *key, char *value)
-{
-	char	**existing_value;
-
-	existing_value = string_array_find_start_with(shell->env, key);
-	if (existing_value)
-	{
-		free(*existing_value);
-		*existing_value = value;
-		return ;
-	}
-	string_array_push(&shell->env, value);
-}
-
 int	builtin_export(t_sh *shell)
 {
 	char	*value;
 	char	*arg;
 	int		equal_index;
 
+	if (!shell->ast.args->next)
+		return (0);
 	arg = (char *)shell->ast.args->next->content;
 	if (!arg)
 		return (0);
@@ -53,7 +41,7 @@ int	builtin_export(t_sh *shell)
 	value = ft_strdup(arg);
 	if (!value)
 		return (1);
-	arg[equal_index + 1] = '\0';
+	arg[equal_index] = '\0';
 	env_set(shell, arg, value);
 	return (0);
 }
