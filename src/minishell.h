@@ -111,7 +111,7 @@ typedef enum e_ast_op
 
 struct s_ast
 {
-	t_lexer			data;
+	char			**toks;
 	t_list			*args;
 	struct s_ast	*left;
 	struct s_ast	*right;

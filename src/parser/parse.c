@@ -58,33 +58,6 @@ static int	pars_process_tokens(t_ast *data, t_sh *shell)
 		pars_split_and_node(ast, shell, &stack);
 	}
 	return (0);
-}
-
-static void	debug_tokens(t_sh *shell)
-{
-	t_list	*current;
-	t_token	*token;
-
-	current = shell->lexer.tokens;
-	debug(shell, "\nTokens received:\n");
-	while (current)
-	{
-		token = (t_token *)current->content;
-		if (token && token->value)
-		{
-			debug_arr(shell, (char *[]){
-				"[",
-				token->type,
-				"] -> ",
-				token->value,
-				"\n",
-				NULL
-			});
-		}
-		else
-			printf("- [NULL or invalid token]\n");
-		current = current->next;
-	}
 }*/
 
 static void	debug_tokens(t_sh *shell)
@@ -98,6 +71,7 @@ void	parse(t_sh *shell)
 	if (!shell)
 		return (throw_error("No tokens received", __FILE__, __LINE__));
 	debug_tokens(shell);
+	shell->ast.toks = shell->lex.toks;
 	shell->ast.left = NULL;
 	shell->ast.right = NULL;
 	return ;

@@ -67,6 +67,7 @@ void	lexer_add_token(char *type, char *value, t_sh *shell)
 		return (throw_error("malloc problem in :\n", __FILE__, __LINE__));
 	shell->lex.toks[shell->lex.nbt] = ft_strdup(value);
 	shell->lex.nbt++;
+	shell->lex.toks[shell->lex.nbt] = NULL;
 	free(value);
 }
 	/*
