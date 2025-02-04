@@ -18,7 +18,7 @@ int	builtin_echo(t_sh *shell)
 	t_list	*args;
 	bool	new_line;
 
-	args = shell->ast.args;
+	args = (t_list *)shell->ast.toks[0];
 	if (!args)
 		return (1);
 	arg = args->next;

@@ -15,7 +15,7 @@
 static void	debug_ast(t_sh *shell)
 {
 	debug(shell, "\ncmd:");
-	debug(shell, ((t_token *)shell->ast.args->content)->value);
+	debug(shell, shell->ast.toks[0]);
 	debug(shell, "\n");
 }
 
@@ -25,7 +25,7 @@ int	executor(t_sh *shell)
 
 	return (0);
 	debug_ast(shell);
-	builtin = get_builtin(((t_token *)shell->ast.args->content)->value);
+	builtin = get_builtin((shell->ast.toks[0]));
 	if (builtin)
 		return (builtin(shell));
 	debug(shell, "TODO: exec command\n");

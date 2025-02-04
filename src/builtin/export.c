@@ -44,7 +44,7 @@ int	builtin_export(t_sh *shell)
 	char	*arg;
 	int		equal_index;
 
-	arg = (char *)shell->ast.args->next->content;
+	arg = shell->ast.toks[0];
 	if (!arg)
 		return (0);
 	equal_index = find_index(arg, '=');

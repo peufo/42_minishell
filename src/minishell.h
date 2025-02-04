@@ -53,6 +53,20 @@ void	input_read(t_sh *shell);
 
 // LEXER =======================================================================
 
+typedef enum s_ttype
+{
+	P_PAR_OPEN,
+	P_PAR_CLOSED,
+	P_LESS,
+	P_DLESS,
+	P_DGREAT,
+	P_GREAT,
+	P_AND,
+	P_OR,
+	P_PIPE,
+	P_WORD
+}	t_ttype;
+
 typedef struct s_token
 {
 	char		*value;
@@ -112,7 +126,8 @@ typedef enum e_ast_op
 struct s_ast
 {
 	char			**toks;
-	t_list			*args;
+	int				*types;
+	t_list			*nodes;
 	struct s_ast	*left;
 	struct s_ast	*right;
 	t_ast_type		type;
@@ -126,15 +141,15 @@ void	parse_free(t_sh *shell);
 void	look_for_special_commands(t_sh *shell); /*a deplacer in fine dans 
 													une section builtin speciale 
 													(exemple : exitshell)*/
-int		pars_find_next_operator(t_ast *ast, t_sh *shell);
-void	pars_context_type(t_ast *ast, t_sh *shell);
-void	pars_parse_command(t_ast *ast, t_sh *shell);
+int		pars_find_next_operator(t_sh *shell);
+void	pars_context_type(t_sh *shell);
+void	pars_parse_command(t_sh *shell);
 
-int		pars_get_type(int type, t_sh *shell);
+int		pars_get_type(t_sh *shell, char *tok);
 int		pars_get_op(char *type, t_sh *shell);
 int		pars_get_dir(int type, t_sh *shell);
-int		pars_get_position(t_ast *ast, t_list *elements, t_sh *shell);
-void	pars_split_lr(t_ast *ast, t_ast *left, t_ast *right, t_sh *shell);
+int		pars_get_position(t_list *elements, t_sh *shell);
+void	pars_split_lr(t_ast *left, t_ast *right, t_sh *shell);
 
 // EXEC ========================================================================
 

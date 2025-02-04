@@ -14,10 +14,16 @@
 
 void	parse_free(t_sh *shell)
 {
-	(void)shell;
+	if (shell->ast.types)
+	{
+		free(shell->ast.types);
+		shell->ast.types = NULL;
+		debug(shell, "types freed\n");
+	}
+	debug(shell, "parse was freed\n");
 }
 /*
-static void	pars_split_and_node(t_ast *ast, t_sh *shell, t_list **stack)
+static void	pars_split_and_node(t_sh *shell, t_list **stack)
 {
 	pars_split_lr(ast, ast->left, ast->right);
 	debug_arr(shell, (char *[]){
@@ -31,7 +37,7 @@ static void	pars_split_and_node(t_ast *ast, t_sh *shell, t_list **stack)
 	ft_lstadd_front(stack, ft_lstnew(ast->left));
 }
 
-static int	pars_process_tokens(t_ast *data, t_sh *shell)
+static int	pars_process_tokens(t_sh *shell)
 {
 	t_list	*stack;
 	t_list	*node;
@@ -62,20 +68,63 @@ static int	pars_process_tokens(t_ast *data, t_sh *shell)
 
 static void	debug_tokens(t_sh *shell)
 {
-	(void)shell;
+	int			i;
+	int			j;
+	int			type;
+	static char	*names[] = {
+		"PAR_OPEN", "PAR_CLOSED", "LESS", "DLESS", "DGREAT",
+		"GREAT", "AND", "OR", "PIPELINE", "WORD"
+	};
+
+	j = 0;
+	while (shell->ast.types[j] != -1)
+	{
+		i = 0;
+		type = shell->ast.types[i++];
+		debug_arr(shell, (char *[]){
+			"token type is : ",
+			names[type],
+			"\n",
+			NULL
+		});
+		j++;
+	}
+}
+
+static void	type_tokens(t_sh *shell)
+{
+	int	i;
+
+	i = 0;
+	while (shell->lex.toks[i])
+		i++;
+	shell->ast.types = malloc((i + 1) * sizeof(int));
+	if (!shell->ast.types)
+		return (throw_error("Transfer of tokens failed in :",
+				__FILE__, __LINE__));
+	i = 0;
+	while (shell->lex.toks[i])
+	{
+		shell->ast.types[i] = pars_get_type(shell, shell->lex.toks[i]);
+		i++;
+	}
+	shell->ast.types[i] = -1;
 }
 
 void	parse(t_sh *shell)
 {
-	if (!shell)
+	if (!shell->lex.toks)
 		return (throw_error("No tokens received", __FILE__, __LINE__));
+	type_tokens(shell);
 	debug_tokens(shell);
+	return (lex_free(shell));
 	shell->ast.toks = shell->lex.toks;
 	shell->ast.left = NULL;
 	shell->ast.right = NULL;
+	parse_free(shell);
 	return (debug(shell, "hello"));
-	if (ft_lstsize(shell->ast.args) == 1)
-		return (throw_error("WTF", __FILE__, __LINE__));
 }
-/*	pars_process_tokens(&shell->ast, shell);
+/*	if (ft_lstsize(shell->ast.args) == 1)
+		return (throw_error("WTF", __FILE__, __LINE__));
+	pars_process_tokens(&shell->ast, shell);
 }*/
