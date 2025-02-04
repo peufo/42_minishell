@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:05:13 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/22 17:06:19 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/04 20:09:08 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ void	string_array_free(char ***arr)
 char	**string_array_dup(char **arr)
 {
 	char	**dup;
+	int		arr_len;
 	int		i;
 
 	if (!arr)
 		return (NULL);
-	dup = ft_calloc(string_array_len(arr) + 1, sizeof(*arr));
+	arr_len = string_array_len(arr);
+	dup = ft_calloc(arr_len + 1, sizeof(*arr));
 	if (!dup)
 		return (NULL);
 	i = 0;
@@ -59,20 +61,16 @@ char	**string_array_dup(char **arr)
 void	string_array_push(char ***arr, char *str)
 {
 	char	**dup;
-	int		i;
+	int		arr_len;
 
 	if (!str)
 		return ;
-	dup = ft_calloc(string_array_len(*arr) + 2, sizeof(**arr));
+	arr_len = string_array_len(*arr);
+	dup = ft_calloc(arr_len + 2, sizeof(**arr));
 	if (!dup)
 		return ;
-	i = 0;
-	while ((*arr)[i])
-	{
-		dup[i] = (*arr)[i];
-		i++;
-	}
-	dup[i] = str;
+	ft_memcpy(dup, *arr, arr_len * sizeof(**arr));
+	dup[arr_len] = str;
 	free(*arr);
 	*arr = dup;
 }
