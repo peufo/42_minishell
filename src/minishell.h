@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/04 19:51:39 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/04 21:15:58 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ int		builtin_export(t_sh *shell);
 int		builtin_unset(t_sh *shell);
 int		builtin_env(t_sh *shell);
 int		builtin_exit(t_sh *shell);
+char	*get_env(t_sh *shell, char *varname);
 
 // UTILS  =====================================================================
 void	debug(t_sh *shell, char *str);
