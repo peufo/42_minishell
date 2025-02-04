@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 17:36:49 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:35:31 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ static void	pars_process_tokens(t_ast *ast, t_sh *shell)
 			"ast_type -> [",
 			ft_itoa(ast->type),
 			"]\nfor token indexed at -> [",
-			ft_itoa(index)
+			ft_itoa(index),
+			"]\n",
+			NULL
 		});
-		debug(shell, "]\n");
 		index++;
 	}
 }

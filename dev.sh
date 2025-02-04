@@ -7,6 +7,7 @@ LEAKS_CHECK=true
 OUTPUT_FILE="log/test.log"
 
 mkdir log
+make fclean
 
 if [ $(uname) = "Linux" ]; then
 	LEAKS_CMD="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=log/leaks.log -s"
