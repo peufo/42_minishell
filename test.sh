@@ -9,6 +9,7 @@ echo 8  I LOVE " $LO"
 echo 9  I LOVE "$LO"
 echo 10 I LOVE "$"
 echo 11 I LOVE '$'
+echo 11 I LOVE $
 echo 12 I LOVE "$LOVED"
 export LOVED="MONTAIN AND $HOME"
 echo "14 I LOVE $LOVED"

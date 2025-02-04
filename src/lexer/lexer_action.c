@@ -17,15 +17,6 @@ static void	lexer_action_next_char(t_sh *shell)
 	shell->lexer.cursor++;
 }
 
-static void	lexer_action_preserv_dollar(t_sh *shell)
-{
-	if (shell->lexer.varname.value)
-		return (lexer_action_expand_var(shell));
-	string_push_char(&shell->lexer.token, '$');
-	shell->lexer.cursor++;
-	return ;
-}
-
 void	lexer_action_skip_blank(t_sh *shell)
 {
 	char	**cursor;
@@ -55,10 +46,10 @@ void	lexer_action(t_sh *shell, t_lexer_state next_state)
 	t_lexer_action_handler			handler;
 	static t_lexer_action_handler	handlers[][8] = {
 	[LEXER_INIT][LEXER_DEFAULT] = lexer_action_skip_blank,
-	[LEXER_VAR][LEXER_DQUOTE] = lexer_action_preserv_dollar,
+	[LEXER_VAR][LEXER_DQUOTE] = lexer_action_expand_var,
 	[LEXER_VAR][LEXER_QUOTE] = lexer_action_expand_var,
 	[LEXER_VAR_DQUOTE][LEXER_DQUOTE] = lexer_action_expand_var,
-	[LEXER_VAR_DQUOTE][LEXER_DEFAULT] = lexer_action_preserv_dollar,
+	[LEXER_VAR_DQUOTE][LEXER_DEFAULT] = lexer_action_expand_var,
 	[LEXER_DEFAULT][LEXER_QUOTE] = lexer_action_ensure_token,
 	[LEXER_DEFAULT][LEXER_DQUOTE] = lexer_action_ensure_token,
 	[LEXER_DEFAULT][LEXER_META] = lexer_action_end_token,

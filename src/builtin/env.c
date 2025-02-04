@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:15:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 00:07:30 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/05 00:31:02 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,3 @@ void	env_unset(t_sh *shell, char *varname)
 		return ;
 	string_array_delete(shell->env, *arr_ptr);
 }
-
-

@@ -6,13 +6,13 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:13:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/04 23:47:36 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/05 00:38:33 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	lexer_action_expand_var(t_sh *shell)
+static void	expand_var(t_sh *shell)
 {
 	char	*value;
 
@@ -20,6 +20,16 @@ void	lexer_action_expand_var(t_sh *shell)
 	string_free(&shell->lexer.varname);
 	if (value)
 		string_push_str(&shell->lexer.token, value);
+}
+
+void	lexer_action_expand_var(t_sh *shell)
+{
+	if (!shell->lexer.varname.value)
+		string_push_str(&shell->lexer.token, "$");
+	else if (!ft_strcmp(shell->lexer.varname.value, "?"))
+		string_push_str(&shell->lexer.token, "TODO: EXIT_STATUS");
+	else
+		expand_var(shell);
 	shell->lexer.cursor++;
 }
 
