@@ -6,13 +6,13 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 19:21:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/22 14:30:20 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/04 18:26:56 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "string.h"
 
-static t_string_result	string_ensure_malloc(t_string *string)
+static t_string_result	string_ensure_malloc(t_string *string, int needed_space)
 {
 	char	*new;
 
@@ -24,7 +24,7 @@ static t_string_result	string_ensure_malloc(t_string *string)
 		string->len = STRING_INITAL_LEN;
 		return (STRING_SUCCESS);
 	}
-	if (string->value[string->len - 2])
+	while (string->value[string->len - needed_space - 1])
 	{
 		new = ft_calloc(string->len * 2, 1);
 		if (!new)
@@ -37,11 +37,19 @@ static t_string_result	string_ensure_malloc(t_string *string)
 	return (STRING_SUCCESS);
 }
 
-t_string_result	string_push(t_string *string, char c)
+t_string_result	string_push_char(t_string *string, char c)
 {
-	if (string_ensure_malloc(string))
+	if (string_ensure_malloc(string, 1))
 		return (STRING_ERROR);
 	ft_strlcat(string->value, (char []){c, '\0'}, string->len);
+	return (STRING_SUCCESS);
+}
+
+t_string_result	string_push_str(t_string *string, char *str)
+{
+	if (string_ensure_malloc(string, ft_strlen(str)))
+		return (STRING_ERROR);
+	ft_strlcat(string->value, str, string->len);
 	return (STRING_SUCCESS);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 17:31:49 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/04 19:12:01 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,53 +53,58 @@ void	input_read(t_sh *shell);
 
 // LEXER =======================================================================
 
-typedef struct s_token
+typedef enum e_lexer_state
 {
-	char		*value;
-	char		*type;
-}	t_token;
+	LEXER_NO_STATE,
+	LEXER_INIT,
+	LEXER_DEFAULT,
+	LEXER_META,
+	LEXER_QUOTE,
+	LEXER_DQUOTE,
+	LEXER_VAR,
+	LEXER_VAR_DQUOTE,
+}	t_lexer_state;
 
 struct s_lexer
 {
-	int				state;
-	int				index;
-	char			*cursor;
-	t_token			token;
-	char			*varname;
-	t_list			*tokens;
-	t_list			*starters;
-	size_t			len;
+	t_lexer_state		state;
+	char				*cursor;
+	t_string			token;
+	t_string			varname;
+	t_list				*tokens;
 };
 
+typedef struct e_lexer_next_state
+{
+	t_lexer_state	state;
+	char			*charset;
+	t_lexer_state	next_state;
+}	t_lexer_next_state;
+
 typedef void			(*t_lexer_state_handler)(t_sh *);
-typedef void			(*t_lexer_transition_handler)(t_sh *);
+typedef void			(*t_lexer_action_handler)(t_sh *);
 
 void	lex(t_sh *shell);
 void	lex_free(t_sh *shell);
-int		check_string(char *input);
-pid_t	get_the_pid(char *process);
-int		check_double(t_lexer *lexer, char c);
-void	lexer_add_token(t_lexer *lexer, char *type, char *value);
-void	lexer_skip_whitespace(t_lexer *lexer);
-void	lexer_skip_comment(t_lexer *lexer);
-void	lexer_process_word(t_lexer *lexer);
-void	lexer_process_variable(t_lexer *lexer);
-void	lexer_process_double_quote(t_lexer *lexer);
-void	lexer_process_single_quote(t_lexer *lexer);
-void	lexer_process_status(t_lexer *lexer, char *start);
+void	lexer_state(t_sh *shell);
+void	lexer_action(t_sh *shell, t_lexer_state next_state);
+void	lexer_action_end_token(t_sh *shell);
+void	lexer_action_expand_var(t_sh *shell);
+void	lexer_action_expand_var_end_token(t_sh *shell);
+void	lexer_action_skip_blank(t_sh *shell);
 
 // PARSER ====================================================================
 
-typedef enum e_ast_type
+typedef enum e_atype
 {
 	AST_SCRIPT,
 	AST_COMMAND,
 	AST_PIPELINE,
 	AST_LOGICAL,
 	AST_REDIRECT,
-}	t_ast_type;
+}	t_atype;
 
-typedef enum e_ast_op
+typedef enum e_aop
 {
 	AST_OP_AND,
 	AST_OP_OR,
@@ -108,34 +113,25 @@ typedef enum e_ast_op
 	AST_OP_LESS,
 	AST_OP_DLESS,
 	AST_OP_NULL
-}	t_ast_op;
+}	t_aop;
 
 struct s_ast
 {
-	t_list		*args;
-	t_ast		*command;
-	t_ast		*suffix;
-	t_ast		*left;
-	t_ast		*right;
-	t_ast_type	type;
-	t_ast_op	op;
-	t_pipe		dir;
-	int			cursor;
+	t_list	*args;
+	t_ast	*command;
+	t_ast	*suffix;
+	t_ast	*left;
+	t_ast	*right;
+	t_atype	type;
+	t_aop	op;
+	t_pipe	dir;
+	int		cursor;
 };
 
 void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
-void	look_for_special_commands(t_sh *shell); /*a deplacer in fine dans 
-													une section builtin speciale 
-													(exemple : exitshell)*/
-void	pars_find_next_operator(t_ast *ast);
-void	pars_context_type(t_ast *ast);
-void	pars_parse_command(t_ast *ast);
-
-int		pars_get_type(int type);
-int		pars_get_op(char *type);
-int		pars_get_dir(int type);
-void	pars_get_position(t_ast *ast, t_list *elements);
+t_atype	parse_get_ast_type(char *token);
+t_aop	parse_get_ast_op(char *token);
 
 // EXEC ========================================================================
 
@@ -182,10 +178,13 @@ int		builtin_exit(t_sh *shell);
 void	debug(t_sh *shell, char *str);
 void	debug_arr(t_sh *shell, char **arr);
 void	throw_error(char *error, char *file, int line);
-
-// LIB PLUS ====================================================================
-
 int		ft_isspace(char c);
 char	*ft_cut(char *from, char *to);
+bool	ft_include(char *str, char c);
+
+// DEBUG ====================================================================
+void	debug_input(t_sh *shell);
+void	debug_tokens(t_sh *shell);
+void	debug_ast(t_sh *shell);
 
 #endif

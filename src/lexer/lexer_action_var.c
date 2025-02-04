@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib_plus_ft.c                                      :+:      :+:    :+:   */
+/*   lexer_action_var.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 12:20:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/04 19:26:17 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/02/04 18:13:28 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/02/04 19:27:46 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_isspace(char c)
+void	lexer_action_expand_var(t_sh *shell)
 {
-	if ((c >= 9 && c <= 13) || c == 32)
-		return (1);
-	return (0);
+	char	*value;
+
+	value = getenv(shell->lexer.varname.value);
+	string_free(&shell->lexer.varname);
+	if (value)
+		string_push_str(&shell->lexer.token, value);
+	shell->lexer.cursor++;
 }
 
-char	*ft_cut(char *from, char *to)
+void	lexer_action_expand_var_end_token(t_sh *shell)
 {
-	return (ft_substr(from, 0, to - from));
-}
-
-bool	ft_include(char *str, char c)
-{
-	while (*str)
-		if (*(str++) == c)
-			return (true);
-	return (false);
+	lexer_action_expand_var(shell);
+	lexer_action_end_token(shell);
 }

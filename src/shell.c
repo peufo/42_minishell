@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/04 15:33:30 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/04 16:31:55 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,11 @@ void	shell_exec(t_sh *shell)
 		input_read(shell);
 		if (!shell->line || !*shell->line)
 			break ;
-		debug_arr(shell, (char *[]){
-			"============\n",
-			"INPUT: ",
-			shell->line,
-			NULL
-		});
+		debug_input(shell);
 		lex(shell);
+		debug_tokens(shell);
 		parse(shell);
+		debug_ast(shell);
 		executor(shell);
 	}
 	shell_exit(shell);
