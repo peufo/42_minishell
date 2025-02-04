@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:05:13 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/04 20:09:08 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/04 21:40:07 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	string_array_len(char **arr)
 {
-	int	index;
+	int	len;
 
-	index = 0;
-	while (arr[index])
-		index++;
-	return (index + 1);
+	len = 0;
+	while (arr[len])
+		len++;
+	return (len);
 }
 
 void	string_array_free(char ***arr)
