@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:10:39 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 17:43:10 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/04 16:11:00 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int	builtin_echo(t_sh *shell)
 	if (!arg)
 		new_line = true;
 	else
-		new_line = ft_strcmp(((t_token *)arg->content)->value, "-n");
+		new_line = ft_strcmp(arg->content, "-n");
 	if (!new_line)
 		arg = arg->next;
 	while (arg)
 	{
-		ft_putstr_fd(((t_token *)arg->content)->value, shell->pipe.out);
+		ft_putstr_fd(arg->content, shell->pipe.out);
 		if (arg->next && arg->next->content)
 			ft_putstr_fd(" ", shell->pipe.out);
 		arg = arg->next;

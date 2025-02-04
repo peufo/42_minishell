@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constants.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:20:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 15:31:17 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/04 19:14:33 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 ////////////////////////////////////////
 // -----======== TOKENS ========----- //
 ////////////////////////////////////////
+
+# define CHARSET_META "|&;()<> \t\n"
+# define CHARSET_META_VISIBLE "|&;()<>"
 
 # define TOKEN_GROUP_REDIRECT "<><<>>"
 # define TOKEN_GROUP_LOGICAL "&&||"
