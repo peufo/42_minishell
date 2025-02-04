@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-int	pars_get_type(int op)
+int	pars_get_type(int op, t_sh *shell)
 {
+	(void)shell;
 	if (op == AST_OP_AND || op == AST_OP_OR)
 		return (AST_LOGICAL);
 	if (op == AST_OP_DGREAT || op == AST_OP_DLESS
@@ -22,7 +23,7 @@ int	pars_get_type(int op)
 	return (AST_COMMAND);
 }
 
-int	pars_get_op(char *type)
+int	pars_get_op(char *type, t_sh *shell)
 {
 	int			i;
 	static char	*find[] = {
@@ -35,6 +36,7 @@ int	pars_get_op(char *type)
 		NULL
 	};
 
+	(void)shell;
 	i = 0;
 	while (find[i])
 	{
@@ -45,16 +47,18 @@ int	pars_get_op(char *type)
 	return (AST_OP_NULL);
 }
 
-int	pars_get_dir(int type)
+int	pars_get_dir(int type, t_sh *shell)
 {
+	(void)shell;
 	(void)type;
 	return (0);
 }
 
-int	pars_get_position(t_ast *ast, t_list *elements)
+int	pars_get_position(t_ast *ast, t_list *elements, t_sh *shell)
 {
 	int	i;
 
+	(void)shell;
 	i = 0;
 	while (i < ast->cursor)
 	{

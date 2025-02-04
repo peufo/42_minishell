@@ -64,10 +64,10 @@ struct s_lexer
 	int				state;
 	int				index;
 	char			*cursor;
-	t_token			token;
 	char			*varname;
-	t_list			*tokens;
-	t_list			*starters;
+	char			**toks;
+	char			**toktypes;
+	int				nbt;
 	size_t			len;
 };
 
@@ -79,14 +79,14 @@ void	lex_free(t_sh *shell);
 int		check_string(char *input);
 pid_t	get_the_pid(char *process);
 int		check_double(t_lexer *lexer, char c);
-void	lexer_add_token(t_lexer *lexer, char *type, char *value);
-void	lexer_skip_whitespace(t_lexer *lexer);
-void	lexer_skip_comment(t_lexer *lexer);
-void	lexer_process_word(t_lexer *lexer);
-void	lexer_process_variable(t_lexer *lexer);
-void	lexer_process_double_quote(t_lexer *lexer);
-void	lexer_process_single_quote(t_lexer *lexer);
-void	lexer_process_status(t_lexer *lexer, char *start);
+void	lexer_add_token(t_lexer *lexer, char *type, char *value, t_sh *shell);
+void	lexer_skip_whitespace(t_lexer *lexer, t_sh *shell);
+void	lexer_skip_comment(t_lexer *lexer, t_sh *shell);
+void	lexer_process_word(t_lexer *lexer, t_sh *shell);
+void	lexer_process_variable(t_lexer *lexer, t_sh *shell);
+void	lexer_process_double_quote(t_lexer *lexer, t_sh *shell);
+void	lexer_process_single_quote(t_lexer *lexer, t_sh *shell);
+void	lexer_process_status(t_lexer *lexer, char *start, t_sh *shell);
 
 // PARSER ====================================================================
 
@@ -126,15 +126,15 @@ void	parse_free(t_sh *shell);
 void	look_for_special_commands(t_sh *shell); /*a deplacer in fine dans 
 													une section builtin speciale 
 													(exemple : exitshell)*/
-int		pars_find_next_operator(t_ast *ast);
-void	pars_context_type(t_ast *ast);
-void	pars_parse_command(t_ast *ast);
+int		pars_find_next_operator(t_ast *ast, t_sh *shell);
+void	pars_context_type(t_ast *ast, t_sh *shell);
+void	pars_parse_command(t_ast *ast, t_sh *shell);
 
-int		pars_get_type(int type);
-int		pars_get_op(char *type);
-int		pars_get_dir(int type);
-int		pars_get_position(t_ast *ast, t_list *elements);
-void	pars_split_lr(t_ast *ast, t_ast *left, t_ast *right);
+int		pars_get_type(int type, t_sh *shell);
+int		pars_get_op(char *type, t_sh *shell);
+int		pars_get_dir(int type, t_sh *shell);
+int		pars_get_position(t_ast *ast, t_list *elements, t_sh *shell);
+void	pars_split_lr(t_ast *ast, t_ast *left, t_ast *right, t_sh *shell);
 
 // EXEC ========================================================================
 

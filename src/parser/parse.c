@@ -16,7 +16,7 @@ void	parse_free(t_sh *shell)
 {
 	(void)shell;
 }
-
+/*
 static void	pars_split_and_node(t_ast *ast, t_sh *shell, t_list **stack)
 {
 	pars_split_lr(ast, ast->left, ast->right);
@@ -37,6 +37,7 @@ static int	pars_process_tokens(t_ast *data, t_sh *shell)
 	t_list	*node;
 	t_ast	*ast;
 
+	debug(shell, "PROCESSING TOKENS");
 	stack = NULL;
 	ft_lstadd_front(&stack, ft_lstnew(data));
 	while (stack)
@@ -84,17 +85,23 @@ static void	debug_tokens(t_sh *shell)
 			printf("- [NULL or invalid token]\n");
 		current = current->next;
 	}
+}*/
+
+static void	debug_tokens(t_sh *shell)
+{
+	(void)shell;
 }
 
 void	parse(t_sh *shell)
 {
-	if (!shell || !shell->lexer.tokens)
+	return ;
+	if (!shell)
 		return (throw_error("No tokens received", __FILE__, __LINE__));
 	debug_tokens(shell);
-	shell->ast.args = shell->lexer.tokens;
 	shell->ast.left = NULL;
 	shell->ast.right = NULL;
 	if (ft_lstsize(shell->ast.args) == 1)
 		return (throw_error("WTF", __FILE__, __LINE__));
-	pars_process_tokens(&shell->ast, shell);
 }
+/*	pars_process_tokens(&shell->ast, shell);
+}*/

@@ -23,6 +23,7 @@ int	executor(t_sh *shell)
 {
 	t_bfunc	builtin;
 
+	return (0);
 	debug_ast(shell);
 	builtin = get_builtin(((t_token *)shell->ast.args->content)->value);
 	if (builtin)

@@ -12,19 +12,20 @@
 
 #include "minishell.h"
 
-int	pars_find_next_operator(t_ast *ast)
+int	pars_find_next_operator(t_ast *ast, t_sh *shell)
 {
 	int		index;
 	t_list	*node;
 	t_token	*token;
 
+	debug(shell, "FINDING NEXT OPERATOR\n");
 	index = 0;
 	node = ast->args;
 	while (node)
 	{
 		token = (t_token *)node->content;
 		if (token)
-			ast->op = pars_get_op(token->type);
+			ast->op = pars_get_op(token->type, shell);
 		if (ast->op != AST_OP_NULL)
 			return (index);
 		node = node->next;
@@ -33,11 +34,12 @@ int	pars_find_next_operator(t_ast *ast)
 	return (-1);
 }
 
-void	pars_split_lr(t_ast *ast, t_ast *left, t_ast *right)
+void	pars_split_lr(t_ast *ast, t_ast *left, t_ast *right, t_sh *shell)
 {
 	int		index;
 	t_list	*ast_node;
 
+	debug(shell, "SPLITING LEFT AND RIGHT");
 	index = 0;
 	left->args = NULL;
 	right->args = NULL;
@@ -57,7 +59,8 @@ void	pars_split_lr(t_ast *ast, t_ast *left, t_ast *right)
 	}
 }
 
-void	pars_parse_command(t_ast *ast)
+void	pars_parse_command(t_ast *ast, t_sh *shell)
 {
 	(void)ast;
+	(void)shell;
 }

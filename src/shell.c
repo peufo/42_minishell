@@ -47,8 +47,11 @@ void	shell_exec(t_sh *shell)
 			break ;
 		debug_arr(shell, (char *[]){"INPUT: ", shell->line, NULL});
 		lex(shell);
+		debug(shell, "\n\nLEXER PASSED\n\n");
 		parse(shell);
+		debug(shell, "\n\nPARSE PASSED\n\n");
 		executor(shell);
+		debug(shell, "\n\nEXECUTOR PASSED\n\n");
 	}
 	shell_exit(shell);
 }
@@ -56,8 +59,11 @@ void	shell_exec(t_sh *shell)
 void	shell_exit(t_sh *shell)
 {
 	shell_free(shell);
+	debug(shell, "\n\nSHELL FREE PASSED\n\n");
 	lex_free(shell);
+	debug(shell, "\n\nLEXER FREE PASSED\n\n");
 	parse_free(shell);
+	debug(shell, "\n\nPARSER FREE PASSED\n\n");
 	debug(shell, "\n[ CLEAN EXIT OK ]\n");
 	close(shell->debug_fd);
 	if (!errno)
