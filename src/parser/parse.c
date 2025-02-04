@@ -17,9 +17,9 @@ void	parse_free(t_sh *shell)
 	(void)shell;
 }
 
-static void	pars_split_and_node(t_ast *ast, t_ast *ast_element, t_sh *shell)
+static void	pars_split_and_node(t_ast *ast, t_sh *shell, t_list **stack)
 {
-	pars_split_lr(ast_element, ast_element->left, ast_element->right);
+	pars_split_lr(ast, ast->left, ast->right);
 	debug_arr(shell, (char *[]){
 		"ast_type -> [",
 		ft_itoa(ast->type),
@@ -27,32 +27,34 @@ static void	pars_split_and_node(t_ast *ast, t_ast *ast_element, t_sh *shell)
 		ft_itoa(ast->cursor)
 	});
 	debug(shell, "]\n");
-	ft_lstadd_front(&ast_element, ft_lstnew(ast_element->right));
-	ft_lstadd_front(&ast_element, ft_lstnew(ast_element->left));
+	ft_lstadd_front(stack, ft_lstnew(ast->right));
+	ft_lstadd_front(stack, ft_lstnew(ast->left));
 }
 
-static int	pars_process_tokens(t_ast *ast, t_sh *shell)
+static int	pars_process_tokens(t_ast *data, t_sh *shell)
 {
-	t_list	*tokens;
-	t_ast	*ast_element;
+	t_list	*stack;
+	t_list	*node;
+	t_ast	*ast;
 
-	tokens = NULL;
-	ft_lstadd_front(&tokens, ft_lstnew(ast));
-	while (tokens)
+	stack = NULL;
+	ft_lstadd_front(&stack, ft_lstnew(data));
+	while (stack)
 	{
-		ast_element = (t_list *)tokens->content;
-		ft_lstremove_front(&tokens);
+		node = stack;
+		ast = (t_ast *)node->content;
+		stack = stack->next;
+		free(node);
 		ast->cursor = pars_find_next_operator(ast);
 		if (ast->cursor == -1)
-			ast_element->type = AST_COMMAND;
-		ast_element->type = pars_get_type(ast->op);
-		ast_element->left = malloc(sizeof(t_ast));
-		if (!ast_element->left)
-			return (throw_error("malloc in :", __FILE__, __LINE__), 0);
-		ast_element->right = malloc(sizeof(t_ast));
-		if (!ast_element->right)
-			return (throw_error("malloc in :", __FILE__, __LINE__), 0);
-		pars_split_and_node(ast, ast_element, shell);
+			ast->type = AST_COMMAND;
+		ast->left->args = NULL;
+		ast->right->args = NULL;
+		ast->left->left = NULL;
+		ast->right->right = NULL;
+		ast->right->left = NULL;
+		ast->left->right = NULL;
+		pars_split_and_node(ast, shell, &stack);
 	}
 	return (0);
 }
