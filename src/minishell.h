@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/04 23:49:05 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/05 01:13:48 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	input_read(t_sh *shell);
 typedef enum e_lexer_state
 {
 	LEXER_NO_STATE,
-	LEXER_INIT,
 	LEXER_DEFAULT,
 	LEXER_META,
 	LEXER_QUOTE,

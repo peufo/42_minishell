@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/04 23:14:15 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/05 01:14:49 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ void	lex(t_sh *shell)
 	t_lexer_state	next_state;
 
 	lex_free(shell);
-	shell->lexer.state = LEXER_INIT;
+	shell->lexer.state = LEXER_DEFAULT;
 	shell->lexer.cursor = shell->line;
-	lexer_action(shell, LEXER_DEFAULT);
+	lexer_action_skip_blank(shell);
 	while (*(shell->lexer.cursor))
 	{
 		next_state = get_next_state(shell);
@@ -66,7 +66,7 @@ void	lex(t_sh *shell)
 		else
 			lexer_state(shell);
 	}
-	lexer_action(shell, LEXER_DEFAULT);
+	lexer_action(shell, LEXER_META);
 }
 
 void	lex_free(t_sh *shell)
