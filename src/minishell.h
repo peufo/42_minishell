@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 01:13:48 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/05 01:29:23 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ struct s_sh
 	char		*name;
 	char		*line;
 	char		**env;
+	char		*cwd;
 	t_pipe		pipe;
 	bool		is_running;
 	bool		is_interactive;
@@ -179,15 +180,13 @@ void	env_set(t_sh *shell, char *key, char *value);
 char	*env_get(t_sh *shell, char *varname);
 void	env_unset(t_sh *shell, char *varname);
 
-// UTILS  =====================================================================
+// UTILS =======================================================================
 void	debug(t_sh *shell, char *str);
 void	debug_arr(t_sh *shell, char **arr);
 void	throw_error(char *error, char *file, int line);
-int		ft_isspace(char c);
-char	*ft_cut(char *from, char *to);
 bool	ft_include(char *str, char c);
 
-// DEBUG ====================================================================
+// DEBUG =======================================================================
 void	debug_input(t_sh *shell);
 void	debug_tokens(t_sh *shell);
 void	debug_ast(t_sh *shell);
