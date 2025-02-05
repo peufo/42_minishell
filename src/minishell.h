@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 01:29:23 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/05 01:47:04 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ void	debug(t_sh *shell, char *str);
 void	debug_arr(t_sh *shell, char **arr);
 void	throw_error(char *error, char *file, int line);
 bool	ft_include(char *str, char c);
+bool	ft_startwith(char *str, char *start);
 
 // DEBUG =======================================================================
 void	debug_input(t_sh *shell);
