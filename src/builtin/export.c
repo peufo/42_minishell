@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 00:11:26 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:56:02 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ int	builtin_export(t_sh *shell)
 	char	*arg;
 	int		equal_index;
 
-	if (!shell->ast.args->next)
-		return (0);
-	arg = (char *)shell->ast.args->next->content;
+	arg = shell->ast.args[1];
 	if (!arg)
 		return (0);
 	equal_index = find_index(arg, '=');
