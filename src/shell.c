@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 01:31:23 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:34:59 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	shell_exec(t_sh *shell)
 	while (shell->is_running)
 	{
 		input_read(shell);
-		if (!shell->line || !*shell->line)
+		if (!shell->line)
 			break ;
 		debug_input(shell);
 		lex(shell);
