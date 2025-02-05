@@ -45,7 +45,6 @@ void	lexer_action(t_sh *shell, t_lexer_state next_state)
 {
 	t_lexer_action_handler			handler;
 	static t_lexer_action_handler	handlers[][8] = {
-	[LEXER_INIT][LEXER_DEFAULT] = lexer_action_skip_blank,
 	[LEXER_VAR][LEXER_DQUOTE] = lexer_action_expand_var,
 	[LEXER_VAR][LEXER_QUOTE] = lexer_action_expand_var,
 	[LEXER_VAR_DQUOTE][LEXER_DQUOTE] = lexer_action_expand_var,
