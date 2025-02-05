@@ -1,3 +1,4 @@
+
 echo "Salut $USER"
 echo "Salut Jonas"
 echo "Salut Alex"
