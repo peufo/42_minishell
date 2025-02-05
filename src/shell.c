@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/04 16:31:55 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/05 01:31:23 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	shell_free(t_sh *shell)
 	}
 	if (!shell->is_interactive && shell->pipe.in != -1)
 		close(shell->pipe.in);
+	free(shell->cwd);
 	string_array_free(&shell->env);
 }
 
@@ -30,8 +31,9 @@ void	shell_init(t_sh *shell, char **env)
 	shell->name = "minishell";
 	shell->pipe.in = STDIN_FILENO;
 	shell->pipe.out = STDOUT_FILENO;
+	shell->cwd = getcwd(NULL, 0);
 	shell->env = string_array_dup(env);
-	if (!shell->env)
+	if (!shell->env || !shell->cwd)
 		return (shell_exit(shell));
 }
 
