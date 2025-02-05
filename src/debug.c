@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:27:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/04 17:50:00 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:03:48 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,24 @@
 
 void	debug_tokens(t_sh *shell)
 {
-	t_list	*current;
-	char	*token;
+	char	**tokens;
 
-	current = shell->lexer.tokens;
-	debug(shell, "\nTokens received:\n");
-	while (current)
+	tokens = shell->lexer.tokens;
+	if (!tokens)
 	{
-		token = current->content;
+		debug(shell, "NO TOKENS\n");
+		return ;
+	}
+	debug(shell, "\nTOKENS:\n");
+	while (*tokens)
+	{
 		debug_arr(shell, (char *[]){
 			"[",
-			token,
+			*tokens,
 			"]\n",
 			NULL
 		});
-		current = current->next;
+		tokens++;
 	}
 }
 

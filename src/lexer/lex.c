@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 01:14:49 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:58:08 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,5 @@ void	lex_free(t_sh *shell)
 {
 	string_free(&shell->lexer.token);
 	string_free(&shell->lexer.varname);
-	ft_lstclear(&shell->lexer.tokens, free);
+	string_array_free(&shell->lexer.tokens);
 }

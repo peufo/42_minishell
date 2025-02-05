@@ -30,7 +30,7 @@ void	lexer_action_end_token(t_sh *shell)
 {
 	if (!shell->lexer.token.value)
 		return ;
-	ft_lstadd_back(&shell->lexer.tokens, ft_lstnew(shell->lexer.token.value));
+	string_array_push(&shell->lexer.tokens, shell->lexer.token.value);
 	shell->lexer.token.value = NULL;
 	lexer_action_skip_blank(shell);
 }

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:05:13 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/04 23:26:35 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:07:25 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	string_array_len(char **arr)
 	int	len;
 
 	len = 0;
+	if (!arr)
+		return (0);
 	while (arr[len])
 		len++;
 	return (len);
@@ -69,9 +71,11 @@ void	string_array_push(char ***arr, char *str)
 	dup = ft_calloc(arr_len + 2, sizeof(**arr));
 	if (!dup)
 		return ;
-	ft_memcpy(dup, *arr, arr_len * sizeof(**arr));
+	if (*arr)
+		ft_memcpy(dup, *arr, arr_len * sizeof(**arr));
 	dup[arr_len] = str;
-	free(*arr);
+	if (*arr)
+		free(*arr);
 	*arr = dup;
 }
 

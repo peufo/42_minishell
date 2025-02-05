@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 01:47:04 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:46:35 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ struct s_lexer
 	char				*cursor;
 	t_string			token;
 	t_string			varname;
-	t_list				*tokens;
+	char				**tokens;
 };
 
 typedef struct e_lexer_next_state
@@ -118,7 +118,7 @@ typedef enum e_aop
 
 struct s_ast
 {
-	t_list	*args;
+	char	**args;
 	t_ast	*command;
 	t_ast	*suffix;
 	t_ast	*left;
