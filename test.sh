@@ -2,7 +2,12 @@ echo "Salut $USER"
 echo "Salut Jonas"
 echo "Salut Alex"
 echo Y'O '$LOGNAME" "comment"$"va ?
-pwd asd
+cd /etc/../home
+pwd
+cd
+pwd
+cd 42/../42/../../$LOGNAME
+pwd
 echo 5 I LOVE ''
 echo 6 I LOVE ""
 export LOVED
