@@ -119,6 +119,7 @@ typedef enum e_aop
 
 struct s_ast
 {
+	int				log;
 	char			**args;
 	t_atype			type;
 	t_aop			op;
@@ -138,6 +139,7 @@ t_ast	pars_handle_processes(char **tokens, t_sh *shell, int type);
 t_ast	parse_node_ast(t_atype type, t_aop op, t_ast *left, t_ast *right);
 void	free_ast(t_ast *node);
 int		pars_get_type(char *tok);
+int		parse_toks_len(char **toks);
 
 // EXEC ========================================================================
 

@@ -12,60 +12,19 @@
 
 #include "minishell.h"
 
+static void	pars_end_check(t_sh *shell)
+{
+	if (shell->ast.log == 0)
+		shell->ast.type = AST_COMMAND;
+	if (!ft_strncmp(shell->lexer.tokens[0], "exitshell",
+			ft_strlen(shell->lexer.tokens[0])))
+		shell_exit(shell);
+}
+
 void	parse_free(t_sh *shell)
 {
 	(void)shell;
 	debug(shell, "Freeing AST ???\n");
-}
-
-t_ast   parse_logical(char **tokens)
-{
-	t_aop	op;
-    t_ast	left;
-    t_ast   right;
-    t_ast   origin;
-
-    left = parse_commands(tokens);
-    origin = left;
-    while (*tokens && check_gates(tokens))
-	{
-		op = AST_OP_NULL;
-		if (!ft_strncmp(*tokens, "&&", ft_strlen(*tokens)))
-			op = AST_OP_AND;
-		else if (!ft_strncmp(*tokens, "||", ft_strlen(*tokens)))
-			op = AST_OP_OR;
-		tokens++;
-		right = parse_commands(tokens);
-		origin = parse_node_ast(AST_LOGICAL, op, &left, &right);
-	}
-	return (origin);
-}
-
-t_ast   parse_commands(char **tokens)
-{
-    t_ast	node;
-	
-	node.type = AST_COMMAND;
-	node.args = parse_collector(tokens);
-	return (node);
-}
-
-t_ast	parse_pipeline(char **tokens)
-{
-	t_ast	left;
-	t_ast	right;
-	t_ast	origin;
-
-	left = parse_logical(tokens);
-	origin = left;
-	while (*tokens && ft_strncmp(*tokens, "|", ft_strlen(*tokens)))
-	{
-		tokens++;
-		right = parse_logical(tokens);
-		origin = parse_node_ast(AST_PIPELINE, AST_OP_NULL, &left, &right);
-		left = origin;
-	}
-	return (origin);
 }
 
 t_ast	pars_handle_processes(char **tokens, t_sh *shell, int type)
@@ -112,8 +71,6 @@ void	parse(t_sh *shell)
 		return ;
 	}
 	args = shell->lexer.tokens;
-	shell->ast.type = AST_SCRIPT;
-	shell->ast.args = shell->lexer.tokens;
 	type = pars_get_type(*shell->lexer.tokens);
 	while (args)
 	{
@@ -122,10 +79,12 @@ void	parse(t_sh *shell)
 		else if (type == AST_REDIRECT || type == AST_LOGICAL)
 		{
 			shell->ast = pars_handle_processes(args, shell, type);
+			shell->ast.log++;
 			args++;
 		}
 		else if (type == AST_END)
 			break ;
 		type = pars_get_type(*args);
 	}
+	pars_end_check(shell);
 }
