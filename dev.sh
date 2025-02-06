@@ -29,7 +29,7 @@ watch() {
 			clear
 			info "───────── $(date) ─────────"
 			sync_sources
-			norminette_pretty $SRC_DIR
+#			norminette_pretty $SRC_DIR
 			
 			rm -f "$PROG"
 			make

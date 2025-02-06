@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 14:34:59 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:33:10 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ void	shell_exec(t_sh *shell)
 	shell->is_interactive = isatty(shell->pipe.in);
 	errno = false;
 	shell->is_running = true;
+	debug(shell, "INIT SHELL AT : ");
+	debug(shell, __TIME__);
+	debug(shell, "\n\n");
 	while (shell->is_running)
 	{
 		input_read(shell);
