@@ -49,7 +49,7 @@ t_ast   parse_commands(char **tokens)
 	return (node);
 }
 
-t_ast	parse_pipeline(char **tokens, t_sh *shell)
+t_ast	parse_pipeline(char **tokens)
 {
 	t_ast	left;
 	t_ast	right;
@@ -63,9 +63,26 @@ t_ast	parse_pipeline(char **tokens, t_sh *shell)
 		right = parse_logical(tokens);
 		origin = parse_node_ast(AST_PIPELINE, AST_OP_NULL, &left, &right);
 		left = origin;
-		debug_node(shell, &origin);
 	}
 	return (origin);
+}
+
+t_ast	pars_handle_processes(char **tokens, t_sh *shell)
+{
+	int		type;
+	t_ast	node;
+
+	type = pars_get_type(*tokens);
+	if (type == AST_REDIRECT)
+		node = parse_redirection(tokens);
+	else if (type == AST_PIPELINE)
+		node = parse_pipeline(tokens);
+	else if (type == AST_LOGICAL)
+		node = parse_logical(tokens);
+	else
+		node = parse_commands(tokens);
+	debug_node(shell, &node);
+	return (node);
 }
 
 void	parse(t_sh *shell)
@@ -77,5 +94,5 @@ void	parse(t_sh *shell)
 	}
 	shell->ast.type = AST_COMMAND;
 	shell->ast.args = shell->lexer.tokens;
-	shell->ast = parse_pipeline(shell->lexer.tokens, shell);
+	shell->ast = pars_handle_processes(shell->lexer.tokens, shell);
 }
