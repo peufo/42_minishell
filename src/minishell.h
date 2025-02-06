@@ -103,6 +103,7 @@ typedef enum e_atype
 	AST_PIPELINE,
 	AST_LOGICAL,
 	AST_REDIRECT,
+	AST_END,
 }	t_atype;
 
 typedef enum e_aop
@@ -133,7 +134,7 @@ t_ast	parse_logical(char **tokens);
 t_ast	parse_commands(char **tokens);
 t_ast	parse_pipeline(char **tokens);
 t_ast   parse_redirection(char **toks);
-t_ast	pars_handle_processes(char **tokens, t_sh *shell);
+t_ast	pars_handle_processes(char **tokens, t_sh *shell, int type);
 t_ast	parse_node_ast(t_atype type, t_aop op, t_ast *left, t_ast *right);
 void	free_ast(t_ast *node);
 int		pars_get_type(char *tok);
