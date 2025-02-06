@@ -118,21 +118,22 @@ typedef enum e_aop
 
 struct s_ast
 {
-	char	**args;
-	t_ast	*command;
-	t_ast	*suffix;
-	t_ast	*left;
-	t_ast	*right;
-	t_atype	type;
-	t_aop	op;
-	t_pipe	dir;
-	int		cursor;
+	char			**args;
+	t_atype			type;
+	t_aop			op;
+	struct s_ast	*left;
+	struct s_ast	*right;
 };
 
 void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
-t_atype	parse_get_ast_type(char *token);
-t_aop	parse_get_ast_op(char *token);
+int		check_gates(char **toks);
+char	**parse_collector(char **toks);
+t_ast	parse_logical(char **tokens);
+t_ast	parse_commands(char **tokens);
+t_ast	parse_pipeline(char **tokens, t_sh *shell);
+t_ast	parse_node_ast(t_atype type, t_aop op, t_ast *left, t_ast *right);
+void	free_ast(t_ast *node);
 
 // EXEC ========================================================================
 
@@ -186,10 +187,12 @@ void	debug_arr(t_sh *shell, char **arr);
 void	throw_error(char *error, char *file, int line);
 bool	ft_include(char *str, char c);
 bool	ft_startwith(char *str, char *start);
+int		ft_isop(char *str);
 
 // DEBUG =======================================================================
 void	debug_input(t_sh *shell);
 void	debug_tokens(t_sh *shell);
 void	debug_ast(t_sh *shell);
+void    debug_node(t_sh *shell, t_ast *node);
 
 #endif
