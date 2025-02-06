@@ -15,6 +15,7 @@
 void	parse_free(t_sh *shell)
 {
 	(void)shell;
+	debug(shell, "Freeing AST ???\n");
 }
 
 t_ast   parse_logical(char **tokens)
@@ -74,14 +75,30 @@ t_ast	pars_handle_processes(char **tokens, t_sh *shell)
 
 	type = pars_get_type(*tokens);
 	if (type == AST_REDIRECT)
+	{
+		debug(shell, "\nREDIRECTION WAS PARSED\n");
 		node = parse_redirection(tokens);
+	}
 	else if (type == AST_PIPELINE)
+	{
+		debug(shell, "\nPIPELINE WAS PARSED\n");
 		node = parse_pipeline(tokens);
+	}
 	else if (type == AST_LOGICAL)
+	{
+		debug(shell, "\nLOGICAL WAS PARSED\n");
 		node = parse_logical(tokens);
+	}
 	else
+	{
+		debug(shell, "\nCOMMAND WAS PARSED\n");
 		node = parse_commands(tokens);
+	}
+	debug(shell, "DEFINE TYPE :");
+	debug(shell, ft_itoa(type));
+	debug(shell, "\n\n");
 	debug_node(shell, &node);
+	debug(shell, "well...\n");
 	return (node);
 }
 
@@ -92,7 +109,7 @@ void	parse(t_sh *shell)
 		shell->ast.args = NULL;
 		return ;
 	}
-	shell->ast.type = AST_COMMAND;
+	shell->ast.type = AST_SCRIPT;
 	shell->ast.args = shell->lexer.tokens;
 	shell->ast = pars_handle_processes(shell->lexer.tokens, shell);
 }
