@@ -23,7 +23,9 @@ int pars_get_type(char *tok)
         "<",
         "<<",
         ">>",
-        ">"
+        ">",
+        "abc",
+        "efg"
     };
 
     i = 0;
@@ -33,7 +35,7 @@ int pars_get_type(char *tok)
         return (AST_LOGICAL);
     else if (i == 2)
         return (AST_PIPELINE);
-    else if (i <= 6)
+    else if (i <= 5)
         return (AST_REDIRECT);
     else
         return (AST_COMMAND);
