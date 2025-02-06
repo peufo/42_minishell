@@ -24,8 +24,7 @@ int pars_get_type(char *tok)
         "<<",
         ">>",
         ">",
-        "abc",
-        "efg"
+        "abc"
     };
 
     i = 0;

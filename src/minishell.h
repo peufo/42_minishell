@@ -134,7 +134,7 @@ char	**parse_collector(char **toks);
 t_ast	parse_logical(char **tokens);
 t_ast	parse_commands(char **tokens);
 t_ast	parse_pipeline(char **tokens);
-t_ast   parse_redirection(char **toks);
+t_ast	parse_redirection(char **toks);
 t_ast	pars_handle_processes(char **tokens, t_sh *shell, int type);
 t_ast	parse_node_ast(t_atype type, t_aop op, t_ast *left, t_ast *right);
 void	free_ast(t_ast *node);
@@ -199,6 +199,6 @@ int		ft_isop(char *str);
 void	debug_input(t_sh *shell);
 void	debug_tokens(t_sh *shell);
 void	debug_ast(t_sh *shell);
-void    debug_node(t_sh *shell, t_ast *node);
+void	debug_node(t_sh *shell, t_ast *node);
 
 #endif
