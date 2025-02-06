@@ -29,3 +29,26 @@ bool	ft_startwith(char *str, char *start)
 		return (false);
 	return (true);
 }
+
+int	ft_isop(char *str)
+{
+	int			i;
+	static char	*ops[] = {
+		"&&",
+		"||",
+		"<<",
+		">>",
+		"<",
+		">",
+		"|",
+		"abc",
+		"efg"
+	};
+
+	i = 0;
+	while (ft_strncmp(ops[i], str, ft_strlen(str)) && i < 8)
+		i++;
+	if (i >= 6)
+		return (1);
+	return (0);
+}
