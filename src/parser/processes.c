@@ -19,6 +19,7 @@ void    free_ast(t_ast *node)
         free_ast(node->right);
     free(node);
 }
+
 static int  parse_toks_len(char **toks)
 {
     int size;
@@ -60,4 +61,25 @@ t_ast   parse_node_ast(t_atype type, t_aop op, t_ast *left, t_ast *right)
     node.right = right;
     node.args = NULL;
     return (node);
+}
+
+t_ast   parse_redirection(char **toks)
+{
+    t_aop   op;
+    t_ast   left;
+    t_ast   right;
+
+    op = AST_OP_NULL;
+    left = parse_commands(toks);
+    if (ft_strncmp(*toks, ">>", ft_strlen(*toks)))
+        op = AST_OP_DGREAT;
+    else if (ft_strncmp(*toks, ">", ft_strlen(*toks)))
+        op = AST_OP_GREAT;
+    else if (ft_strncmp(*toks, ">>", ft_strlen(*toks)))
+        op = AST_OP_DLESS;
+    else if (ft_strncmp(*toks, ">>", ft_strlen(*toks)))
+        op = AST_OP_LESS;
+    toks++;
+    right = parse_commands(toks);
+    return (parse_node_ast(AST_REDIRECT, op, &left, &right));
 }

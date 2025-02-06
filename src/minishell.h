@@ -131,9 +131,12 @@ int		check_gates(char **toks);
 char	**parse_collector(char **toks);
 t_ast	parse_logical(char **tokens);
 t_ast	parse_commands(char **tokens);
-t_ast	parse_pipeline(char **tokens, t_sh *shell);
+t_ast	parse_pipeline(char **tokens);
+t_ast   parse_redirection(char **toks);
+t_ast	pars_handle_processes(char **tokens, t_sh *shell);
 t_ast	parse_node_ast(t_atype type, t_aop op, t_ast *left, t_ast *right);
 void	free_ast(t_ast *node);
+int		pars_get_type(char *tok);
 
 // EXEC ========================================================================
 

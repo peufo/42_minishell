@@ -1,1 +1,4 @@
-echo "Hey, regarde les oiseaux"
+echo "salut Jonas"
+echo "salut $USER"
+
+echo "hello" >> x
