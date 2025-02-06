@@ -33,21 +33,18 @@ int  parse_toks_len(char **toks)
 char    **parse_collector(char **toks, t_sh *shell)
 {
     int     i;
-    int     tsize;
-    char    **args;
+    int     type;
+    int     next_type;
+    char    **ntoks;
 
     i = 0;
-    tsize = parse_toks_len(toks);
-    args = malloc(tsize * sizeof(char *));
-    if (!args)
-        return (throw_error("Mallocs in :", __FILE__, __LINE__), NULL);
-    while (*toks && !ft_isop(*toks) && ft_strncmp(*toks, ")",
-            ft_strlen(*toks)))
+    while (toks[i] && toks[i + 1])
     {
-        args[i++] = *toks;
-        toks++;
-        debug(shell, "COLLECTING\n");
+        type = pars_get_type(toks[i]);
+        next_type = pars_get_type(toks[i + 1]);
+        if (type == AST_COMMAND && next_type == AST_COMMAND)
+            ntoks[shell->ast.log++] = unite_family(toks[i], toks[i + 1]);
+        i++;
     }
-    args[i] = NULL;
-    return (args);
+    return (ntoks);
 }

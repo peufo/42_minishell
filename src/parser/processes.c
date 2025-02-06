@@ -12,73 +12,64 @@ t_ast   parse_node_ast(t_atype type, t_aop op, t_ast *left, t_ast *right)
     return (node);
 }
 
-t_ast   parse_redirection(char **toks, t_sh *shell)
+t_ast   *parse_node_redirection(char **toks, t_sh *shell)
 {
-    t_aop   op;
-    t_ast   left;
-    t_ast   right;
+    t_ast   *node;
 
-    op = AST_OP_NULL;
-    left = parse_commands(toks, shell);
+    node->args = NULL;
+    node->type = AST_OP_NULL;
+    node->left = parse_commands(toks, shell);
     if (ft_strncmp(*toks, ">>", ft_strlen(*toks)))
-        op = AST_OP_DGREAT;
+        node->type = AST_OP_DGREAT;
     else if (ft_strncmp(*toks, ">", ft_strlen(*toks)))
-        op = AST_OP_GREAT;
+        node->type = AST_OP_GREAT;
     else if (ft_strncmp(*toks, "<<", ft_strlen(*toks)))
-        op = AST_OP_DLESS;
+        node->type = AST_OP_DLESS;
     else if (ft_strncmp(*toks, "<", ft_strlen(*toks)))
-        op = AST_OP_LESS;
+        node->type = AST_OP_LESS;
     toks++;
-    right = parse_commands(toks, shell);
-    return (parse_node_ast(AST_REDIRECT, op, &left, &right));
+    node->right = parse_commands(toks, shell);
+    return (node);
 }
 
-t_ast   parse_commands(char **tokens, t_sh *shell)
+t_ast   *parse_node_commands(char **tokens, t_sh *shell)
 {
-    t_ast	node;
-	
-	node.type = AST_COMMAND;
-	node.args = parse_collector(tokens, shell);
+    t_ast	*node;
+    char    *word;
+    int     current_type;
+
+	node->type = AST_COMMAND;
+    ft_memmove(word, *tokens, (size_t)ft_strlen(tokens));
+    current_type = pars_get_type(*tokens);
+	while (current_type == AST_COMMAND)
+    {
+        word = ft_strjoin(word, *tokens);
+        tokens++;
+        current_type = pars_get_type(*tokens);
+    }
+    ft_memmove(node->args, word, (size_t)ft_strlen(word));
+    shell->ast.log++;
+    node->left = NULL;
+    node->right = NULL;
 	return (node);
 }
 
-t_ast	parse_pipeline(char **tokens, t_sh *shell)
+t_ast	*parse_node_pipeline(char **tokens, t_sh *shell)
 {
-	t_ast	left;
-	t_ast	right;
-	t_ast	origin;
+    t_ast   *node;
 
-	left = parse_logical(tokens, shell);
-	origin = left;
-	while (*tokens && ft_strncmp(*tokens, "|", ft_strlen(*tokens)))
-	{
-		tokens++;
-		right = parse_logical(tokens, shell);
-		origin = parse_node_ast(AST_PIPELINE, AST_OP_NULL, &left, &right);
-		left = origin;
-	}
-	return (origin);
+    debug(shell, "Entering node pipe \n");
+    debug(shell, *tokens);
+    node = NULL;
+    return (node);
 }
 
-t_ast   parse_logical(char **tokens, t_sh *shell)
+t_ast   *parse_node_logical(char **tokens, t_sh *shell)
 {
-	t_aop	op;
-    t_ast	left;
-    t_ast   right;
-    t_ast   origin;
+    t_ast   *node;
 
-    left = parse_commands(tokens, shell);
-    origin = left;
-    while (*tokens && check_gates(tokens))
-	{
-		op = AST_OP_NULL;
-		if (!ft_strncmp(*tokens, "&&", ft_strlen(*tokens)))
-			op = AST_OP_AND;
-		else if (!ft_strncmp(*tokens, "||", ft_strlen(*tokens)))
-			op = AST_OP_OR;
-		tokens++;
-		right = parse_commands(tokens, shell);
-		origin = parse_node_ast(AST_LOGICAL, op, &left, &right);
-	}
-	return (origin);
+    debuf(shell, "Entering node logical \n");
+    debug(shell, *tokens);
+    node = NULL;
+    return (node);
 }
