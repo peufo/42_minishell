@@ -44,32 +44,27 @@ int pars_get_type(char *tok)
 
 static void debug_right_part(t_sh *shell, t_ast *node)
 {
-    return ;
     if (node->left)
     {
         debug(shell, "[RIGHT SUBTREE]\n");
-        debug_node(shell, node);
+        debug_node(shell, node->right, 1);
     }
-    (void)node;
 }
 
 static void debug_left_part(t_sh *shell, t_ast *node)
 {
-    return ;
     if (node->left)
     {
         debug(shell, "[LEFT SUBTREE]\n");
-        debug_node(shell, node);
+        debug_node(shell, node->left, 1);
     }
-    (void)node;
 }
 
-void    debug_node(t_sh *shell, t_ast *node)
+void    debug_node(t_sh *shell, t_ast *node, int call)
 {
     int i;
 
     i = 0;
-    debug(shell, "NEW NODE\n");
     debug(shell, "TYPE IS :\n");
     if (node->type == AST_COMMAND)
     {
@@ -88,7 +83,10 @@ void    debug_node(t_sh *shell, t_ast *node)
         else
             debug(shell, "[OR]\n");
     }
-    debug_left_part(shell, node);
-    debug_right_part(shell, node);
+    if (call == 0)
+    {
+        debug_left_part(shell, node);
+        debug_right_part(shell, node);
+    }
     debug(shell, "\n\n");
 }

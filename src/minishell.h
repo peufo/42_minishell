@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 14:46:35 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:59:01 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,14 +127,20 @@ struct s_ast
 	struct s_ast	*right;
 };
 
+typedef struct s_NodeStack
+{
+	t_ast	*ast;
+	struct s_NodeStack	*next;	
+}	s_nstack;
+
 void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
 int		check_gates(char **toks);
-char	**parse_collector(char **toks);
-t_ast	parse_logical(char **tokens);
-t_ast	parse_commands(char **tokens);
-t_ast	parse_pipeline(char **tokens);
-t_ast	parse_redirection(char **toks);
+char	**parse_collector(char **toks, t_sh *shell);
+t_ast	parse_logical(char **tokens, t_sh *shell);
+t_ast	parse_commands(char **tokens, t_sh *shell);
+t_ast	parse_pipeline(char **tokens, t_sh *shell);
+t_ast	parse_redirection(char **toks, t_sh *shell);
 t_ast	pars_handle_processes(char **tokens, t_sh *shell, int type);
 t_ast	parse_node_ast(t_atype type, t_aop op, t_ast *left, t_ast *right);
 void	free_ast(t_ast *node);
@@ -158,6 +164,7 @@ struct s_sh
 	bool		is_interactive;
 	t_lexer		lexer;
 	t_ast		ast;
+	t_list		cmd;
 	int			debug_fd;
 };
 
@@ -199,6 +206,6 @@ int		ft_isop(char *str);
 void	debug_input(t_sh *shell);
 void	debug_tokens(t_sh *shell);
 void	debug_ast(t_sh *shell);
-void	debug_node(t_sh *shell, t_ast *node);
+void	debug_node(t_sh *shell, t_ast *node, int call);
 
 #endif

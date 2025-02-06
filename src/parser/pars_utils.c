@@ -30,7 +30,7 @@ int  parse_toks_len(char **toks)
     return (size);
 }
 
-char    **parse_collector(char **toks)
+char    **parse_collector(char **toks, t_sh *shell)
 {
     int     i;
     int     tsize;
@@ -46,6 +46,7 @@ char    **parse_collector(char **toks)
     {
         args[i++] = *toks;
         toks++;
+        debug(shell, "COLLECTING\n");
     }
     args[i] = NULL;
     return (args);

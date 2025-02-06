@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:27:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 15:03:48 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:14:08 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,5 @@ void	debug_input(t_sh *shell)
 
 void	debug_ast(t_sh *shell)
 {
-	debug(shell, "\nAST: ");
-	debug(shell, "TODO");
 	debug(shell, "\n");
 }
