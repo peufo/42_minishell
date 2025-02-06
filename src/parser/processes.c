@@ -1,56 +1,5 @@
 #include "minishell.h"
 
-void    free_ast(t_ast *node)
-{
-    int i;
-
-    if (!node)
-        return ;
-    i = 0;
-    if (node->args)
-    {
-        while (node->args[i])
-            free(node->args[i++]);
-        free(node->args);
-    }
-    if (node->left)
-        free_ast(node->left);
-    if (node->right != NULL)
-        free_ast(node->right);
-    free(node);
-}
-
-static int  parse_toks_len(char **toks)
-{
-    int size;
-
-    size = 0;
-    while (toks[size])
-        size++;
-    return (size);
-}
-
-char    **parse_collector(char **toks)
-{
-    int     i;
-    int     tsize;
-    char    **args;
-
-    i = 0;
-    tsize = parse_toks_len(toks);
-    args = malloc(tsize * sizeof(char *));
-    if (!args)
-        return (throw_error("Mallocs in :", __FILE__, __LINE__), NULL);
-    while (*toks && !ft_isop(*toks) && ft_strncmp(*toks, ")",
-            ft_strlen(*toks)))
-    {
-        args[i++] = *toks;
-        toks++;
-    }
-    args[i] = NULL;
-    return (args);
-}
-
 t_ast   parse_node_ast(t_atype type, t_aop op, t_ast *left, t_ast *right)
 {
     t_ast   node;
@@ -82,4 +31,54 @@ t_ast   parse_redirection(char **toks)
     toks++;
     right = parse_commands(toks);
     return (parse_node_ast(AST_REDIRECT, op, &left, &right));
+}
+
+t_ast   parse_commands(char **tokens)
+{
+    t_ast	node;
+	
+	node.type = AST_COMMAND;
+	node.args = parse_collector(tokens);
+	return (node);
+}
+
+t_ast	parse_pipeline(char **tokens)
+{
+	t_ast	left;
+	t_ast	right;
+	t_ast	origin;
+
+	left = parse_logical(tokens);
+	origin = left;
+	while (*tokens && ft_strncmp(*tokens, "|", ft_strlen(*tokens)))
+	{
+		tokens++;
+		right = parse_logical(tokens);
+		origin = parse_node_ast(AST_PIPELINE, AST_OP_NULL, &left, &right);
+		left = origin;
+	}
+	return (origin);
+}
+
+t_ast   parse_logical(char **tokens)
+{
+	t_aop	op;
+    t_ast	left;
+    t_ast   right;
+    t_ast   origin;
+
+    left = parse_commands(tokens);
+    origin = left;
+    while (*tokens && check_gates(tokens))
+	{
+		op = AST_OP_NULL;
+		if (!ft_strncmp(*tokens, "&&", ft_strlen(*tokens)))
+			op = AST_OP_AND;
+		else if (!ft_strncmp(*tokens, "||", ft_strlen(*tokens)))
+			op = AST_OP_OR;
+		tokens++;
+		right = parse_commands(tokens);
+		origin = parse_node_ast(AST_LOGICAL, op, &left, &right);
+	}
+	return (origin);
 }
