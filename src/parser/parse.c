@@ -68,12 +68,10 @@ t_ast	parse_pipeline(char **tokens)
 	return (origin);
 }
 
-t_ast	pars_handle_processes(char **tokens, t_sh *shell)
+t_ast	pars_handle_processes(char **tokens, t_sh *shell, int type)
 {
-	int		type;
 	t_ast	node;
 
-	type = pars_get_type(*tokens);
 	if (type == AST_REDIRECT)
 	{
 		debug(shell, "\nREDIRECTION WAS PARSED\n");
@@ -94,6 +92,7 @@ t_ast	pars_handle_processes(char **tokens, t_sh *shell)
 		debug(shell, "\nCOMMAND WAS PARSED\n");
 		node = parse_commands(tokens);
 	}
+
 	debug(shell, "DEFINE TYPE :");
 	debug(shell, ft_itoa(type));
 	debug(shell, "\n\n");
@@ -104,12 +103,29 @@ t_ast	pars_handle_processes(char **tokens, t_sh *shell)
 
 void	parse(t_sh *shell)
 {
+	int		type;
+	char	**args;
+
 	if (!shell->lexer.tokens)
 	{
 		shell->ast.args = NULL;
 		return ;
 	}
+	args = shell->lexer.tokens;
 	shell->ast.type = AST_SCRIPT;
 	shell->ast.args = shell->lexer.tokens;
-	shell->ast = pars_handle_processes(shell->lexer.tokens, shell);
+	type = pars_get_type(*shell->lexer.tokens);
+	while (args)
+	{
+		if (type == AST_COMMAND)
+			args++;
+		else if (type == AST_REDIRECT || type == AST_LOGICAL)
+		{
+			shell->ast = pars_handle_processes(args, shell, type);
+			args++;
+		}
+		else if (type == AST_END)
+			break ;
+		type = pars_get_type(*args);
+	}
 }

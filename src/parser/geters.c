@@ -29,6 +29,8 @@ int pars_get_type(char *tok)
     };
 
     i = 0;
+    if (tok == NULL)
+        return (AST_END);
     while (ft_strncmp(find[i], tok, ft_strlen(tok)) && i < 6)
         i++;
     if (i <= 1)
