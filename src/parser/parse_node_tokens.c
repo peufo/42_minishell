@@ -4,6 +4,7 @@ t_ast   *parse_node_command(char *token)
 {
     t_ast	*node;
 
+    printf("\n into node command \n ");
     node = NULL;
 	node->type = AST_COMMAND;
     node->left = NULL;
@@ -16,6 +17,7 @@ t_ast    *parse_node_operator(int type, t_ast *left, t_ast *right, int op)
 {
     t_ast   *node;
 
+    printf("\n into node operator \n ");
     node = NULL;
     node->type = type;
     node->left = left;

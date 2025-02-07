@@ -17,14 +17,23 @@ int pars_get_type(char *tok)
 {
     int         i;
     static char *find[] = {
-        "&&", "||", "|", "<", "<<", ">>", ">",
-        "(", ")", "abc"
+        "&&",
+        "||",
+        "|",
+        "<",
+        "<<",
+        ">>",
+        ">",
+        "(",
+        ")",
+        "abc",
+        NULL
     };
 
     i = 0;
     if (tok == NULL)
         return (AST_END);
-    while (ft_strncmp(find[i], tok, ft_strlen(tok)) && i < 6)
+    while (find[i] != NULL && ft_strncmp(find[i], tok, ft_strlen(tok)))
         i++;
     if (i <= 1)
         return (AST_LOGICAL);
