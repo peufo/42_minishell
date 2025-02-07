@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/07 09:36:03 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/07 10:12:32 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,20 +138,20 @@ typedef struct s_NodeStack
 void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
 int		check_gates(char **toks);
-void	parse_handle_redirection(t_sh *shell, t_nstack *nodes, t_nstack *ops);
-void	parse_handle_logical(t_sh *shell, t_nstack *nodes, t_nstack *ops, int type);
+void	parse_handle_redirection(t_sh *shell, t_nstack *tmp, char **tokens);
+void	parse_handle_logical(t_sh *shell, t_nstack *tmp, t_nstack *ops, int type);
 
 char	**parse_collector(char **toks);
 t_ast	*parse_node_command(char *token);
-t_ast	*parse_node_operator(t_sh *shell, t_ast *left, t_ast *right, int op);
+t_ast	*parse_node_operator(int type, t_ast *left, t_ast *right, int op);
 
 void	free_ast(t_ast *node);
 
 int		pars_get_type(char *tok);
 int		parse_toks_len(char **toks);
 t_ast   *pars_declare_operator(t_nstack *ops);
-t_ast	*extract_node(t_sh *shell, t_nstack **nodes);
-void	push_node(t_sh *shell, t_nstack **nodes, t_ast *node);
+t_ast	*parse_extract_node(t_sh *shell, t_nstack **tmp);
+void	parse_push_node(t_sh *shell, t_nstack **tmp, t_ast *node);
 
 
 // EXEC ========================================================================
