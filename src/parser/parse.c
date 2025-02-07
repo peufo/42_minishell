@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/07 09:06:59 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/07 09:10:02 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static int	check_for_simple_pars(char **toks)
 
 void	parse_free(t_sh *shell)
 {
-	(void)shell;
 	debug(shell, "Freeing AST ???\n");
 }
 
