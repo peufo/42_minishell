@@ -28,7 +28,8 @@ t_ast	*parse_extract_node(t_sh *shell, t_nstack **tmp)
 	return (node);
 }
 
-static void	parse_handle_gates(t_sh *shell, t_nstack *tmp, t_nstack *ops, int operator)
+static void	parse_handle_gates(t_sh *shell, t_nstack *tmp,
+		t_nstack *ops, int operator)
 {
 	(void)shell;
 	(void)tmp;
@@ -36,7 +37,8 @@ static void	parse_handle_gates(t_sh *shell, t_nstack *tmp, t_nstack *ops, int op
 	(void)operator;
 }
 
-void	parse_handle_logical(t_sh *shell, t_nstack *tmp, t_nstack *ops, int type)
+void	parse_handle_logical(t_sh *shell, t_nstack *tmp,
+		t_nstack *ops, int type)
 {
 	int		operator;
 	t_ast	*op_node;

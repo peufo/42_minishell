@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/07 10:16:57 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/07 10:39:13 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,15 @@ void	parse(t_sh *shell)
 		return ;
 	}
 	t_len = 0;
+	debug(shell, "\n Does it collect ? \n");
 	shell->ast->args = parse_collector(shell->lexer.tokens);
+	debug(shell, "tokens assembled ! \n");
 	t_len = parse_toks_len(shell->ast->args);
+	debug_arr(shell, (char *[]){
+		"The len is : ",
+		ft_itoa(t_len),
+		NULL
+	});
 	if (!check_for_simple_pars(shell->ast->args))
 		return (throw_error("Line too complex \n", __FILE__, __LINE__));
 	shell->ast = pars_handle_processes(&shell->ast->args, t_len, shell);
