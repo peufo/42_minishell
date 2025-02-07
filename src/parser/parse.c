@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/07 07:32:17 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/07 09:06:59 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,32 @@ static void	pars_end_check(t_sh *shell)
 	shell->ast->args = shell->lexer.tokens;
 }
 
+static int	check_for_simple_pars(char **toks)
+{
+	int	i;
+	int	type;
+
+	i = 0;
+	while (toks[i])
+	{
+		type = pars_get_type(toks[i++]);
+		if (type == AST_LOGICAL || type == AST_SUBSHELL)
+			return (0);
+	}
+	return (1);
+}
+
 void	parse_free(t_sh *shell)
 {
 	(void)shell;
 	debug(shell, "Freeing AST ???\n");
 }
 
-static void	parse_list_operators(t_sh *shell, char **toks, int *tlen)
-{
-	(void)shell;
-	(void)toks;
-	(void)tlen;
-}
-
-static t_ast	*pars_handle_processes(char **toks, int t_len, t_sh *shell)
+static t_ast	*pars_handle_processes(char ***toks, int t_len, t_sh *shell)
 {
 	t_nstack	*nodes;
 	t_nstack	*ops;
-	char		*cmd;
+	char		**cmd;
 	int			type;
 	int			i;
 
@@ -52,18 +60,18 @@ static t_ast	*pars_handle_processes(char **toks, int t_len, t_sh *shell)
 	while (i < t_len)
 	{
 		cmd = toks[i++];
-		type = pars_get_type(cmd);
-		if (type == AST_LOGICAL)
+		type = pars_get_type(cmd[0]);
+		if (type == AST_LOGICAL || type == AST_PIPELINE)
 			parse_handle_logical(shell, nodes, ops);
 		else if (type == AST_REDIRECT)
-			parse_handle_redirection(shell, nodes);
+			parse_handle_redirection(shell, nodes, ops);
 		else
 			parse_push_node(shell, nodes, parse_node_commands(cmd));
 	}
 	while (ops)
 		parse_node_logical(shell, nodes, ops);
 	debug_node(shell, nodes, 0);
-	return (nodes);
+	return (nodes->ast);
 }
 
 void	parse(t_sh *shell)
@@ -78,6 +86,8 @@ void	parse(t_sh *shell)
 	t_len = 0;
 	shell->ast->args = parse_collector(shell->lexer.tokens);
 	t_len = parse_toks_len(shell->ast->args);
-	shell->ast = pars_handle_processes(shell->ast->args, t_len, shell);
+	if (!check_for_simple_pars(shell->ast->args))
+		return (throw_error("Line too complex \n", __FILE__, __LINE__));
+	shell->ast = pars_handle_processes(&shell->ast->args, t_len, shell);
 	pars_end_check(shell);
 }

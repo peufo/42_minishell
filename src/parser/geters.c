@@ -17,14 +17,8 @@ int pars_get_type(char *tok)
 {
     int         i;
     static char *find[] = {
-        "&&",
-        "||",
-        "|",
-        "<",
-        "<<",
-        ">>",
-        ">",
-        "abc"
+        "&&", "||", "|", "<", "<<", ">>", ">",
+        "(", ")", "abc"
     };
 
     i = 0;
@@ -38,55 +32,8 @@ int pars_get_type(char *tok)
         return (AST_PIPELINE);
     else if (i <= 5)
         return (AST_REDIRECT);
+    else if (i <= 7)
+        return (AST_SUBSHELL);
     else
         return (AST_COMMAND);
-}
-
-static void debug_right_part(t_sh *shell, t_ast *node)
-{
-    if (node->left)
-    {
-        debug(shell, "[RIGHT SUBTREE]\n");
-        debug_node(shell, node->right, 1);
-    }
-}
-
-static void debug_left_part(t_sh *shell, t_ast *node)
-{
-    if (node->left)
-    {
-        debug(shell, "[LEFT SUBTREE]\n");
-        debug_node(shell, node->left, 1);
-    }
-}
-
-void    debug_node(t_sh *shell, t_ast *node, int call)
-{
-    int i;
-
-    i = 0;
-    debug(shell, "TYPE IS :\n");
-    if (node->type == AST_COMMAND)
-    {
-        debug(shell, "[Command]\n");
-        while (node->args && node->args[i] != NULL)
-           debug(shell, node->args[i++]);
-        debug(shell, "\n");
-    }
-    else if (node->type == AST_PIPELINE)
-        debug(shell, "[Pipe node]\n");
-    else if (node->type == AST_LOGICAL)
-    {
-        debug(shell, "[Logical]\n");
-        if (node->op == AST_OP_OR)
-            debug(shell, "[AND]\n");
-        else
-            debug(shell, "[OR]\n");
-    }
-    if (call == 0)
-    {
-        debug_left_part(shell, node);
-        debug_right_part(shell, node);
-    }
-    debug(shell, "\n\n");
 }

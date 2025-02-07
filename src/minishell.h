@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/07 07:33:11 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/07 08:41:46 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,8 @@ int		check_gates(char **toks);
 void	parse_node_logical(t_sh *shell, t_nstack *nodes, t_nstack *ops);
 void	parse_node_pipeline(t_sh *shell, t_nstack *nodes, t_nstack *ops);
 void	parse_node_redirection(t_sh *shell, t_nstack *nodes, t_nstack *ops);
+void	parse_handle_logical(t_sh *shell, t_nstack *nodes, t_nstack *ops);
+void	parse_handle_redirection(t_sh *shell, t_nstack *nodes, t_nstack *ops);
 
 char	**parse_collector(char **toks);
 t_ast	*parse_node_command(char *token);
@@ -148,6 +150,10 @@ void	free_ast(t_ast *node);
 
 int		pars_get_type(char *tok);
 int		parse_toks_len(char **toks);
+void	get_top_type(t_sh *shell, t_nstack **nodes);
+t_ast	*extract_node(t_sh *shell, t_nstack **nodes);
+void	push_node(t_sh *shell, t_nstack **nodes, t_ast *node);
+
 
 // EXEC ========================================================================
 
