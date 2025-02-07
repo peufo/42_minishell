@@ -20,6 +20,13 @@ void    free_ast(t_ast *node)
     free(node);
 }
 
+t_ast   *pars_declare_operator(t_nstack *ops)
+{
+    if (ops)
+        return (ops->ast);
+    return (NULL);
+}
+
 int  parse_toks_len(char **toks)
 {
     int size;
