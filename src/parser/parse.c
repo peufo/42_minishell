@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/07 10:39:13 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/07 11:56:47 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,6 @@ static int	check_for_simple_pars(char **toks)
 			return (0);
 	}
 	return (1);
-}
-
-void	parse_free(t_sh *shell)
-{
-	debug(shell, "Freeing AST ???\n");
 }
 
 static void	pars_pull_operators(t_sh *shell, t_nstack *ops, t_nstack *tmp)
@@ -95,7 +90,7 @@ void	parse(t_sh *shell)
 	debug(shell, "tokens assembled ! \n");
 	t_len = parse_toks_len(shell->ast->args);
 	debug_arr(shell, (char *[]){
-		"The len is : ",
+		"The new len is : ",
 		ft_itoa(t_len),
 		NULL
 	});
