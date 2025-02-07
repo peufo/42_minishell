@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/07 10:10:21 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/07 10:16:57 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ static t_ast	*pars_handle_processes(char ***toks, int t_len, t_sh *shell)
 		if (type == AST_LOGICAL || type == AST_PIPELINE)
 			parse_handle_logical(shell, tmp, ops, type);
 		else if (type == AST_REDIRECT)
-			parse_handle_redirection(shell, tmp, ops, cmd);
+			parse_handle_redirection(shell, tmp, cmd);
 		else
 			parse_push_node(shell, &tmp, parse_node_command(*cmd));
 	}
 	while (ops)
 		pars_pull_operators(shell, ops, tmp);
-	debug_node(shell, tmp, 0);
+	debug_node(shell, tmp->ast, 0);
 	return (tmp->ast);
 }
 

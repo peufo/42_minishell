@@ -70,6 +70,7 @@ char    **parse_collector(char **toks)
 
     i = 0;
     j = 0;
+    ntoks = NULL;
     types = malloc(parse_toks_len(toks) * sizeof(int));
     if (!types)
         return (throw_error("malloc in :", __FILE__, __LINE__), NULL);

@@ -4,13 +4,13 @@ void	parse_push_node(t_sh *shell, t_nstack **tmp, t_ast *node)
 {
 	t_nstack	*new;
 
+	debug(shell, "pushing node \n");
 	new = malloc(sizeof(t_nstack));
 	if (!new)
 		return (throw_error("malloc in :", __FILE__, __LINE__));
 	new->ast = node;
 	new->next = *tmp;
 	*tmp = new;
-	(void)shell;
 }
 
 t_ast	*parse_extract_node(t_sh *shell, t_nstack **tmp)
@@ -26,7 +26,6 @@ t_ast	*parse_extract_node(t_sh *shell, t_nstack **tmp)
 	*tmp = head->next;
 	free(head);
 	return (node);
-	(void)shell;
 }
 
 static void	parse_handle_gates(t_sh *shell, t_nstack *tmp, t_nstack *ops, int operator)

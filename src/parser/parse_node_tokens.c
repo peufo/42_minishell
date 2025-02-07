@@ -4,6 +4,7 @@ t_ast   *parse_node_command(char *token)
 {
     t_ast	*node;
 
+    node = NULL;
 	node->type = AST_COMMAND;
     node->left = NULL;
     node->right = NULL;
@@ -11,12 +12,17 @@ t_ast   *parse_node_command(char *token)
     return (node);
 }
 
-void    parse_node_operator(int type, t_ast *left, t_ast *right, int op)
+t_ast    *parse_node_operator(int type, t_ast *left, t_ast *right, int op)
 {
-    (void)type;
-    (void)left;
-    (void)right;
-    (void)op;
+    t_ast   *node;
+
+    node = NULL;
+    node->type = type;
+    node->left = left;
+    node->right = right;
+    node->op = op;
+    node->cmd = NULL;
+    return (node);
 }
 
 void    parse_node_subshell(t_sh *shell)
