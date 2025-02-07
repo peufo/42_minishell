@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/07 07:21:59 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/07 07:32:17 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	parse(t_sh *shell)
 		return ;
 	}
 	t_len = 0;
-	shell->ast->args = parse_collector(shell->lexer.tokens, shell);
+	shell->ast->args = parse_collector(shell->lexer.tokens);
 	t_len = parse_toks_len(shell->ast->args);
 	shell->ast = pars_handle_processes(shell->ast->args, t_len, shell);
 	pars_end_check(shell);
