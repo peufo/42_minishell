@@ -30,40 +30,49 @@ int  parse_toks_len(char **toks)
     return (size);
 }
 
-char    **parse_collector(char **toks, t_sh *shell)
+static char *assemble(char **toks, int n, int start)
+{
+    int     len;
+    int     i;
+    char    *a;
+
+    if (n == 2)
+        return (ft_strjoin(toks[start], toks[start + 1]));
+    else
+    {
+        len = 0;
+        while (toks[start + i])
+            len +=  ft_strlen(toks[start + i++]);
+        a = malloc(len * sizeof(char));
+        if (!a)
+            return (throw_error("malloc in : ", __FILE__, __LINE__), NULL);
+        i = 0;
+        while (i < n)
+            ft_strlcat(a, toks[start + i++], len);
+    }
+    return (NULL);
+}
+
+char    **parse_collector(char **toks)
 {
     int     i;
-    int     type;
-    int     next_type;
+    int     j;
+    int     k;
+    int     *types;
     char    **ntoks;
 
     i = 0;
-    while (toks[i] && toks[i + 1])
+    j = 0;
+    types = malloc(parse_toks_len(toks) * sizeof(int));
+    if (!types)
+        return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
+    while (toks[i])
     {
-        type = pars_get_type(toks[i]);
-        next_type = pars_get_type(toks[i + 1]);
-        while (type == AST_COMMAND && next_type == AST_COMMAND)
-        {
-            ntoks[shell->ast->log++] = ft_strjoin(toks[i], toks[i + 1]);
-            free(toks[i]);
-            free(toks[i + 1]);
-            toks[i] = NULL;
-            toks[i + 1] = NULL;
-        }
-        i++;
+        k = 0;
+        while (types[k] == AST_COMMAND)
+            types[k++] = pars_get_type(toks[i++]);
+        ntoks[j++] = assemble(toks, k, i - k);
     }
+    free(types);
     return (ntoks);
-}
-
-void	parse_handle_logical(t_sh *shell, t_ast *nodes, t_ast *ops)
-{
-	(void)shell;
-	(void)nodes;
-	(void)ops;
-}
-
-void	parse_handle_redirection(t_sh *shell, t_ast *nodes)
-{
-	(void)shell;
-	(void)nodes;
 }
