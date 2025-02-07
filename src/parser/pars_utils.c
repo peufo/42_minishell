@@ -74,7 +74,6 @@ char    **parse_collector(char **toks)
         types[k++] = pars_get_type(toks[i++]);
         while (toks[i] != NULL && types[k - 1] == AST_COMMAND)
             types[k++] = pars_get_type(toks[i++]);
-        print_types(types, toks, i - k);
         if (k >= 2)
             ntoks[j++] = assemble(toks, k, i - k);
         else if (toks[i] != NULL)

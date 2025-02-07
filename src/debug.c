@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:27:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/07 07:27:48 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/07 13:05:03 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,6 @@ void	debug_input(t_sh *shell)
 		shell->line,
 		NULL
 	});
-}
-
-void	debug_ast(t_sh *shell)
-{
-	debug(shell, "\n");
 }
 
 static void debug_right_part(t_sh *shell, t_ast *node)
