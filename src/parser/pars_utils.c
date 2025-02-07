@@ -28,20 +28,25 @@ static char *assemble(char **toks, int n, int start)
     int     i;
     char    *a;
 
-    printf("n == %d\n", n);
-    if (n == 1)
+    i = 0;
+    if (n == 2)
         return (ft_strjoin(toks[start], toks[start + 1]));
     else
     {
         len = 0;
         while (toks[start + i])
-            len +=  ft_strlen(toks[start + i++]);
-        a = malloc(len * sizeof(char));
+            len +=  ft_strlen(toks[start + i++]) + 1;
+        a = malloc(len * sizeof(char) + 1);
         if (!a)
             return (throw_error("malloc in : ", __FILE__, __LINE__), NULL);
         i = 0;
-        while (i < n)
+        ft_memset(a, 0, len + 1);
+        while (i < n - 1)
+        {
             ft_strlcat(a, toks[start + i++], len);
+            if (i < n - 1)
+                ft_strlcat(a, " ", len);
+        }
     }
     return (a);
 }
@@ -56,7 +61,6 @@ char    **parse_collector(char **toks)
 
     i = 0;
     j = 0;
-    printf("tokens in collector : %s", toks[i]);
     ntoks = malloc(parse_toks_len(toks) * sizeof(char *));
     types = malloc(parse_toks_len(toks) * sizeof(int));
     if (!types)
@@ -64,27 +68,19 @@ char    **parse_collector(char **toks)
     while (i < parse_toks_len(toks))
         types[i++] = 0;
     i = 0;
-    types[0] = pars_get_type(toks[0]);
-    printf("first type is : %d \n", types[0]);
-    while (toks[i])
+    while (toks[i] != NULL)
     {
         k = 0;
-        printf("newloop\n");
-        while (types[k] == AST_COMMAND)
+        types[k++] = pars_get_type(toks[i++]);
+        while (toks[i] != NULL && types[k - 1] == AST_COMMAND)
             types[k++] = pars_get_type(toks[i++]);
-        printf("last type is : %d \n", types[k]);
-        if (types[0] == 0)
-            return (free(ntoks), free(types), NULL);
-        else if (k >= 1)
-        {
-            printf("it will assemble\n");
-            ntoks[j++] = assemble(toks, k, i++ - k);
-        }
-        else
-            ntoks[j++] = ft_strdup(toks[i++]);
+        print_types(types, toks, i - k);
+        if (k >= 2)
+            ntoks[j++] = assemble(toks, k, i - k);
+        else if (toks[i] != NULL)
+            ntoks[j++] = ft_strdup(toks[i - k]);
     }
-    printf("out of the loop\n");
+    ntoks[j] = NULL;
     free(types);
-    printf("\n %s\n", ntoks[0]);
     return (ntoks);
 }
