@@ -42,9 +42,28 @@ char    **parse_collector(char **toks, t_sh *shell)
     {
         type = pars_get_type(toks[i]);
         next_type = pars_get_type(toks[i + 1]);
-        if (type == AST_COMMAND && next_type == AST_COMMAND)
-            ntoks[shell->ast.log++] = unite_family(toks[i], toks[i + 1]);
+        while (type == AST_COMMAND && next_type == AST_COMMAND)
+        {
+            ntoks[shell->ast->log++] = ft_strjoin(toks[i], toks[i + 1]);
+            free(toks[i]);
+            free(toks[i + 1]);
+            toks[i] = NULL;
+            toks[i + 1] = NULL;
+        }
         i++;
     }
     return (ntoks);
+}
+
+void	parse_handle_logical(t_sh *shell, t_ast *nodes, t_ast *ops)
+{
+	(void)shell;
+	(void)nodes;
+	(void)ops;
+}
+
+void	parse_handle_redirection(t_sh *shell, t_ast *nodes)
+{
+	(void)shell;
+	(void)nodes;
 }

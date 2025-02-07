@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/06 10:43:04 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/07 07:21:59 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 static void	pars_end_check(t_sh *shell)
 {
-	if (shell->ast.log == 0)
+	if (shell->ast->log == 0)
 	{
-		shell->ast.type = AST_COMMAND;
+		shell->ast->type = AST_COMMAND;
 		debug(shell, "there was only words\n");
 	}
 	if (!ft_strncmp(shell->lexer.tokens[0], "exitshell",
 			ft_strlen(shell->lexer.tokens[0])))
 		shell_exit(shell);
-	shell->ast.args = shell->lexer.tokens;
+	shell->ast->args = shell->lexer.tokens;
 }
 
 void	parse_free(t_sh *shell)
@@ -31,64 +31,53 @@ void	parse_free(t_sh *shell)
 	debug(shell, "Freeing AST ???\n");
 }
 
-t_ast	pars_handle_processes(char **tokens, t_sh *shell, int type)
+static void	parse_list_operators(t_sh *shell, char **toks, int *tlen)
 {
-	t_ast	node;
+	(void)shell;
+	(void)toks;
+	(void)tlen;
+}
 
-	debug(shell, "NEW NODE\n");
-	if (type == AST_REDIRECT)
-	{
-		debug(shell, "\nREDIRECTION WAS PARSED\n");
-		node = parse_redirection(tokens, shell);
-	}
-	else if (type == AST_PIPELINE)
-	{
-		debug(shell, "\nPIPELINE WAS PARSED\n");
-		node = parse_pipeline(tokens, shell);
-	}
-	else if (type == AST_LOGICAL)
-	{
-		debug(shell, "\nLOGICAL WAS PARSED\n");
-		node = parse_logical(tokens, shell);
-	}
-	else
-	{
-		debug(shell, "\nCOMMAND WAS PARSED\n");
-		node = parse_commands(tokens, shell);
-	}
+static t_ast	*pars_handle_processes(char **toks, int t_len, t_sh *shell)
+{
+	t_nstack	*nodes;
+	t_nstack	*ops;
+	char		*cmd;
+	int			type;
+	int			i;
 
-	debug(shell, "DEFINE TYPE :");
-	debug(shell, ft_itoa(type));
-	debug(shell, "\n");
-	debug_node(shell, &node, 0);
-	return (node);
+	i = 0;
+	ops = NULL;
+	nodes = NULL;
+	while (i < t_len)
+	{
+		cmd = toks[i++];
+		type = pars_get_type(cmd);
+		if (type == AST_LOGICAL)
+			parse_handle_logical(shell, nodes, ops);
+		else if (type == AST_REDIRECT)
+			parse_handle_redirection(shell, nodes);
+		else
+			parse_push_node(shell, nodes, parse_node_commands(cmd));
+	}
+	while (ops)
+		parse_node_logical(shell, nodes, ops);
+	debug_node(shell, nodes, 0);
+	return (nodes);
 }
 
 void	parse(t_sh *shell)
 {
-	int		type;
-	char	**args;
+	int		t_len;
 
 	if (!shell->lexer.tokens)
 	{
-		shell->ast.args = NULL;
+		shell->ast->args = NULL;
 		return ;
 	}
-	args = shell->lexer.tokens;
-	type = pars_get_type(*shell->lexer.tokens);
-	while (args)
-	{
-		if (type == AST_COMMAND)
-			args++;
-		else if (type == AST_REDIRECT || type == AST_LOGICAL)
-		{
-			shell->ast = pars_handle_processes(args, shell, type);
-			shell->ast.log++;
-			args++;
-		}
-		else if (type == AST_END)
-			break ;
-		type = pars_get_type(*args);
-	}
+	t_len = 0;
+	shell->ast->args = parse_collector(shell->lexer.tokens, shell);
+	t_len = parse_toks_len(shell->ast->args);
+	shell->ast = pars_handle_processes(shell->ast->args, t_len, shell);
 	pars_end_check(shell);
 }
