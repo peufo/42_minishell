@@ -11,11 +11,12 @@ t_ast   *parse_node_command(char *token)
     return (node);
 }
 
-void    parse_node_operator(t_sh *shell, t_nstack *nodes, t_nstack *ops)
+void    parse_node_operator(int type, t_ast *left, t_ast *right, int op)
 {
-    debug(shell, "Entering node logical \n");
-    (void)nodes;
-    (void)ops;
+    (void)type;
+    (void)left;
+    (void)right;
+    (void)op;
 }
 
 void    parse_node_subshell(t_sh *shell)

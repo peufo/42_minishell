@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/07 09:10:02 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/07 10:10:21 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,16 @@ void	parse_free(t_sh *shell)
 	debug(shell, "Freeing AST ???\n");
 }
 
+static void	pars_pull_operators(t_sh *shell, t_nstack *ops, t_nstack *tmp)
+{
+	(void)ops;
+	(void)shell;
+	(void)tmp;
+}
+
 static t_ast	*pars_handle_processes(char ***toks, int t_len, t_sh *shell)
 {
-	t_nstack	*nodes;
+	t_nstack	*tmp;
 	t_nstack	*ops;
 	char		**cmd;
 	int			type;
@@ -55,22 +62,22 @@ static t_ast	*pars_handle_processes(char ***toks, int t_len, t_sh *shell)
 
 	i = 0;
 	ops = NULL;
-	nodes = NULL;
+	tmp = NULL;
 	while (i < t_len)
 	{
 		cmd = toks[i++];
 		type = pars_get_type(cmd[0]);
 		if (type == AST_LOGICAL || type == AST_PIPELINE)
-			parse_handle_logical(shell, nodes, ops);
+			parse_handle_logical(shell, tmp, ops, type);
 		else if (type == AST_REDIRECT)
-			parse_handle_redirection(shell, nodes, ops);
+			parse_handle_redirection(shell, tmp, ops, cmd);
 		else
-			parse_push_node(shell, nodes, parse_node_commands(cmd));
+			parse_push_node(shell, &tmp, parse_node_command(*cmd));
 	}
 	while (ops)
-		parse_node_logical(shell, nodes, ops);
-	debug_node(shell, nodes, 0);
-	return (nodes->ast);
+		pars_pull_operators(shell, ops, tmp);
+	debug_node(shell, tmp, 0);
+	return (tmp->ast);
 }
 
 void	parse(t_sh *shell)

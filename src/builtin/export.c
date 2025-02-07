@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 14:56:02 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/07 09:56:05 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	builtin_export(t_sh *shell)
 	char	*arg;
 	int		equal_index;
 
-	arg = shell->ast.args[1];
+	arg = shell->ast->args[1];
 	if (!arg)
 		return (0);
 	equal_index = find_index(arg, '=');

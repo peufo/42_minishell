@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 14:47:28 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/07 09:55:32 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ int	builtin_cd(t_sh *shell)
 	t_string	cwd;
 
 	ft_bzero(&cwd, sizeof(cwd));
-	if (!shell->ast.args[1])
+	if (!shell->ast->args[1])
 		path = ft_strdup(env_get(shell, "HOME"));
 	else
-		path = ft_strdup(shell->ast.args[1]);
+		path = ft_strdup(shell->ast->args[1]);
 	if (!ft_startwith(path, "/"))
 		string_push_str(&cwd, shell->cwd);
 	resolve_path(shell, &cwd, path);
