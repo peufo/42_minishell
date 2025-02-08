@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+/*
 t_ast   *parse_node_command(char *token)
 {
     t_ast	*node;
@@ -39,4 +39,4 @@ t_ast    *parse_node_operator(int type, t_ast *left, t_ast *right, int op)
 void    parse_node_subshell(t_sh *shell)
 {
     (void)shell;
-}
+}*/
