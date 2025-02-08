@@ -36,3 +36,13 @@ int pars_get_type(char *tok)
     else
         return (AST_COMMAND);
 }
+
+int  parse_toks_len(char **toks)
+{
+    int size;
+
+    size = 0;
+    while (toks[size])
+        size++;
+    return (size);
+}
