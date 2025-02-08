@@ -16,3 +16,25 @@ int	check_for_simple_pars(t_sh *shell, char **toks)
 	}
 	return (debug(shell, "simple AST\n"), 1);
 }
+
+t_list	*pars_get_typelist(char **toks, int mod, t_sh *shell)
+{
+	t_list	*lst;
+	int		type;
+	int		i;
+
+	i = 0;
+	lst = ft_lstnew(NULL);
+	type = pars_get_type(toks[i]);
+	while (toks[i] && type != AST_END)
+	{
+		if (mod == AST_COMMAND)
+			if (type == mod)
+				ft_lstadd_back(&lst, ft_lstnew(toks[i]));
+		else
+			if (type != AST_COMMAND)
+				ft_lstadd_back(&lst, ft_lstnew(toks[i]));
+		type = pars_get_type(toks[i++]);
+	}
+	return (lst);
+}

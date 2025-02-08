@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/08 10:23:26 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/08 13:39:04 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,13 +128,11 @@ typedef enum e_aop
 
 struct s_ast
 {
-	int				log;
-	char			*cmd;
+	struct s_ast	*left;
+	struct s_ast	*right;
 	char			**args;
 	t_atype			type;
 	t_aop			op;
-	struct s_ast	*left;
-	struct s_ast	*right;
 };
 
 typedef struct s_NodeStack
@@ -165,8 +163,7 @@ t_ast	*parse_handle_subscript(char **toks, int len, t_sh *shell);
 
 int		pars_get_type(char *tok);
 int		parse_toks_len(char **toks);
-t_ast	*pars_get_ops(char **toks, int len, t_sh *shell);
-t_ast	*pars_get_cms(char **toks, int len, t_sh *shell);
+t_ast	*pars_get_typelist(char **toks, int mod, t_sh *shell);
 
 // EXEC ========================================================================
 
