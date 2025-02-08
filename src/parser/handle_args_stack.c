@@ -11,6 +11,7 @@ void	parse_push_node(t_sh *shell, t_nstack **tmp, t_ast *node)
 	new->ast = node;
 	new->next = *tmp;
 	*tmp = new;
+	debug(shell, "node pushed \n");
 }
 
 t_ast	*parse_extract_node(t_sh *shell, t_nstack **tmp)
@@ -25,6 +26,7 @@ t_ast	*parse_extract_node(t_sh *shell, t_nstack **tmp)
 	node = head->ast;
 	*tmp = head->next;
 	free(head);
+	debug(shell, "\n node extracted \n");
 	return (node);
 }
 
@@ -43,6 +45,7 @@ void	parse_handle_logical(t_sh *shell, t_nstack *tmp,
 	int		operator;
 	t_ast	*op_node;
 
+	debug(shell, "handling logical node\n");
 	op_node = NULL;
 	operator = pars_declare_operator(ops)->op;
 	if (type == AST_LOGICAL)
@@ -57,6 +60,7 @@ void	parse_handle_logical(t_sh *shell, t_nstack *tmp,
 	}
 	parse_push_node(shell, &ops,
 		parse_node_operator(AST_PIPELINE, NULL, NULL, operator));
+	debug(shell, "logical handled\n");
 }
 
 void	parse_handle_redirection(t_sh *shell, t_nstack *tmp, char **tokens)
@@ -66,9 +70,11 @@ void	parse_handle_redirection(t_sh *shell, t_nstack *tmp, char **tokens)
 	t_ast	*right;
 	t_ast	*direction;
 
+	debug(shell, "handling redirection node \n");
 	left = parse_extract_node(shell, &tmp);
 	right = parse_node_command(tokens[1]);
 	type = pars_get_type(tokens[0]);
 	direction = parse_node_operator(AST_REDIRECT, left, right, type);
 	parse_push_node(shell, &tmp, direction);
+	debug(shell, "redirection handled \n");
 }
