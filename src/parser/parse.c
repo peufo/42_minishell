@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/08 05:48:41 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/08 07:39:33 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,17 @@ static void	pars_end_check(t_sh *shell)
 	shell->ast->args = shell->lexer.tokens;
 }
 
-static int	check_for_simple_pars(char **toks)
+static int	check_for_simple_pars(t_sh *shell, char **toks)
 {
 	int	i;
 	int	type;
 
 	i = 0;
-	while (toks[i])
+	while (toks[i] && 1)
 	{
 		type = pars_get_type(toks[i++]);
+		debug(shell, "type is :");
+		debug(shell, ft_itoa(type));
 		if (type == AST_LOGICAL || type == AST_SUBSHELL)
 			return (0);
 		else if (type != AST_COMMAND && type != AST_END)
@@ -86,7 +88,7 @@ void	parse(t_sh *shell)
 	shell->ast = malloc(sizeof(shell->ast));
 	if (!shell->ast)
 		return (throw_error("WTF \n", __FILE__, __LINE__));
-	b = check_for_simple_pars(shell->lexer.tokens);
+	b = check_for_simple_pars(shell, shell->lexer.tokens);
 	if (!b)
 		return (throw_error("Line too complex \n", __FILE__, __LINE__));
 	else if (b == 1)
