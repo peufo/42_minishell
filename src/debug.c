@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:27:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/07 13:05:03 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/08 08:48:39 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void    debug_node(t_sh *shell, t_ast *node, int call)
 
     i = 0;
     debug(shell, "TYPE IS :\n");
+    return (throw_error("NoNodeToDebug\n", __FILE__, __LINE__));
     if (node->type == AST_COMMAND)
     {
         debug(shell, "[Command]\n");

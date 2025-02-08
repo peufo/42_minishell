@@ -6,38 +6,11 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/08 07:39:33 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/08 09:08:11 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	pars_end_check(t_sh *shell)
-{
-	if (!ft_strncmp(shell->lexer.tokens[0], "exitshell",
-			ft_strlen(shell->lexer.tokens[0])))
-		shell_exit(shell);
-	shell->ast->args = shell->lexer.tokens;
-}
-
-static int	check_for_simple_pars(t_sh *shell, char **toks)
-{
-	int	i;
-	int	type;
-
-	i = 0;
-	while (toks[i] && 1)
-	{
-		type = pars_get_type(toks[i++]);
-		debug(shell, "type is :");
-		debug(shell, ft_itoa(type));
-		if (type == AST_LOGICAL || type == AST_SUBSHELL)
-			return (0);
-		else if (type != AST_COMMAND && type != AST_END)
-			return (2);
-	}
-	return (1);
-}
 
 static void	pars_pull_operators(t_sh *shell, t_nstack *ops, t_nstack *tmp)
 {
@@ -59,17 +32,24 @@ static t_ast	*pars_handle_processes(char ***toks, int t_len, t_sh *shell)
 	tmp = NULL;
 	while (i < t_len)
 	{
-		cmd = toks[i++];
+		printf("looping1\n");
+		cmd = *toks;
 		type = pars_get_type(cmd[0]);
+		printf("cursor reasign \n");
 		if (type == AST_LOGICAL || type == AST_PIPELINE)
 			parse_handle_logical(shell, tmp, ops, type);
 		else if (type == AST_REDIRECT)
 			parse_handle_redirection(shell, tmp, cmd);
 		else
 			parse_push_node(shell, &tmp, parse_node_command(*cmd));
+		toks++;
+		i++;
+		printf("end of loop\n");
 	}
+	printf("out of the loop\n");
 	while (ops)
 		pars_pull_operators(shell, ops, tmp);
+	printf("Did we did it ???\n");
 	debug_node(shell, tmp->ast, 0);
 	return (tmp->ast);
 }
@@ -99,7 +79,6 @@ void	parse(t_sh *shell)
 	shell->ast->args = parse_collector(shell->lexer.tokens);
 	t_len = parse_toks_len(shell->ast->args);
 	debug_new_tokens(shell, shell->ast->args);
-	shell_exit(shell);
 	shell->ast = pars_handle_processes(&shell->ast->args, t_len, shell);
 	pars_end_check(shell);
 }

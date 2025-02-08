@@ -14,5 +14,8 @@ void	debug_new_tokens(t_sh *shell, char **toks)
 
 void	debug_ast(t_sh *shell)
 {
-	(void)shell;
+	shell_exit(shell);
+	debug(shell, "hello\n");
+	debug(shell, shell->ast->args[0]);
+	shell_exit(shell);
 }
