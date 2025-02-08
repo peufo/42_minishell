@@ -17,7 +17,7 @@ int pars_get_type(char *tok)
 {
     int         i;
     static char *find[] = {
-        "&&", "||", "|", "<", "<<", ">>", ">", "(", ")", "abc", NULL
+        "|", "&&", "||", "<", "<<", ">>", ">", "(", ")", "abc", NULL
     };
 
     i = 0;
@@ -25,10 +25,10 @@ int pars_get_type(char *tok)
         return (AST_END);
     while (find[i] != NULL && ft_strncmp(find[i], tok, ft_strlen(tok)))
         i++;
-    if (i <= 1)
-        return (AST_LOGICAL);
-    else if (i == 2)
+    if (i == 0)
         return (AST_PIPELINE);
+    else if (i <= 2)
+        return (AST_LOGICAL);
     else if (i <= 5)
         return (AST_REDIRECT);
     else if (i <= 7)

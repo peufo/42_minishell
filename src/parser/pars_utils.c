@@ -12,7 +12,7 @@ void	parse_free(t_sh *shell)
         free(shell->ast->args[i++]);
     free(shell->ast->args);
     free(shell->ast);
-    debug(shell, "ast freed ! \n");
+    debug(shell, "ast freed !\n");
  }
 
 t_ast   *pars_declare_operator(t_nstack *ops)
@@ -52,10 +52,6 @@ static char *assemble(char **toks, int n, int start)
 
 static void repeat_process(char ***toks, char ***ntoks, int **types, t_utils *u)
 {
-    u->i = 0;
-    u->j = 0;
-    u->k = 0;
-    u->x = 0;
     while ((*toks)[u->i] != NULL)
     {
         u->k = 0;
@@ -68,11 +64,14 @@ static void repeat_process(char ***toks, char ***ntoks, int **types, t_utils *u)
             if ((*toks)[u->i - 1] != NULL && (*toks)[u->i] != NULL)
                 (*ntoks)[u->j++] = ft_strdup((*toks)[-1 + u->i]);
         }
-        else if ((*toks)[u->i - 1] != NULL)
+        else if ((*toks)[u->i - 1] != NULL && 2)
         {
             if ((*toks)[u->i] != NULL)
                 (*ntoks)[u->j++] = ft_strdup((*toks)[u->i - 2]);
-            (*ntoks)[u->j++] = ft_strdup((*toks)[u->i - 1]);
+            else if ((*types)[u->k - 1] == AST_COMMAND)
+                (*ntoks)[u->j++] = assemble(*toks, 3, u->i - u->k);
+            else
+                (*ntoks)[u->j++] = ft_strdup((*toks)[u->i - 1]);
         }
     }
     (*ntoks)[u->j] = NULL;
@@ -96,6 +95,10 @@ char    **parse_collector(char **toks)
         free(u);
         return (free(ntoks), throw_error("malloc:", __FILE__, __LINE__), NULL);
     }
+    u->i = 0;
+    u->j = 0;
+    u->k = 0;
+    u->x = 0;
     repeat_process(&toks, &ntoks, &types, u);
     free(u);
     free(types);
