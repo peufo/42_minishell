@@ -17,8 +17,13 @@ void	parse_free(t_sh *shell)
 
 t_ast   *pars_declare_operator(t_nstack *ops)
 {
+    printf("operator declared\n");
     if (ops)
+    {
+        printf("operator redeclared\n");
         return (ops->ast);
+    }
+    printf("operator Null\n");
     return (NULL);
 }
 
