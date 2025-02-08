@@ -56,7 +56,6 @@ static void repeat_process(char ***toks, char ***ntoks, int **types, t_utils *u)
     u->j = 0;
     u->k = 0;
     u->x = 0;
-    printf("well well well\n");
     while ((*toks)[u->i] != NULL)
     {
         u->k = 0;
@@ -66,7 +65,7 @@ static void repeat_process(char ***toks, char ***ntoks, int **types, t_utils *u)
         if (u->k > 2)
         {
             (*ntoks)[u->j++] = assemble(*toks, u->k, u->i - u->k);
-            if ((*toks)[u->i - 1] != NULL)
+            if ((*toks)[u->i - 1] != NULL && (*toks)[u->i] != NULL)
                 (*ntoks)[u->j++] = ft_strdup((*toks)[-1 + u->i]);
         }
         else if ((*toks)[u->i - 1] != NULL)
