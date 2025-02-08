@@ -7,7 +7,7 @@ void	debug_new_tokens(t_sh *shell, char **toks)
 	i = 0;
 	while (toks[i] != NULL)
 	{
-		debug(shell, "new token is :");
+		debug(shell, "\nnew token is :");
 		debug(shell, toks[i++]);
 	}
 }

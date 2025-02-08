@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/07 13:21:13 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/08 05:12:05 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 
 static void	pars_end_check(t_sh *shell)
 {
-	if (shell->ast->log == 0)
-	{
-		shell->ast->type = AST_COMMAND;
-		debug(shell, "there was only words\n");
-	}
 	if (!ft_strncmp(shell->lexer.tokens[0], "exitshell",
 			ft_strlen(shell->lexer.tokens[0])))
 		shell_exit(shell);
@@ -36,6 +31,8 @@ static int	check_for_simple_pars(char **toks)
 		type = pars_get_type(toks[i++]);
 		if (type == AST_LOGICAL || type == AST_SUBSHELL)
 			return (0);
+		else if (type != AST_COMMAND || type != AST_END)
+			return (2);
 	}
 	return (1);
 }
@@ -77,6 +74,7 @@ static t_ast	*pars_handle_processes(char ***toks, int t_len, t_sh *shell)
 
 void	parse(t_sh *shell)
 {
+	int		b;
 	int		t_len;
 
 	if (!shell->lexer.tokens)
@@ -88,14 +86,19 @@ void	parse(t_sh *shell)
 	shell->ast = malloc(sizeof(shell->ast));
 	if (!shell->ast)
 		return (throw_error("WTF \n", __FILE__, __LINE__));
+	b = check_for_simple_pars(shell->lexer.tokens);
+	if (!b)
+		return (throw_error("Line too complex \n", __FILE__, __LINE__));
+	else if (b == 1)
+	{
+		shell->ast->args = shell->lexer.tokens;
+		return (debug(shell, "Only words\n"));
+	}
 	shell->ast->args = parse_collector(shell->lexer.tokens);
 	printf("OUT\n");
-	debug(shell, "new toks collected\n");
 	t_len = parse_toks_len(shell->ast->args);
-	debug(shell, "new toks collected\n");
 	debug_new_tokens(shell, shell->ast->args);
-	if (!check_for_simple_pars(shell->ast->args))
-		return (throw_error("Line too complex \n", __FILE__, __LINE__));
+	shell_exit(shell);
 	shell->ast = pars_handle_processes(&shell->ast->args, t_len, shell);
 	pars_end_check(shell);
 }
