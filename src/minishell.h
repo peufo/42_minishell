@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/08 09:00:34 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/08 10:23:26 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,22 +145,28 @@ typedef struct s_NodeStack
 
 void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
-int		check_gates(char **toks);
-void	pars_end_check(t_sh *shell);
-int		check_for_simple_pars(t_sh *shell, char **toks);
-void	parse_handle_redirection(t_sh *shell, t_nstack *tmp, char **tokens);
-void	parse_handle_logical(t_sh *shell, t_nstack *tmp, t_nstack *ops, int type);
+
+/////////// UTILS /////////////
 
 char	**parse_collector(char **toks);
-t_ast	*parse_node_command(char *token);
-t_ast	*parse_node_operator(int type, t_ast *left, t_ast *right, int op);
+int		pars_get_type(char *tok);
+int		parse_toks_len(char **toks);
+
+/////////// CHECKERS /////////////
+
+int		check_for_simple_pars(t_sh *shell, char **toks);
+
+/////////// HANDLERS /////////////
+
+t_ast	*parse_handle_script(char **toks, int len, t_sh *shell);
+t_ast	*parse_handle_subscript(char **toks, int len, t_sh *shell);
+
+/////////// GETERS /////////////
 
 int		pars_get_type(char *tok);
 int		parse_toks_len(char **toks);
-t_ast   *pars_declare_operator(t_nstack *ops);
-t_ast	*parse_extract_node(t_sh *shell, t_nstack **tmp);
-void	parse_push_node(t_sh *shell, t_nstack **tmp, t_ast *node);
-
+t_ast	*pars_get_ops(char **toks, int len, t_sh *shell);
+t_ast	*pars_get_cms(char **toks, int len, t_sh *shell);
 
 // EXEC ========================================================================
 
