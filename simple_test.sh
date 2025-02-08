@@ -1,4 +1,4 @@
 echo "salut Jonas"
 echo "salut $USER"
 
-echo "hello" >> x
+echo "hello" >> a b c > y << zzz > t

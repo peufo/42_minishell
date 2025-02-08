@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/08 05:12:05 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/08 05:48:41 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	check_for_simple_pars(char **toks)
 		type = pars_get_type(toks[i++]);
 		if (type == AST_LOGICAL || type == AST_SUBSHELL)
 			return (0);
-		else if (type != AST_COMMAND || type != AST_END)
+		else if (type != AST_COMMAND && type != AST_END)
 			return (2);
 	}
 	return (1);
@@ -95,7 +95,6 @@ void	parse(t_sh *shell)
 		return (debug(shell, "Only words\n"));
 	}
 	shell->ast->args = parse_collector(shell->lexer.tokens);
-	printf("OUT\n");
 	t_len = parse_toks_len(shell->ast->args);
 	debug_new_tokens(shell, shell->ast->args);
 	shell_exit(shell);

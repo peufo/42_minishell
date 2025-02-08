@@ -5,7 +5,7 @@ void	parse_free(t_sh *shell)
     int i;
 
     i = 0;
-	debug(shell, "Freeing AST ???\n");
+	debug(shell, "\n");
     if (!shell->ast->args)
         return ;
     while (shell->ast->args[i] != NULL)
@@ -20,16 +20,6 @@ t_ast   *pars_declare_operator(t_nstack *ops)
     if (ops)
         return (ops->ast);
     return (NULL);
-}
-
-int  parse_toks_len(char **toks)
-{
-    int size;
-
-    size = 0;
-    while (toks[size])
-        size++;
-    return (size);
 }
 
 static char *assemble(char **toks, int n, int start)
@@ -60,38 +50,55 @@ static char *assemble(char **toks, int n, int start)
     return (a);
 }
 
+static void repeat_process(char ***toks, char ***ntoks, int **types, t_utils *u)
+{
+    u->i = 0;
+    u->j = 0;
+    u->k = 0;
+    u->x = 0;
+    printf("well well well\n");
+    while ((*toks)[u->i] != NULL)
+    {
+        u->k = 0;
+        (*types)[u->k++] = pars_get_type((*toks)[u->i++]);
+        while ((*toks)[u->i] != NULL && (*types)[u->k - 1] == AST_COMMAND)
+            (*types)[u->k++] = pars_get_type((*toks)[u->i++]);
+        if (u->k > 2)
+        {
+            (*ntoks)[u->j++] = assemble(*toks, u->k, u->i - u->k);
+            if ((*toks)[u->i - 1] != NULL)
+                (*ntoks)[u->j++] = ft_strdup((*toks)[-1 + u->i]);
+        }
+        else if ((*toks)[u->i - 1] != NULL)
+        {
+            if ((*toks)[u->i] != NULL)
+                (*ntoks)[u->j++] = ft_strdup((*toks)[u->i - 2]);
+            (*ntoks)[u->j++] = ft_strdup((*toks)[u->i - 1]);
+        }
+    }
+    (*ntoks)[u->j] = NULL;
+}
+
 char    **parse_collector(char **toks)
 {
-    int     i;
-    int     j;
-    int     k;
+    t_utils *u;
     int     *types;
     char    **ntoks;
 
-    i = 0;
-    j = 0;
+    u = malloc(sizeof(t_utils));
+    if (!u)
+        return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
     ntoks = malloc(parse_toks_len(toks) * sizeof(char *));
     if (!ntoks)
-        return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
+        return (free(u), throw_error("malloc in :", __FILE__, __LINE__), NULL);
     types = malloc(parse_toks_len(toks) * sizeof(int));
     if (!types)
-        return (free(ntoks), throw_error("malloc:", __FILE__, __LINE__), NULL);
-    while (toks[i] != NULL)
     {
-        k = 0;
-        types[k++] = pars_get_type(toks[i++]);
-        while (toks[i] != NULL && types[k - 1] == AST_COMMAND)
-            types[k++] = pars_get_type(toks[i++]);
-        if (k > 2)
-        {
-            ntoks[j++] = assemble(toks, k, i - k);
-            if (toks[i] != NULL)
-                ntoks[j++] = ft_strdup(toks[i - 1]);
-        }
-        else if (toks[i] != NULL)
-            ntoks[j++] = ft_strdup(toks[i - k]);
+        free(u);
+        return (free(ntoks), throw_error("malloc:", __FILE__, __LINE__), NULL);
     }
-    ntoks[j] = NULL;
+    repeat_process(&toks, &ntoks, &types, u);
+    free(u);
     free(types);
     return (ntoks);
 }

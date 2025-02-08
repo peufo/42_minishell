@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/07 13:08:35 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/08 06:21:53 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,14 @@ typedef union u_pipe
 		int	out;
 	};
 }	t_pipe;
+
+typedef struct s_utils
+{
+	int	i;
+	int	j;
+	int	k;
+	int	x;
+}	t_utils;
 
 typedef struct s_lexer	t_lexer;
 typedef struct s_ast	t_ast;
