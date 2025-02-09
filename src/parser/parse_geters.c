@@ -33,19 +33,3 @@ int	parse_toks_len(char **toks)
 		size++;
 	return (size);
 }
-
-t_ast	*pars_get_ops(char **toks, int len, t_sh *shell);
-{
-	(void)toks;
-	(void)len;
-	(void)shell;
-	return (NULL);
-}
-
-t_ast	*pars_get_cms(char **toks, int len, t_sh *shell);
-{
-	(void)toks;
-	(void)len;
-	(void)shell;
-	return (NULL);
-}

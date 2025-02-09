@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/08 13:39:04 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/09 06:35:14 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ void	parse_free(t_sh *shell);
 char	**parse_collector(char **toks);
 int		pars_get_type(char *tok);
 int		parse_toks_len(char **toks);
+void	init_utils(t_utils **u);
 
 /////////// CHECKERS /////////////
 
@@ -163,7 +164,7 @@ t_ast	*parse_handle_subscript(char **toks, int len, t_sh *shell);
 
 int		pars_get_type(char *tok);
 int		parse_toks_len(char **toks);
-t_ast	*pars_get_typelist(char **toks, int mod, t_sh *shell);
+t_list	*pars_get_typelist(char **toks, int mod, t_sh *shell);
 
 // EXEC ========================================================================
 
@@ -218,6 +219,8 @@ void	throw_error(char *error, char *file, int line);
 bool	ft_include(char *str, char c);
 bool	ft_startwith(char *str, char *start);
 int		ft_isop(char *str);
+int		ft_isspace(int c);
+void	free_2dtab(char **tab);
 
 // DEBUG =======================================================================
 void	debug_input(t_sh *shell);
