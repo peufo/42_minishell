@@ -6,18 +6,27 @@ static char	**parse_word_content(void *element)
 	char	**cmd;
 	char	*str;
 
-	u->i = 0;
-	u->j = 0;
-	u->k = 0;
-	u->x = 0;
+	u = NULL;
+	cmd = NULL;
+	init_utils(&u);
 	str = (char *)element;
 	while (str[u->i])
 	{
-		/*
-			cmd	-> args -> var ?
-			dup the line
-							*/
+		while (ft_isalnum(str[u->i]))
+			u->i++;
+		cmd[u->k] = malloc(u->i + 1);
+		if (!cmd[u->k])
+			return (free_2dtab(cmd), NULL);
+		while (ft_isalnum(str[u->x]))
+			cmd[u->k][u->j++] = str[u->x++];
+		cmd[u->k][u->j] = '\0';
+		if (ft_isspace(str[u->i]))
+			u->i++;
+		u->k++;
 	}
+	cmd[u->k] = NULL;
+	free(u);
+	return (cmd);
 }
 
 static void	parse_node_subscript(t_nstack **tmp, t_list *ops, t_list *cms, int ocount)
