@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 15:11:03 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:14:58 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,24 @@
 
 static char	**parse_word_content(char *element)
 {
-	t_utils	*u;
+	t_utils	u;
 	char	**cmd;
 
 	cmd = malloc(3 * sizeof(char *));
 	if (!cmd)
 		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
-	u = init_utils();
-	while (ft_isalnum(element[u->i]))
-		u->i++;
-	cmd[0] = malloc(u->i + 1);
-	cmd[0] = ft_substr(element, 0, u->i);
-	if (ft_isspace(element[u->i]))
-		u->i++;
-	while (element[u->i + u->j])
-		u->j++;
-	cmd[1] = malloc(1 + u->j++);
-	cmd[1] = ft_substr(element, u->i, u->i + u->j);
+	ft_bzero(&u, sizeof(u));
+	while (ft_isalnum(element[u.i]))
+		u.i++;
+	cmd[0] = malloc(u.i + 1);
+	cmd[0] = ft_substr(element, 0, u.i);
+	if (ft_isspace(element[u.i]))
+		u.i++;
+	while (element[u.i + u.j])
+		u.j++;
+	cmd[1] = malloc(1 + u.j++);
+	cmd[1] = ft_substr(element, u.i, u.i + u.j);
 	cmd[2] = NULL;
-	free(u);
 	return (cmd);
 }
 
