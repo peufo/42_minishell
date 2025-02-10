@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/10 15:11:07 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/02/10 15:11:07 by jvoisard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	parse_free(t_sh *shell)
@@ -75,28 +87,18 @@ static void	repeat_process(char ***toks, char ***ntoks, int **types, t_utils *u)
 
 char	**parse_collector(char **toks)
 {
-	t_utils	*u;
+	t_utils	u;
 	int		*types;
 	char	**ntoks;
 
-	u = malloc(sizeof(t_utils));
-	if (!u)
-		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
+	ft_bzero(&u, sizeof(u));
 	ntoks = malloc(parse_toks_len(toks) * sizeof(char *));
 	if (!ntoks)
-		return (free(u), throw_error("malloc in :", __FILE__, __LINE__), NULL);
+		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
 	types = malloc(parse_toks_len(toks) * sizeof(int));
 	if (!types)
-	{
-		free(u);
 		return (free(ntoks), throw_error("malloc:", __FILE__, __LINE__), NULL);
-	}
-	u->i = 0;
-	u->j = 0;
-	u->k = 0;
-	u->x = 0;
-	repeat_process(&toks, &ntoks, &types, u);
-	free(u);
+	repeat_process(&toks, &ntoks, &types, &u);
 	free(types);
 	return (ntoks);
 }

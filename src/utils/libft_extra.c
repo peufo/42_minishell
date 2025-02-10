@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_extra.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:20:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 06:13:30 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/10 15:05:28 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,6 @@ bool	ft_startwith(char *str, char *start)
 	if (*start)
 		return (false);
 	return (true);
-}
-
-t_utils	*init_utils(void)
-{
-	t_utils	*u;
-
-	printf("init utils bitch\n");
-	u = malloc(sizeof(t_utils));
-	if (!u)
-		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
-	u->i = 0;
-	u->j = 0;
-	u->k = 0;
-	u->x = 0;
-	printf("UTILS INIT BITCH !\n");
-	return (u);
 }
 
 int	ft_isop(char *str)

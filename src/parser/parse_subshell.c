@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_subshell.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/10 15:10:16 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/02/10 15:11:03 by jvoisard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	**parse_word_content(char *element)
@@ -24,7 +36,11 @@ static char	**parse_word_content(char *element)
 	return (cmd);
 }
 
-static t_ast	*parse_node_operator(t_nstack *tmp, t_list *ops, t_list *cms, int *ocount)
+static t_ast	*parse_node_operator(
+	t_nstack *tmp,
+	t_list *ops,
+	t_list *cms,
+	int *ocount)
 {
 	char	*str;
 	t_ast	*node;
@@ -63,7 +79,7 @@ t_ast	*parse_handle_subscript(char **toks, int len, t_sh *shell)
 	ops = pars_get_typelist(toks, AST_LOGICAL, shell);
 	cms = pars_get_typelist(toks, AST_COMMAND, shell);
 	nb_ops = parse_get_nbops(toks, len);
-	debug_arr(shell, (char *[]){"ops in subscript : ", ft_itoa(nb_ops), "\n", NULL});
+	debug_arr(shell, (char *[]){"ops : ", ft_itoa(nb_ops), "\n", NULL});
 	while (nb_ops != 0)
 	{
 		tmp->ast = pars_init_ast();

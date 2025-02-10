@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 08:45:21 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/10 15:09:50 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,11 @@ void	parse(t_sh *shell)
 	int		b;
 
 	if (!shell->lexer.tokens)
-	{
-		shell->ast->args = NULL;
 		return ;
-	}
 	shell->ast = malloc(sizeof(shell->ast));
 	if (!shell->ast)
-		return (throw_error("WTF \n", __FILE__, __LINE__));
-	if (shell->lexer.tokens != NULL)
-		shell->ast->args = shell->lexer.tokens;
+		return (throw_error("Maloc failed \n", __FILE__, __LINE__));
+	shell->ast->args = shell->lexer.tokens;
 	b = check_for_simple_pars(shell, shell->lexer.tokens);
 	if (!b)
 		return (throw_error("Line too complex\n", __FILE__, __LINE__));
@@ -108,8 +104,9 @@ void	parse(t_sh *shell)
 	shell->ast->args = parse_collector(shell->lexer.tokens);
 	debug_new_tokens(shell, shell->ast->args);
 	debug(shell, "\n INTO HANDLE SCRIPT | \n");
-	shell->ast = parse_handle_script(shell->ast->args,
-		parse_toks_len(shell->ast->args), shell);
+	shell->ast = parse_handle_script(
+			shell->ast->args,
+			parse_toks_len(shell->ast->args), shell);
 	if (!shell->ast)
 		debug(shell, "ast is empty in parse...\n");
 	debug(shell, "\n OUT OF SCRIPT HANDLING\n");
