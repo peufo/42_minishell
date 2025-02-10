@@ -2,8 +2,8 @@
 
 int	pars_get_type(char *tok)
 {
-	int         i;
-	static char *find[] = {
+	int			i;
+	static char	*find[] = {
 		"|", "&&", "||", "<", "<<", ">>", ">", "(", ")", "abc", NULL
 	};
 
@@ -26,7 +26,7 @@ int	pars_get_type(char *tok)
 
 int	parse_toks_len(char **toks)
 {
-	int size;
+	int	size;
 
 	size = 0;
 	while (toks[size])
@@ -36,7 +36,6 @@ int	parse_toks_len(char **toks)
 
 int	parse_get_nbops(char **toks, int len)
 {
-
 	int	n;
 
 	n = 0;

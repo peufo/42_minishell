@@ -39,7 +39,7 @@ t_list	*pars_get_typelist(char **toks, int mod, t_sh *shell)
 
 	i = 0;
 	(void)shell;
-	lst =  NULL;
+	lst = NULL;
 	type = pars_get_type(toks[i]);
 	while (toks[i] && type != AST_END)
 	{

@@ -21,11 +21,11 @@ t_ast	*pars_init_ast(void)
 		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
 	node->left = malloc(sizeof(t_ast));
 	if (!(node)->left)
-		return (pars_free_ast(node), throw_error("malloc in :", __FILE__, __LINE__),
-			 NULL);
+		return (pars_free_ast(node),
+			throw_error("malloc in :", __FILE__, __LINE__), NULL);
 	node->right = malloc(sizeof(t_ast));
 	if (!(node)->right)
-		return (pars_free_ast(node), throw_error("malloc in :", __FILE__, __LINE__),
-			NULL);
+		return (pars_free_ast(node),
+			throw_error("malloc in :", __FILE__, __LINE__), NULL);
 	return (node);
 }

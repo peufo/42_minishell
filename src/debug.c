@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:27:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/08 08:48:39 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/10 07:00:17 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,52 +45,46 @@ void	debug_input(t_sh *shell)
 	});
 }
 
-static void debug_right_part(t_sh *shell, t_ast *node)
+static void	debug_right_part(t_sh *shell, t_ast *node)
 {
-    if (node->left)
-    {
-        debug(shell, "[RIGHT SUBTREE]\n");
-        debug_node(shell, node->right, 1);
-    }
+	if (node->left)
+	{
+		debug(shell, "[RIGHT SUBTREE]\n");
+		debug_node(shell, node->right, 1);
+	}
 }
 
-static void debug_left_part(t_sh *shell, t_ast *node)
+static void	debug_left_part(t_sh *shell, t_ast *node)
 {
-    if (node->left)
-    {
-        debug(shell, "[LEFT SUBTREE]\n");
-        debug_node(shell, node->left, 1);
-    }
+	if (node->left)
+	{
+		debug(shell, "[LEFT SUBTREE]\n");
+		debug_node(shell, node->left, 1);
+	}
 }
 
-void    debug_node(t_sh *shell, t_ast *node, int call)
+void	debug_node(t_sh *shell, t_ast *node, int call)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    debug(shell, "TYPE IS :\n");
-    return (throw_error("NoNodeToDebug\n", __FILE__, __LINE__));
-    if (node->type == AST_COMMAND)
-    {
-        debug(shell, "[Command]\n");
-        while (node->args && node->args[i] != NULL)
-           debug(shell, node->args[i++]);
-        debug(shell, "\n");
-    }
-    else if (node->type == AST_PIPELINE)
-        debug(shell, "[Pipe node]\n");
-    else if (node->type == AST_LOGICAL)
-    {
-        debug(shell, "[Logical]\n");
-        if (node->op == AST_OP_OR)
-            debug(shell, "[AND]\n");
-        else
-            debug(shell, "[OR]\n");
-    }
-    if (call == 0)
-    {
-        debug_left_part(shell, node);
-        debug_right_part(shell, node);
-    }
-    debug(shell, "\n\n");
+	i = 0;
+	debug(shell, "TYPE IS :\n");
+	return (throw_error("NoNodeToDebug\n", __FILE__, __LINE__));
+	if (node->type == AST_COMMAND)
+	{
+		debug(shell, "[Command]\n");
+		while (node->args && node->args[i] != NULL)
+			debug(shell, node->args[i++]);
+		debug(shell, "\n");
+	}
+	else if (node->type == AST_PIPELINE)
+		debug(shell, "[Pipe node]\n");
+	else if (node->type == AST_LOGICAL)
+		debug(shell, "[Logical]\n");
+	if (call == 0)
+	{
+		debug_left_part(shell, node);
+		debug_right_part(shell, node);
+	}
+	debug(shell, "\n\n");
 }
