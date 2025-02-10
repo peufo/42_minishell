@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 08:05:55 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/10 08:45:21 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ void	parse(t_sh *shell)
 	debug(shell, "\n INTO HANDLE SCRIPT | \n");
 	shell->ast = parse_handle_script(shell->ast->args,
 		parse_toks_len(shell->ast->args), shell);
+	if (!shell->ast)
+		debug(shell, "ast is empty in parse...\n");
 	debug(shell, "\n OUT OF SCRIPT HANDLING\n");
 	debug_ast(shell);
 	return (shell_exit(shell));

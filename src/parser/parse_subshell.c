@@ -62,7 +62,8 @@ t_ast	*parse_handle_subscript(char **toks, int len, t_sh *shell)
 		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
 	ops = pars_get_typelist(toks, AST_LOGICAL, shell);
 	cms = pars_get_typelist(toks, AST_COMMAND, shell);
-	len = parse_get_nbops(toks, len);
+	nb_ops = parse_get_nbops(toks, len);
+	debug_arr(shell, (char *[]){"ops in subscript : ", ft_itoa(nb_ops), "\n", NULL});
 	while (nb_ops != 0)
 	{
 		tmp->ast = pars_init_ast();

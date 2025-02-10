@@ -16,6 +16,7 @@ void	debug_ast(t_sh *shell)
 {
 	debug(shell, "/////////// Welcome to the debug zone\\\\\\\\\\\\");
 	debug(shell, "\n\n");
+	debug_node(shell, shell->ast, 0);
 	shell_exit(shell);
 }
 
