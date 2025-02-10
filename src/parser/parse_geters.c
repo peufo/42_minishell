@@ -33,3 +33,15 @@ int	parse_toks_len(char **toks)
 		size++;
 	return (size);
 }
+
+int	parse_get_nbops(char **toks, int len)
+{
+
+	int	n;
+
+	n = 0;
+	while (len > 0)
+		if (pars_get_type(toks[--len]) != AST_COMMAND)
+			n++;
+	return (n);
+}

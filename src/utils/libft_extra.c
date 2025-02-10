@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:20:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/09 06:37:45 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/10 06:13:30 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,20 @@ bool	ft_startwith(char *str, char *start)
 	return (true);
 }
 
-void	init_utils(t_utils **u)
+t_utils	*init_utils(void)
 {
-	*u = malloc(sizeof(t_utils));
-	if (!(*u))
-		return (throw_error("malloc in :", __FILE__, __LINE__));
-	(*u)->i = 0;
-	(*u)->j = 0;
-	(*u)->k = 0;
-	(*u)->x = 0;
+	t_utils	*u;
+
+	printf("init utils bitch\n");
+	u = malloc(sizeof(t_utils));
+	if (!u)
+		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
+	u->i = 0;
+	u->j = 0;
+	u->k = 0;
+	u->x = 0;
+	printf("UTILS INIT BITCH !\n");
+	return (u);
 }
 
 int	ft_isop(char *str)
