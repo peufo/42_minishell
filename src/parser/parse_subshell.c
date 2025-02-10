@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 15:14:58 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:18:23 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_ast	*parse_handle_subscript(char **toks, int len, t_sh *shell)
 	debug_arr(shell, (char *[]){"ops : ", ft_itoa(nb_ops), "\n", NULL});
 	while (nb_ops != 0)
 	{
+		debug(shell, "looping\n");
 		tmp->ast = pars_init_ast();
 		tmp->ast->op = AST_OP_NULL;
 		tmp->ast->type = pars_get_type((char *)ops->content);
