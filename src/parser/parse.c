@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/08 10:04:21 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/10 06:50:31 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,12 @@ static t_ast	*pars_handle_processes(char **toks, int t_len, t_sh *shell)
 void	parse(t_sh *shell)
 {
 	int		b;
-	int		t_len;
 
 	if (!shell->lexer.tokens)
 	{
 		shell->ast->args = NULL;
 		return ;
 	}
-	t_len = 0;
 	shell->ast = malloc(sizeof(shell->ast));
 	if (!shell->ast)
 		return (throw_error("WTF \n", __FILE__, __LINE__));
@@ -109,8 +107,11 @@ void	parse(t_sh *shell)
 		return (debug(shell, "Only words\n"));
 	}
 	shell->ast->args = parse_collector(shell->lexer.tokens);
-	t_len = parse_toks_len(shell->ast->args);
 	debug_new_tokens(shell, shell->ast->args);
-	shell->ast = parse_handle_script(shell->ast->args, t_len, shell);
-	return (debug_ast(shell));
+	debug(shell, "\n INTO HANDLE SCRIPT | \n");
+	shell->ast = parse_handle_script(shell->ast->args,
+		parse_toks_len(shell->ast->args), shell);
+	debug(shell, "\n OUT OF SCRIPT HANDLING\n");
+	debug_ast(shell);
+	return (shell_exit(shell));
 }

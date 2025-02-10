@@ -5,6 +5,9 @@ void	parse_free(t_sh *shell)
 	int	i;
 
 	i = 0;
+	pars_free_ast(shell->ast);
+	debug(shell, "\\\\\\\\\\\\\\\\\\\\\\ Out of debug mode ////////////\n");
+	return (debug(shell, "ast freed !\n"));
 	debug(shell, "\n");
 	if (!shell->ast->args)
 		return ;

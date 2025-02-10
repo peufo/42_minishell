@@ -1,48 +1,49 @@
 #include "minishell.h"
 
-static char	**parse_word_content(void *element)
+static char	**parse_word_content(char *element)
 {
 	t_utils	*u;
 	char	**cmd;
-	char	*str;
 
-	u = NULL;
-	cmd = NULL;
-	init_utils(&u);
-	str = (char *)element;
-	while (str[u->i])
-	{
-		while (ft_isalnum(str[u->i]))
-			u->i++;
-		cmd[u->k] = malloc(u->i + 1);
-		if (!cmd[u->k])
-			return (free_2dtab(cmd), NULL);
-		while (ft_isalnum(str[u->x]))
-			cmd[u->k][u->j++] = str[u->x++];
-		cmd[u->k][u->j] = '\0';
-		if (ft_isspace(str[u->i]))
-			u->i++;
-		u->k++;
-	}
-	cmd[u->k] = NULL;
+	cmd = malloc(3 * sizeof(char *));
+	if (!cmd)
+		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
+	u = init_utils();
+	while (ft_isalnum(element[u->i]))
+		u->i++;
+	cmd[0] = malloc(u->i + 1);
+	cmd[0] = ft_substr(element, 0, u->i);
+	if (ft_isspace(element[u->i]))
+		u->i++;
+	while (element[u->i + u->j])
+		u->j++;
+	cmd[1] = malloc(1 + u->j++);
+	cmd[1] = ft_substr(element, u->i, u->i + u->j);
+	cmd[2] = NULL;
 	free(u);
 	return (cmd);
 }
 
-static void	parse_node_subscript(t_nstack **tmp, t_list *ops, t_list *cms, int ocount)
+static t_ast	*parse_node_operator(t_list *ops, t_list *cms, int *ocount)
 {
-	while (ocount > 0 && ops != NULL)
-	{
-		(*tmp)->ast->left->args = parse_word_content(cms->content);
-		cms = cms->next;
-		(*tmp)->ast->right->args = parse_word_content(cms->content);
-		(*tmp)->ast->args = NULL;
-		(*tmp)->ast->type = pars_get_type((char *)ops->content);
-		(*tmp)->ast->op = (t_aop)((char *)ops->content);
+	char	*str;
+	t_ast	*node;
+
+	node = malloc(sizeof(t_ast));
+	node->left = pars_init_ast();
+	node->right = pars_init_ast();
+	if (!cms || *ocount == 0)
+		return (NULL);
+	str = (char *)cms->content;
+	node->left->args = parse_word_content(str);
+	cms = cms->next;
+	node->right->args = parse_word_content(cms->content);
+	node->args = NULL;
+	node->op = (t_aop)((char *)ops->content);
+	if (ops)
 		ops = ops->next;
-		*tmp = (*tmp)->next;
-		ocount--;
-	}
+	(*ocount)--;
+	return (node);
 }
 
 t_ast	*parse_handle_subscript(char **toks, int len, t_sh *shell)
@@ -53,14 +54,22 @@ t_ast	*parse_handle_subscript(char **toks, int len, t_sh *shell)
 	int			nb_ops;
 
 	nb_ops = 0;
-	printf("hello\n");
 	tmp = malloc(sizeof(t_nstack));
+	if (!tmp)
+		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
 	ops = pars_get_typelist(toks, AST_LOGICAL, shell);
 	cms = pars_get_typelist(toks, AST_COMMAND, shell);
-	while (len > 0)
-		if (pars_get_type(toks[--len]) != AST_COMMAND)
-			nb_ops++;
-	parse_node_subscript(&tmp, ops, cms, nb_ops);
+	len = parse_get_nbops(toks, len);
+	while (nb_ops != 0 && ops->content != NULL)
+	{
+		tmp->ast = pars_init_ast();
+		tmp->ast->op = AST_OP_NULL;
+		tmp->ast->type = pars_get_type((char *)ops->content);
+		tmp->ast->left = parse_node_operator(ops, cms, &nb_ops);
+		tmp->ast->right = parse_node_operator(ops, cms, &nb_ops);
+		tmp = tmp->next;
+		debug_node(shell, tmp->ast, 0);
+	}
 	ft_lstclear(&ops, free);
 	ft_lstclear(&cms, free);
 	return (tmp->ast);

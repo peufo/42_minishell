@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/09 06:35:14 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/10 06:42:27 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,13 +143,15 @@ typedef struct s_NodeStack
 
 void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
+void	pars_free_ast(t_ast *ast);
 
 /////////// UTILS /////////////
 
 char	**parse_collector(char **toks);
 int		pars_get_type(char *tok);
 int		parse_toks_len(char **toks);
-void	init_utils(t_utils **u);
+t_ast	*pars_init_ast(void);
+int		parse_get_nbops(char **toks, int len);
 
 /////////// CHECKERS /////////////
 
@@ -221,6 +223,7 @@ bool	ft_startwith(char *str, char *start);
 int		ft_isop(char *str);
 int		ft_isspace(int c);
 void	free_2dtab(char **tab);
+t_utils	*init_utils(void);
 
 // DEBUG =======================================================================
 void	debug_input(t_sh *shell);
