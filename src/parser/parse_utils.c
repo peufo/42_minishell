@@ -7,7 +7,7 @@ void	parse_free(t_sh *shell)
 	i = 0;
 	pars_free_ast(shell->ast);
 	debug(shell, "\\\\\\\\\\\\\\\\\\\\\\ Out of debug mode ////////////\n");
-	return (debug(shell, "ast freed !\n"));
+	return (debug(shell, "ast freed ! freed !!!\n"));
 	debug(shell, "\n");
 	if (!shell->ast->args)
 		return ;
@@ -31,7 +31,7 @@ static char	*assemble(char **toks, int n, int start)
 	{
 		len = 0;
 		while (toks[start + i])
-			len +=  ft_strlen(toks[start + i++]) + 1;
+			len += ft_strlen(toks[start + i++]) + 1;
 		a = malloc(len * sizeof(char) + 1);
 		if (!a)
 			return (throw_error("malloc in : ", __FILE__, __LINE__), NULL);

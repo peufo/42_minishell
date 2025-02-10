@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 06:50:31 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/10 07:04:20 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,13 @@ void	parse(t_sh *shell)
 	shell->ast = malloc(sizeof(shell->ast));
 	if (!shell->ast)
 		return (throw_error("WTF \n", __FILE__, __LINE__));
+	if (shell->lexer.tokens != NULL)
+		shell->ast->args = shell->lexer.tokens;
 	b = check_for_simple_pars(shell, shell->lexer.tokens);
 	if (!b)
 		return (throw_error("Line too complex \n", __FILE__, __LINE__));
 	else if (b == 1)
-	{
-		shell->ast->args = shell->lexer.tokens;
 		return (debug(shell, "Only words\n"));
-	}
 	shell->ast->args = parse_collector(shell->lexer.tokens);
 	debug_new_tokens(shell, shell->ast->args);
 	debug(shell, "\n INTO HANDLE SCRIPT | \n");
