@@ -30,31 +30,3 @@ void	check_list_content(t_sh *shell, t_list *lst)
 		node = node->next;
 	}
 }
-
-t_list	*pars_get_typelist(char **toks, int mod, t_sh *shell)
-{
-	t_list	*lst;
-	int		type;
-	int		i;
-
-	i = 0;
-	(void)shell;
-	lst = NULL;
-	type = pars_get_type(toks[i]);
-	while (toks[i] && type != AST_END)
-	{
-		if (mod == AST_COMMAND)
-		{
-			if (type == mod)
-				ft_lstadd_back(&lst, ft_lstnew(toks[i]));
-		}
-		else
-		{
-			if (type != AST_COMMAND)
-				ft_lstadd_back(&lst, ft_lstnew(toks[i]));
-		}
-		type = pars_get_type(toks[i++]);
-	}
-	debug(shell, "you got the list man\n");
-	return (lst);
-}
