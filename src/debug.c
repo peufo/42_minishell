@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:27:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 08:44:32 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/10 16:04:47 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,8 @@ void	debug_input(t_sh *shell)
 
 void	debug_node(t_sh *shell, t_ast *node, int call)
 {
-	int	i;
+	static int	deep = 0;
 
-	i = 0;
 	(void)call;
 	if (!node)
 		return (throw_error("ast empty", __FILE__, __LINE__));
