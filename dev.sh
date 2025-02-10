@@ -51,6 +51,7 @@ watch() {
 				fi
 				PROG_PID=$!
 				trap 'kill "$PROG_PID" & return' 2
+				echo -e "Debug:\t\t\t log/debug.log"
 			fi
 		fi
 		sleep 0.1

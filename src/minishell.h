@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 07:50:11 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/10 15:44:29 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,14 +117,20 @@ typedef enum e_atype
 
 typedef enum e_aop
 {
+	AST_OP_NULL,
 	AST_OP_AND,
 	AST_OP_OR,
 	AST_OP_GREAT,
 	AST_OP_DGREAT,
 	AST_OP_LESS,
 	AST_OP_DLESS,
-	AST_OP_NULL
 }	t_aop;
+
+typedef struct s_ttype
+{
+	char		*tok;
+	t_atype		op;
+}	t_ttype;
 
 struct s_ast
 {
@@ -148,7 +154,6 @@ void	pars_free_ast(t_ast *ast);
 /////////// UTILS /////////////
 
 char	**parse_collector(char **toks);
-int		pars_get_type(char *tok);
 int		parse_toks_len(char **toks);
 t_ast	*pars_init_ast(void);
 int		parse_get_nbops(char **toks, int len);
@@ -164,7 +169,7 @@ t_ast	*parse_handle_subscript(char **toks, int len, t_sh *shell);
 
 /////////// GETERS /////////////
 
-int		pars_get_type(char *tok);
+t_atype	pars_get_type(char *tok);
 int		parse_toks_len(char **toks);
 t_list	*pars_get_typelist(char **toks, int mod, t_sh *shell);
 

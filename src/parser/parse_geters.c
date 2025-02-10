@@ -6,34 +6,37 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:05 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 15:10:05 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:48:40 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pars_get_type(char *tok)
+t_atype	pars_get_type(char *tok)
 {
-	int			i;
-	static char	*find[] = {
-		"|", "&&", "||", "<", "<<", ">>", ">", "(", ")", "abc", NULL
+	int				i;
+	static t_ttype	ttype[] = {
+	{"&&", AST_LOGICAL},
+	{"||", AST_LOGICAL},
+	{"|", AST_PIPELINE},
+	{"(", AST_SUBSHELL},
+	{"<", AST_REDIRECT},
+	{">", AST_REDIRECT},
+	{">>", AST_REDIRECT},
+	{"<<", AST_REDIRECT},
+	{NULL, 0}
 	};
 
 	i = 0;
 	if (tok == NULL)
 		return (AST_END);
-	while (find[i] != NULL && ft_strncmp(find[i], tok, ft_strlen(tok)))
+	while (ttype[i].tok)
+	{
+		if (!ft_strcmp(ttype[i].tok, tok))
+			return (ttype[i].op);
 		i++;
-	if (i == 0)
-		return (AST_PIPELINE);
-	else if (i <= 2)
-		return (AST_LOGICAL);
-	else if (i <= 5)
-		return (AST_REDIRECT);
-	else if (i <= 7)
-		return (AST_SUBSHELL);
-	else
-		return (AST_COMMAND);
+	}
+	return (AST_COMMAND);
 }
 
 int	parse_toks_len(char **toks)
