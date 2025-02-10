@@ -24,7 +24,7 @@ static char	**parse_word_content(char *element)
 	return (cmd);
 }
 
-static t_ast	*parse_node_operator(t_list *ops, t_list *cms, int *ocount)
+static t_ast	*parse_node_operator(t_nstack *tmp, t_list *ops, t_list *cms, int *ocount)
 {
 	char	*str;
 	t_ast	*node;
@@ -35,7 +35,10 @@ static t_ast	*parse_node_operator(t_list *ops, t_list *cms, int *ocount)
 	if (!cms || *ocount == 0)
 		return (NULL);
 	str = (char *)cms->content;
-	node->left->args = parse_word_content(str);
+	if (!tmp->ast->left)
+		node->left->args = parse_word_content(str);
+	else
+		node->left = tmp->ast;
 	cms = cms->next;
 	node->right->args = parse_word_content(cms->content);
 	node->args = NULL;
@@ -60,15 +63,14 @@ t_ast	*parse_handle_subscript(char **toks, int len, t_sh *shell)
 	ops = pars_get_typelist(toks, AST_LOGICAL, shell);
 	cms = pars_get_typelist(toks, AST_COMMAND, shell);
 	len = parse_get_nbops(toks, len);
-	while (nb_ops != 0 && ops->content != NULL)
+	while (nb_ops != 0)
 	{
 		tmp->ast = pars_init_ast();
 		tmp->ast->op = AST_OP_NULL;
 		tmp->ast->type = pars_get_type((char *)ops->content);
-		tmp->ast->left = parse_node_operator(ops, cms, &nb_ops);
-		tmp->ast->right = parse_node_operator(ops, cms, &nb_ops);
+		tmp->ast->left = parse_node_operator(tmp, ops, cms, &nb_ops);
+		tmp->ast->right = parse_node_operator(tmp, ops, cms, &nb_ops);
 		tmp = tmp->next;
-		debug_node(shell, tmp->ast, 0);
 	}
 	ft_lstclear(&ops, free);
 	ft_lstclear(&cms, free);

@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 06:42:27 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/10 07:50:11 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,5 +231,6 @@ void	debug_tokens(t_sh *shell);
 void	debug_ast(t_sh *shell);
 void	debug_node(t_sh *shell, t_ast *node, int call);
 void	debug_new_tokens(t_sh *shell, char **toks);
+void	debug_two_lists(t_sh *shell, t_list *l1, t_list *l2);
 
 #endif

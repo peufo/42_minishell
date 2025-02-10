@@ -1,1 +1,1 @@
-echo "hello" | echo "ha"
+echo a | echo b | echo c
