@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_geters.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:05 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 15:48:40 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/10 10:40:00 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,29 @@ t_atype	pars_get_type(char *tok)
 		i++;
 	}
 	return (AST_COMMAND);
+}
+
+t_aop	pars_get_op(char *tok)
+{
+	int				i;
+	static t_otype	otype[] = {
+	{"&&", AST_OP_AND},
+	{"||", AST_OP_OR},
+	{"<", AST_OP_LESS},
+	{">", AST_OP_GREAT},
+	{">>", AST_OP_DGREAT},
+	{"<<", AST_OP_DLESS},
+	{NULL, 0}
+	};
+
+	i = 0;
+	while (otype[i].tok)
+	{
+		if (!ft_strcmp(otype[i].tok, tok))
+			return (otype[i].op);
+		i++;
+	}
+	return (AST_OP_NULL);
 }
 
 int	parse_toks_len(char **toks)

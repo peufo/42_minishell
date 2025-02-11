@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_inits.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:08 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 15:10:09 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/11 07:50:43 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	pars_free_ast(t_ast *ast)
 {
+	return ;
 	if (!ast)
 		return ;
 	if (ast->args)
@@ -39,5 +40,8 @@ t_ast	*pars_init_ast(void)
 	if (!(node)->right)
 		return (pars_free_ast(node),
 			throw_error("malloc in :", __FILE__, __LINE__), NULL);
+	node->args = NULL;
+	node->op = AST_OP_NULL;
+	node->type = AST_END;
 	return (node);
 }
