@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/11 05:34:57 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/11 09:57:53 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	parse(t_sh *shell)
 
 	if (!shell->lexer.tokens)
 		return ;
-	shell->ast = malloc(sizeof(shell->ast));
+	shell->ast = malloc(sizeof(t_ast));
 	if (!shell->ast)
 		return (throw_error("Maloc failed \n", __FILE__, __LINE__));
 	shell->ast->args = shell->lexer.tokens;
@@ -104,7 +104,7 @@ void	parse(t_sh *shell)
 	shell->ast->args = parse_collector(shell->lexer.tokens);
 	debug_new_tokens(shell, shell->ast->args);
 	debug(shell, "\n INTO HANDLE SCRIPT | \n");
-	shell->stack = parse_handle_script( shell->ast->args, shell);
+	shell->ast = parse_handle_script(shell->ast->args, shell);
 	if (!shell->ast)
 		debug(shell, "ast is empty in parse...\n");
 	debug(shell, "\n OUT OF SCRIPT HANDLING\n");

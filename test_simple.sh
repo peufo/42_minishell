@@ -1,1 +1,1 @@
-echo a && echo b && echo c
+echo a | ls b && clear c | echo d

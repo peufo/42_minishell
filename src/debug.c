@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:27:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 13:53:51 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/11 11:10:40 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,34 +47,28 @@ void	debug_input(t_sh *shell)
 
 void	debug_node(t_sh *shell, t_ast *node, int call)
 {
-	int			i;
+	t_utils	u;
 
-	i = 0;
+	ft_bzero(&u, sizeof(t_utils));
 	if (!node)
 		return (throw_error("ast NULL", __FILE__, __LINE__));
-	while (i++ < call)
+	while (u.i++ < call)
 		debug(shell, "  ");
 	if (node->type == AST_COMMAND)
 	{
-		i = 0;
 		debug(shell, "[Command]: ");
-		while (node->args && node->args[i])
-			debug(shell, node->args[i++]);
-		debug(shell, "\n");
+		while (node->args && node->args[u.j])
+			debug_arr(shell, (char *[]){"cmd:", node->args[u.j++], "\n", NULL});
 	}
 	else if (node->type == AST_LOGICAL)
-	{
-		if (node->op == AST_OP_AND)
-			debug(shell, "[Logical]: &&");
-		else
-			debug(shell, "[Logical]: &&");
-	}
+		debug_arr(shell, (char *[]){"[Logical] : (&&)\n", NULL});
 	else if (node->type == AST_PIPELINE)
-		debug(shell, "[Pipeline]\n");
+		debug(shell, "[Pipeline] (|)\n");
 	else if (node->type == AST_REDIRECT)
-		debug(shell, "[Redirect]\n");
+		debug(shell, "[Redirect] (>>) \n");
 	if (node->left)
 		debug_node(shell, node->left, call + 1);
 	if (node->right)
 		debug_node(shell, node->right, call + 1);
+	debug(shell, "\n\n");
 }

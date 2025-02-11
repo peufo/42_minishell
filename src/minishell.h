@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/11 05:32:07 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/11 11:12:18 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ typedef struct e_lexer_next_state
 	t_lexer_state	next_state;
 }	t_lexer_next_state;
 
-typedef void			(*t_lexer_state_handler)(t_sh *);
-typedef void			(*t_lexer_action_handler)(t_sh *);
+typedef void				(*t_lexer_state_handler)(t_sh *);
+typedef void				(*t_lexer_action_handler)(t_sh *);
 
 void	lex(t_sh *shell);
 void	lex_free(t_sh *shell);
@@ -141,19 +141,10 @@ typedef struct s_otype
 
 struct s_ast
 {
-	struct s_NodeStack	*stack;
 	struct s_ast		*left;
 	struct s_ast		*right;
 	char				**args;
 	t_atype				type;
-	t_aop				op;
-};
-
-struct s_NodeStack
-{
-	t_ast				*ast;
-	struct s_NodeStack	*next;
-	struct s_NodeStack	*previous;
 };
 
 void	parse(t_sh *shell);
@@ -173,8 +164,7 @@ int		check_for_simple_pars(t_sh *shell, char **toks);
 
 /////////// HANDLERS /////////////
 
-t_nstack	*parse_handle_script(char **toks, t_sh *shell);
-t_nstack	*parse_handle_subscript(char **toks, t_sh *shell);
+t_ast	*parse_handle_script(char **toks, t_sh *shell);
 
 /////////// GETERS /////////////
 
@@ -200,7 +190,6 @@ struct s_sh
 	bool		is_interactive;
 	t_lexer		lexer;
 	t_ast		*ast;
-	t_nstack	*stack;
 	int			debug_fd;
 };
 
@@ -210,7 +199,7 @@ void	shell_exit(t_sh *shell);
 
 // BUILTINS ====================================================================
 
-typedef int				(*t_bfunc)(t_sh *);
+typedef int					(*t_bfunc)(t_sh *);
 typedef struct s_builtin
 {
 	char	*name;
