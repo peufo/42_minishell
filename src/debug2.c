@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:56:04 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 14:56:09 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:50:52 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ void	debug_new_tokens(t_sh *shell, char **toks)
 
 void	debug_ast(t_sh *shell)
 {
-	debug(shell, "/////////// Welcome to the debug zone\\\\\\\\\\\\");
+	debug(shell, "/////////// Did dou see my beautifull tree ? \\\\\\\\\\\\");
 	debug(shell, "\n\n");
 	debug_node(shell, shell->ast, 0);
+	debug(shell, "\n");
 	shell_exit(shell);
 }
 
