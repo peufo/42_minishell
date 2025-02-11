@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:08 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/11 09:29:20 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/11 12:50:49 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_ast	*pars_init_ast(void)
 		return (pars_free_ast(node),
 			throw_error("malloc in :", __FILE__, __LINE__), NULL);
 	node->args = NULL;
+	node->op = AST_OP_NULL;
 	node->type = AST_END;
 	return (node);
 }

@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/11 11:12:18 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/11 12:49:31 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct s_utils
 	int	x;
 }	t_utils;
 
-typedef struct s_NodeStack	t_nstack;
 typedef struct s_lexer		t_lexer;
 typedef struct s_ast		t_ast;
 typedef struct s_sh			t_sh;
@@ -145,6 +144,7 @@ struct s_ast
 	struct s_ast		*right;
 	char				**args;
 	t_atype				type;
+	t_aop				op;
 };
 
 void	parse(t_sh *shell);
@@ -176,6 +176,12 @@ t_list	*pars_get_typelist(char **toks, int mod, t_sh *shell);
 // EXEC ========================================================================
 
 int		executor(t_sh *shell);
+int		exec_ast(t_sh *shell, t_ast *node);
+void	exec_handle_pipeline(t_sh *shell, t_ast *node);
+void	exec_handle_redirection(t_sh *shell, t_ast *node);
+void	exec_handle_command(t_sh *shell, t_ast *node);
+void	exec_handle_logical(t_sh *shell, t_ast *node);
+void	exec_make_redir_work(t_sh *shell, t_ast *node);
 
 // SHELL =======================================================================
 

@@ -1,1 +1,1 @@
-echo a | ls b && clear c | echo d
+echo "salut $USER"

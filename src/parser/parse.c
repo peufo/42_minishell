@@ -6,85 +6,11 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/11 09:57:53 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/11 12:51:21 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-static void	pars_pull_operators(t_sh *shell, t_nstack *ops, t_nstack *tmp)
-{
-	(void)ops;
-	(void)shell;
-	(void)tmp;
-}
-
-static void	free_2dtab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	if (!tab)
-		return (throw_error("Nothing to free :", __FILE__, __LINE__));
-	while (tab[i] != NULL)
-		free(tab[i++]);
-	free(tab);
-}
-
-static char	**pars_actualise_tokens(t_sh *shell, char **nativ, int start)
-{
-	int		i;
-	char	**ntoks;
-
-	i = 0;
-	debug(shell, "redefining argument \n");
-	ntoks = malloc((parse_toks_len(nativ) - (start - 2)) * sizeof(char *));
-	if (!ntoks)
-		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
-	while (nativ[start + i] != NULL)
-	{
-		ntoks[i] = ft_strdup(nativ[start + i]);
-		i++;
-	}
-	ntoks[i] = NULL;
-	debug(shell, "arguments redefined\n");
-	return (ntoks);
-}
-
-static t_ast	*pars_handle_processes(char **toks, int t_len, t_sh *shell)
-{
-	t_nstack	*tmp;
-	t_nstack	*ops;
-	char		**ntoks;
-	int			type;
-	int			i;
-
-	i = 0;
-	ops = NULL;
-	tmp = NULL;
-	while (i < t_len)
-	{
-		printf("looping1\n");
-		ntoks = pars_actualise_tokens(shell, toks, i++);
-		type = pars_get_type(*ntoks);
-		printf("cursor reasigned \n");
-		if (type == AST_LOGICAL || type == AST_PIPELINE)
-			parse_handle_logical(shell, tmp, ops, type);
-		else if (type == AST_REDIRECT)
-			parse_handle_redirection(shell, tmp, ntoks);
-		else
-			parse_push_node(shell, &tmp, parse_node_command(*ntoks));
-		free_2dtab(ntoks);
-		ntoks = NULL;
-		printf("end of loop\n");
-	}
-	printf("out of the loop\n");
-	while (ops)
-		pars_pull_operators(shell, ops, tmp);
-	printf("Did we did it ???\n");
-	debug_node(shell, tmp->ast, 0);
-	return (tmp->ast);
-}*/
 
 void	parse(t_sh *shell)
 {
