@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:27:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 16:04:47 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:53:51 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,34 @@ void	debug_input(t_sh *shell)
 
 void	debug_node(t_sh *shell, t_ast *node, int call)
 {
-	static int	deep = 0;
+	int			i;
 
-	(void)call;
+	i = 0;
 	if (!node)
-		return (throw_error("ast empty", __FILE__, __LINE__));
-	debug(shell, "TYPE IS : \n");
+		return (throw_error("ast NULL", __FILE__, __LINE__));
+	while (i++ < call)
+		debug(shell, "  ");
 	if (node->type == AST_COMMAND)
 	{
-		debug(shell, "[Command]\n");
-		while (node->args && node->args[i] != NULL)
+		i = 0;
+		debug(shell, "[Command]: ");
+		while (node->args && node->args[i])
 			debug(shell, node->args[i++]);
 		debug(shell, "\n");
 	}
-	if (node->type == AST_PIPELINE)
-		debug(shell, "[Pipe node]\n");
-	if (node->type == AST_LOGICAL)
-		debug(shell, "[Logical]\n");
-	if (node->type == AST_REDIRECT)
-		debug(shell, "[Redirect] \n");
+	else if (node->type == AST_LOGICAL)
+	{
+		if (node->op == AST_OP_AND)
+			debug(shell, "[Logical]: &&");
+		else
+			debug(shell, "[Logical]: &&");
+	}
+	else if (node->type == AST_PIPELINE)
+		debug(shell, "[Pipeline]\n");
+	else if (node->type == AST_REDIRECT)
+		debug(shell, "[Redirect]\n");
 	if (node->left)
-		debug_node(shell, node->left, 0);
+		debug_node(shell, node->left, call + 1);
 	if (node->right)
-		debug_node(shell, node->right, 0);
-	debug(shell, "\n\n");
+		debug_node(shell, node->right, call + 1);
 }

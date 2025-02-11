@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 16:05:15 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/11 05:32:07 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,10 @@ typedef struct s_utils
 	int	x;
 }	t_utils;
 
-typedef struct s_lexer	t_lexer;
-typedef struct s_ast	t_ast;
-typedef struct s_sh		t_sh;
+typedef struct s_NodeStack	t_nstack;
+typedef struct s_lexer		t_lexer;
+typedef struct s_ast		t_ast;
+typedef struct s_sh			t_sh;
 
 // INPUT =======================================================================
 
@@ -132,20 +133,28 @@ typedef struct s_ttype
 	t_atype		op;
 }	t_ttype;
 
+typedef struct s_otype
+{
+	char	*tok;
+	t_aop	op;
+}	t_otype;
+
 struct s_ast
 {
-	struct s_ast	*left;
-	struct s_ast	*right;
-	char			**args;
-	t_atype			type;
-	t_aop			op;
+	struct s_NodeStack	*stack;
+	struct s_ast		*left;
+	struct s_ast		*right;
+	char				**args;
+	t_atype				type;
+	t_aop				op;
 };
 
-typedef struct s_NodeStack
+struct s_NodeStack
 {
 	t_ast				*ast;
-	struct s_NodeStack	*next;	
-}	t_nstack;
+	struct s_NodeStack	*next;
+	struct s_NodeStack	*previous;
+};
 
 void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
@@ -164,12 +173,13 @@ int		check_for_simple_pars(t_sh *shell, char **toks);
 
 /////////// HANDLERS /////////////
 
-t_ast	*parse_handle_script(char **toks, int len, t_sh *shell);
-t_ast	*parse_handle_subscript(char **toks, int len, t_sh *shell);
+t_nstack	*parse_handle_script(char **toks, t_sh *shell);
+t_nstack	*parse_handle_subscript(char **toks, t_sh *shell);
 
 /////////// GETERS /////////////
 
 t_atype	pars_get_type(char *tok);
+t_aop	pars_get_op(char *tok);
 int		parse_toks_len(char **toks);
 t_list	*pars_get_typelist(char **toks, int mod, t_sh *shell);
 
@@ -190,6 +200,7 @@ struct s_sh
 	bool		is_interactive;
 	t_lexer		lexer;
 	t_ast		*ast;
+	t_nstack	*stack;
 	int			debug_fd;
 };
 

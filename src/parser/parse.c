@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 15:09:50 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/11 05:34:57 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,7 @@ void	parse(t_sh *shell)
 	shell->ast->args = parse_collector(shell->lexer.tokens);
 	debug_new_tokens(shell, shell->ast->args);
 	debug(shell, "\n INTO HANDLE SCRIPT | \n");
-	shell->ast = parse_handle_script(
-			shell->ast->args,
-			parse_toks_len(shell->ast->args), shell);
+	shell->stack = parse_handle_script( shell->ast->args, shell);
 	if (!shell->ast)
 		debug(shell, "ast is empty in parse...\n");
 	debug(shell, "\n OUT OF SCRIPT HANDLING\n");
