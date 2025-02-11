@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:12 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/11 11:01:13 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/11 12:50:56 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_ast	*parse_handle_script(char **toks, t_sh *shell)
 		if (type != AST_COMMAND)
 		{
 			ast->type = pars_get_type(toks[i - 1]);
+			ast->op = pars_get_op(toks[i - 1]);
 			ast->left = parse_handle_script(toks, shell);
 			ast->right = parse_handle_script(toks + i, shell);
 		}
