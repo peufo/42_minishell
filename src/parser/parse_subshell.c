@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/11 07:50:53 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/11 07:57:29 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,21 @@ static t_nstack	*init_stack(void)
 
 static void	print_ast(t_ast *node, int depth)
 {
+	int	i;
+
+	i = 0;
 	if (!node)
 		return;
-
-	for (int i = 0; i < depth; i++)
+	while (i++ < depth)
 		printf("  ");
-
 	if (node->type == AST_LOGICAL)
 		printf("Operator: %d\n", node->op);
 	else
 	{
+		i = 0;
 		printf("Command: ");
-		for (int i = 0; node->args && node->args[i]; i++)
-			printf("%s ", node->args[i]);
+		while (node->args && node->args[i])
+			printf("%s ", node->args[i++]);
 		printf("\n");
 	}
 
