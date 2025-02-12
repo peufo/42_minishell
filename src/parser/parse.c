@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 10:07:39 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/12 11:04:04 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,4 @@ void	parse(t_sh *shell)
 	debug_new_tokens(shell, shell->ast->args);
 	shell->ast = parse_handle_script(shell->ast->args, shell);
 	debug_ast(shell);
-	return (shell_exit(shell));
 }

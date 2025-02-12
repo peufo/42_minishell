@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 10:13:48 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/12 11:08:56 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	exec_ast(t_sh *shell, t_ast *node)
 			exec_handle_redirection(shell, node);
 		else if (node->type == AST_LOGICAL)
 			exec_handle_logical(shell, node);
+		else if (node->type == AST_SCRIPT)
+			return (0);
 		else
 			return (throw_error("What ", __FILE__, __LINE__), 0);
 	}
@@ -38,7 +40,8 @@ int	executor(t_sh *shell)
 
 	if (!shell->ast->args)
 		return (0);
-	exec_ast(shell, shell->ast);
+	if (!exec_ast(shell, shell->ast))
+		debug(shell, "ast executed\n");
 	builtin = get_builtin(*shell->ast->args);
 	if (builtin)
 		return (builtin(shell));

@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:53:27 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/12 10:14:19 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/12 11:03:37 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ void	exec_handle_logical(t_sh *shell, t_ast *node)
 
 void	exec_handle_command(t_sh *shell, t_ast *node)
 {
+	t_bfunc	builtin;
+
 	debug(shell, "into exec command\n");
-	(void)node;
+	builtin = get_builtin(*node->args);
+	if (builtin)
+		builtin(shell);
 }
