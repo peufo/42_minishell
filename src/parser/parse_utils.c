@@ -6,28 +6,56 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:11:07 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 08:15:44 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/12 10:40:52 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parse_free(t_sh *shell)
+static char	*extract_word(char *str, int start, int end)
 {
-	int	i;
+	int		i;
+	char	*rslt;
 
+	if (!str)
+		return (NULL);
+	rslt = malloc((end - start) + 1);
+	if (!rslt)
+		return (NULL);
 	i = 0;
-	pars_free_ast(shell->ast);
-	debug(shell, "\\\\\\\\\\\\\\\\\\\\\\ Out Of debug mode ////////////\n");
-	debug(shell, "\n");
-	return ;
-	if (!shell->ast->args)
-		return ;
-	while (shell->ast->args[i] != NULL)
-		free(shell->ast->args[i++]);
-	free(shell->ast->args);
-	free(shell->ast);
-	debug(shell, "ast freed !\n");
+	while (start < end)
+		rslt[i++] = str[start++];
+	rslt[i] = '\0';
+	return (rslt);
+}
+
+char	**parse_word_content(t_sh *shell, char *element)
+{
+	t_utils	u;
+	char	**cmd;
+
+	if (!element)
+		return (throw_error("NULL element in:", __FILE__, __LINE__), NULL);
+	cmd = ft_calloc(3, sizeof(char *));
+	if (!cmd)
+		return (free(element),
+			throw_error("malloc in:", __FILE__, __LINE__), NULL);
+	ft_bzero(&u, sizeof(u));
+	while (ft_isalnum(element[u.i]))
+		u.i++;
+	cmd[0] = extract_word(element, 0, u.i);
+	if (!cmd[0])
+		return (free(cmd), free(element), NULL);
+	if (ft_isspace(element[u.i]))
+		u.i++;
+	while (element[u.i + u.j])
+		u.j++;
+	cmd[1] = extract_word(element, u.i, u.j + u.i);
+	debug_arr(shell, (char *[]){"cmd :", cmd[0], "\n", NULL});
+	if (!cmd[1])
+		return (free_2dtab(cmd), free(element), NULL);
+	cmd[2] = NULL;
+	return (free(element), cmd);
 }
 
 static char	*assemble(char **toks, int n, int start)
@@ -89,7 +117,6 @@ char	**parse_collector(char **toks)
 	ntoks = ft_calloc(parse_toks_len(toks), sizeof(char *));
 	if (!ntoks)
 		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
-
 	types = ft_calloc(parse_toks_len(toks), sizeof(int));
 	if (!types)
 		return (free(ntoks), throw_error("malloc:", __FILE__, __LINE__), NULL);

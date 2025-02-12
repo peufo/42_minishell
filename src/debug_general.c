@@ -1,16 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   debug_general.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/04 16:27:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/11 11:10:40 by dyodlm           ###   ########.fr       */
+/*   Created: 2025/02/10 14:56:04 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/02/12 10:04:58 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	debug_new_tokens(t_sh *shell, char **toks)
+{
+	int	i;
+
+	i = 0;
+	while (toks[i] != NULL)
+	{
+		debug(shell, "\nnew token is :");
+		debug(shell, toks[i++]);
+	}
+}
+
+void	debug_two_lists(t_sh *shell, t_list *l1, t_list *l2)
+{
+	t_list	*lst;
+
+	if (!l1 && !l2)
+		return ;
+	if (l1)
+		lst = l1;
+	else
+		lst = l2;
+	while (lst != NULL)
+	{
+		debug(shell, "\nelement :");
+		debug(shell, (char *)lst->content);
+		lst = lst->next;
+	}
+	debug(shell, "\n");
+	if (l1)
+	{
+		lst = l2;
+		debug_two_lists(shell, NULL, lst);
+	}
+	debug(shell, "end of debug list\n");
+}
 
 void	debug_tokens(t_sh *shell)
 {
@@ -43,32 +80,4 @@ void	debug_input(t_sh *shell)
 		shell->line,
 		NULL
 	});
-}
-
-void	debug_node(t_sh *shell, t_ast *node, int call)
-{
-	t_utils	u;
-
-	ft_bzero(&u, sizeof(t_utils));
-	if (!node)
-		return (throw_error("ast NULL", __FILE__, __LINE__));
-	while (u.i++ < call)
-		debug(shell, "  ");
-	if (node->type == AST_COMMAND)
-	{
-		debug(shell, "[Command]: ");
-		while (node->args && node->args[u.j])
-			debug_arr(shell, (char *[]){"cmd:", node->args[u.j++], "\n", NULL});
-	}
-	else if (node->type == AST_LOGICAL)
-		debug_arr(shell, (char *[]){"[Logical] : (&&)\n", NULL});
-	else if (node->type == AST_PIPELINE)
-		debug(shell, "[Pipeline] (|)\n");
-	else if (node->type == AST_REDIRECT)
-		debug(shell, "[Redirect] (>>) \n");
-	if (node->left)
-		debug_node(shell, node->left, call + 1);
-	if (node->right)
-		debug_node(shell, node->right, call + 1);
-	debug(shell, "\n\n");
 }
