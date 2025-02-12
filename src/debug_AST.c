@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:27:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 10:27:21 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/12 10:57:53 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	print_ast(t_sh *shell, t_ast *ast, int depth)
 	{
 		debug(shell, " ||==> Args: ");
 		while (u.j < 2 && ast->args[u.j])
-			debug(shell, ast->args[u.j++]);
+			debug_arr(shell, (char *[]){"arg: ", ast->args[u.j++], " ", NULL});
 	}
 	if (ast->op != AST_OP_NULL)
 	{
