@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/11 12:49:31 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/12 10:11:14 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,14 +149,13 @@ struct s_ast
 
 void	parse(t_sh *shell);
 void	parse_free(t_sh *shell);
-void	pars_free_ast(t_ast *ast);
 
 /////////// UTILS /////////////
 
 char	**parse_collector(char **toks);
 int		parse_toks_len(char **toks);
 t_ast	*pars_init_ast(void);
-int		parse_get_nbops(char **toks, int len);
+char	**parse_word_content(t_sh *shell, char *element);
 
 /////////// CHECKERS /////////////
 
@@ -171,6 +170,7 @@ t_ast	*parse_handle_script(char **toks, t_sh *shell);
 t_atype	pars_get_type(char *tok);
 t_aop	pars_get_op(char *tok);
 int		parse_toks_len(char **toks);
+int		parse_get_nbops(char **toks, int len);
 t_list	*pars_get_typelist(char **toks, int mod, t_sh *shell);
 
 // EXEC ========================================================================

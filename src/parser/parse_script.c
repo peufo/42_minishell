@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:12 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 07:59:22 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/12 10:25:36 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,56 +16,6 @@ static bool	pars_get_starter(char *str, char *start)
 {
     return (strncmp(str, start, strlen(start)) == 0);
 }*/
-
-static char	*extract_word(char *str, int start, int end)
-{
-	int		i;
-	char	*rslt;
-
-	if (!str)
-		return (NULL);
-	rslt = malloc((end - start) + 1);
-	if (!rslt)
-		return (NULL);
-	i = 0;
-	while (start < end)
-		rslt[i++] = str[start++];
-	rslt[i] = '\0';
-	return (rslt);
-}
-
-static char	**parse_word_content(t_sh *shell, char *element)
-{
-	t_utils	u;
-	char	**cmd;
-
-	if (!element)
-		return (throw_error("NULL element in:", __FILE__, __LINE__), NULL);
-	cmd = ft_calloc(3, sizeof(char *));
-	if (!cmd)
-		return (free(element),
-			throw_error("malloc in:", __FILE__, __LINE__), NULL);
-	ft_bzero(&u, sizeof(u));
-	while (ft_isalnum(element[u.i]))
-		u.i++;
-	cmd[0] = extract_word(element, 0, u.i);
-	if (!cmd[0])
-		return (free(cmd), free(element),
-			throw_error("malloc:", __FILE__, __LINE__), NULL);
-	if (ft_isspace(element[u.i]))
-		u.i++;
-	while (element[u.i + u.j])
-		u.j++;
-	cmd[1] = extract_word(element, u.i, u.j + u.i);
-	debug_arr(shell, (char *[]){"cmd :", cmd[0], "\n", NULL});
-	if (!cmd[1])
-		return (free_2dtab(cmd), free(element),
-			throw_error("Mlc", __FILE__, __LINE__), NULL);
-	cmd[2] = NULL;
-	free(element);
-	return (cmd);
-}
-
 /*
 static t_ast	*parse_handle_subscript(char **toks, t_sh *shell)
 {
@@ -73,7 +23,7 @@ static t_ast	*parse_handle_subscript(char **toks, t_sh *shell)
 	int		len;
 
 	debug(shell, "into hande subscript \n");
-	ast = pars_init_ast();
+	ast = pars_init_ast();world
 	len = parse_toks_len(toks);
 	if (len > 0 && pars_get_starter(toks[0], "("))
 	{
@@ -85,6 +35,47 @@ static t_ast	*parse_handle_subscript(char **toks, t_sh *shell)
     return (ast);
 }*/
 
+static void	swap_alignment(t_ast	**new_node, t_ast **original, t_ast **ref)
+{
+	if ((*new_node)->type == AST_LOGICAL)
+	{
+		(*new_node)->left = *original;
+		*original = *new_node;
+	}
+	else
+		(*ref)->right = *new_node;
+}
+
+t_ast	*parse_handle_script(char **toks, t_sh *shell)
+{
+	static int		i;
+	int				len;
+	t_ast			*ast;
+	t_ast			*new;
+	t_ast			*ref;
+
+	ast = NULL;
+	ref = NULL;
+	len = parse_toks_len(toks);
+	while (i < len)
+	{
+		new = pars_init_ast();
+		new->type = pars_get_type(toks[i]);
+		if (new->type == AST_COMMAND)
+			new->args = parse_word_content(shell, toks[i]);
+		else if (new->type == AST_LOGICAL)
+			new->op = pars_get_op(toks[i]);
+		if (!ast)
+			ast = new;
+		else
+			swap_alignment(&new, &ast, &ref);
+		ref = new;
+		i++;
+	}
+	return (ast);
+}
+
+/*
 t_ast	*parse_handle_script(char **toks, t_sh *shell)
 {
 	t_ast		*ast;
@@ -104,7 +95,7 @@ t_ast	*parse_handle_script(char **toks, t_sh *shell)
 			ast->op = pars_get_op(toks[i - 1]);
 			ast->left = parse_handle_script(toks + i, shell);
 			ast->right = parse_handle_script(toks + i + 1, shell);
-			break ;
+			break ; 
 		}
 		else
 		{
@@ -113,4 +104,4 @@ t_ast	*parse_handle_script(char **toks, t_sh *shell)
 		}
 	}
 	return (ast);
-}
+}*/

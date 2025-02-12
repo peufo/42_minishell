@@ -6,13 +6,13 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:08 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 08:03:53 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/12 10:25:16 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pars_free_ast(t_ast *ast)
+static void	parse_free_ast(t_ast *ast)
 {
 	if (!ast)
 		return ;
@@ -23,12 +23,12 @@ void	pars_free_ast(t_ast *ast)
 	}
 	if (ast->left)
 	{
-		pars_free_ast(ast->left);
+		parse_free_ast(ast->left);
 		ast->left = NULL;
 	}
 	if (ast->right)
 	{
-		pars_free_ast(ast->right);
+		parse_free_ast(ast->right);
 		ast->right = NULL;
 	}
 	free(ast);
@@ -47,4 +47,10 @@ t_ast	*pars_init_ast(void)
 	node->op = AST_OP_NULL;
 	node->type = AST_END;
 	return (node);
+}
+
+void	parse_free(t_sh *shell)
+{
+	parse_free_ast(shell->ast);
+	debug(shell, "AST were freed\n");
 }
