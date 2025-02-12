@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:11:07 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/11 14:38:33 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/12 07:31:38 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	parse_free(t_sh *shell)
 	i = 0;
 	pars_free_ast(shell->ast);
 	debug(shell, "\\\\\\\\\\\\\\\\\\\\\\ Out Of debug mode ////////////\n");
-	return (debug(shell, "ast freed ! freed !!!\n"));
 	debug(shell, "\n");
 	if (!shell->ast->args)
 		return ;
