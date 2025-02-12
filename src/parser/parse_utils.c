@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:11:07 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 07:31:38 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/12 08:15:44 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	parse_free(t_sh *shell)
 	pars_free_ast(shell->ast);
 	debug(shell, "\\\\\\\\\\\\\\\\\\\\\\ Out Of debug mode ////////////\n");
 	debug(shell, "\n");
+	return ;
 	if (!shell->ast->args)
 		return ;
 	while (shell->ast->args[i] != NULL)
@@ -36,23 +37,17 @@ static char	*assemble(char **toks, int n, int start)
 	char	*a;
 
 	i = 0;
-	if (n == 2)
-		return (ft_strjoin(toks[start], toks[start + 1]));
-	else
+	len = 0;
+	while (toks[start + i])
+		len += ft_strlen(toks[start + i++]) + 1;
+	a = ft_calloc(len + 1, sizeof(char));
+	if (!a)
+		return (throw_error("malloc in : ", __FILE__, __LINE__), NULL);
+	i = 0;
+	while (i < n && pars_get_type(toks[start + i]) == AST_COMMAND)
 	{
-		len = 0;
-		while (toks[start + i])
-			len += ft_strlen(toks[start + i++]) + 1;
-		a = malloc(len * sizeof(char) + 1);
-		if (!a)
-			return (throw_error("malloc in : ", __FILE__, __LINE__), NULL);
-		i = 0;
-		ft_memset(a, 0, len + 1);
-		while (i < n && pars_get_type(toks[start + i]) == AST_COMMAND)
-		{
-			ft_strlcat(a, toks[start + i++], len);
-			ft_strlcat(a, " ", len);
-		}
+		ft_strlcat(a, toks[start + i++], len);
+		ft_strlcat(a, " ", len);
 	}
 	return (a);
 }
@@ -91,10 +86,11 @@ char	**parse_collector(char **toks)
 	char	**ntoks;
 
 	ft_bzero(&u, sizeof(u));
-	ntoks = malloc(parse_toks_len(toks) * sizeof(char *));
+	ntoks = ft_calloc(parse_toks_len(toks), sizeof(char *));
 	if (!ntoks)
 		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
-	types = malloc(parse_toks_len(toks) * sizeof(int));
+
+	types = ft_calloc(parse_toks_len(toks), sizeof(int));
 	if (!types)
 		return (free(ntoks), throw_error("malloc:", __FILE__, __LINE__), NULL);
 	repeat_process(&toks, &ntoks, &types, &u);
