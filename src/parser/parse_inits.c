@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:08 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/11 12:50:49 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/12 07:24:00 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 void	pars_free_ast(t_ast *ast)
 {
-	return ;
 	if (!ast)
 		return ;
 	if (ast->args)
+	{
 		free_2dtab(ast->args);
-	if (ast->left)
-		pars_free_ast(ast->left);
-	if (ast->right)
-		pars_free_ast(ast->right);
+		ast->args = NULL;
+	}
+	pars_free_ast(ast->left);
+	pars_free_ast(ast->right);
+	free(ast);
 }
 
 t_ast	*pars_init_ast(void)
@@ -40,7 +41,9 @@ t_ast	*pars_init_ast(void)
 	if (!(node)->right)
 		return (pars_free_ast(node),
 			throw_error("malloc in :", __FILE__, __LINE__), NULL);
-	node->args = NULL;
+	ft_bzero(node->left, sizeof(t_ast));
+	ft_bzero(node->right, sizeof(t_ast));
+	ft_bzero(&node->args, sizeof(char *));
 	node->op = AST_OP_NULL;
 	node->type = AST_END;
 	return (node);
