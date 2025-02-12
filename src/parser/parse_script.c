@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:12 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 07:08:41 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/12 07:59:22 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	**parse_word_content(t_sh *shell, char *element)
 
 	if (!element)
 		return (throw_error("NULL element in:", __FILE__, __LINE__), NULL);
-	cmd = malloc(3 * sizeof(char *));
+	cmd = ft_calloc(3, sizeof(char *));
 	if (!cmd)
 		return (free(element),
 			throw_error("malloc in:", __FILE__, __LINE__), NULL);
@@ -50,7 +50,8 @@ static char	**parse_word_content(t_sh *shell, char *element)
 		u.i++;
 	cmd[0] = extract_word(element, 0, u.i);
 	if (!cmd[0])
-		return (free(cmd), throw_error("malloc in:", __FILE__, __LINE__), NULL);
+		return (free(cmd), free(element),
+			throw_error("malloc:", __FILE__, __LINE__), NULL);
 	if (ft_isspace(element[u.i]))
 		u.i++;
 	while (element[u.i + u.j])
@@ -58,8 +59,8 @@ static char	**parse_word_content(t_sh *shell, char *element)
 	cmd[1] = extract_word(element, u.i, u.j + u.i);
 	debug_arr(shell, (char *[]){"cmd :", cmd[0], "\n", NULL});
 	if (!cmd[1])
-		return (free(cmd[0]), free(cmd),
-			throw_error("malloc in:", __FILE__, __LINE__), NULL);
+		return (free_2dtab(cmd), free(element),
+			throw_error("Mlc", __FILE__, __LINE__), NULL);
 	cmd[2] = NULL;
 	free(element);
 	return (cmd);
@@ -99,11 +100,11 @@ t_ast	*parse_handle_script(char **toks, t_sh *shell)
 		type = pars_get_type(toks[i - 1]);
 		if (type != AST_COMMAND)
 		{
-			ast->type = pars_get_type(toks[i - 1]);
+			ast->type = type;
 			ast->op = pars_get_op(toks[i - 1]);
-			ast->args = NULL;
-			ast->left = parse_handle_script(toks, shell);
-			ast->right = parse_handle_script(toks + i, shell);
+			ast->left = parse_handle_script(toks + i, shell);
+			ast->right = parse_handle_script(toks + i + 1, shell);
+			break ;
 		}
 		else
 		{
