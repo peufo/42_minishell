@@ -40,10 +40,12 @@ watch() {
 					if $LEAKS_CHECK ; then
 						COMMAND="$LEAKS_CMD $COMMAND"
 					fi
-					mkdir -p "$LOG_DIR/$(basename $TEST_FILE .sh)"
-					LOG_FILE="$LOG_DIR/$(basename $TEST_FILE .sh)/mini.log"
+					TEST_NAME="$(basename $TEST_FILE .sh)"
+					mkdir -p "$LOG_DIR/$TEST_NAME"
+					LOG_FILE="$LOG_DIR/$TEST_NAME/mini.log"
 					$COMMAND > "$LOG_FILE"
-					echo -e "log minishell:\t\t $LOG_FILE"
+					info "$TEST_NAME"
+					echo -e "mini:\t$LOG_FILE"
 					get_diff $TEST_FILE $LOG_FILE
 					echo
 				done
@@ -58,12 +60,18 @@ watch() {
 get_diff() {
 	TEST_FILE=$1
 	LOG_FILE_MINI=$2
-	LOG_FILE_BASH="$LOG_DIR/$(basename $TEST_FILE .sh)/bash.log"
-	LOG_FILE_DIFF="$LOG_DIR/$(basename $TEST_FILE .sh)/diff.diff"
+	TEST_NAME="$(basename $TEST_FILE .sh)"
+	LOG_FILE_BASH="$LOG_DIR/$TEST_NAME/bash.log"
+	LOG_FILE_DIFF="$LOG_DIR/$TEST_NAME/diff.diff"
 	bash $TEST_FILE > $LOG_FILE_BASH
+	DIFF=$(diff -u $LOG_FILE_BASH $LOG_FILE_MINI)
 	diff -u $LOG_FILE_BASH $LOG_FILE_MINI > $LOG_FILE_DIFF
-	echo -e "log bash:\t\t $LOG_FILE_BASH"
-	echo -e "log diff:\t\t $LOG_FILE_DIFF"
+	echo -e "bash:\t$LOG_FILE_BASH"
+	if [[ $DIFF == "" ]] ; then
+		success "SUCCESS"
+	else
+		warning "FAILED\t$LOG_FILE_DIFF"
+	fi
 }
 
 get_state() {
@@ -115,8 +123,7 @@ check_leaks() {
 	if [[ $LEAKS_DETECTED == "" ]] ; then
 		success "NO LEAKS 💃💃💃"
 	else
-		warning "LEAKS DETECTED"
-		info "./log/leaks.log"
+		warning "LEAKS DETECTED\t./log/leaks.log"
 	fi
 }
 
