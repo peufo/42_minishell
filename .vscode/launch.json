@@ -5,16 +5,16 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "(lldb) Lancer",
+			"name": "Lancer",
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/minishell",
-			"args": ["./test.sh"],
+			"args": ["./test/simple.sh"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
-			"MIMode": "lldb"
+			"MIMode": "gdb"
 		}
 	]
 }

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/13 17:49:41 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:54:11 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,8 +233,6 @@ bool	ft_include(char *str, char c);
 bool	ft_startwith(char *str, char *start);
 int		ft_isop(char *str);
 int		ft_isspace(int c);
-void	free_2dtab(char **tab);
-t_utils	*init_utils(void);
 
 // DEBUG =======================================================================
 void	debug_input(t_sh *shell);
