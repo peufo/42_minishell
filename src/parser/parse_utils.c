@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:11:07 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 10:40:52 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/13 17:49:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static char	*assemble(char **toks, int n, int start)
 	if (!a)
 		return (throw_error("malloc in : ", __FILE__, __LINE__), NULL);
 	i = 0;
-	while (i < n && pars_get_type(toks[start + i]) == AST_COMMAND)
+	while (i < n && parse_get_type(toks[start + i]) == AST_COMMAND)
 	{
 		ft_strlcat(a, toks[start + i++], len);
 		ft_strlcat(a, " ", len);
@@ -85,9 +85,9 @@ static void	repeat_process(char ***toks, char ***ntoks, int **types, t_utils *u)
 	while ((*toks)[u->i] != NULL)
 	{
 		u->k = 0;
-		(*types)[u->k++] = pars_get_type((*toks)[u->i++]);
+		(*types)[u->k++] = parse_get_type((*toks)[u->i++]);
 		while ((*toks)[u->i] != NULL && (*types)[u->k - 1] == AST_COMMAND)
-			(*types)[u->k++] = pars_get_type((*toks)[u->i++]);
+			(*types)[u->k++] = parse_get_type((*toks)[u->i++]);
 		if (u->k > 2)
 		{
 			(*ntoks)[u->j++] = assemble(*toks, u->k, u->i - u->k);
