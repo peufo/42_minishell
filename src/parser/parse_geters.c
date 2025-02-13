@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:05 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/13 17:49:41 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:20:12 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,6 @@ t_aop	parse_get_op(char *tok)
 		i++;
 	}
 	return (AST_OP_NULL);
-}
-
-int	parse_toks_len(char **toks)
-{
-	int	size;
-
-	size = 0;
-	while (toks[size])
-		size++;
-	return (size);
 }
 
 int	parse_get_nbops(char **toks, int len)

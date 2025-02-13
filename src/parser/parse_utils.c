@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:11:07 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/13 17:55:11 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:21:40 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,10 @@ char	**parse_collector(char **toks)
 	char	**ntoks;
 
 	ft_bzero(&u, sizeof(u));
-	ntoks = ft_calloc(parse_toks_len(toks), sizeof(char *));
+	ntoks = ft_calloc(string_array_len(toks), sizeof(char *));
 	if (!ntoks)
 		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
-	types = ft_calloc(parse_toks_len(toks), sizeof(int));
+	types = ft_calloc(string_array_len(toks), sizeof(int));
 	if (!types)
 		return (free(ntoks), throw_error("malloc:", __FILE__, __LINE__), NULL);
 	repeat_process(&toks, &ntoks, &types, &u);
