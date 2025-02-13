@@ -3,7 +3,6 @@
 SRC_DIR="./src"
 LOG_DIR="./log"
 PROG="./minishell"
-ARGS="./test.sh"
 LEAKS_CHECK=true
 
 make fclean
@@ -15,6 +14,7 @@ else
 fi
 
 watch() {
+	TEST_NAME=$1
 	STATE_A=""
 	PROG_PID=""
 	while [[ true ]]
@@ -26,7 +26,6 @@ watch() {
 			info "───────── $(date) ─────────"
 			sync_sources
 			norminette_pretty $SRC_DIR
-			
 			rm -f "$PROG"
 			make
 			if [ ! -f "$PROG" ]; then
@@ -35,26 +34,35 @@ watch() {
 				success "COMPILATION\tOK\n"
 				info "───────────────────────────────────────────────────\n"
 
-				for TEST_FILE in ./test/*.sh ; do 
-					COMMAND="$PROG $TEST_FILE"
-					if $LEAKS_CHECK ; then
-						COMMAND="$LEAKS_CMD $COMMAND"
-					fi
-					TEST_NAME="$(basename $TEST_FILE .sh)"
-					mkdir -p "$LOG_DIR/$TEST_NAME"
-					LOG_FILE="$LOG_DIR/$TEST_NAME/mini.log"
-					$COMMAND > "$LOG_FILE"
-					info "$TEST_NAME"
-					echo -e "mini:\t$LOG_FILE"
-					get_diff $TEST_FILE $LOG_FILE
-					echo
-				done
+				if [[ $TEST_NAME != "" ]] ; then
+					run_test "./test/$TEST_NAME.sh"
+				else
+					for TEST_FILE in ./test/*.sh ; do 
+						run_test "$TEST_FILE"
+					done
+				fi
 				
 				check_leaks
 			fi
 		fi
 		sleep 0.1
 	done
+}
+
+run_test() {
+	TEST_FILE=$1
+	COMMAND="$PROG $TEST_FILE"
+	if $LEAKS_CHECK ; then
+		COMMAND="$LEAKS_CMD $COMMAND"
+	fi
+	TEST_NAME="$(basename $TEST_FILE .sh)"
+	mkdir -p "$LOG_DIR/$TEST_NAME"
+	LOG_FILE="$LOG_DIR/$TEST_NAME/mini.log"
+	$COMMAND > "$LOG_FILE"
+	info "$TEST_NAME"
+	echo -e "mini:\t$LOG_FILE"
+	get_diff $TEST_FILE $LOG_FILE
+	echo
 }
 
 get_diff() {
@@ -137,4 +145,4 @@ success() {
 	echo -e "\033[32m$1\033[0m"
 }
 
-watch
+watch "$@"
