@@ -6,32 +6,24 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:08 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/13 17:49:41 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:11:22 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	parse_free_ast(t_ast *ast)
+static void	parse_free_ast(t_ast **ast)
 {
-	if (!ast)
+	if (!*ast)
 		return ;
-	if (ast->args)
-	{
-		free_2dtab(ast->args);
-		ast->args = NULL;
-	}
-	if (ast->left)
-	{
-		parse_free_ast(ast->left);
-		ast->left = NULL;
-	}
-	if (ast->right)
-	{
-		parse_free_ast(ast->right);
-		ast->right = NULL;
-	}
-	free(ast);
+	if ((*ast)->args)
+		string_array_free(&(*ast)->args);
+	if ((*ast)->left)
+		parse_free_ast(&(*ast)->left);
+	if ((*ast)->right)
+		parse_free_ast(&(*ast)->right);
+	free(*ast);
+	*ast = NULL;
 }
 
 t_ast	*parse_init_ast(void)
@@ -51,6 +43,6 @@ t_ast	*parse_init_ast(void)
 
 void	parse_free(t_sh *shell)
 {
-	parse_free_ast(shell->ast);
+	parse_free_ast(&shell->ast);
 	debug(shell, "AST were freed\n");
 }

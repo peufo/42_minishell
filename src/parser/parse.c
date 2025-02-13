@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 11:04:04 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/13 18:13:04 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	parse(t_sh *shell)
 {
-	int		b;
+	int	b;
 
 	if (!shell->lexer.tokens)
 		return ;
-	shell->ast = malloc(sizeof(t_ast));
+	shell->ast = ft_calloc(1, sizeof(t_ast));
 	if (!shell->ast)
 		return (throw_error("Maloc failed \n", __FILE__, __LINE__));
-	shell->ast->args = shell->lexer.tokens;
+	shell->ast->args = string_array_dup(shell->lexer.tokens);
 	b = check_for_simple_pars(shell, shell->lexer.tokens);
 	if (!b)
 		return (throw_error("Line too complex\n", __FILE__, __LINE__));

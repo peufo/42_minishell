@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:11:07 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/13 17:49:41 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:55:11 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	**parse_word_content(t_sh *shell, char *element)
 	cmd[1] = extract_word(element, u.i, u.j + u.i);
 	debug_arr(shell, (char *[]){"cmd :", cmd[0], "\n", NULL});
 	if (!cmd[1])
-		return (free_2dtab(cmd), free(element), NULL);
+		return (string_array_free(&cmd), free(element), NULL);
 	cmd[2] = NULL;
 	return (free(element), cmd);
 }
