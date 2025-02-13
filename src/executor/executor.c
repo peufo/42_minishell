@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 11:08:56 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/12 11:13:57 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ int	executor(t_sh *shell)
 
 	if (!shell->ast->args)
 		return (0);
-	if (!exec_ast(shell, shell->ast))
-		debug(shell, "ast executed\n");
 	builtin = get_builtin(*shell->ast->args);
 	if (builtin)
 		return (builtin(shell));
+	if (!exec_ast(shell, shell->ast))
+		debug(shell, "ast executed\n");
 	return (0);
 }
