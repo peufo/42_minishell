@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 14:50:02 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/12 17:44:46 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	input_read(t_sh	*shell)
 		shell->line = readline("MyMinishell>");
 		if (!shell->line)
 			shell_exit(shell);
-		errno = 0;
+		errno = false;
 		add_history(shell->line);
 	}
 	else
