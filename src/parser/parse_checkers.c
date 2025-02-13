@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_checkers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:01 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 07:28:06 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/13 17:49:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	check_for_simple_pars(t_sh *shell, char **toks)
 	i = 0;
 	while (toks[i])
 	{
-		type = pars_get_type(toks[i++]);
+		type = parse_get_type(toks[i++]);
 		if (type == AST_SUBSHELL)
 			return (debug(shell, "ast ultime\n"), 0);
 		else if (type != AST_COMMAND && type != AST_END)

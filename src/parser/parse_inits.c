@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_inits.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:08 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 10:25:16 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/13 17:49:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	parse_free_ast(t_ast *ast)
 	free(ast);
 }
 
-t_ast	*pars_init_ast(void)
+t_ast	*parse_init_ast(void)
 {
 	t_ast	*node;
 
