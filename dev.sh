@@ -2,7 +2,7 @@
 
 SRC_DIR="./src"
 PROG="./minishell"
-ARGS="./test_simple.sh"
+ARGS="./test.sh"
 LEAKS_CHECK=true
 OUTPUT_FILE="log/test.log"
 
