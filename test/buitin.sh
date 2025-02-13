@@ -11,7 +11,10 @@ cd /etc/../home
 pwd
 cd
 pwd
+<<<<<<< HEAD:test.sh
 cd 42/../42/../../$LOGNAME
+=======
+>>>>>>> 909a12d (improve test execution and leaks detections):test/buitin.sh
 pwd
 echo 1 I LOVE ''
 echo 2 I LOVE ""

@@ -1,12 +1,11 @@
 #!/bin/bash
 
 SRC_DIR="./src"
+LOG_DIR="./log"
 PROG="./minishell"
 ARGS="./test.sh"
 LEAKS_CHECK=true
-OUTPUT_FILE="log/test.log"
 
-mkdir log
 make fclean
 
 if [ $(uname) = "Linux" ]; then
@@ -23,9 +22,6 @@ watch() {
 		STATE_B=$(get_state)
 		if [[ $STATE_A != $STATE_B ]]; then
 			STATE_A=$STATE_B
-			if [ $PROG_PID != "" ]; then
-				kill $PROG_PID
-			fi
 			clear
 			info "───────── $(date) ─────────"
 			sync_sources
@@ -38,20 +34,21 @@ watch() {
 			else
 				success "COMPILATION\tOK\n"
 				info "───────────────────────────────────────────────────\n"
-				COMMAND="$PROG $ARGS"
-				if $LEAKS_CHECK ; then
-					COMMAND="$LEAKS_CMD $COMMAND"
-				fi
-				if [[ $OUTPUT_FILE != "" ]] ; then
-					$COMMAND > "$OUTPUT_FILE"
-					echo -e "Output minishell:\t $OUTPUT_FILE"
-					get_diff
-				else
-					$COMMAND
-				fi
-				PROG_PID=$!
-				trap 'kill "$PROG_PID" & return' 2
-				echo -e "Debug:\t\t\t log/debug.log"
+
+				for TEST_FILE in ./test/*.sh ; do 
+					COMMAND="$PROG $TEST_FILE"
+					if $LEAKS_CHECK ; then
+						COMMAND="$LEAKS_CMD $COMMAND"
+					fi
+					mkdir -p "$LOG_DIR/$(basename $TEST_FILE .sh)"
+					LOG_FILE="$LOG_DIR/$(basename $TEST_FILE .sh)/mini.log"
+					$COMMAND > "$LOG_FILE"
+					echo -e "log minishell:\t\t $LOG_FILE"
+					get_diff $TEST_FILE $LOG_FILE
+					echo
+				done
+				
+				check_leaks
 			fi
 		fi
 		sleep 0.1
@@ -59,11 +56,14 @@ watch() {
 }
 
 get_diff() {
-	OUTPUT_ORIGINAL="log/test_original.log"
-	bash "$ARGS" > $OUTPUT_ORIGINAL
-	diff -u $OUTPUT_ORIGINAL $OUTPUT_FILE > "log/test.diff"
-	echo -e "Output bash:\t\t $OUTPUT_ORIGINAL"
-	echo -e "Diff:\t\t\t log/test.diff"
+	TEST_FILE=$1
+	LOG_FILE_MINI=$2
+	LOG_FILE_BASH="$LOG_DIR/$(basename $TEST_FILE .sh)/bash.log"
+	LOG_FILE_DIFF="$LOG_DIR/$(basename $TEST_FILE .sh)/diff.diff"
+	bash $TEST_FILE > $LOG_FILE_BASH
+	diff -u $LOG_FILE_BASH $LOG_FILE_MINI > $LOG_FILE_DIFF
+	echo -e "log bash:\t\t $LOG_FILE_BASH"
+	echo -e "log diff:\t\t $LOG_FILE_DIFF"
 }
 
 get_state() {
@@ -72,7 +72,9 @@ get_state() {
 	else
 		MD5="md5"
 	fi
-	echo $(find -L $SRC_DIR -type f -name "*.[ch]" -exec $MD5 {} \;) $($MD5 ./test.sh)
+	SRC_STATE=$(find -L $SRC_DIR -type f -name "*.[ch]" -exec $MD5 {} \;)
+	TEST_STATE=$(find -L ./test -type f -name "*.sh" -exec $MD5 {} \;)
+	echo "$SRC_STATE $TEST_STATE"
 }
 
 sync_sources() {
@@ -105,6 +107,16 @@ norminette_pretty() {
 		}'
 		echo "$NORM_ERROR" | awk "$AWK_SCRIPT"
 		echo -e "\n"
+	fi
+}
+
+check_leaks() {
+	LEAKS_DETECTED=$(cat ./log/leaks.log | grep "ERROR SUMMARY" | awk '{printf "%s", $4}' | tr -d "0")
+	if [[ $LEAKS_DETECTED == "" ]] ; then
+		success "NO LEAKS 💃💃💃"
+	else
+		warning "LEAKS DETECTED"
+		info "./log/leaks.log"
 	fi
 }
 
