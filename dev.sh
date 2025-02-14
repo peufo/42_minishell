@@ -41,8 +41,6 @@ watch() {
 						run_test "$TEST_FILE"
 					done
 				fi
-				
-				check_leaks
 			fi
 		fi
 		sleep 0.1
@@ -62,6 +60,7 @@ run_test() {
 	info "$TEST_NAME"
 	echo -e "mini:\t$LOG_FILE"
 	get_diff $TEST_FILE $LOG_FILE
+	check_leaks
 	echo
 }
 
@@ -76,9 +75,9 @@ get_diff() {
 	diff -u $LOG_FILE_BASH $LOG_FILE_MINI > $LOG_FILE_DIFF
 	echo -e "bash:\t$LOG_FILE_BASH"
 	if [[ $DIFF == "" ]] ; then
-		success "SUCCESS"
+		success "DIFF\tOK"
 	else
-		warning "FAILED\t$LOG_FILE_DIFF"
+		warning "DIFF\tERROR\t$LOG_FILE_DIFF"
 	fi
 }
 
@@ -129,9 +128,9 @@ norminette_pretty() {
 check_leaks() {
 	LEAKS_DETECTED=$(cat ./log/leaks.log | grep "ERROR SUMMARY" | awk '{printf "%s", $4}' | tr -d "0")
 	if [[ $LEAKS_DETECTED == "" ]] ; then
-		success "NO LEAKS 💃💃💃"
+		success "LEAKS\tOK"
 	else
-		warning "LEAKS DETECTED\t./log/leaks.log"
+		warning "LEAKS\tERROR\t./log/leaks.log"
 	fi
 }
 
