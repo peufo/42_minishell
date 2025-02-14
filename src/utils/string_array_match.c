@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_array_find.c                                :+:      :+:    :+:   */
+/*   string_array_match.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/21 21:24:04 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/14 11:43:51 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/02/14 11:22:06 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/02/14 11:24:22 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "string_array.h"
 
-static char	**string_array_find(
-	char **arr,
-	char *pattern,
-	bool (*match)(char *, char *)
-)
+bool	string_match(char *pattern, char *str)
 {
-	while (*arr)
+	return (!ft_strcmp(pattern, str));
+}
+
+bool	string_match_start_with(char *pattern, char *str)
+{
+	while (*pattern && *str)
 	{
-		if (match(pattern, *arr))
-			return (arr);
-		arr++;
+		if (*pattern != *str)
+			return (false);
+		str++;
+		pattern++;
 	}
-	return (NULL);
-}
-
-char	**string_array_find_start_with(char **arr, char *pattern)
-{
-	return (string_array_find(arr, pattern, string_match_start_with));
-}
-
-char	**string_array_find_match(char **arr, char *pattern)
-{
-	return (string_array_find(arr, pattern, string_match));
+	if (*pattern && !*str)
+		return (false);
+	return (true);
 }
