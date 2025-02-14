@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 21:24:04 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/14 11:43:34 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:15:26 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ static char	**string_array_find_last(
 
 char	**string_array_find_last_start_with(char **arr, char *pattern)
 {
-	return (string_array_find(arr, pattern, string_match_start_with));
+	return (string_array_find_last(arr, pattern, string_match_start_with));
 }
 
 char	**string_array_find_last_match(char **arr, char *pattern)
 {
-	return (string_array_find(arr, pattern, string_match));
+	return (string_array_find_last(arr, pattern, string_match));
 }
