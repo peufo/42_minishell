@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 13:55:14 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/15 14:51:12 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	parse(t_sh *shell)
 		return (throw_error("Line too complex\n", __FILE__, __LINE__));
 	else if (pare_feu == 1)
 		return (debug(shell, "Only words\n"));
-	shell->ast->args = parse_collector(shell->lexer.tokens);
+	shell->ast->args = parse_collector(shell->ast->args);
 	debug_new_tokens(shell, shell->ast->args);
 	shell->ast = parse_handle_script(shell->ast->args, shell);
 	debug_ast(shell);

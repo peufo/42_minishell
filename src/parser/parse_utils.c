@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:11:07 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 14:31:45 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/15 15:21:06 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,35 @@ static void	repeat_process(char ***toks, char ***ntoks, int **types, t_utils *u)
 		if (u->k > 2)
 		{
 			(*ntoks)[u->j++] = assemble(*toks, u->k, u->i - u->k);
+			if (!(*ntoks)[u->j - 1])
+				return ;
 			if ((*toks)[u->i - 1] != NULL && (*toks)[u->i] != NULL)
+			{
 				(*ntoks)[u->j++] = ft_strdup((*toks)[-1 + u->i]);
+				if (!(*ntoks)[u->j - 1])
+					return ;
+			}
 		}
 		else if ((*toks)[u->i - 1] != NULL)
 		{
 			if ((*toks)[u->i] != NULL)
+			{
 				(*ntoks)[u->j++] = ft_strdup((*toks)[u->i - 2]);
+				if (!(*ntoks)[u->j - 1])
+					return ;
+			}
 			else if ((*types)[u->k - 1] == AST_COMMAND)
+			{
 				(*ntoks)[u->j++] = assemble(*toks, 3, u->i - u->k);
+				if (!(*ntoks)[u->j - 1])
+					return ;
+			}
 			if ((*toks)[u->i - 1] && (*toks)[u->i] != NULL)
+			{
 				(*ntoks)[u->j++] = ft_strdup((*toks)[u->i - 1]);
+				if (!(*ntoks)[u->j - 1])
+					return ;
+			}
 		}
 	}
 	(*ntoks)[u->j] = NULL;
@@ -119,7 +137,8 @@ char	**parse_collector(char **toks)
 		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
 	types = ft_calloc(string_array_len(toks), sizeof(int));
 	if (!types)
-		return (free(ntoks), throw_error("malloc:", __FILE__, __LINE__), NULL);
+		return (string_array_free(&ntoks),
+			throw_error("malloc:", __FILE__, __LINE__), NULL);
 	repeat_process(&toks, &ntoks, &types, &u);
 	free(types);
 	string_array_free(&toks);

@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 13:54:37 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/15 14:59:38 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	shell_exec(t_sh *shell)
 		parse(shell);
 		debug_ast(shell);
 		executor(shell);
+		lex_free(shell);
 		parse_free(shell);
 	}
 	shell_exit(shell);
@@ -63,9 +64,9 @@ void	shell_exec(t_sh *shell)
 
 void	shell_exit(t_sh *shell)
 {
-	shell_free(shell);
 	lex_free(shell);
 	parse_free(shell);
+	shell_free(shell);
 	debug(shell, "\n[ CLEAN EXIT OK ]\n");
 	close(shell->debug_fd);
 	if (!errno)
