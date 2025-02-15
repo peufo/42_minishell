@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_script.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:12 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/13 18:20:25 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/15 13:16:52 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,13 @@ static void	swap_alignment(t_ast	**new_node, t_ast **original, t_ast **ref)
 
 t_ast	*parse_handle_script(char **toks, t_sh *shell)
 {
-	static int		i;
-	int				len;
-	t_ast			*ast;
-	t_ast			*new;
-	t_ast			*ref;
+	int			i;
+	int			len;
+	t_ast		*ast;
+	t_ast		*new;
+	t_ast		*ref;
 
+	i = 0;
 	ast = NULL;
 	ref = NULL;
 	len = string_array_len(toks);
@@ -40,7 +41,7 @@ t_ast	*parse_handle_script(char **toks, t_sh *shell)
 		new->type = parse_get_type(toks[i]);
 		if (new->type == AST_COMMAND)
 			new->args = parse_word_content(shell, toks[i]);
-		else if (new->type == AST_LOGICAL)
+		else if (new->type != AST_END)
 			new->op = parse_get_op(toks[i]);
 		if (!ast)
 			ast = new;

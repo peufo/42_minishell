@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:11:07 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/13 18:21:40 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/15 13:51:40 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,6 @@ char	**parse_collector(char **toks)
 		return (free(ntoks), throw_error("malloc:", __FILE__, __LINE__), NULL);
 	repeat_process(&toks, &ntoks, &types, &u);
 	free(types);
+	string_array_free(&toks);
 	return (ntoks);
 }

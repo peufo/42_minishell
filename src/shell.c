@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 06:37:58 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/15 13:54:37 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	shell_exec(t_sh *shell)
 		parse(shell);
 		debug_ast(shell);
 		executor(shell);
+		parse_free(shell);
 	}
 	shell_exit(shell);
 }
