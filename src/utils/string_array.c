@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_array.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:05:13 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 15:07:25 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/15 13:36:48 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ void	string_array_free(char ***arr)
 		return ;
 	cursor = *arr;
 	while (*cursor)
-		free(*(cursor++));
+	{
+		free(*cursor);
+		*cursor = NULL;
+		cursor++;
+	}
 	free(*arr);
 	*arr = NULL;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_inits.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:08 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/13 18:11:22 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/15 13:41:51 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_ast	*parse_init_ast(void)
 		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
 	node->left = NULL;
 	node->right = NULL;
-	node->args = NULL;
+	ft_bzero(&node->args, sizeof(char *));
 	node->op = AST_OP_NULL;
 	node->type = AST_END;
 	return (node);
