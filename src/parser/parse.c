@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 17:01:38 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/15 17:15:40 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ void	parse(t_sh *shell)
 	else if (pare_feu == 1)
 		return (debug(shell, "Only words\n"));
 	string_array_free(&shell->ast->args);
+	free(shell->ast);
+	shell->ast = NULL;
 	args = string_array_dup(shell->lexer.tokens);
 	args_tmp = parse_collector(args);
 	debug_new_tokens(shell, args_tmp);
 	shell->ast = parse_handle_script(args_tmp, shell);
-	shell_exit(shell);
 	debug_ast(shell);
 }
