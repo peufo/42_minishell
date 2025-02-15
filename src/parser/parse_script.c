@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:12 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 16:27:19 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/15 16:54:47 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ t_ast	*parse_handle_script(char **toks, t_sh *shell)
 		ref = new;
 		i++;
 	}
+	string_array_free(&toks);
 	return (ast);
 }

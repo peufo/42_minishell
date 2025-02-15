@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:11:07 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 15:21:06 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/15 16:57:09 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**parse_word_content(t_sh *shell, char *element)
 		u.i++;
 	cmd[0] = extract_word(element, 0, u.i);
 	if (!cmd[0])
-		return (free(cmd), free(element), NULL);
+		return (free(cmd), NULL);
 	if (ft_isspace(element[u.i]))
 		u.i++;
 	while (element[u.i + u.j])
@@ -53,9 +53,9 @@ char	**parse_word_content(t_sh *shell, char *element)
 	cmd[1] = extract_word(element, u.i, u.j + u.i);
 	debug_arr(shell, (char *[]){"cmd :", cmd[0], "\n", NULL});
 	if (!cmd[1])
-		return (string_array_free(&cmd), free(element), NULL);
+		return (string_array_free(&cmd), NULL);
 	cmd[2] = NULL;
-	return (free(element), cmd);
+	return (cmd);
 }
 
 static char	*assemble(char **toks, int n, int start)
@@ -91,35 +91,17 @@ static void	repeat_process(char ***toks, char ***ntoks, int **types, t_utils *u)
 		if (u->k > 2)
 		{
 			(*ntoks)[u->j++] = assemble(*toks, u->k, u->i - u->k);
-			if (!(*ntoks)[u->j - 1])
-				return ;
 			if ((*toks)[u->i - 1] != NULL && (*toks)[u->i] != NULL)
-			{
 				(*ntoks)[u->j++] = ft_strdup((*toks)[-1 + u->i]);
-				if (!(*ntoks)[u->j - 1])
-					return ;
-			}
 		}
 		else if ((*toks)[u->i - 1] != NULL)
 		{
 			if ((*toks)[u->i] != NULL)
-			{
 				(*ntoks)[u->j++] = ft_strdup((*toks)[u->i - 2]);
-				if (!(*ntoks)[u->j - 1])
-					return ;
-			}
 			else if ((*types)[u->k - 1] == AST_COMMAND)
-			{
 				(*ntoks)[u->j++] = assemble(*toks, 3, u->i - u->k);
-				if (!(*ntoks)[u->j - 1])
-					return ;
-			}
 			if ((*toks)[u->i - 1] && (*toks)[u->i] != NULL)
-			{
 				(*ntoks)[u->j++] = ft_strdup((*toks)[u->i - 1]);
-				if (!(*ntoks)[u->j - 1])
-					return ;
-			}
 		}
 	}
 	(*ntoks)[u->j] = NULL;
@@ -130,8 +112,10 @@ char	**parse_collector(char **toks)
 	t_utils	u;
 	int		*types;
 	char	**ntoks;
+	char	**tmp;
 
 	ft_bzero(&u, sizeof(u));
+	tmp = string_array_dup(toks);
 	ntoks = ft_calloc(string_array_len(toks), sizeof(char *));
 	if (!ntoks)
 		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
@@ -139,8 +123,9 @@ char	**parse_collector(char **toks)
 	if (!types)
 		return (string_array_free(&ntoks),
 			throw_error("malloc:", __FILE__, __LINE__), NULL);
-	repeat_process(&toks, &ntoks, &types, &u);
+	repeat_process(&tmp, &ntoks, &types, &u);
 	free(types);
+	string_array_free(&tmp);
 	string_array_free(&toks);
 	return (ntoks);
 }
