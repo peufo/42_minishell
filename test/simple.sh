@@ -1,2 +1,1 @@
-echo test
-echo "Salut $USER"
+echo a && b && c

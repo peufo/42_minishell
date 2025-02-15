@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:56:04 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 10:04:58 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/15 14:32:27 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	debug_new_tokens(t_sh *shell, char **toks)
 		debug(shell, "\nnew token is :");
 		debug(shell, toks[i++]);
 	}
+	debug(shell, "\n\n");
 }
 
 void	debug_two_lists(t_sh *shell, t_list *l1, t_list *l2)

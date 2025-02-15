@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:11:07 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 13:51:40 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/15 14:31:45 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,13 @@ static void	repeat_process(char ***toks, char ***ntoks, int **types, t_utils *u)
 			if ((*toks)[u->i - 1] != NULL && (*toks)[u->i] != NULL)
 				(*ntoks)[u->j++] = ft_strdup((*toks)[-1 + u->i]);
 		}
-		else if ((*toks)[u->i - 1] != NULL && 2)
+		else if ((*toks)[u->i - 1] != NULL)
 		{
 			if ((*toks)[u->i] != NULL)
 				(*ntoks)[u->j++] = ft_strdup((*toks)[u->i - 2]);
 			else if ((*types)[u->k - 1] == AST_COMMAND)
 				(*ntoks)[u->j++] = assemble(*toks, 3, u->i - u->k);
-			else
+			if ((*toks)[u->i - 1] && (*toks)[u->i] != NULL)
 				(*ntoks)[u->j++] = ft_strdup((*toks)[u->i - 1]);
 		}
 	}
