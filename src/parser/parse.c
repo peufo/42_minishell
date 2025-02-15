@@ -6,11 +6,26 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 14:24:16 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 16:27:42 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/15 17:01:38 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+/*
+static void	print_remaining(t_sh *shell, char ***tab)
+{
+	int	i;
+
+	i = 0;
+	if (!tab || !*tab)
+		return ;
+	debug(shell, "\n\nPRINTING THE REMAINING\n\n");
+	while (*tab[i])
+	{
+		debug(shell, *tab[i]);
+		free(*tab[i++]);
+	}
+}*/
 
 void	parse(t_sh *shell)
 {
