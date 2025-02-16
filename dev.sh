@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRC_DIR="./src"
-LOG_DIR="./log"
+LOG_DIR="log"
 PROG="./minishell"
 LEAKS_CHECK=true
 
@@ -57,8 +57,8 @@ run_test() {
 	mkdir -p "$LOG_DIR/$TEST_NAME"
 	LOG_FILE="$LOG_DIR/$TEST_NAME/mini.log"
 	$COMMAND > "$LOG_FILE"
-	info "$TEST_NAME"
-	echo -e "mini:\t$LOG_FILE"
+	info "$TEST_NAME \ttest/$TEST_NAME.sh"
+	echo -e "mini\t\t$LOG_FILE"
 	get_diff $TEST_FILE $LOG_FILE
 	check_leaks
 	echo
@@ -73,7 +73,7 @@ get_diff() {
 	bash $TEST_FILE > $LOG_FILE_BASH
 	DIFF=$(diff -u $LOG_FILE_BASH $LOG_FILE_MINI)
 	diff -u $LOG_FILE_BASH $LOG_FILE_MINI > $LOG_FILE_DIFF
-	echo -e "bash:\t$LOG_FILE_BASH"
+	echo -e "bash\t\t$LOG_FILE_BASH"
 	if [[ $DIFF == "" ]] ; then
 		success "DIFF\tOK"
 	else
