@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:12 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 16:54:47 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/16 09:03:45 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,31 +25,29 @@ static void	swap_alignment(t_ast	**new_node, t_ast **original, t_ast **ref)
 
 t_ast	*parse_handle_script(char **toks, t_sh *shell)
 {
-	int			i;
-	int			len;
+	t_utils		u;
 	t_ast		*ast;
 	t_ast		*new;
 	t_ast		*ref;
 
-	i = 0;
 	ast = NULL;
 	ref = NULL;
-	len = string_array_len(toks);
-	while (i < len)
+	ft_bzero(&u, sizeof(t_utils));
+	u.x = string_array_len(toks);
+	while (u.i < u.x)
 	{
 		new = parse_init_ast();
-		new->type = parse_get_type(toks[i]);
+		new->type = parse_get_type(toks[u.i]);
 		if (new->type == AST_COMMAND)
-			new->args = parse_word_content(shell, toks[i]);
+			new->args = parse_word_content(shell, toks[u.i]);
 		else if (new->type != AST_END)
-			new->op = parse_get_op(toks[i]);
+			new->op = parse_get_op(toks[u.i]);
 		if (!ast)
 			ast = new;
 		else
 			swap_alignment(&new, &ast, &ref);
 		ref = new;
-		i++;
+		u.i++;
 	}
-	string_array_free(&toks);
-	return (ast);
+	return (string_array_free(&toks), ast);
 }
