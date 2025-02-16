@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 14:46:38 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/16 09:02:16 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,5 @@ void	lex_free(t_sh *shell)
 {
 	string_free(&shell->lexer.token);
 	string_free(&shell->lexer.varname);
-//	ft_bzero(&shell->lexer.tokens, sizeof(char *));
 	string_array_free(&shell->lexer.tokens);
 }
