@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 16:22:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/16 23:01:16 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/16 23:16:55 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static char	*find_bin(char *dir, char *name)
 	{
 		dp = readdir(dirp);
 		if (!dp)
-			return (NULL);
+			break ;
 		if (!ft_strcmp(dp->d_name, name))
 		{
 			closedir(dirp);
@@ -82,7 +82,8 @@ int	exec_bin(t_sh *shell)
 	char	**paths;
 	char	**dir;
 	char	*bin;
-	int		ret;
+	pid_t	pid;
+	int		status;
 
 	paths = get_paths(shell);
 	dir = paths;
@@ -94,11 +95,15 @@ int	exec_bin(t_sh *shell)
 	}
 	string_array_free(&paths);
 	if (!bin)
+		return (throw_error("Command not found", __FILE__, __LINE__) ,1);
+	pid = fork();
+	if (pid == 0)
 	{
-		throw_error("Command not found", __FILE__, __LINE__);
-		return (1);
+		status = execve(bin, shell->ast->args, shell->env);
+		free(bin);
+		return (status);
 	}
-	ret = execve(bin, shell->ast->args, shell->env);
 	free(bin);
-	return (ret);
+	waitpid(pid, &status, 0);
+	return (status);
 }
