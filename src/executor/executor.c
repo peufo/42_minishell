@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/17 06:57:16 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/17 15:49:29 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ static int	simple_exec(t_sh *shell)
 	builtin = get_builtin(*shell->ast->args);
 	if (builtin)
 		return (builtin(shell), 0);
-	execve(shell->cwd, shell->ast->args, shell->env);
-	return (0);
+	return (exec_bin(shell));
 }
 
 int	exec_ast(t_sh *shell, t_ast *node)

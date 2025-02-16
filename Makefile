@@ -1,7 +1,7 @@
 NAME			=	minishell
 DIR_SRC			=	./src
 DIR_BUILD		=	./build
-SOURCES			=	builtin/cd.c builtin/echo.c builtin/env.c builtin/exit.c builtin/export.c builtin/get_builtin.c builtin/pwd.c builtin/unset.c debug_AST.c debug_general.c executor/exec_handlers.c executor/executor.c executor/handle_redirections.c input/get_next_line.c input/input_read.c lexer/lex.c lexer/lexer_action.c lexer/lexer_action_var.c lexer/lexer_state.c main.c parser/parse.c parser/parse_checkers.c parser/parse_geters.c parser/parse_inits.c parser/parse_script.c parser/parse_utils.c shell.c utils/debug.c utils/error.c utils/libft_extra.c utils/string.c utils/string_array.c utils/string_array_find.c utils/string_array_find_last.c utils/string_array_match.c 
+SOURCES			=	builtin/cd.c builtin/echo.c builtin/env.c builtin/exit.c builtin/export.c builtin/get_builtin.c builtin/pwd.c builtin/unset.c debug_AST.c debug_general.c executor/exec_bin.c executor/exec_handlers.c executor/executor.c executor/handle_redirections.c input/get_next_line.c input/input_read.c lexer/lex.c lexer/lexer_action.c lexer/lexer_action_var.c lexer/lexer_state.c main.c parser/parse.c parser/parse_checkers.c parser/parse_geters.c parser/parse_inits.c parser/parse_script.c parser/parse_utils.c shell.c utils/debug.c utils/error.c utils/libft_extra.c utils/string.c utils/string_array.c utils/string_array_find.c utils/string_array_find_last.c utils/string_array_match.c 
 SOURCES_NAME	=	$(basename $(SOURCES))
 OBJECTS			=	$(addsuffix .o, $(addprefix $(DIR_BUILD)/, $(SOURCES_NAME)))
 FLAGS			=	-Wall -Wextra -Werror -g

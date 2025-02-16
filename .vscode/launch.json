@@ -5,16 +5,28 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Lancer",
+			"name": "Lancer (Linux)",
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/minishell",
-			"args": ["./test/simple.sh"],
+			"args": ["./test/bin.sh"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
 			"MIMode": "gdb"
+		},
+		{
+			"name": "Lancer (MacOS)",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/minishell",
+			"args": ["./test/bin.sh"],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "lldb"
 		}
 	]
 }
