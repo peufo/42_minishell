@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 16:22:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/16 22:53:45 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/16 22:59:17 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	exec_bin(t_sh *shell)
 	ft_putstr_fd("BIN=\"", shell->pipe.out);
 	ft_putstr_fd(bin, shell->pipe.out);
 	ft_putstr_fd("\"\n", shell->pipe.out);
-	ret = execve(bin, NULL, shell->env);
+	ret = execve(bin, shell->ast->args, shell->env);
 	free(bin);
 	return (ret);
 }
