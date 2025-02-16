@@ -19,6 +19,9 @@
 		"string_array.h": "c",
 		"bit": "c",
 		"cmath": "c",
-		"sstream": "c"
+		"sstream": "c",
+		"history.h": "c",
+		"stat.h": "c",
+		"libft.h": "c"
 	}
 }

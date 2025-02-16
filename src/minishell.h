@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/16 13:34:57 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/17 15:50:06 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <termios.h>
+# include <dirent.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <sys/ioctl.h>
+# include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
@@ -175,6 +177,7 @@ t_list	*parse_get_typelist(char **toks, int mod, t_sh *shell);
 // EXEC ========================================================================
 
 int		executor(t_sh *shell);
+int		exec_bin(t_sh *shell);
 int		exec_ast(t_sh *shell, t_ast *node);
 void	exec_handle_pipeline(t_sh *shell, t_ast *node);
 void	exec_handle_redirection(t_sh *shell, t_ast *node);

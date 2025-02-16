@@ -25,7 +25,7 @@ watch() {
 			clear
 			info "───────── $(date) ─────────"
 			sync_sources
-			norminette_pretty $SRC_DIR
+			norminette_pretty "$SRC_DIR lib"
 			rm -f "$PROG"
 			make
 			if [ ! -f "$PROG" ]; then
