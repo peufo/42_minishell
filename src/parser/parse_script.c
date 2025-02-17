@@ -6,15 +6,15 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:12 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/16 09:03:45 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/17 07:21:32 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	swap_alignment(t_ast	**new_node, t_ast **original, t_ast **ref)
+static void	swap_alignment(t_ast **new_node, t_ast **original, t_ast **ref)
 {
-	if ((*new_node)->type == AST_LOGICAL)
+	if ((*new_node)->type != AST_COMMAND)
 	{
 		(*new_node)->left = *original;
 		*original = *new_node;

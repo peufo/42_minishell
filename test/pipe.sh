@@ -1,1 +1,1 @@
-echo "salut $USER" | echo hello && echo c
+echo a | echo b | echo c

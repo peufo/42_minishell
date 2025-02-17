@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 13:55:30 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/17 06:57:16 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int	simple_exec(t_sh *shell)
 	builtin = get_builtin(*shell->ast->args);
 	if (builtin)
 		return (builtin(shell), 0);
+	execve(shell->cwd, shell->ast->args, shell->env);
 	return (0);
 }
 
@@ -48,6 +49,8 @@ int	executor(t_sh *shell)
 {
 	if (!shell->ast->args)
 		return (0);
+	if (!ft_strcmp(shell->ast->args[0], "exitshell"))
+		shell_exit(shell);
 	if (!exec_ast(shell, shell->ast))
 		debug(shell, "ast executed\n");
 	return (0);
