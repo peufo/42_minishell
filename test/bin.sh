@@ -1,5 +1,2 @@
-ls
-pwd
-cd test
-ls
-pwd
+cat README.md
+cat README.md

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_bin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 16:22:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/16 23:16:55 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/17 12:03:49 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	**get_paths(t_sh *shell)
 			cursor_end++;
 		string_array_push(&paths, ft_strcut(cursor_start, cursor_end));
 		if (!*cursor_end)
-			break;
+			break ;
 		cursor_end++;
 		cursor_start = cursor_end;
 	}
@@ -61,7 +61,7 @@ static char	*find_bin(char *dir, char *name)
 
 	dirp = opendir(dir);
 	if (!dirp)
-			return (NULL);
+		return (NULL);
 	while (true)
 	{
 		dp = readdir(dirp);
@@ -77,13 +77,28 @@ static char	*find_bin(char *dir, char *name)
 	return (NULL);
 }
 
+static int	exec_bin_as_child(t_sh *shell, char *bin)
+{
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		status = execve(bin, shell->ast->args, shell->env);
+		free(bin);
+		return (status);
+	}
+	free(bin);
+	waitpid(pid, &status, 0);
+	return (status);
+}
+
 int	exec_bin(t_sh *shell)
 {
 	char	**paths;
 	char	**dir;
 	char	*bin;
-	pid_t	pid;
-	int		status;
 
 	paths = get_paths(shell);
 	dir = paths;
@@ -95,15 +110,6 @@ int	exec_bin(t_sh *shell)
 	}
 	string_array_free(&paths);
 	if (!bin)
-		return (throw_error("Command not found", __FILE__, __LINE__) ,1);
-	pid = fork();
-	if (pid == 0)
-	{
-		status = execve(bin, shell->ast->args, shell->env);
-		free(bin);
-		return (status);
-	}
-	free(bin);
-	waitpid(pid, &status, 0);
-	return (status);
+		return (throw_error("Command not found", __FILE__, __LINE__), 1);
+	return (exec_bin_as_child(shell, bin));
 }

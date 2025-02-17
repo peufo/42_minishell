@@ -35,7 +35,7 @@ watch() {
 				info "───────────────────────────────────────────────────\n"
 
 				if [[ $TEST_NAME != "" ]] ; then
-					run_test "./test/$TEST_NAME.sh"
+					run_test "test/$TEST_NAME.sh"
 				else
 					for TEST_FILE in ./test/*.sh ; do 
 						run_test "$TEST_FILE"
