@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 16:59:32 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/17 16:50:04 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	shell_free(t_sh *shell)
 	}
 	if (!shell->is_interactive && shell->pipe.in != -1)
 		close(shell->pipe.in);
-	free(shell->cwd);
 	string_array_free(&shell->env);
 }
 
@@ -31,9 +30,8 @@ void	shell_init(t_sh *shell, char **env)
 	shell->name = "minishell";
 	shell->pipe.in = STDIN_FILENO;
 	shell->pipe.out = STDOUT_FILENO;
-	shell->cwd = getcwd(NULL, 0);
 	shell->env = string_array_dup(env);
-	if (!shell->env || !shell->cwd)
+	if (!shell->env)
 		return (shell_exit(shell));
 }
 

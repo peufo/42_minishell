@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/17 15:50:06 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:42:49 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,6 @@ struct s_sh
 	char		*name;
 	char		*line;
 	char		**env;
-	char		*cwd;
 	t_pipe		pipe;
 	bool		is_running;
 	bool		is_interactive;
