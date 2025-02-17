@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 16:22:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/17 12:03:49 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:32:29 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ static char	*find_bin(char *dir, char *name)
 
 	dirp = opendir(dir);
 	if (!dirp)
+	{
+		errno = false;
 		return (NULL);
+	}
 	while (true)
 	{
 		dp = readdir(dirp);
@@ -87,6 +90,7 @@ static int	exec_bin_as_child(t_sh *shell, char *bin)
 	{
 		status = execve(bin, shell->ast->args, shell->env);
 		free(bin);
+		shell_exit(shell);
 		return (status);
 	}
 	free(bin);
