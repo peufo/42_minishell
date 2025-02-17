@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:27:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/12 10:57:53 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/17 07:01:27 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ static void	op_to_str(t_sh *shell, int type)
 	if (type == AST_OP_AND)
 		debug(shell, "AND OPERATOR [&&]");
 	else if (type == AST_OP_OR)
-		debug(shell, "AND OPERATOR [&&]");
+		debug(shell, "OR OPERATOR [||]");
 	else if (type == AST_OP_GREAT)
-		debug(shell, "AND OPERATOR [&&]");
+		debug(shell, "SIMPLE REDIR [>]");
 	else if (type == AST_OP_DGREAT)
-		debug(shell, "AND OPERATOR [&&]");
+		debug(shell, "DOUBLE REDIR [>>]");
 	else if (type == AST_OP_LESS)
-		debug(shell, "AND OPERATOR [&&]");
+		debug(shell, "SIMPLE REDIR [<]");
 	else if (type == AST_OP_DLESS)
-		debug(shell, "AND OPERATOR [&&]");
+		debug(shell, "DOUBLE REDIR [<<]");
 	else
 		debug(shell, "OPERATOR NULL");
 }

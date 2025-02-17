@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:53:27 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/12 11:03:37 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/16 13:27:59 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	exec_handle_logical(t_sh *shell, t_ast *node)
 	if (node->op == AST_OP_OR && exec_ast(shell, node->left))
 		exec_ast(shell, node->right);
 	else if (!exec_ast(shell, node->left))
-		exec_ast(shell, node->right);
+		exec_ast(shell, node->left);
 }
 
 void	exec_handle_command(t_sh *shell, t_ast *node)
@@ -42,4 +42,5 @@ void	exec_handle_command(t_sh *shell, t_ast *node)
 	builtin = get_builtin(*node->args);
 	if (builtin)
 		builtin(shell);
+	execve(node->args[0], node->args, shell->env);
 }

@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/11 04:36:14 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/16 13:02:10 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	resolve_path(t_sh *shell, t_string *cwd, char *path)
 	return (resolve_path(shell, cwd, path));
 }
 
-// TODO
+/* executer virtuellement ls, stocker dans un buffer et comparer ?*/
 bool	directory_exist(char *path)
 {
 	(void)path;
