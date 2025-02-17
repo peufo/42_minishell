@@ -1,4 +1,5 @@
-cat README.md
+cat Dockerfile .gitignore
+ls -l
+cd ..
 ls
-cat README.md
 pwd

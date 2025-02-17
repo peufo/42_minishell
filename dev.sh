@@ -14,7 +14,6 @@ else
 fi
 
 watch() {
-	TEST_NAME=$1
 	STATE_A=""
 	PROG_PID=""
 	while [[ true ]]
@@ -34,8 +33,8 @@ watch() {
 				success "COMPILATION\tOK\n"
 				info "───────────────────────────────────────────────────\n"
 
-				if [[ $TEST_NAME != "" ]] ; then
-					run_test "test/$TEST_NAME.sh"
+				if [[ $1 != "" ]] ; then
+					run_test "test/$1.sh"
 				else
 					for TEST_FILE in ./test/*.sh ; do 
 						run_test "$TEST_FILE"
@@ -48,14 +47,14 @@ watch() {
 }
 
 run_test() {
-	TEST_FILE=$1
-	COMMAND="$PROG $TEST_FILE"
+	local TEST_FILE=$1
+	local COMMAND="$PROG $TEST_FILE"
 	if $LEAKS_CHECK ; then
 		COMMAND="$LEAKS_CMD $COMMAND"
 	fi
-	TEST_NAME="$(basename $TEST_FILE .sh)"
+	local TEST_NAME="$(basename $TEST_FILE .sh)"
 	mkdir -p "$LOG_DIR/$TEST_NAME"
-	LOG_FILE="$LOG_DIR/$TEST_NAME/mini.log"
+	local LOG_FILE="$LOG_DIR/$TEST_NAME/mini.log"
 	$COMMAND > "$LOG_FILE"
 	info "$TEST_NAME \ttest/$TEST_NAME.sh"
 	echo -e "mini\t\t$LOG_FILE"
