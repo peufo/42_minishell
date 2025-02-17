@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/17 15:49:29 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:51:58 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ int	executor(t_sh *shell)
 {
 	if (!shell->ast->args)
 		return (0);
-	if (!ft_strcmp(shell->ast->args[0], "exitshell"))
-		shell_exit(shell);
 	if (!exec_ast(shell, shell->ast))
 		debug(shell, "ast executed\n");
 	return (0);

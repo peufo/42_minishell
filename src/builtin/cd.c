@@ -6,13 +6,12 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/17 17:01:30 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:50:01 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO: check env .PWD and OLDPWD
 int	builtin_cd(t_sh *shell)
 {
 	char	*path;
@@ -31,7 +30,11 @@ int	builtin_cd(t_sh *shell)
 	status = chdir(path);
 	free(path);
 	env_set(shell, "OLDPWD", ft_strcat("OLDPWD=", cwd));
-	env_set(shell, "PWD", getcwd(NULL, 0));
+	free(cwd);
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (1);
+	env_set(shell, "PWD", ft_strcat("PWD=", cwd));
 	free(cwd);
 	return (status);
 }
