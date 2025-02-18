@@ -6,11 +6,17 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/16 09:02:16 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/18 07:38:19 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	skip_line(t_sh *shell)
+{
+	while (*(shell->lexer.cursor) != '\0')
+		shell->lexer.cursor++;
+}
 
 static bool	next_state_match(t_sh *shell, t_lexer_next_state *next)
 {
@@ -57,10 +63,14 @@ void	lex(t_sh *shell)
 	lex_free(shell);
 	shell->lexer.state = LEXER_DEFAULT;
 	shell->lexer.cursor = shell->line;
+	if (!ft_strlen(shell->lexer.cursor))
+		shell_exit(shell);
 	lexer_action_skip_blank(shell);
 	while (*(shell->lexer.cursor))
 	{
 		next_state = get_next_state(shell);
+		if (*(shell->lexer.cursor) == '#' && next_state <= 1)
+			skip_line(shell);
 		if (next_state)
 			lexer_action(shell, next_state);
 		else

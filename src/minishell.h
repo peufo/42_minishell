@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/17 16:42:49 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/18 08:35:13 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct e_lexer_next_state
 typedef void				(*t_lexer_state_handler)(t_sh *);
 typedef void				(*t_lexer_action_handler)(t_sh *);
 
+//	MAIN LEXER
 void	lex(t_sh *shell);
 void	lex_free(t_sh *shell);
 void	lexer_state(t_sh *shell);
@@ -103,6 +104,11 @@ void	lexer_action_end_token(t_sh *shell);
 void	lexer_action_expand_var(t_sh *shell);
 void	lexer_action_expand_var_end_token(t_sh *shell);
 void	lexer_action_skip_blank(t_sh *shell);
+
+//	EOF LEXER
+void	lex_check_eof(t_sh *shell);
+bool	lex_check_var(t_sh *shell, char *line, char **buffer);
+bool	lex_check_quotes(t_sh *shell, char *line, char **buffer);
 
 // PARSER ====================================================================
 

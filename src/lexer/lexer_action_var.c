@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_action_var.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:13:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 00:38:33 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/18 08:20:13 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	lexer_action_expand_var(t_sh *shell)
 		string_push_str(&shell->lexer.token, "TODO: EXIT_STATUS");
 	else
 		expand_var(shell);
-	shell->lexer.cursor++;
+	if (*(shell->lexer.cursor) != '\0')
+		shell->lexer.cursor++;
 }
 
 void	lexer_action_expand_var_end_token(t_sh *shell)
