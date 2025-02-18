@@ -5,8 +5,8 @@ echo Y'O '$LOGNAME" "comment"$"va ?
 echo
 echo -n
 echo
+
 cd /etc/../home
-pwd
 cd
 pwd
 echo 1 I LOVE ''
