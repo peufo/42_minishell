@@ -6,12 +6,12 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 08:10:56 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/18 09:03:33 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/18 09:26:20 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 bool	lex_check_var(t_sh *shell, char *line, char **buffer)
 {
 	(void)shell;
@@ -46,4 +46,4 @@ bool	lex_check_quotes(t_sh *shell, char *line, char **buffer)
 			return (true);
 	}
 	return (false);
-}
+}*/
