@@ -6,12 +6,12 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 07:42:21 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/18 08:49:14 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/18 09:26:12 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 static void	sub_last_token(t_sh *shell, char *new_token)
 {
 	int	i;
@@ -71,4 +71,4 @@ void	lex_check_eof(t_sh *shell)
 	sub_last_token(shell, new_token);
 	debug(shell, "got the new token\nNew token is :\n");
 	return (debug(shell, new_token), free(new_token));
-}
+}*/
