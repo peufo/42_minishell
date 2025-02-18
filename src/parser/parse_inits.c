@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:08 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/16 13:11:58 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/18 11:05:39 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ t_ast	*parse_init_ast(void)
 	node->left = NULL;
 	node->right = NULL;
 	node->args = NULL;
-	node->pipe[0] = 0;
-	node->pipe[1] = 0;
+	node->pipe.in = 0;
+	node->pipe.out = 1;
 	node->op = AST_OP_NULL;
 	node->type = AST_END;
 	return (node);

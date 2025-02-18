@@ -1,1 +1,1 @@
-cat Dockerfile | grep valgrind
+echo a | echo b

@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/18 08:35:13 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/18 11:04:47 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ struct s_ast
 	struct s_ast		*left;
 	struct s_ast		*right;
 	char				**args;
-	int					pipe[2];
+	t_pipe				pipe;
 	t_atype				type;
 	t_aop				op;
 };

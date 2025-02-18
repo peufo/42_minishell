@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/18 09:43:43 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/18 10:14:04 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ void	lex(t_sh *shell)
 	lex_free(shell);
 	shell->lexer.state = LEXER_DEFAULT;
 	shell->lexer.cursor = shell->line;
-	if (!ft_strlen(shell->lexer.cursor))
-		return ;
 	lexer_action_skip_blank(shell);
 	while (*(shell->lexer.cursor))
 	{

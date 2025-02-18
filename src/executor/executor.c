@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/17 17:51:58 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:33:51 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	simple_exec(t_sh *shell)
+int	exec(t_sh *shell, t_ast *node)
 {
 	t_bfunc	builtin;
 
+	(void)node;
 	builtin = get_builtin(*shell->ast->args);
 	if (builtin)
 		return (builtin(shell), 0);
@@ -29,7 +30,7 @@ int	exec_ast(t_sh *shell, t_ast *node)
 	if (node->type != AST_END)
 	{
 		if (node->type == AST_COMMAND)
-			exec_handle_command(shell, node);
+			exec(shell, node);
 		else if (node->type == AST_PIPELINE)
 			exec_handle_pipeline(shell, node);
 		else if (node->type == AST_REDIRECT)
@@ -37,7 +38,7 @@ int	exec_ast(t_sh *shell, t_ast *node)
 		else if (node->type == AST_LOGICAL)
 			exec_handle_logical(shell, node);
 		else if (node->type == AST_SCRIPT)
-			return (simple_exec(shell));
+			return (exec(shell, node));
 		else
 			return (throw_error("What ", __FILE__, __LINE__), 0);
 	}
