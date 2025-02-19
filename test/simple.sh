@@ -1,1 +1,1 @@
-echo a | echo b
+echo YO

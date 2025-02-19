@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_handlers.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:53:27 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/18 11:32:35 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 11:01:39 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	exec_handle_pipeline(t_sh *shell, t_ast *node)
 	pid = fork();
 	if (pid == -1)
 		return (shell_exit(shell));
-	if (pid == 0)	//	enfant
+	if (pid == 0)
 	{
 		node->right->pipe.in = pip.in;
 		exec_ast(shell, node->right);

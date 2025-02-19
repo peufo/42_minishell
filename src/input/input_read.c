@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_read.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/18 10:04:37 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 11:08:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@ void	input_read(t_sh	*shell)
 		shell->line = get_next_line(shell->pipe.in);
 	if (errno)
 		shell_exit(shell);
-	if (is_empty_line(shell->line))
+	if (shell->line && is_empty_line(shell->line))
 		input_read(shell);
 }
