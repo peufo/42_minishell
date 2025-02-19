@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:53:27 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 12:32:05 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:44:08 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void	exec_handle_pipeline(t_sh *shell, t_ast *node)
 		return (shell_exit(shell));
 	if (pid == 0)
 	{
-		node->right->pipe.in = pip.in;
+		node->right->pipe.in = pip.out;
 		exec_ast(shell, node->right);
 		close(pip.in);
 		close(pip.out);
 		return (shell_exit(shell));
 	}
-	node->left->pipe.out = pip.out;
+	node->left->pipe.out = pip.in;
 	exec_ast(shell, node->left);
 	close(pip.in);
 	close(pip.out);

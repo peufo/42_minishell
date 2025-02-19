@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 16:22:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 12:35:47 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:53:03 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static char	*find_bin(char *dir, char *name)
 	return (NULL);
 }
 
-static int	exec_bin_as_child(t_sh *shell, char *bin)
+static int	exec_bin_as_child(t_sh *shell, t_ast *node, char *bin)
 {
 	pid_t	pid;
 	int		status;
@@ -88,7 +88,7 @@ static int	exec_bin_as_child(t_sh *shell, char *bin)
 	pid = fork();
 	if (pid == 0)
 	{
-		status = execve(bin, shell->ast->args, shell->env);
+		status = execve(bin, node->args, shell->env);
 		free(bin);
 		shell_exit(shell);
 		return (status);
@@ -115,5 +115,5 @@ int	exec_bin(t_sh *shell, t_ast *node)
 	string_array_free(&paths);
 	if (!bin)
 		return (throw_error("Command not found", __FILE__, __LINE__), 1);
-	return (exec_bin_as_child(shell, bin));
+	return (exec_bin_as_child(shell, node, bin));
 }
