@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_bin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 16:22:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/18 10:16:20 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 12:35:47 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static int	exec_bin_as_child(t_sh *shell, char *bin)
 	return (status);
 }
 
-int	exec_bin(t_sh *shell)
+int	exec_bin(t_sh *shell, t_ast *node)
 {
 	char	**paths;
 	char	**dir;
@@ -109,7 +109,7 @@ int	exec_bin(t_sh *shell)
 	bin = NULL;
 	while (*dir && !bin)
 	{
-		bin = find_bin(*dir, *shell->ast->args);
+		bin = find_bin(*dir, *node->args);
 		dir++;
 	}
 	string_array_free(&paths);

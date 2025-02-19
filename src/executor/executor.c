@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/18 11:33:51 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 12:38:29 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ int	exec(t_sh *shell, t_ast *node)
 {
 	t_bfunc	builtin;
 
-	(void)node;
-	builtin = get_builtin(*shell->ast->args);
+	builtin = get_builtin(*node->args);
 	if (builtin)
 		return (builtin(shell), 0);
-	return (exec_bin(shell));
+	return (exec_bin(shell, node));
 }
 
 int	exec_ast(t_sh *shell, t_ast *node)
