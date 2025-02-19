@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 12:37:14 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/19 08:33:05 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	input_read(t_sh *shell);
 
 # define CHARSET_META "|&;()<> \t\n"
 # define CHARSET_META_VISIBLE "|&;()<>"
+# define BASIC_MOD 0
+# define BONUS_MOD 1
 
 typedef enum e_lexer_state
 {
@@ -106,7 +108,8 @@ void	lexer_action_expand_var_end_token(t_sh *shell);
 void	lexer_action_skip_blank(t_sh *shell);
 
 //	EOF LEXER
-void	lex_check_eof(t_sh *shell);
+bool	check_token(t_sh *shell);
+bool	lex_check_eof(t_sh *shell);
 bool	lex_check_var(t_sh *shell, char *line, char **buffer);
 bool	lex_check_quotes(t_sh *shell, char *line, char **buffer);
 

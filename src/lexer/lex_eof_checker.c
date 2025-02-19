@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 07:42:21 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 07:40:57 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 08:33:33 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,30 +47,35 @@ static bool	check_line(t_sh *shell, t_string line, char **buffer)
 	return (false);
 }
 
-
-bool check_token(t_sh *shell)
+static bool	is_eof_token(char *s, int iter)
 {
-	char	c1;
-	char	c2;
-	char	c3;
-
-	c3 = 0;
-	if (!shell || !shell->lexer.cursor)
-		return (false);
-	c1 = *(shell->lexer.cursor);
-	if (c1)
-		c2 = *(shell->lexer.cursor);
-	else
-		c2 = 0;
-	printf("\nCHARS : %c, %c, %c\n", c1, c2, c3);
-	if (c1 == '"' && c2 == 0 && c3 == 0)
+	
+	if ((s[iter] == '"' && !s[iter + 1]) || (s[iter] == '\'' && !s[iter + 1]))
 		return (true);
-	if (c1 != 0 && c2 == '"' && c3 == 0)
-		return true;
+	else if (s[iter + 1] == '<' && s[iter] == '<'  && !s[iter + 2])
+		return (true);
 	return (false);
 }
 
-void	lex_check_eof(t_sh *shell)
+static bool	check_cursor(t_sh *shell)
+{
+	int		i;
+	char	*line;
+
+	i = 0;
+	line = shell->lexer.cursor;
+	if (!line)
+		return (BASIC_MOD);
+	while (line[i] && ft_isalnum(line[i]) && ft_isspace(line[i]))
+	{
+		if (is_eof_token(line, i))
+			return (BONUS_MOD);
+		i++;
+	}
+	return (BASIC_MOD);
+}
+
+int	lex_check_eof(t_sh *shell)
 {
 	t_string	line;
 	char		*buffer;
@@ -79,11 +84,12 @@ void	lex_check_eof(t_sh *shell)
 	buffer = NULL;
 	new_token = NULL;
 	ft_bzero(&line, sizeof(t_string));
+	if (check_cursor(shell) == BASIC_MOD)
+		return (BASIC_MOD);
 	if (!check_token(shell))
-		return (debug(shell, "\nInput line ok\n\n"));
+		return (debug(shell, "\nInput line ok\n\n"), BASIC_MOD);
 	while (1)
 	{
-		debug(shell, "OKOKOKOKOKO\n");
 		ft_putchar_fd('>', STDOUT_FILENO);
 		line.value = get_next_line(STDIN_FILENO);
 		if (check_line(shell, line, &buffer))
@@ -95,6 +101,5 @@ void	lex_check_eof(t_sh *shell)
 		free(line.value);
 	}
 	sub_last_token(shell, new_token);
-	debug(shell, "got the new token\nNew token is :\n");
 	return (debug(shell, new_token), free(new_token), free((line.value)));
 }*/
