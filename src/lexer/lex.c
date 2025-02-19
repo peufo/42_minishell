@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 07:54:03 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:38:45 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ void	lex(t_sh *shell)
 	lex_free(shell);
 	shell->lexer.state = LEXER_DEFAULT;
 	shell->lexer.cursor = shell->line;
-	if (lex_check_eof(shell))
-		return ;
 	if (!ft_strlen(shell->lexer.cursor))
 		shell_exit(shell);
 	lexer_action_skip_blank(shell);
