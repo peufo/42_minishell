@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 09:40:41 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 12:47:27 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,25 @@ static t_lexer_state	get_next_state(t_sh *shell)
 	return (LEXER_NO_STATE);
 }
 
+static void	lex_get_context(t_sh *shell, char **cursor, int state, int next_state)
+{
+	if (!cursor || !*cursor)
+		return ;
+	printf("Cursor is : %s\n", *cursor);
+	printf("Acutal state is : %d\n", state);
+	printf("Next state is : %d\n", next_state);
+	if (shell->lexer.token.value)
+		printf("\nToken is : %s\n\n", shell->lexer.token.value);
+}
+/*
+static bool	lex_hawk_eye(t_sh *shell, char **str, int state, int next)
+{
+	if (*str[0] == '"' && *str[1] == '\0' && state == 1 && next == 4)
+		return (BONUS_MOD);
+	if (*str[0] == '\0')
+	return (BASIC_MOD);
+}*/
+
 void	lex(t_sh *shell)
 {
 	t_lexer_state	next_state;
@@ -71,12 +90,16 @@ void	lex(t_sh *shell)
 		next_state = get_next_state(shell);
 		if (*(shell->lexer.cursor) == '#' && next_state <= 1)
 			skip_line(shell);
+//		if (lex_hawkeye(shell, &shell->lexer.cursor, shell->lexer.state, next_state))
+//			return (BONUS_MOD);
 		if (next_state)
 			lexer_action(shell, next_state);
 		else
 			lexer_state(shell);
+		lex_get_context(shell, &shell->lexer.cursor, shell->lexer.state, next_state);
 	}
 	lexer_action(shell, LEXER_META);
+//	return (BASIC_MOD);
 }
 
 void	lex_free(t_sh *shell)

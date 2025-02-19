@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:00:56 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 10:52:24 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 11:33:51 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int	check_string(char *input)
 		else
 			helper(input, &popen, &pclos, &index);
 	}
-//	if (pclos != popen)
-//		return (throw_error("Unclosed parentheses", __FILE__, __LINE__), 0);
+	if (pclos != popen)
+		return (throw_error("Unclosed parentheses", __FILE__, __LINE__), 0);
 	return (1);
 }
 

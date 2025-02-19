@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 10:53:29 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 13:00:45 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,13 @@ static void	bonus_exec(t_sh *shell)
 
 static void	basic_exec(t_sh *shell)
 {
+	int	entry_state;
+
 	debug_input(shell);
 	lex(shell);
 	debug_tokens(shell);
-	if (last_token_is_eof(shell))
+	entry_state = last_token_is_eof(shell);
+	if (entry_state != 0)
 		lex_eof(shell);
 	parse(shell);
 	executor(shell);

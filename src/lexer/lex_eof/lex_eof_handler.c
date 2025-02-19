@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 07:42:21 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 11:14:08 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 12:03:01 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,6 @@ static void	sub_last_token(t_sh *shell, char *new_token)
 	free(shell->lexer.tokens[i - 1]);
 	shell->lexer.tokens[i - 1] = ft_strdup(new_token);
 	free(new_token);
-}
-
-static bool	is_eof_token(char *s, int iter)
-{
-	
-	if ((s[iter] == '"' && !s[iter + 1]) || (s[iter] == '\'' && !s[iter + 1]))
-		return (true);
-	else if (s[iter + 1] == '<' && s[iter] == '<'  && !s[iter + 2])
-		return (true);
-	return (false);
 }
 
 static bool	check_cursor(t_sh *shell)
@@ -74,12 +64,6 @@ void	lex_eof_free(t_sh *shell, t_lexer *lex)
 		string_array_free(&shell->lexer.tokens);	
 }
 
-static bool	handle_hard_start(t_sh *shell, t_lexer *lex)
-{
-	(void)shell;
-	(void)lex;
-}
-
 static void	lex_eof_read_input(t_sh *shell, t_lexer *lex,
 		char ***ntoks, char **buffer)
 {
@@ -113,12 +97,14 @@ void	lex_eof(t_sh *shell)
 	t_lexer		lex;
 	char		*buffer;
 	char		**new_token;
+	int			last_type;
 
 	buffer = NULL;
 	new_token = NULL;
 	ft_memset(&lex, 0, sizeof(t_lexer));
 	if (!lex_eof_check_init(shell))
 		return ;
+	last_type = string_array_get_last(&shell->lexer.tokens);
 	lex_eof_read_input(shell, &lex, &buffer, &new_token);
 	if (shell->lexer.tokens)
 		sub_last_token(shell, *new_token);

@@ -6,13 +6,24 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 08:10:56 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 11:09:26 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 11:43:12 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	process_parenthesis(t_sh *shell, t_lexer *lexer)
+void	lex_eof_process_word(t_sh *shell, t_lexer *lexer)
+{
+	char	*start;
+
+	start = lexer->cursor;
+	while (*lexer->cursor && !ft_isspace(*lexer->cursor) && !ft_strchr("()|><"
+			, *lexer->cursor))
+		lexer->cursor++;
+	string_array_push(&shell->lexer.tokens, ft_cut(start, lexer->cursor));
+}
+
+void	lex_eof_process_parenthesis(t_sh *shell, t_lexer *lexer)
 {
 	if (*lexer->cursor == '(')
 	{
@@ -26,7 +37,7 @@ static void	process_parenthesis(t_sh *shell, t_lexer *lexer)
 	}
 }
 
-static void	process_redirection(t_sh *shell, t_lexer *lexer)
+void	lex_eof_process_redirection(t_sh *shell, t_lexer *lexer)
 {
 	char	*start;
 
@@ -41,7 +52,7 @@ static void	process_redirection(t_sh *shell, t_lexer *lexer)
 	}
 }
 
-static void	process_gate_and_pipe(t_sh *shell, t_lexer *lexer)
+void	lex_eof_process_gate_and_pipe(t_sh *shell, t_lexer *lexer)
 {
 	if (*lexer->cursor == '|')
 	{
@@ -65,18 +76,14 @@ static void	process_gate_and_pipe(t_sh *shell, t_lexer *lexer)
 	}
 }
 
-static void	process_quotes_and_var(t_lexer *lexer)
+void	lex_eof_process_quotes_and_var(t_sh *shell, t_lexer *lexer)
 {
 	if (*lexer->cursor == '\'')
-	{
-		lexer_process_single_quote(lexer);
-	}
+		lex_eof_process_single_quote(shell, lexer);
 	else if (*lexer->cursor == '"')
-	{
-		lexer_process_double_quote(lexer);
-	}
+		lex_eof_process_double_quote(shell, lexer);
 	else if (*lexer->cursor == '$')
-		lexer_process_variable(lexer);
+		lex_eof_process_variable(shell, lexer);
 	else if (!ft_isspace(*lexer->cursor) && !ft_strchr("()|><", *lexer->cursor))
-		lexer_process_word(lexer);
+		lex_eof_process_word(shell, lexer);
 }
