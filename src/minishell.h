@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 08:33:05 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:37:07 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ typedef struct s_otype
 
 struct s_ast
 {
+	t_sh				*shell;
 	struct s_ast		*left;
 	struct s_ast		*right;
 	char				**args;
@@ -165,7 +166,7 @@ void	parse_free(t_sh *shell);
 /////////// UTILS /////////////
 
 char	**parse_collector(char **toks);
-t_ast	*parse_init_ast(void);
+t_ast	*parse_init_ast(t_sh *shell);
 char	**parse_word_content(t_sh *shell, char *element);
 
 /////////// CHECKERS /////////////
@@ -186,12 +187,12 @@ t_list	*parse_get_typelist(char **toks, int mod, t_sh *shell);
 // EXEC ========================================================================
 
 int		executor(t_sh *shell);
-int		exec_bin(t_sh *shell, t_ast *node);
-int		exec_ast(t_sh *shell, t_ast *node);
-void	exec_handle_pipeline(t_sh *shell, t_ast *node);
-void	exec_handle_redirection(t_sh *shell, t_ast *node);
-void	exec_handle_logical(t_sh *shell, t_ast *node);
-void	exec_make_redir_work(t_sh *shell, t_ast *node);
+int		exec_bin(t_ast *node);
+int		exec_ast(t_ast *node);
+void	exec_handle_pipeline(t_ast *node);
+void	exec_handle_redirection(t_ast *node);
+void	exec_handle_logical(t_ast *node);
+void	exec_make_redir_work(t_ast *node);
 
 // SHELL =======================================================================
 
@@ -214,7 +215,7 @@ void	shell_exit(t_sh *shell);
 
 // BUILTINS ====================================================================
 
-typedef int					(*t_bfunc)(t_sh *);
+typedef int					(*t_bfunc)(t_ast *);
 typedef struct s_builtin
 {
 	char	*name;
@@ -222,13 +223,13 @@ typedef struct s_builtin
 }	t_builtin;
 
 t_bfunc	get_builtin(char *cmd);
-int		builtin_echo(t_sh *shell);
-int		builtin_cd(t_sh *shell);
-int		builtin_pwd(t_sh *shell);
-int		builtin_export(t_sh *shell);
-int		builtin_unset(t_sh *shell);
-int		builtin_env(t_sh *shell);
-int		builtin_exit(t_sh *shell);
+int		builtin_echo(t_ast *node);
+int		builtin_cd(t_ast *node);
+int		builtin_pwd(t_ast *node);
+int		builtin_export(t_ast *node);
+int		builtin_unset(t_ast *node);
+int		builtin_env(t_ast *node);
+int		builtin_exit(t_ast *node);
 
 void	env_set(t_sh *shell, char *key, char *value);
 char	*env_get(t_sh *shell, char *varname);

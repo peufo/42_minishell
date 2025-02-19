@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/11 12:53:33 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:23:45 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_make_redir_work(t_sh *shell, t_ast *node)
+void	exec_make_redir_work(t_ast *node)
 {
-	debug(shell, "into the bordel of redirections\n");
+	debug(node->shell, "into the bordel of redirections\n");
 	(void)node;
 }

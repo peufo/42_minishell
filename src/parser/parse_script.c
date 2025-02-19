@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_script.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:12 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/17 07:21:32 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:04:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_ast	*parse_handle_script(char **toks, t_sh *shell)
 	u.x = string_array_len(toks);
 	while (u.i < u.x)
 	{
-		new = parse_init_ast();
+		new = parse_init_ast(shell);
 		new->type = parse_get_type(toks[u.i]);
 		if (new->type == AST_COMMAND)
 			new->args = parse_word_content(shell, toks[u.i]);

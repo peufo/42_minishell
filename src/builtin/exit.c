@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 18:13:34 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/22 15:16:41 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/19 17:14:04 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_exit(t_sh *shell)
+int	builtin_exit(t_ast *node)
 {
-	shell_exit(shell);
+	shell_exit(node->shell);
 	return (0);
 }

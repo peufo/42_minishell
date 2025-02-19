@@ -1,1 +1,1 @@
-cat Dockerfile | grep make
+echo "HEY" | grep "HEY"

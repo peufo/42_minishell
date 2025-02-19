@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_inits.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:08 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/18 11:05:39 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 17:31:37 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,19 @@ static void	parse_free_ast(t_ast **ast)
 	*ast = NULL;
 }
 
-t_ast	*parse_init_ast(void)
+t_ast	*parse_init_ast(t_sh *shell)
 {
 	t_ast	*node;
 
 	node = ft_calloc(1, sizeof(t_ast));
 	if (!node)
-		return (throw_error("malloc in :", __FILE__, __LINE__), NULL);
-	node->left = NULL;
-	node->right = NULL;
-	node->args = NULL;
-	node->pipe.in = 0;
-	node->pipe.out = 1;
-	node->op = AST_OP_NULL;
-	node->type = AST_END;
+	{
+		throw_error("malloc failed in :", __FILE__, __LINE__);
+		shell_exit(shell);
+		return (NULL);
+	}
+	node->shell = shell;
+	node->pipe = shell->pipe;
 	return (node);
 }
 
