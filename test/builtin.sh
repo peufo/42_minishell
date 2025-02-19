@@ -4,6 +4,8 @@ echo "Salut Alex"
 echo Y'O '$LOGNAME" "comment"$"va ?
 echo
 echo -n
+echo -nnnn yo
+echo -n -n -n yoyo
 echo
 
 cd /etc/../home
