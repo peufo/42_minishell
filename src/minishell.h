@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 11:53:20 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 13:22:47 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,15 @@ void	lexer_action_expand_var_end_token(t_sh *shell);
 void	lexer_action_skip_blank(t_sh *shell);
 
 //	EOF LEXER
-void	lex_eof(t_sh *shell);
+void	lex_eof(t_sh *shell, int entry_state);
 //bool	lex_check_eof(t_sh *shell);
 //bool	check_token(t_sh *shell);
 
 char	*ft_cut(char *from, char *to);
 int		lex_eof_get_last_type(char ***tokens);
+void	lexer_eof_skip_whitespace(t_sh *shell, t_lexer *lexer);
+void	lexer_eof_skip_comment(t_sh *shell, t_lexer *lexer);
+int		string_array_get_last(char ***tokens);
 
 void	lex_eof_process_word(t_sh *shell, t_lexer *lexer);
 void	lex_eof_process_parenthesis(t_sh *shell, t_lexer *lexer);
@@ -122,6 +125,7 @@ void	lex_eof_process_gate_and_pipe(t_sh *shell, t_lexer *lexer);
 void	lex_eof_process_quotes_and_var(t_sh *shell, t_lexer *lexer);
 void	lex_eof_process_single_quote(t_sh *shell, t_lexer *lexer);
 void	lex_eof_process_double_quote(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_variable(t_sh *shell, t_lexer *lexer);
 
 // PARSER ====================================================================
 

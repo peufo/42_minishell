@@ -6,29 +6,26 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 13:00:45 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 13:06:01 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	last_token_is_eof(t_sh *shell)
+static int	get_current_meta_state(t_sh *shell)
 {
-	int	i;
+	int	type;
 
-	i = 0;
-	if (shell->lexer.tokens)
-		while (shell->lexer.tokens[i++] != NULL)
-			continue ;
-	if (parse_get_type(shell->lexer.tokens[i - 1]) != AST_COMMAND)
-		return (true);
-	return (false);
+	if (shell->lexer.token.value)
+		type = parse_get_type(shell->lexer.token.value);
+	//	get additionnal info 
+	return (type);
 }
 
 static void	bonus_exec(t_sh *shell)
 {
 	debug_input(shell);
-	lex_eof(shell);
+	lex_eof(shell, 0);
 	debug_tokens(shell);
 	parse(shell);
 	lex_free(shell);
@@ -42,9 +39,9 @@ static void	basic_exec(t_sh *shell)
 	debug_input(shell);
 	lex(shell);
 	debug_tokens(shell);
-	entry_state = last_token_is_eof(shell);
+	entry_state = get_current_meta_state(shell);
 	if (entry_state != 0)
-		lex_eof(shell);
+		lex_eof(shell, entry_state);
 	parse(shell);
 	executor(shell);
 	lex_free(shell);

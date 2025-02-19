@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 07:39:17 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 11:42:05 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 13:24:53 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,12 @@ void	lex_eof_process_single_quote(t_sh *shell, t_lexer *lexer)
 	if (*lexer->cursor == '\'')
 	{
 		string_array_push(&shell->lexer.tokens,
-				ft_cut(start, lexer->cursor - start));
+				ft_cut(start, lexer->cursor));
 		lexer->cursor++;
 	}
 	else
 		throw_error("Unclosed single quote", __FILE__, __LINE__);
+	(void)shell;
 }
 
 void	lex_eof_process_double_quote(t_sh *shell, t_lexer *lexer)
@@ -73,7 +74,7 @@ void	lex_eof_process_double_quote(t_sh *shell, t_lexer *lexer)
 		if (*lexer->cursor == '$')
 		{
 			string_array_push(&shell->lexer.tokens, ft_cut(st, lexer->cursor));
-			lexer_process_variable(lexer);
+			lex_eof_process_variable(shell, lexer);
 			st = lexer->cursor;
 		}
 		else
@@ -87,4 +88,5 @@ void	lex_eof_process_double_quote(t_sh *shell, t_lexer *lexer)
 	}
 	else
 		throw_error("Unclosed double quote", __FILE__, __LINE__);
+	(void)shell;
 }
