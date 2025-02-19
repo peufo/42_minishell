@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 12:40:21 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/19 10:00:29 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,34 @@ void	shell_init(t_sh *shell, char **env)
 		return (shell_exit(shell));
 }
 
+static void	bonus_exec(t_sh *shell)
+{
+	t_lexer	lex;
+
+	ft_memset(&lex, 0, sizeof(t_lexer));
+	debug_input(shell);
+	lex_eof(shell, &lex);
+	debug_tokens(shell);
+	parse(shell);
+	lex_free(shell);
+	parse_free(shell);
+}
+
+static void	basic_exec(t_sh *shell)
+{
+	debug_input(shell);
+	lex(shell);
+	debug_tokens(shell);
+	parse(shell);
+	executor(shell);
+	lex_free(shell);
+	parse_free(shell);
+}
+
 void	shell_exec(t_sh *shell)
 {
+	int	exec;
+
 	shell->is_interactive = isatty(shell->pipe.in);
 	errno = false;
 	shell->is_running = true;
@@ -45,16 +71,13 @@ void	shell_exec(t_sh *shell)
 	debug(shell, "\n\n");
 	while (shell->is_running)
 	{
-		input_read(shell);
+		exec = input_read(shell);
 		if (!shell->line)
 			break ;
-		debug_input(shell);
-		lex(shell);
-		debug_tokens(shell);
-		parse(shell);
-		executor(shell);
-		lex_free(shell);
-		parse_free(shell);
+		if (exec == BASIC_MOD)
+			basic_exec(shell);
+		else
+			bonus_exec(shell);
 	}
 	shell_exit(shell);
 }

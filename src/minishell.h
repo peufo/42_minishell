@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 08:33:05 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 09:49:20 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,15 @@ typedef struct s_ast		t_ast;
 typedef struct s_sh			t_sh;
 
 // INPUT =======================================================================
+# define BASIC_MOD 0
+# define BONUS_MOD 1
 
-void	input_read(t_sh *shell);
+bool	input_read(t_sh *shell);
 
 // LEXER =======================================================================
 
 # define CHARSET_META "|&;()<> \t\n"
 # define CHARSET_META_VISIBLE "|&;()<>"
-# define BASIC_MOD 0
-# define BONUS_MOD 1
 
 typedef enum e_lexer_state
 {
@@ -107,9 +107,12 @@ void	lexer_action_expand_var(t_sh *shell);
 void	lexer_action_expand_var_end_token(t_sh *shell);
 void	lexer_action_skip_blank(t_sh *shell);
 
+bool	lex_check_start(char *input);
+
 //	EOF LEXER
-bool	check_token(t_sh *shell);
+void	lex_eof(t_sh *shell, t_lexer *lex);
 bool	lex_check_eof(t_sh *shell);
+bool	check_token(t_sh *shell);
 bool	lex_check_var(t_sh *shell, char *line, char **buffer);
 bool	lex_check_quotes(t_sh *shell, char *line, char **buffer);
 
