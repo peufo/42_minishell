@@ -1,1 +1,1 @@
-echo a | echo b | echo c
+cat Dockerfile | grep make
