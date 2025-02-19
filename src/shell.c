@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/18 09:58:46 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 12:40:21 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	shell_exec(t_sh *shell)
 		lex(shell);
 		debug_tokens(shell);
 		parse(shell);
-		debug_ast(shell);
 		executor(shell);
 		lex_free(shell);
 		parse_free(shell);
