@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 07:42:21 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 10:24:52 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 11:14:08 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,25 +67,11 @@ static void	stack_new_line(const char **buffer, t_list *toks, char ***new_token)
 	(void)new_token;
 }
 
-static void	process_quotes_and_var(t_lexer *lexer)
-{
-	if (*lexer->cursor == '\'')
-		lexer_process_single_quote(lexer);
-	else if (*lexer->cursor == '"')
-		lexer_process_double_quote(lexer);
-	else if (*lexer->cursor == '$')
-		lexer_process_variable(lexer);
-	else if (!ft_isspace(*lexer->cursor) && !ft_strchr("()|><", *lexer->cursor))
-		lexer_process_word(lexer);
-}
-
 void	lex_eof_free(t_sh *shell, t_lexer *lex)
 {
 	(void)lex;
 	if (shell->lexer.tokens)
-		string_array_free(&shell->lexer.tokens);
-	//	free temp lex
-
+		string_array_free(&shell->lexer.tokens);	
 }
 
 static bool	handle_hard_start(t_sh *shell, t_lexer *lex)
@@ -94,15 +80,9 @@ static bool	handle_hard_start(t_sh *shell, t_lexer *lex)
 	(void)lex;
 }
 
-void	lex_eof(t_sh *shell, t_lexer *lex)
+static void	lex_eof_read_input(t_sh *shell, t_lexer *lex,
+		char ***ntoks, char **buffer)
 {
-	char		*buffer;
-	char		**new_token;
-
-	buffer = NULL;
-	new_token = NULL;
-	if (!lex_eof_check_init(shell))
-		return ;
 	while (1)
 	{
 		lex->cursor = readline('>');
@@ -110,21 +90,39 @@ void	lex_eof(t_sh *shell, t_lexer *lex)
 			shell_exit(shell);
 		errno = false;
 		while (*(lex->cursor))
-			process_quotes_and_var(lex);
-		stack_new_line(&buffer, lex->tokens, &new_token);
+		{
+			process_quotes_and_var(shell, lex);
+			lexer_eof_skip_whitespace(shell, lex);
+			lexer_eof_skip_comment(shell, lex);
+			process_parenthesis(shell, lex);
+			process_redirection(shell, lex);
+			process_gate_and_pipe(shell, lex);
+			process_quotes_and_var(shell, lex);
+		}
+		stack_new_line(buffer, lex->tokens, ntoks);
 		add_history(buffer);
-		free(buffer);
+		free(*buffer);
+		*buffer = NULL;
 		if (check_end_in_line(lex->cursor))
 			break ;
 	}
+}
+
+void	lex_eof(t_sh *shell)
+{
+	t_lexer		lex;
+	char		*buffer;
+	char		**new_token;
+
+	buffer = NULL;
+	new_token = NULL;
+	ft_memset(&lex, 0, sizeof(t_lexer));
+	if (!lex_eof_check_init(shell))
+		return ;
+	lex_eof_read_input(shell, &lex, &buffer, &new_token);
 	if (shell->lexer.tokens)
 		sub_last_token(shell, *new_token);
 	else
 		shell->lexer.tokens = string_array_dup(new_token);
 	return (string_array_free(&new_token));
-}
-
-bool	lex_check_eof(t_sh *shell)
-{
-	(void)shell;
 }

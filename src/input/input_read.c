@@ -6,12 +6,18 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 09:49:51 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 10:52:41 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "get_next_line.h"
+
+static bool	lex_check_start(char *input)
+{
+	(void)input;
+	return (BASIC_MOD);
+}
 
 static bool	is_empty_line(char *line)
 {

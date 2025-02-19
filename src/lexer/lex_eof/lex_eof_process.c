@@ -1,65 +1,82 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_eof_quotes.c                                   :+:      :+:    :+:   */
+/*   lex_eof_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 08:10:56 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 09:11:46 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 11:09:26 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	lexer_process_single_quote(t_lexer *lexer)
+static void	process_parenthesis(t_sh *shell, t_lexer *lexer)
 {
-	char	*start;
-
-	if (*lexer->cursor != '\'')
-		return ;
-	start = ++lexer->cursor;
-	while (*lexer->cursor && *lexer->cursor != '\'')
-		lexer->cursor++;
-	if (*lexer->cursor == '\'')
+	if (*lexer->cursor == '(')
 	{
-		lexer_add_token(lexer, TOKEN_WORD, ft_substr(start, 0,
-				lexer->cursor - start));
+		string_array_push(&shell->lexer.tokens, "(\0");
 		lexer->cursor++;
 	}
-	else
-		throw_error("Unclosed single quote", __FILE__, __LINE__);
+	else if (*lexer->cursor == ')')
+	{
+		string_array_push(&shell->lexer.tokens, ")\0");
+		lexer->cursor++;
+	}
 }
 
-void	lexer_process_double_quote(t_lexer *lexer)
+static void	process_redirection(t_sh *shell, t_lexer *lexer)
 {
 	char	*start;
 
-	if (*lexer->cursor != '"')
-		return ;
-	start = ++lexer->cursor;
-	while (*lexer->cursor && *lexer->cursor != '"')
+	start = lexer->cursor;
+	if (*lexer->cursor == '>' || *lexer->cursor == '<')
 	{
-		if (*lexer->cursor == '$')
-		{
-			lexer_add_token(lexer, TOKEN_WORD, ft_cut(start, lexer->cursor));
-			lexer_process_variable(lexer);
-			start = lexer->cursor;
-		}
+		if (*(lexer->cursor + 1) == *lexer->cursor)
+			lexer->cursor += 2;
 		else
 			lexer->cursor++;
+		string_array_push(&shell->lexer.tokens, ft_cut(start, lexer->cursor));
 	}
-	if (*lexer->cursor == '"')
-	{
-		if (lexer->cursor > start)
-			lexer_add_token(lexer, TOKEN_WORD, ft_cut(start, lexer->cursor));
-		lexer->cursor++;
-	}
-	else
-		throw_error("Unclosed double quote", __FILE__, __LINE__);
 }
 
-void	lexer_process_variable(t_lexer *lexer)
+static void	process_gate_and_pipe(t_sh *shell, t_lexer *lexer)
 {
-	(void)lexer;
+	if (*lexer->cursor == '|')
+	{
+		lexer->cursor++;
+		if (*lexer->cursor == '|')
+		{
+			string_array_push(&shell->lexer.tokens, "||\0");
+			lexer->cursor++;
+		}
+		else
+			string_array_push(&shell->lexer.tokens, "|\0");
+	}
+	else if (*lexer->cursor == '&')
+	{
+		lexer->cursor++;
+		if (*lexer->cursor == '&')
+		{
+			string_array_push(&shell->lexer.tokens, "&&\0");
+			lexer->cursor++;
+		}
+	}
+}
+
+static void	process_quotes_and_var(t_lexer *lexer)
+{
+	if (*lexer->cursor == '\'')
+	{
+		lexer_process_single_quote(lexer);
+	}
+	else if (*lexer->cursor == '"')
+	{
+		lexer_process_double_quote(lexer);
+	}
+	else if (*lexer->cursor == '$')
+		lexer_process_variable(lexer);
+	else if (!ft_isspace(*lexer->cursor) && !ft_strchr("()|><", *lexer->cursor))
+		lexer_process_word(lexer);
 }

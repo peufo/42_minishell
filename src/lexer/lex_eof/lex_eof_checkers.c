@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:00:56 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 09:49:03 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 10:52:24 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,4 @@ int	check_double(t_lexer *lexer, char c)
 	}
 	lexer->cursor--;
 	return (0);
-}
-
-bool	lex_check_start(char *input)
-{
-	(void)input;
-	return (BASIC_MOD);
 }

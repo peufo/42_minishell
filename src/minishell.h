@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 09:49:20 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/19 10:53:39 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,8 @@ void	lexer_action_expand_var(t_sh *shell);
 void	lexer_action_expand_var_end_token(t_sh *shell);
 void	lexer_action_skip_blank(t_sh *shell);
 
-bool	lex_check_start(char *input);
-
 //	EOF LEXER
-void	lex_eof(t_sh *shell, t_lexer *lex);
+void	lex_eof(t_sh *shell);
 bool	lex_check_eof(t_sh *shell);
 bool	check_token(t_sh *shell);
 bool	lex_check_var(t_sh *shell, char *line, char **buffer);
