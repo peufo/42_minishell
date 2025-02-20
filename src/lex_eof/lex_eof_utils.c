@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/20 10:13:01 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 11:19:34 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,10 @@ int	lex_eof_get_last_type(t_sh *shell)
 	type = parse_get_type(shell->lexer.tokens[i - 1]);
 	printf("Last type is : %d\n", type);
 	return (type);
+}
+
+void	sub_last_token(t_sh *shell, char ***ntoks)
+{
+	(void)shell;
+	(void)ntoks;
 }
