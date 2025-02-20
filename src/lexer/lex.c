@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/20 08:27:38 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 10:25:05 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static t_lexer_state	get_next_state(t_sh *shell)
 	}
 	return (LEXER_NO_STATE);
 }
-
+/*
 static void	lex_get_context(t_sh *shell, char **cursor, int state, int next_state)
 {
 	return ;
@@ -68,7 +68,7 @@ static void	lex_get_context(t_sh *shell, char **cursor, int state, int next_stat
 		printf("\nToken is : %s\n\n", shell->lexer.token.value);
 	else
 		printf("\nNo token in this context\n");
-}
+}*/
 /*
 static bool	lex_hawk_eye(t_sh *shell, char **str, int state, int next)
 {
@@ -93,16 +93,15 @@ void	lex(t_sh *shell)
 		next_state = get_next_state(shell);
 		if (*(shell->lexer.cursor) == '#' && next_state <= 1)
 			skip_line(shell);
-//		if (lex_hawkeye(shell, &shell->lexer.cursor, shell->lexer.state, next_state))
-//			return (BONUS_MOD);
+		if (shell->lexer.state == 4 || shell->lexer.state == 3 ||
+				shell->lexer.state == 6)
+		shell->lexer.entry_state = shell->lexer.state;
 		if (next_state)
 			lexer_action(shell, next_state);
 		else
 			lexer_state(shell);
-		lex_get_context(shell, &shell->lexer.cursor, shell->lexer.state, next_state);
 	}
 	lexer_action(shell, LEXER_META);
-//	return (BASIC_MOD);
 }
 
 void	lex_free(t_sh *shell)

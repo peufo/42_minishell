@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/20 08:13:47 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 09:51:02 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 static bool	lex_check_start(char *input)
 {
-	(void)input;
+	if (!check_string(input))
+		return (BONUS_MOD);
 	return (BASIC_MOD);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/20 05:40:40 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 10:13:01 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,18 @@ char	*ft_cut(char *from, char *to)
 	return (ft_substr(from, 0, to - from));
 }
 
-int	string_array_get_last(char ***tokens)
+int	lex_eof_get_last_type(t_sh *shell)
 {
-	(void)tokens;
-	return (0);
-}
-
-int	lex_eof_get_last_type(char ***tokens)
-{
-	int	i;
-	int	type;
+	int		i;
+	t_atype	type;
 
 	i = 0;
-	if (!tokens || !*tokens)
-		return (-1);
-	while (*tokens[i])
+	if (!shell->lexer.tokens)
+		return (AST_OP_NULL);
+	while (shell->lexer.tokens[i])
 		i++;
-	type = parse_get_op(*tokens[i - 1]);
-	if (type != AST_OP_NULL)
-		return (type);
-	return (0);
+	printf("Token looking : %s\n", shell->lexer.tokens[i - 1]);
+	type = parse_get_type(shell->lexer.tokens[i - 1]);
+	printf("Last type is : %d\n", type);
+	return (type);
 }

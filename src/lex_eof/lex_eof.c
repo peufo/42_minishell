@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/20 08:03:22 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 10:32:50 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static void	lex_eof_read_input(t_sh *shell, t_lexer *lex,
 			lex_eof_process_parenthesis(shell, lex);
 			lex_eof_process_redirection(shell, lex);
 			lex_eof_process_gate_and_pipe(shell, lex);
-			lex_eof_process_quotes_and_var(shell, lex);
 		}
 		stack_new_line(buffer, lex, ntoks);
 		add_history(*buffer);
@@ -45,19 +44,16 @@ void	lex_eof(t_sh *shell, int entry_state)
 	t_lexer		lex;
 	char		*buffer;
 	char		**new_token;
-	int			last_type;
 
 	buffer = NULL;
 	new_token = NULL;
 	printf("HHELLLOO!\n");
 	ft_memset(&lex, 0, sizeof(t_lexer));
-	last_type = string_array_get_last(&shell->lexer.tokens);
 	lex_eof_read_input(shell, &lex, &buffer, &new_token);
 	if (shell->lexer.tokens)
 		sub_last_token(shell, *new_token);
 	else
 		shell->lexer.tokens = string_array_dup(new_token);
-	(void)last_type;
 	(void)entry_state;
 	return (string_array_free(&new_token));
 }

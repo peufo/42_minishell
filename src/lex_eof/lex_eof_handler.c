@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 07:42:21 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/20 04:49:16 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 10:24:56 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ void	sub_last_token(t_sh *shell, char *new_token)
 
 bool	check_end_in_line(char *line)
 {
+	int	i;
+
+	i = 0;
+	while (line)
 	return ((line));
 }
 

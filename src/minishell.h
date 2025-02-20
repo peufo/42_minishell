@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/20 06:24:31 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 10:24:49 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_sh			t_sh;
 # define BONUS_MOD 1
 
 bool	input_read(t_sh *shell);
+int		check_string(char *input);
 
 // LEXER =======================================================================
 
@@ -80,6 +81,7 @@ typedef enum e_lexer_state
 
 struct s_lexer
 {
+	t_lexer_state		entry_state;
 	t_lexer_state		state;
 	char				*cursor;
 	t_string			token;
@@ -106,13 +108,14 @@ void	lexer_action_end_token(t_sh *shell);
 void	lexer_action_expand_var(t_sh *shell);
 void	lexer_action_expand_var_end_token(t_sh *shell);
 void	lexer_action_skip_blank(t_sh *shell);
+void	lexer_action_next_char(t_sh *shell);
 
 //	EOF LEXER
 void	lex_eof(t_sh *shell, int entry_state);
 
 char	*ft_cut(char *from, char *to);
 bool	check_end_in_line(char *line);
-int		lex_eof_get_last_type(char ***tokens);
+int		lex_eof_get_last_type(t_sh *shell);
 void	sub_last_token(t_sh *shell, char *new_token);
 void	lexer_eof_skip_whitespace(t_sh *shell, t_lexer *lexer);
 void	stack_new_line(char **buffer, t_lexer *lex, char ***new_token);
