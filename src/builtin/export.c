@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/11 04:36:37 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 06:18:41 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static int	find_index(char *str, char c)
 	return (-1);
 }
 
-int	builtin_export(t_sh *shell)
+int	builtin_export(t_ast *node)
 {
 	char	*value;
 	char	*arg;
 	int		equal_index;
 
-	arg = shell->ast->args[1];
+	arg = node->args[1];
 	if (!arg)
 		return (0);
 	equal_index = find_index(arg, '=');
@@ -40,6 +40,6 @@ int	builtin_export(t_sh *shell)
 	if (!value)
 		return (1);
 	arg[equal_index] = '\0';
-	env_set(shell, arg, value);
+	env_set(node->shell, arg, value);
 	return (0);
 }

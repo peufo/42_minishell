@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/20 05:38:09 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 05:57:35 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ static void	bonus_exec(t_sh *shell)
 
 static void	basic_exec(t_sh *shell)
 {
+	t_lexer	tmp;
+
+	tmp = shell->lexer;
 	debug_input(shell);
 	lex(shell);
 	debug_tokens(shell);
-	if (shell->lexer.state != LEXER_DEFAULT &&
-			shell->lexer.state != LEXER_NO_STATE)
+	if (tmp.state != 0 || parse_get_op(tmp.token.value) != 0)
 		lex_eof(shell, shell->lexer.state);
 	parse(shell);
 	executor(shell);

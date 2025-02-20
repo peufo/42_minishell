@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_bin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 16:22:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 12:53:03 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/20 06:21:06 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,22 @@ static char	*find_bin(char *dir, char *name)
 	return (NULL);
 }
 
-static int	exec_bin_as_child(t_sh *shell, t_ast *node, char *bin)
+static int	exec_bin_as_child(t_ast *node, char *bin)
 {
 	pid_t	pid;
 	int		status;
 
 	pid = fork();
+	pid = fork();
 	if (pid == 0)
 	{
-		status = execve(bin, node->args, shell->env);
+		if (node->pipe.in != STDIN_FILENO)
+			dup2(STDIN_FILENO, node->pipe.in);
+		if (node->pipe.out != STDOUT_FILENO)
+			dup2(STDOUT_FILENO, node->pipe.out);
+		status = execve(bin, node->args, node->shell->env);
 		free(bin);
-		shell_exit(shell);
+		shell_exit(node->shell);
 		return (status);
 	}
 	free(bin);
@@ -98,13 +103,13 @@ static int	exec_bin_as_child(t_sh *shell, t_ast *node, char *bin)
 	return (status);
 }
 
-int	exec_bin(t_sh *shell, t_ast *node)
+int	exec_bin(t_ast *node)
 {
 	char	**paths;
 	char	**dir;
 	char	*bin;
 
-	paths = get_paths(shell);
+	paths = get_paths(node->shell);
 	dir = paths;
 	bin = NULL;
 	while (*dir && !bin)
@@ -115,5 +120,5 @@ int	exec_bin(t_sh *shell, t_ast *node)
 	string_array_free(&paths);
 	if (!bin)
 		return (throw_error("Command not found", __FILE__, __LINE__), 1);
-	return (exec_bin_as_child(shell, node, bin));
+	return (exec_bin_as_child(node, bin));
 }
