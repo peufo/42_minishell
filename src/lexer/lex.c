@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 12:47:27 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 08:27:38 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static t_lexer_state	get_next_state(t_sh *shell)
 
 static void	lex_get_context(t_sh *shell, char **cursor, int state, int next_state)
 {
+	return ;
 	if (!cursor || !*cursor)
 		return ;
 	printf("Cursor is : %s\n", *cursor);
@@ -65,6 +66,8 @@ static void	lex_get_context(t_sh *shell, char **cursor, int state, int next_stat
 	printf("Next state is : %d\n", next_state);
 	if (shell->lexer.token.value)
 		printf("\nToken is : %s\n\n", shell->lexer.token.value);
+	else
+		printf("\nNo token in this context\n");
 }
 /*
 static bool	lex_hawk_eye(t_sh *shell, char **str, int state, int next)

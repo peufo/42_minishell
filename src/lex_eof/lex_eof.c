@@ -6,17 +6,11 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/20 05:38:43 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 08:03:22 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	lex_eof_check_init(t_sh *shell)
-{
-	(void)shell;
-	return (0);
-}
 
 static void	lex_eof_read_input(t_sh *shell, t_lexer *lex,
 		char **buffer, char ***ntoks)
@@ -57,8 +51,6 @@ void	lex_eof(t_sh *shell, int entry_state)
 	new_token = NULL;
 	printf("HHELLLOO!\n");
 	ft_memset(&lex, 0, sizeof(t_lexer));
-	if (!lex_eof_check_init(shell))
-		return ;
 	last_type = string_array_get_last(&shell->lexer.tokens);
 	lex_eof_read_input(shell, &lex, &buffer, &new_token);
 	if (shell->lexer.tokens)

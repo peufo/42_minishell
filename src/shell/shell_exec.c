@@ -6,14 +6,25 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/20 05:57:35 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 08:29:43 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static bool	shell_check_cursor(t_sh *shell)
+{
+/*	int	last_type;
+
+	last_type = lex_eof_get_last_type(&shell->lexer.tokens);
+	if (!*(shell->lexer.cursor) && !shell->lexer.token.value */
+	(void)shell;
+	return (BASIC_MOD);
+}
+
 static void	bonus_exec(t_sh *shell)
 {
+//	printf("\n\nINTO BONUS MOD\n\n");
 	debug_input(shell);
 	lex_eof(shell, 0);
 	debug_tokens(shell);
@@ -24,13 +35,11 @@ static void	bonus_exec(t_sh *shell)
 
 static void	basic_exec(t_sh *shell)
 {
-	t_lexer	tmp;
-
-	tmp = shell->lexer;
+//	printf("\n\nINTO BASIC MOD\n\n");
 	debug_input(shell);
 	lex(shell);
 	debug_tokens(shell);
-	if (tmp.state != 0 || parse_get_op(tmp.token.value) != 0)
+	if (shell_check_cursor(shell))
 		lex_eof(shell, shell->lexer.state);
 	parse(shell);
 	executor(shell);
