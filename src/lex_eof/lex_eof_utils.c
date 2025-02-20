@@ -6,16 +6,11 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 13:26:09 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 05:40:40 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	lex_eof_stack_totok(t_lexer *lex)
-{
-	(void)lex;
-}
 
 void	lexer_eof_skip_whitespace(t_sh *shell, t_lexer *lexer)
 {
@@ -56,7 +51,7 @@ int	lex_eof_get_last_type(char ***tokens)
 	while (*tokens[i])
 		i++;
 	type = parse_get_op(*tokens[i - 1]);
-	if (type != AST_OP_OR)
+	if (type != AST_OP_NULL)
 		return (type);
 	return (0);
 }

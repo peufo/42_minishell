@@ -6,21 +6,11 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 13:06:01 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 05:38:09 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	get_current_meta_state(t_sh *shell)
-{
-	int	type;
-
-	if (shell->lexer.token.value)
-		type = parse_get_type(shell->lexer.token.value);
-	//	get additionnal info 
-	return (type);
-}
 
 static void	bonus_exec(t_sh *shell)
 {
@@ -34,14 +24,12 @@ static void	bonus_exec(t_sh *shell)
 
 static void	basic_exec(t_sh *shell)
 {
-	int	entry_state;
-
 	debug_input(shell);
 	lex(shell);
 	debug_tokens(shell);
-	entry_state = get_current_meta_state(shell);
-	if (entry_state != 0)
-		lex_eof(shell, entry_state);
+	if (shell->lexer.state != LEXER_DEFAULT &&
+			shell->lexer.state != LEXER_NO_STATE)
+		lex_eof(shell, shell->lexer.state);
 	parse(shell);
 	executor(shell);
 	lex_free(shell);

@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 13:22:47 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 05:33:50 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,13 @@ void	lexer_action_skip_blank(t_sh *shell);
 
 //	EOF LEXER
 void	lex_eof(t_sh *shell, int entry_state);
-//bool	lex_check_eof(t_sh *shell);
-//bool	check_token(t_sh *shell);
 
 char	*ft_cut(char *from, char *to);
+bool	check_end_in_line(char *line);
 int		lex_eof_get_last_type(char ***tokens);
+void	sub_last_token(t_sh *shell, char *new_token);
 void	lexer_eof_skip_whitespace(t_sh *shell, t_lexer *lexer);
+void	stack_new_line(char **buffer, t_lexer *lex, char ***new_token);
 void	lexer_eof_skip_comment(t_sh *shell, t_lexer *lexer);
 int		string_array_get_last(char ***tokens);
 
