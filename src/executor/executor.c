@@ -6,11 +6,12 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/20 06:22:31 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 08:53:46 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 static int	exec_command(t_ast *node)
 {
 	t_bfunc	builtin;

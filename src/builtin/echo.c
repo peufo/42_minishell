@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:10:39 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/20 06:16:56 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 08:51:43 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	builtin_echo(t_ast *node)
 	bool	new_line;
 
 	args = node->args + 1;
-	if (!*args)
+	if (!args | !*args)
 		new_line = true;
 	else
 		new_line = ft_strcmp(*args, "-n");

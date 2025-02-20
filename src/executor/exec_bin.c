@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 16:22:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/20 06:21:06 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 08:53:23 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ static int	exec_bin_as_child(t_ast *node, char *bin)
 	pid_t	pid;
 	int		status;
 
-	pid = fork();
 	pid = fork();
 	if (pid == 0)
 	{
