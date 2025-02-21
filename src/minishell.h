@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/20 11:19:44 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/21 07:04:14 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ typedef struct s_sh			t_sh;
 // INPUT =======================================================================
 # define BASIC_MOD 0
 # define BONUS_MOD 1
+# define CLOSED 1
+# define UNCLOSED 0
+# define LINE_IS_COMPLETE 1
 
 bool	input_read(t_sh *shell);
 int		check_string(char *input);
@@ -112,6 +115,7 @@ void	lexer_action_next_char(t_sh *shell);
 
 //	EOF LEXER
 void	lex_eof(t_sh *shell, int entry_state);
+void	lex_eof_free(t_sh *shellm, t_lexer *lex);
 
 //	UTILS
 char	*ft_cut(char *from, char *to);
@@ -119,6 +123,7 @@ int		lex_eof_get_last_type(t_sh *shell);
 void	sub_last_token(t_sh *shell, char ***ntoks);
 void	lexer_eof_skip_whitespace(t_sh *shell, t_lexer *lexer);
 void	lexer_eof_skip_comment(t_sh *shell, t_lexer *lexer);
+bool	check_end_in_line(char *line, int state);
 
 //	PROCESSES
 void	lex_eof_process_word(t_sh *shell, t_lexer *lexer);

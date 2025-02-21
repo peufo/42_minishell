@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_eof_checkers.c                                 :+:      :+:    :+:   */
+/*   checkers_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:00:56 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/20 09:51:59 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/20 13:27:39 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,31 +47,30 @@ static void	helper(char *input, int *popen, int *pclos, int *start)
 	(*start)++;
 }
 
+/*	u.k est l'index		||	u.i par open 	|| 	u.j par close	*/
 int	check_string(char *input)
 {
-	int	popen;
-	int	pclos;
-	int	index;
+	t_utils	u;
 
-	popen = 0;
-	pclos = 0;
-	index = 0;
-	while (input[index])
+	if (!input)
+		return (0);
+	ft_bzero(&u, sizeof(t_utils));
+	while (input[u.k])
 	{
-		if (input[index] == '"')
+		if (input[u.k] == '"')
 		{
-			if (!look_inside_dquo(input, &index))
+			if (!look_inside_dquo(input, &u.k))
 				return (0);
 		}
-		else if (input[index] == '\'')
+		else if (input[u.k] == '\'')
 		{
-			if (!look_inside_squo(input, &index))
+			if (!look_inside_squo(input, &u.k))
 				return (0);
 		}
 		else
-			helper(input, &popen, &pclos, &index);
+			helper(input, &u.i, &u.j, &u.k);
 	}
-	if (pclos != popen)
+	if (u.j != u.i)
 		return (throw_error("Unclosed parentheses", __FILE__, __LINE__), 0);
 	return (1);
 }

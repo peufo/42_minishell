@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/20 11:21:28 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/21 07:00:27 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,19 @@
 
 void	lex_eof_free(t_sh *shell, t_lexer *lex)
 {
-	(void)lex;
-	if (shell->lexer.tokens)
-		string_array_free(&shell->lexer.tokens);	
+	if (!lex)
+		return (lex_free(shell));
+	lex_free(shell);
 }
 
-static bool	check_end_in_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	(void)i;
-	return ((line));
-}
-
-static void	stack_new_line(char **buffer, t_lexer *lex, char ***new_token)
+static void	stack_to_buffer(char **buffer, char ***new_tokens)
 {
 	t_utils	u;
 
 	ft_bzero(&u, sizeof(t_utils));
-	while (*new_token[u.i])
+	while (*new_tokens[u.i])
 	{
-		while (*new_token[u.i][u.j++])
+		while (*new_tokens[u.i][u.j++])
 			u.x++;
 		u.i++;
 		u.x += 1;
@@ -44,20 +35,45 @@ static void	stack_new_line(char **buffer, t_lexer *lex, char ***new_token)
 	*buffer = malloc(u.x + 1);
 	if (!*buffer)
 		return ;
-	while (*new_token[u.j])
+	while (*new_tokens[u.j])
 	{
-		ft_strlcat(*buffer, *new_token[u.i++], u.x + 1);
+		ft_strlcat(*buffer, *new_tokens[u.i++], u.x + 1);
 		ft_strlcat(*buffer, "\n", u.x + 1);
 	}
-	(void)lex;
+}
+
+static void	stack_new_input(char **buffer, t_lexer *lex, char ***new_tokens)
+{
+	t_utils	u;
+	char	**tmp;
+
+	tmp = NULL;
+	ft_bzero(&u, sizeof(t_utils));
+	if (!*new_tokens)
+		new_tokens = ft_calloc(1, sizeof(lex->tokens));
+	else
+		tmp = ft_calloc(1, sizeof(lex->tokens));
+	if (!tmp || !new_tokens)
+		return ;
+	while (lex->tokens[u.i])
+		string_array_push(&tmp, lex->tokens[u.i++]);
+	if (!tmp)
+		while (lex->tokens[u.i])
+			string_array_push(new_tokens, lex->tokens[u.i++]);
+	else
+		while (tmp[u.j])
+			string_array_push(new_tokens, tmp[u.j++]);
+	stack_to_buffer(buffer, new_tokens);
+	string_array_free(&tmp);
+	string_array_free(&lex->tokens);
 }
 
 
-static void	lex_eof_read_input(t_sh *shell, t_lexer *lex, char ***ntoks)
+static void	lex_eof_read_input(t_sh *shell, t_lexer *lex, char ***ntoks, int state)
 {
-	char	*buffer;
+	char	*readline_buffer;
 
-	buffer = NULL;
+	readline_buffer = NULL;
 	while (1)
 	{
 		lex->cursor = readline("EOF>");
@@ -73,33 +89,36 @@ static void	lex_eof_read_input(t_sh *shell, t_lexer *lex, char ***ntoks)
 			lex_eof_process_redirection(shell, lex);
 			lex_eof_process_gate_and_pipe(shell, lex);
 		}
-		stack_new_line(&buffer, lex, ntoks);
-		if (check_end_in_line(lex->cursor))
-			break ;
+		stack_new_input(&readline_buffer, lex, ntoks);
+		if (check_end_in_line(lex->cursor, state))
+			return (add_history(readline_buffer), lex_eof_free(shell, lex));
 	}
-	add_history(buffer);
 }
 
 void	lex_eof(t_sh *shell, int entry_state)
 {
-	int			i;
+	t_lexer		lexer;
 	char		**ntoks;
-	t_lexer		lex;
+	int			i;
 
 	i = 0;
 	ntoks = NULL;
-	printf("HHELLLOO!\n");
-	ft_memset(&lex, 0, sizeof(t_lexer));
-	lex_eof_read_input(shell, &lex, &ntoks);
-	if (shell->lexer.tokens && entry_state == AST_COMMAND)
+	ft_memset(&lexer, 0, sizeof(t_lexer));
+	lex_eof_read_input(shell, &lexer, &ntoks, entry_state);
+	if (shell->lexer.tokens && entry_state <= AST_COMMAND)
 	{
+		if (shell->lexer.token.value)
+			string_array_push(&shell->lexer.tokens, shell->lexer.token.value);
 		sub_last_token(shell, &ntoks);
 		while (ntoks[i])
 			string_array_push(&shell->lexer.tokens, ntoks[i++]);
 	}
 	else
 	{
-		shell->lexer.tokens = string_array_dup(ntoks);
+		if (!shell->lexer.tokens)
+			shell->lexer.tokens = ft_calloc(1, sizeof(ntoks));
+		while (ntoks[i])
+			string_array_push(&shell->lexer.tokens, ntoks[i++]);
 	}
 	return (string_array_free(&ntoks));
 }
