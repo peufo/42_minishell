@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/21 10:36:25 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/21 11:18:30 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	stack_new_input(char **buffer, t_lexer *lex, char ***new_tokens, t_s
 {
 	int	i;
 
-	i = 0;
+	i = 0;(void)shell;
 	(void)shell;
 	if (!*new_tokens)
 	{
@@ -106,10 +106,8 @@ void	lex_eof(t_sh *shell, int entry_state)
 	lex_eof_read_input(shell, &lexer, &ntoks, entry_state);
 	if (shell->lexer.tokens && entry_state <= AST_COMMAND)
 	{
-		if (shell->lexer.token.value)
-			string_array_push(&shell->lexer.tokens, shell->lexer.token.value);
 		sub_last_token(shell, &ntoks);
-		while (ntoks[i])
+		while (ntoks && ntoks[i])
 			string_array_push(&shell->lexer.tokens, ntoks[i++]);
 	}
 	else

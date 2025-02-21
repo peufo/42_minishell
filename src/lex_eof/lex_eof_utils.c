@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/21 10:39:21 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/21 11:08:40 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@ int	lex_eof_get_last_type(t_sh *shell)
 
 void	sub_last_token(t_sh *shell, char ***ntoks)
 {
-	(void)shell;
-	(void)ntoks;
+	int		i;
+	char	*token;
+
+	i = 0;
+	token = NULL;
+	if (shell->lexer.token.value)
+		token = ft_strjoin(shell->lexer.token.value, *ntoks[i++]);
+	string_array_push(&shell->lexer.tokens, token);
+	while (ntoks[i])
+		string_array_push(&shell->lexer.tokens, *ntoks[i++]);
 }
