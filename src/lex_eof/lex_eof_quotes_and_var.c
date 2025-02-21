@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 07:39:17 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/21 09:23:01 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/21 10:22:49 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	lex_eof_process_single_quote(t_sh *shell, t_lexer *lexer)
 	if (*lexer->cursor != '\'' && shell->lexer.entry_state % 2 != 1)
 		return ;
 	start = ++lexer->cursor;
+	if (shell->lexer.entry_state == 1)
+		start--;
 	while (*lexer->cursor && *lexer->cursor != '\'')
 		lexer->cursor++;
 	if (*lexer->cursor == '\'')
@@ -67,6 +69,8 @@ void	lex_eof_process_double_quote(t_sh *shell, t_lexer *lexer)
 	if (*lexer->cursor != '"' && (shell->lexer.entry_state % 2 != 0 || shell->lexer.entry_state == 1))
 		return ;
 	st = ++lexer->cursor;
+	if (shell->lexer.entry_state != 1)
+		st--;
 	while (*lexer->cursor && *lexer->cursor != '"')
 	{
 		if (*lexer->cursor == '$')

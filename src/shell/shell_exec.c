@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/20 10:25:37 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/21 10:37:26 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,11 @@ static bool	shell_check_cursor(t_sh *shell)
 	last_type = lex_eof_get_last_type(shell);
 	if (last_type != AST_COMMAND && last_type != AST_END)
 		return (BONUS_MOD);
-//	printf("Cursor in check at : %s\n", shell->lexer.cursor - 1);
-//	printf("Previous state is : %d\n", shell->lexer.previous_state);
-//	printf("State in check at : %d\n", shell->lexer.state);
 	return (BASIC_MOD);
 }
 
 static void	bonus_exec(t_sh *shell)
 {
-	printf("\n\nINTO BONUS MOD\n\n");
 	debug_input(shell);
 	lex_eof(shell, 0);
 	debug_tokens(shell);
@@ -38,14 +34,12 @@ static void	bonus_exec(t_sh *shell)
 
 static void	basic_exec(t_sh *shell)
 {
-	printf("\n\nINTO BASIC MOD\n\n");
 	debug_input(shell);
 	lex(shell);
 	debug_tokens(shell);
 	if (shell_check_cursor(shell))
 		lex_eof(shell, shell->lexer.entry_state);
 	parse(shell);
-//	printf("\n\n\n========= OUTPUT =========\n");
 	executor(shell);
 	lex_free(shell);
 	parse_free(shell);
