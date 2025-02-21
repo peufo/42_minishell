@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 07:39:17 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/20 11:29:58 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/21 09:23:01 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	lex_eof_process_variable(t_sh *shell, t_lexer *lexer)
 	char	*cursor;
 	char	*var;
 
+	return ;
 	var = extract_var(shell, lexer);
 	if (!var)
 		return ;
@@ -44,36 +45,36 @@ void	lex_eof_process_single_quote(t_sh *shell, t_lexer *lexer)
 {
 	char	*start;
 
-	if (*lexer->cursor != '\'')
+	if (*lexer->cursor != '\'' && shell->lexer.entry_state % 2 != 1)
 		return ;
 	start = ++lexer->cursor;
 	while (*lexer->cursor && *lexer->cursor != '\'')
 		lexer->cursor++;
 	if (*lexer->cursor == '\'')
 	{
-		string_array_push(&shell->lexer.tokens,
-				ft_cut(start, lexer->cursor));
+		string_array_push(&lexer->tokens, ft_cut(start, lexer->cursor));
 		lexer->cursor++;
+		shell->lexer.entry_state = LEXER_DEFAULT;
 	}
 	else
-		throw_error("Unclosed single quote", __FILE__, __LINE__);
-	(void)shell;
+		shell->lexer.entry_state = LEXER_QUOTE;
 }
 
 void	lex_eof_process_double_quote(t_sh *shell, t_lexer *lexer)
 {
 	char	*st;
 
-	if (*lexer->cursor != '"')
+	if (*lexer->cursor != '"' && (shell->lexer.entry_state % 2 != 0 || shell->lexer.entry_state == 1))
 		return ;
 	st = ++lexer->cursor;
 	while (*lexer->cursor && *lexer->cursor != '"')
 	{
 		if (*lexer->cursor == '$')
 		{
-			string_array_push(&shell->lexer.tokens, ft_cut(st, lexer->cursor));
+			string_array_push(&lexer->tokens, ft_cut(st, lexer->cursor));
 			lex_eof_process_variable(shell, lexer);
 			st = lexer->cursor;
+			shell->lexer.entry_state = LEXER_DEFAULT;
 		}
 		else
 			lexer->cursor++;
@@ -81,10 +82,10 @@ void	lex_eof_process_double_quote(t_sh *shell, t_lexer *lexer)
 	if (*lexer->cursor == '"')
 	{
 		if (lexer->cursor > st)
-			string_array_push(&shell->lexer.tokens, ft_cut(st, lexer->cursor));
+			string_array_push(&lexer->tokens, ft_cut(st, lexer->cursor));
 		lexer->cursor++;
+		shell->lexer.entry_state = LEXER_DEFAULT;
 	}
 	else
-		throw_error("Unclosed double quote", __FILE__, __LINE__);
-	(void)shell;
+		shell->lexer.entry_state = LEXER_DQUOTE;
 }

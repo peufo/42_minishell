@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 08:10:56 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 13:28:35 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/21 08:09:05 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,23 @@ void	lex_eof_process_word(t_sh *shell, t_lexer *lexer)
 	while (*lexer->cursor && !ft_isspace(*lexer->cursor) && !ft_strchr("()|><"
 			, *lexer->cursor))
 		lexer->cursor++;
-	string_array_push(&shell->lexer.tokens, ft_cut(start, lexer->cursor));
+	string_array_push(&lexer->tokens, ft_cut(start, lexer->cursor));
+	(void)shell;
 }
 
 void	lex_eof_process_parenthesis(t_sh *shell, t_lexer *lexer)
 {
 	if (*lexer->cursor == '(')
 	{
-		string_array_push(&shell->lexer.tokens, "(\0");
+		string_array_push(&lexer->tokens, "(\0");
 		lexer->cursor++;
 	}
 	else if (*lexer->cursor == ')')
 	{
-		string_array_push(&shell->lexer.tokens, ")\0");
+		string_array_push(&lexer->tokens, ")\0");
 		lexer->cursor++;
 	}
+	(void)shell;
 }
 
 void	lex_eof_process_redirection(t_sh *shell, t_lexer *lexer)
@@ -48,8 +50,9 @@ void	lex_eof_process_redirection(t_sh *shell, t_lexer *lexer)
 			lexer->cursor += 2;
 		else
 			lexer->cursor++;
-		string_array_push(&shell->lexer.tokens, ft_cut(start, lexer->cursor));
+		string_array_push(&lexer->tokens, ft_cut(start, lexer->cursor));
 	}
+	(void)shell;
 }
 
 void	lex_eof_process_gate_and_pipe(t_sh *shell, t_lexer *lexer)
@@ -59,28 +62,29 @@ void	lex_eof_process_gate_and_pipe(t_sh *shell, t_lexer *lexer)
 		lexer->cursor++;
 		if (*lexer->cursor == '|')
 		{
-			string_array_push(&shell->lexer.tokens, "||\0");
+			string_array_push(&lexer->tokens, "||\0");
 			lexer->cursor++;
 		}
 		else
-			string_array_push(&shell->lexer.tokens, "|\0");
+			string_array_push(&lexer->tokens, "|\0");
 	}
 	else if (*lexer->cursor == '&')
 	{
 		lexer->cursor++;
 		if (*lexer->cursor == '&')
 		{
-			string_array_push(&shell->lexer.tokens, "&&\0");
+			string_array_push(&lexer->tokens, "&&\0");
 			lexer->cursor++;
 		}
 	}
+	(void)shell;
 }
 
 void	lex_eof_process_quotes_and_var(t_sh *shell, t_lexer *lexer)
 {
-	if (*lexer->cursor == '\'')
+	if (*(lexer->cursor) && (*lexer->cursor == '\'' || shell->lexer.entry_state == 3))
 		lex_eof_process_single_quote(shell, lexer);
-	else if (*lexer->cursor == '"')
+	else if (*lexer->cursor && (*lexer->cursor == '"' || shell->lexer.entry_state % 2 == 0))
 		lex_eof_process_double_quote(shell, lexer);
 	else if (*lexer->cursor == '$')
 		lex_eof_process_variable(shell, lexer);

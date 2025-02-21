@@ -6,19 +6,21 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 06:59:20 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/21 07:06:28 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/21 09:38:47 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	check_dquote(char *line)
+static bool	check_dquote(char *line, int state)
 {
 	int	i;
 	int	count;
 
-	i =  0;
-	count = 1;
+	i = 0;
+	count = 0;
+	if (state % 2 == 0)
+		count += 1;
 	while (line && line[i])
 	{
 		if (line[i] == '"')
@@ -30,13 +32,15 @@ static bool	check_dquote(char *line)
 	return (UNCLOSED);
 }
 
-static bool	check_quote(char *line)
+static bool	check_quote(char *line, int state)
 {
 	int	i;
 	int	count;
 
-	i =  0;
-	count = 1;
+	i = 0;
+	count = 0;
+	if (state == 3)
+		count += 1;
 	while (line && line[i])
 	{
 		if (line[i] == '\'')
@@ -53,8 +57,8 @@ bool	check_end_in_line(char *line, int state)
 	if (!line)
 		return (false);
 	if (state == LEXER_DQUOTE || state == LEXER_VAR_DQUOTE)
-		return (check_dquote(line));
+		return (check_dquote(line, state));
 	else if (state == LEXER_QUOTE)
-		return (check_quote(line));
+		return (check_quote(line, state));
 	return (LINE_IS_COMPLETE);
 }
