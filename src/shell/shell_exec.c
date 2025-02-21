@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/21 10:37:26 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/21 11:27:09 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static bool	shell_check_cursor(t_sh *shell)
 static void	bonus_exec(t_sh *shell)
 {
 	debug_input(shell);
+	lex(shell);
 	lex_eof(shell, 0);
 	debug_tokens(shell);
 	parse(shell);

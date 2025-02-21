@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/21 11:18:30 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/21 12:00:05 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void stack_to_buffer(char **buffer, char ***new_tokens)
 	size = string_array_len(*new_tokens);
 	while (size-- > 0 && new_tokens && (*new_tokens)[i])
 		tlen += ft_strlen((*new_tokens)[i++]);
+	tlen += i;
 	i = 0;
 	*buffer = ft_calloc(1, tlen + 1);
 	if (!*buffer)
@@ -39,6 +40,8 @@ static void stack_to_buffer(char **buffer, char ***new_tokens)
 	size = string_array_len(*new_tokens);
 	while (size-- > 0 && new_tokens && (*new_tokens)[i])
 	{
+		if (ft_strlcat(*buffer, ft_strdup(" "), tlen + 1) >= tlen + 1)
+			break ;
 		if (ft_strlcat(*buffer, (*new_tokens)[i], tlen + 1) >= tlen + 1)
 			break ;
 		i++;
@@ -63,6 +66,18 @@ static void	stack_new_input(char **buffer, t_lexer *lex, char ***new_tokens, t_s
 	stack_to_buffer(buffer, new_tokens);
 }
 
+static void	debug_ntok(t_sh *shell, char ***toks)
+{
+	if (!toks || !*toks)
+		return ;
+	for (int i = 0; *toks[i]; i++)
+	{
+		debug(shell, "\nToken is :");
+		debug(shell, *toks[i++]);
+		debug(shell, "\n");
+	}
+}
+
 static void	lex_eof_read_input(t_sh *shell, t_lexer *lex, char ***ntoks, int state)
 {
 	char	*line;
@@ -83,7 +98,9 @@ static void	lex_eof_read_input(t_sh *shell, t_lexer *lex, char ***ntoks, int sta
 			lex_eof_process_parenthesis(shell, lex);
 			lex_eof_process_redirection(shell, lex);
 			lex_eof_process_gate_and_pipe(shell, lex);
+			lex_eof_process_quotes_and_var(shell, lex);
 		}
+		debug_ntok(shell, ntoks);
 		stack_new_input(&readline_buffer, lex, ntoks, shell);
 		if (check_end_in_line(line, state))
 			return (add_history(readline_buffer), free(line));
@@ -102,14 +119,13 @@ void	lex_eof(t_sh *shell, int entry_state)
 
 	i = 0;
 	ntoks = NULL;
+	shell->lexer.entry_state = entry_state;
 	ft_memset(&lexer, 0, sizeof(t_lexer));
+	debug(shell, "\nSTEP 1\n");
 	lex_eof_read_input(shell, &lexer, &ntoks, entry_state);
+	debug(shell, "\nSTEP 2\n");
 	if (shell->lexer.tokens && entry_state <= AST_COMMAND)
-	{
 		sub_last_token(shell, &ntoks);
-		while (ntoks && ntoks[i])
-			string_array_push(&shell->lexer.tokens, ntoks[i++]);
-	}
 	else
 	{
 		if (!shell->lexer.tokens)
