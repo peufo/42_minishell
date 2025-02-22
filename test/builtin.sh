@@ -6,6 +6,7 @@ echo
 echo -n
 echo -nnnn yo
 echo -n -n -n yoyo
+echo -n -nn -n -As  -n -n yoyo
 echo
 
 cd /etc/../home
