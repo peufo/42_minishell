@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:15:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 17:13:28 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/22 22:21:20 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	builtin_env(t_ast *node)
 	env = node->shell->env;
 	while (*env)
 	{
-		ft_putstr_fd(*env, node->pipe.out);
-		ft_putstr_fd("\n", node->pipe.out);
+		ft_putstr(*env);
+		ft_putstr("\n");
 		env++;
 	}
 	return (0);

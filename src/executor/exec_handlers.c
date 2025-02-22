@@ -3,40 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   exec_handlers.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:53:27 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/19 17:18:54 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/22 23:15:52 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+t_exe	get_exe(t_ast *node)
+{
+	t_exe	builtin;
+
+	builtin = get_builtin(*node->args);
+	if (builtin)
+		return (builtin);
+	return (exec_bin);
+}
+
 void	exec_handle_pipeline(t_ast *node)
 {
-	pid_t	pid;
-	t_pipe	pip;
+	t_exe	exe;
+	t_pipe	p;
 
-	debug(node->shell, "into exec pipeline\n");
-	node->right->pipe.out = node->pipe.out;
-	node->left->pipe.in = node->pipe.in;
-	if (pipe(pip.in_out) == -1)
-		return (shell_exit(node->shell));
-	pid = fork();
-	if (pid == -1)
-		return (shell_exit(node->shell));
-	if (pid == 0)
-	{
-		node->right->pipe.in = pip.out;
-		exec_ast(node->right);
-		close(pip.in);
-		close(pip.out);
-		return (shell_exit(node->shell));
-	}
-	node->left->pipe.out = pip.in;
-	exec_ast(node->left);
-	close(pip.in);
-	close(pip.out);
+	pipe(p.fildes);
+	node->left->pipe_out = &p;
+	node->right->pipe_in = &p;
+	exe = get_exe(node->left);
+	exec_child(node->left, exe);
+	exe = get_exe(node->right);
+	exec_child(node->right, exe);
+	waitpid(node->left->pid, &node->left->status, 0);
+	waitpid(node->right->pid, &node->right->status, 0);
+	node->status = node->left->status | node->right->status;
 }
 
 void	exec_handle_redirection(t_ast *node)

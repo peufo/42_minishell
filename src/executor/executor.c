@@ -3,23 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 17:23:34 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/22 22:55:13 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	exec_command(t_ast *node)
+int	exec_command(t_ast *node)
 {
-	t_bfunc	builtin;
+	t_exe	builtin;
 
 	builtin = get_builtin(*node->args);
 	if (builtin)
-		return (builtin(node), 0);
-	return (exec_bin(node));
+		return (builtin(node));
+	exec_child(node, exec_bin);
+	waitpid(node->pid, &node->status, 0);
+	return (node->status);
 }
 
 int	exec_ast(t_ast *node)
@@ -46,7 +48,6 @@ int	exec_ast(t_ast *node)
 
 int	executor(t_sh *shell)
 {
-	shell->ast->pipe = shell->pipe;
 	if (!exec_ast(shell->ast))
 		debug(shell, "ast executed\n");
 	return (0);

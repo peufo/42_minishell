@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:11:07 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 16:57:09 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/22 23:35:28 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,9 @@ static char	*assemble(char **toks, int n, int start)
 	i = 0;
 	while (i < n && parse_get_type(toks[start + i]) == AST_COMMAND)
 	{
+		if (i > 0)
+			ft_strlcat(a, " ", len);
 		ft_strlcat(a, toks[start + i++], len);
-		ft_strlcat(a, " ", len);
 	}
 	return (a);
 }

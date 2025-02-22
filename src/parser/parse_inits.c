@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_inits.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:10:08 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 17:31:37 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/22 22:23:36 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ t_ast	*parse_init_ast(t_sh *shell)
 		return (NULL);
 	}
 	node->shell = shell;
-	node->pipe = shell->pipe;
 	return (node);
 }
 

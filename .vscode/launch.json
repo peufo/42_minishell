@@ -14,7 +14,7 @@
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
-			"MIMode": "gdb",
+			"MIMode": "gdb"
 		},
 		{
 			"name": "Lancer child (Linux)",
@@ -27,16 +27,14 @@
 			"environment": [],
 			"externalConsole": false,
 			"MIMode": "gdb",
-			"setupCommands": [
-                {"text": "-gdb-set follow-fork-mode child"}
-            ]
+			"setupCommands": [{ "text": "-gdb-set follow-fork-mode child" }]
 		},
 		{
 			"name": "Lancer (MacOS)",
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/minishell",
-			"args": ["./test/bin.sh"],
+			"args": ["./test/pipe.sh"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

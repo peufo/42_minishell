@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 17:37:07 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/22 23:15:48 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,19 @@
 
 typedef union u_pipe
 {
-	int	in_out[2];
+	int	fildes[2];
 	struct
 	{
-		int	in;
 		int	out;
+		int	in;
 	};
 }	t_pipe;
+
+typedef struct s_child
+{
+	pid_t	pid;
+	int		status;
+}	t_child;
 
 typedef struct s_utils
 {
@@ -151,13 +157,16 @@ typedef struct s_otype
 
 struct s_ast
 {
-	t_sh				*shell;
-	struct s_ast		*left;
-	struct s_ast		*right;
-	char				**args;
-	t_pipe				pipe;
-	t_atype				type;
-	t_aop				op;
+	t_sh			*shell;
+	struct s_ast	*left;
+	struct s_ast	*right;
+	char			**args;
+	pid_t			pid;
+	int				status;
+	t_atype			type;
+	t_aop			op;
+	t_pipe			*pipe_in;
+	t_pipe			*pipe_out;
 };
 
 void	parse(t_sh *shell);
@@ -184,16 +193,6 @@ t_aop	parse_get_op(char *tok);
 int		parse_get_nbops(char **toks, int len);
 t_list	*parse_get_typelist(char **toks, int mod, t_sh *shell);
 
-// EXEC ========================================================================
-
-int		executor(t_sh *shell);
-int		exec_bin(t_ast *node);
-int		exec_ast(t_ast *node);
-void	exec_handle_pipeline(t_ast *node);
-void	exec_handle_redirection(t_ast *node);
-void	exec_handle_logical(t_ast *node);
-void	exec_make_redir_work(t_ast *node);
-
 // SHELL =======================================================================
 
 struct s_sh
@@ -215,14 +214,14 @@ void	shell_exit(t_sh *shell);
 
 // BUILTINS ====================================================================
 
-typedef int					(*t_bfunc)(t_ast *);
+typedef int					(*t_exe)(t_ast *);
 typedef struct s_builtin
 {
 	char	*name;
-	t_bfunc	function;
+	t_exe	exe;
 }	t_builtin;
 
-t_bfunc	get_builtin(char *cmd);
+t_exe	get_builtin(char *cmd);
 int		builtin_echo(t_ast *node);
 int		builtin_cd(t_ast *node);
 int		builtin_pwd(t_ast *node);
@@ -234,6 +233,16 @@ int		builtin_exit(t_ast *node);
 void	env_set(t_sh *shell, char *key, char *value);
 char	*env_get(t_sh *shell, char *varname);
 void	env_unset(t_sh *shell, char *varname);
+
+// EXEC ========================================================================
+
+int		exec_bin(t_ast *node);
+int		exec_ast(t_ast *node);
+int		exec_command(t_ast *node);
+void	exec_child(t_ast *node, t_exe exe);
+void	exec_handle_pipeline(t_ast *node);
+void	exec_handle_redirection(t_ast *node);
+void	exec_handle_logical(t_ast *node);
 
 // UTILS =======================================================================
 void	debug(t_sh *shell, char *str);

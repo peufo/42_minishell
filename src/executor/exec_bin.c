@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_bin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 16:22:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 17:10:03 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/22 22:18:33 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,28 +80,6 @@ static char	*find_bin(char *dir, char *name)
 	return (NULL);
 }
 
-static int	exec_bin_as_child(t_ast *node, char *bin)
-{
-	pid_t	pid;
-	int		status;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		if (node->pipe.in != STDIN_FILENO)
-			dup2(STDIN_FILENO, node->pipe.in);
-		if (node->pipe.out != STDOUT_FILENO)
-			dup2(STDOUT_FILENO, node->pipe.out);
-		status = execve(bin, node->args, node->shell->env);
-		free(bin);
-		shell_exit(node->shell);
-		return (status);
-	}
-	free(bin);
-	waitpid(pid, &status, 0);
-	return (status);
-}
-
 int	exec_bin(t_ast *node)
 {
 	char	**paths;
@@ -119,5 +97,5 @@ int	exec_bin(t_ast *node)
 	string_array_free(&paths);
 	if (!bin)
 		return (throw_error("Command not found", __FILE__, __LINE__), 1);
-	return (exec_bin_as_child(node, bin));
+	return (execve(bin, node->args, node->shell->env));
 }

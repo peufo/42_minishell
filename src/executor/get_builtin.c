@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:14:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 17:26:07 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/22 22:33:33 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bfunc	get_builtin(char *cmd)
+t_exe	get_builtin(char *cmd)
 {
 	int					i;
 	static t_builtin	builtins[] = {
@@ -30,7 +30,7 @@ t_bfunc	get_builtin(char *cmd)
 	while (builtins[i].name)
 	{
 		if (!ft_strcmp(cmd, builtins[i].name))
-			return (builtins[i].function);
+			return (builtins[i].exe);
 		i++;
 	}
 	return (NULL);

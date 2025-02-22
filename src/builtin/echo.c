@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:10:39 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/22 19:54:40 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/22 22:21:06 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int	builtin_echo(t_ast *node)
 	}
 	while (*args)
 	{
-		ft_putstr_fd(*args, node->pipe.out);
+		ft_putstr(*args);
 		if (args[1])
-			ft_putstr_fd(" ", node->pipe.out);
+			ft_putstr(" ");
 		args++;
 	}
 	if (new_line)
-		ft_putstr_fd("\n", node->pipe.out);
+		ft_putstr("\n");
 	return (0);
 }
