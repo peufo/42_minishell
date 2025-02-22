@@ -3,27 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:10:39 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 17:12:49 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:54:40 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static bool	is_flag(char *str)
+{
+	if (!*str || *str != '-')
+		return (false);
+	str++;
+	while (*str)
+		if (*str++ != 'n')
+			return (false);
+	return (true);
+}
 
 int	builtin_echo(t_ast *node)
 {
 	char	**args;
 	bool	new_line;
 
+	new_line = true;
 	args = node->args + 1;
-	if (!args | !*args)
-		new_line = true;
-	else
-		new_line = ft_strcmp(*args, "-n");
-	if (!new_line)
+	while (args && *args)
+	{
+		if (!is_flag(*args))
+			break ;
 		args++;
+		new_line = false;
+	}
 	while (*args)
 	{
 		ft_putstr_fd(*args, node->pipe.out);
