@@ -9,6 +9,9 @@ echo -n -n -n yoyo
 echo -n -nn -n -As  -n -n yoyo
 echo
 
+export MY_FLAG="-n"
+echo -n "$MY_FLAG" -n yoyo
+echo -n $MY_FLAG -nn -n -As  -n -n yoyo
 cd /etc/../home
 cd
 pwd
