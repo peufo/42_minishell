@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/20 09:51:02 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/21 14:32:45 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ bool	input_read(t_sh	*shell)
 		if (!shell->line)
 			shell_exit(shell);
 		errno = false;
-		add_history(shell->line);
+		if (!lex_check_start(shell->line))
+			add_history(shell->line);
 	}
 	else
 		shell->line = get_next_line(shell->pipe.in);

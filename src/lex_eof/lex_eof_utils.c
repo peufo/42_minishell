@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/21 11:08:40 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/23 07:31:53 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,29 @@ int	lex_eof_get_last_type(t_sh *shell)
 	return (type);
 }
 
-void	sub_last_token(t_sh *shell, char ***ntoks)
+void	sub_last_token(t_sh *shell, t_lexer *lexer)
 {
 	int		i;
 	char	*token;
+	char	**ntoks = lexer->tokens;
 
 	i = 0;
 	token = NULL;
+	debug(shell, "Hello Hello bye bye 1\n");
+	debug_arr(shell, (char *[]){"Token to be pushed : %s\n", ntoks[i], "\n", NULL});
 	if (shell->lexer.token.value)
-		token = ft_strjoin(shell->lexer.token.value, *ntoks[i++]);
-	string_array_push(&shell->lexer.tokens, token);
-	while (ntoks[i])
-		string_array_push(&shell->lexer.tokens, *ntoks[i++]);
+		token = ft_strjoin(shell->lexer.token.value, ntoks[i++]);
+	else if (shell->lexer.entry_state == 0)
+		token = ft_strjoin(shell->line, ntoks[i++]);
+	debug(shell, "Hello Hello bye bye 2\n");
+	if (token)
+		string_array_push(&shell->lexer.tokens, token);
+	debug(shell, "Hello Hello bye bye 3\n");
+	debug_arr(shell, (char *[]){"Token to be pushed : %s\n", ntoks[i], "\n", NULL});
+	while (ntoks && ntoks[i])
+	{
+		debug_arr(shell, (char *[]){"Token to be pushed : \n", ntoks[i], "\n", NULL});
+		string_array_push(&shell->lexer.tokens, ntoks[i++]);
+	}
+	debug(shell, "Hello Hello bye bye 4\n");
 }

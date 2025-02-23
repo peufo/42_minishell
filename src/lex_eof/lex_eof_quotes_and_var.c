@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 07:39:17 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/21 12:15:13 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/23 07:11:59 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,11 @@ void	lex_eof_process_single_quote(t_sh *shell, t_lexer *lexer)
 {
 	char	*start;
 
-	if (*lexer->cursor != '\'' && shell->lexer.entry_state % 2 != 1)
+	debug_arr(shell, (char *[]){"cursor in quote :", lexer->cursor, "\n", NULL});
+	if (*lexer->cursor != '\'' && (shell->lexer.entry_state != 3 && !(shell->lexer.entry_state <= 1)))
 		return ;
 	start = ++lexer->cursor;
-	if (shell->lexer.entry_state == 1)
+	if (shell->lexer.entry_state == 0 || shell->lexer.entry_state == 3)
 		start--;
 	while (*lexer->cursor && *lexer->cursor != '\'')
 		lexer->cursor++;
@@ -59,17 +60,22 @@ void	lex_eof_process_single_quote(t_sh *shell, t_lexer *lexer)
 		shell->lexer.entry_state = LEXER_DEFAULT;
 	}
 	else
+	{
+		shell->lexer.token.value = ft_cut(start, lexer->cursor);
 		shell->lexer.entry_state = LEXER_QUOTE;
+	}
 }
 
 void	lex_eof_process_double_quote(t_sh *shell, t_lexer *lexer)
 {
 	char	*st;
 
-	if (*lexer->cursor != '"' && (shell->lexer.entry_state % 2 != 0 || shell->lexer.entry_state == 1))
+	if (*lexer->cursor != '"' && 
+			(shell->lexer.entry_state != 1 && shell->lexer.entry_state != 4 &&
+			shell->lexer.entry_state != 0))
 		return ;
 	st = ++lexer->cursor;
-	if (shell->lexer.entry_state != 1)
+	if (shell->lexer.entry_state == 0)
 		st--;
 	while (*lexer->cursor && *lexer->cursor != '"')
 	{
@@ -91,5 +97,8 @@ void	lex_eof_process_double_quote(t_sh *shell, t_lexer *lexer)
 		shell->lexer.entry_state = LEXER_DEFAULT;
 	}
 	else
+	{
+		shell->lexer.token.value = ft_cut(st, lexer->cursor);
 		shell->lexer.entry_state = LEXER_DQUOTE;
+	}
 }

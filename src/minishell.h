@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/21 07:04:14 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/23 07:32:31 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	lex_eof_free(t_sh *shellm, t_lexer *lex);
 //	UTILS
 char	*ft_cut(char *from, char *to);
 int		lex_eof_get_last_type(t_sh *shell);
-void	sub_last_token(t_sh *shell, char ***ntoks);
+void	sub_last_token(t_sh *shell, t_lexer *lexer);
 void	lexer_eof_skip_whitespace(t_sh *shell, t_lexer *lexer);
 void	lexer_eof_skip_comment(t_sh *shell, t_lexer *lexer);
 bool	check_end_in_line(char *line, int state);

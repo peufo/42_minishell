@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/20 10:25:05 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/21 14:43:53 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	lex(t_sh *shell)
 			skip_line(shell);
 		if (shell->lexer.state == 4 || shell->lexer.state == 3 ||
 				shell->lexer.state == 6)
-		shell->lexer.entry_state = shell->lexer.state;
+			shell->lexer.entry_state = shell->lexer.state;
 		if (next_state)
 			lexer_action(shell, next_state);
 		else
