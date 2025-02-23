@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/23 08:03:19 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/23 09:16:54 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,17 @@ static void	stack_new_input(char **buffer, t_lexer *lex, char ***new_tokens, cha
 	stack_to_buffer(buffer, line);
 }
 
-static void	debug_ntok(t_sh *shell, char ***toks)
+static void	debug_ntok(t_sh *shell, t_lexer *lex)
 {
+	char	**toks;
+
+	toks = lex->tokens;
 	if (!toks || !*toks)
 		return ;
-	for (int i = 0; *toks[i]; i++)
+	for (int i = 0; toks[i]; i++)
 	{
 		debug(shell, "\nToken is :");
-		debug(shell, *toks[i++]);
+		debug(shell, toks[i]);
 		debug(shell, "\n");
 	}
 }
@@ -80,10 +83,11 @@ static void	lex_eof_read_input(t_sh *shell, t_lexer *lex, char ***ntoks, int sta
 	readline_buffer = NULL;
 	while (1)
 	{
-		if (!shell->line)
-			lex->cursor = shell->line;
-		else if (lex_eof_get_last_type(shell))
+		if (lex_eof_get_last_type(shell) || shell->lexer.entry_state > 1)
+		{
+			debug(shell, "\nWoo new line !\n");
 			lex->cursor = readline("EOF >");
+		}
 		if (!lex->cursor && !shell->lexer.tokens)
 			shell_exit(shell);
 		line = ft_strdup(lex->cursor);
@@ -97,7 +101,7 @@ static void	lex_eof_read_input(t_sh *shell, t_lexer *lex, char ***ntoks, int sta
 			lex_eof_process_redirection(shell, lex);
 			lex_eof_process_gate_and_pipe(shell, lex);
 		}
-		debug_ntok(shell, ntoks);
+		debug_ntok(shell, lex);
 		if (shell->line)
 			readline_buffer = ft_strdup(shell->line);
 		stack_new_input(&readline_buffer, lex, ntoks, line);
@@ -108,10 +112,8 @@ static void	lex_eof_read_input(t_sh *shell, t_lexer *lex, char ***ntoks, int sta
 		}
 		if (check_end_in_line(line, state))
 			return (add_history(readline_buffer), free(line));
-		free(readline_buffer);
 		free(line);
 		line = NULL;
-		readline_buffer = NULL;
 	}
 }
 
