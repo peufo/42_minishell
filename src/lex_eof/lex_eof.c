@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/23 09:16:54 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/23 10:06:17 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,13 @@ static void	debug_ntok(t_sh *shell, t_lexer *lex)
 	}
 }
 
+static bool	check_buffer(char *buffer)
+{
+	if (!buffer)
+		return (true);
+	return (check_string(buffer));
+}
+
 static void	lex_eof_read_input(t_sh *shell, t_lexer *lex, char ***ntoks, int state)
 {
 	char	*line;
@@ -114,6 +121,11 @@ static void	lex_eof_read_input(t_sh *shell, t_lexer *lex, char ***ntoks, int sta
 			return (add_history(readline_buffer), free(line));
 		free(line);
 		line = NULL;
+		if (check_buffer(readline_buffer))
+		{
+			shell->lexer.entry_state = 0;
+			return (add_history(readline_buffer));
+		}
 	}
 }
 
@@ -128,10 +140,14 @@ void	lex_eof(t_sh *shell, int entry_state)
 	shell->lexer.entry_state = entry_state;
 	while (shell->lexer.entry_state > 1)
 	{
+		debug(shell, "\nNew loop in lex_eof\n");
 		ft_memset(&lexer, 0, sizeof(t_lexer));
 		lex_eof_read_input(shell, &lexer, &ntoks, entry_state);
+		debug(shell, "\nInput read ok-->go debug\n");
 		debug_new_tokens(shell, lexer.tokens);
+		debug(shell, "\nDebug ok-->go push toks\n");
 		sub_last_token(shell, &lexer);
+		debug(shell, "\nSub ok-->going out\n");
 	}
 	debug_tokens(shell);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_general.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:56:04 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/17 12:14:36 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/23 10:06:57 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	debug_new_tokens(t_sh *shell, char **toks)
 	int	i;
 
 	i = 0;
+	if (!toks || !*toks)
+		return ;
 	while (toks[i] != NULL)
 	{
 		debug(shell, "\nnew token is :");
