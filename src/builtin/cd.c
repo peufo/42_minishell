@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 17:10:41 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:04:18 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int	builtin_cd(t_ast *node)
 	char	*cwd;
 	int		status;
 
-	if (!node->args[1])
+	if (!node->tokens[1])
 		path = ft_strdup(env_get(node->shell, "HOME"));
 	else
-		path = ft_strdup(node->args[1]);
+		path = ft_strdup(node->tokens[1]);
 	if (!path)
 		return (1);
 	cwd = getcwd(NULL, 0);

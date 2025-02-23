@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/22 22:14:04 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/23 17:01:26 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,13 @@ void	shell_exec(t_sh *shell)
 		debug_input(shell);
 		lex(shell);
 		debug_tokens(shell);
-		parse(shell);
+		shell->ast = ast_create(
+				shell,
+				string_array_dup(shell->lexer.tokens)
+				);
 		exec_ast(shell->ast);
 		lex_free(shell);
-		parse_free(shell);
+		ast_free(&shell->ast);
 	}
 	shell_exit(shell);
 }
@@ -62,7 +65,7 @@ void	shell_exec(t_sh *shell)
 void	shell_exit(t_sh *shell)
 {
 	lex_free(shell);
-	parse_free(shell);
+	ast_free(&shell->ast);
 	shell_free(shell);
 	debug(shell, "\n[ CLEAN EXIT OK ]\n");
 	close(shell->debug_fd);

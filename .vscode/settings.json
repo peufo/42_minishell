@@ -23,6 +23,9 @@
 		"history.h": "c",
 		"stat.h": "c",
 		"libft.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"__node_handle": "c",
+		"ios": "c",
+		"vector": "c"
 	}
 }

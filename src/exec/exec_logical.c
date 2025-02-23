@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   exec_logical.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/21 14:38:02 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/23 15:04:18 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/02/23 16:14:54 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/02/23 17:01:42 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_unset(t_ast *node)
+int	exec_and(t_ast *node)
 {
-	if (!node->tokens[1])
-		return (0);
-	env_unset(node->shell, node->tokens[1]);
+	debug(node->shell, "TODO: exec AND");
+	return (0);
+}
+
+int	exec_or(t_ast *node)
+{
+	debug(node->shell, "TODO: exec OR");
 	return (0);
 }

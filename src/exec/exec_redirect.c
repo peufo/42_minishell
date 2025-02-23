@@ -1,21 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   exec_redirect.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/21 14:38:02 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/23 15:04:18 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/02/23 16:06:26 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/02/23 16:08:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_unset(t_ast *node)
+int	exec_great(t_ast *node)
 {
-	if (!node->tokens[1])
-		return (0);
-	env_unset(node->shell, node->tokens[1]);
+	debug(node->shell, "TODO: exec great");
+	return (0);
+}
+
+int	exec_dgreat(t_ast *node)
+{
+	debug(node->shell, "TODO: exec dgreat");
+	return (0);
+}
+
+int	exec_less(t_ast *node)
+{
+	debug(node->shell, "TODO: exec less");
+	return (0);
+}
+
+int	exec_dless(t_ast *node)
+{
+	debug(node->shell, "TODO: exec dless");
 	return (0);
 }

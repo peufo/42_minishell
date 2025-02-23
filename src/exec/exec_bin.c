@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/16 16:22:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/22 22:18:33 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/02/23 16:12:21 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/02/23 17:01:53 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ int	exec_bin(t_ast *node)
 	bin = NULL;
 	while (*dir && !bin)
 	{
-		bin = find_bin(*dir, *node->args);
+		bin = find_bin(*dir, *node->tokens);
 		dir++;
 	}
 	string_array_free(&paths);
 	if (!bin)
 		return (throw_error("Command not found", __FILE__, __LINE__), 1);
-	return (execve(bin, node->args, node->shell->env));
+	return (execve(bin, node->tokens, node->shell->env));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/19 17:14:50 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:04:18 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	builtin_export(t_ast *node)
 	char	*arg;
 	int		equal_index;
 
-	arg = node->args[1];
+	arg = node->tokens[1];
 	if (!arg)
 		return (0);
 	equal_index = find_index(arg, '=');

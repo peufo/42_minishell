@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/21 14:38:02 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/23 15:04:18 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/02/23 16:17:11 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/02/23 17:01:58 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_unset(t_ast *node)
+int	exec_subshell(t_ast *node)
 {
-	if (!node->tokens[1])
-		return (0);
-	env_unset(node->shell, node->tokens[1]);
+	debug(node->shell, "TODO: exec subshell");
 	return (0);
 }

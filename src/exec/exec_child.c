@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:08:33 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/22 23:15:35 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:47:31 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	pipes_close(t_ast *node)
 		close(node->pipe_out->in);
 }
 
-void	exec_child(t_ast *node, t_exe exec)
+void	exec_child(t_ast *node, t_exe exe)
 {
 	node->pid = fork();
 	if (node->pid)
@@ -43,7 +43,7 @@ void	exec_child(t_ast *node, t_exe exec)
 		return ;
 	}
 	pipes_connect(node);
-	node->status = exec(node);
+	node->status = exe(node);
 	pipes_close(node);
 	exit(node->status);
 }

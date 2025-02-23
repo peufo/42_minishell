@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/22 23:15:48 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/23 17:15:15 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,25 +123,17 @@ bool	lex_check_quotes(t_sh *shell, char *line, char **buffer);
 
 typedef enum e_atype
 {
-	AST_SCRIPT,
-	AST_COMMAND,
-	AST_PIPELINE,
-	AST_LOGICAL,
-	AST_REDIRECT,
+	AST_NULL,
 	AST_SUBSHELL,
-	AST_END,
+	AST_AND,
+	AST_OR,
+	AST_PIPELINE,
+	AST_GREAT,
+	AST_DGREAT,
+	AST_LESS,
+	AST_DLESS,
+	AST_COMMAND,
 }	t_atype;
-
-typedef enum e_aop
-{
-	AST_OP_NULL,
-	AST_OP_AND,
-	AST_OP_OR,
-	AST_OP_GREAT,
-	AST_OP_DGREAT,
-	AST_OP_LESS,
-	AST_OP_DLESS,
-}	t_aop;
 
 typedef struct s_ttype
 {
@@ -149,49 +141,24 @@ typedef struct s_ttype
 	t_atype		op;
 }	t_ttype;
 
-typedef struct s_otype
-{
-	char	*tok;
-	t_aop	op;
-}	t_otype;
-
 struct s_ast
 {
-	t_sh			*shell;
-	struct s_ast	*left;
-	struct s_ast	*right;
-	char			**args;
-	pid_t			pid;
-	int				status;
-	t_atype			type;
-	t_aop			op;
-	t_pipe			*pipe_in;
-	t_pipe			*pipe_out;
+	t_sh	*shell;
+	t_ast	**children;
+	char	**tokens;
+	pid_t	pid;
+	int		status;
+	t_atype	type;
+	t_pipe	*pipe_in;
+	t_pipe	*pipe_out;
 };
 
-void	parse(t_sh *shell);
-void	parse_free(t_sh *shell);
-
-/////////// UTILS /////////////
-
-char	**parse_collector(char **toks);
-t_ast	*parse_init_ast(t_sh *shell);
-char	**parse_word_content(t_sh *shell, char *element);
-
-/////////// CHECKERS /////////////
-
-int		check_for_simple_pars(t_sh *shell, char **toks);
-
-/////////// HANDLERS /////////////
-
-t_ast	*parse_handle_script(char **toks, t_sh *shell);
-
-/////////// GETERS /////////////
-
-t_atype	parse_get_type(char *tok);
-t_aop	parse_get_op(char *tok);
-int		parse_get_nbops(char **toks, int len);
-t_list	*parse_get_typelist(char **toks, int mod, t_sh *shell);
+t_ast	*ast_create(t_sh *shell, char **tokens);
+void	ast_free(t_ast **node);
+void	ast_parse(t_ast *node);
+int		ast_parse_pipe(t_ast *node);
+int		ast_parse_subshell(t_ast *node);
+char	**ast_tokens_find(char **tokens, char *token);
 
 // SHELL =======================================================================
 
@@ -236,13 +203,19 @@ void	env_unset(t_sh *shell, char *varname);
 
 // EXEC ========================================================================
 
-int		exec_bin(t_ast *node);
 int		exec_ast(t_ast *node);
-int		exec_command(t_ast *node);
+int		exec_bin(t_ast *node);
 void	exec_child(t_ast *node, t_exe exe);
-void	exec_handle_pipeline(t_ast *node);
-void	exec_handle_redirection(t_ast *node);
-void	exec_handle_logical(t_ast *node);
+int		exec_command(t_ast *node);
+int		exec_subshell(t_ast *node);
+int		exec_pipeline(t_ast *node);
+int		exec_and(t_ast *node);
+int		exec_or(t_ast *node);
+int		exec_great(t_ast *node);
+int		exec_dgreat(t_ast *node);
+int		exec_less(t_ast *node);
+int		exec_dless(t_ast *node);
+t_exe	get_exe(t_ast *node);
 
 // UTILS =======================================================================
 void	debug(t_sh *shell, char *str);

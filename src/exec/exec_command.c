@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_builtin.c                                      :+:      :+:    :+:   */
+/*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/19 19:14:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/22 22:33:33 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/02/16 16:22:31 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/02/23 16:21:40 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_exe	get_builtin(char *cmd)
+/**
+ * builtin is executed on main process
+ */
+int	exec_command(t_ast *node)
 {
-	int					i;
-	static t_builtin	builtins[] = {
-	{"echo", builtin_echo},
-	{"cd", builtin_cd},
-	{"pwd", builtin_pwd},
-	{"export", builtin_export},
-	{"unset", builtin_unset},
-	{"env", builtin_env},
-	{"exit", builtin_exit},
-	{NULL, NULL}
-	};
+	t_exe	builtin;
 
-	i = 0;
-	while (builtins[i].name)
-	{
-		if (!ft_strcmp(cmd, builtins[i].name))
-			return (builtins[i].exe);
-		i++;
-	}
-	return (NULL);
+	builtin = get_builtin(*node->tokens);
+	if (builtin)
+		return (builtin(node));
+	exec_child(node, exec_bin);
+	waitpid(node->pid, &node->status, 0);
+	return (node->status);
 }
