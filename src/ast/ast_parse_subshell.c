@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 15:09:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/23 17:02:13 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:22:02 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ast_parse_subshell(t_ast *node)
 	if (ft_strcmp(*tokens, ")"))
 		return (false);
 	node->type = AST_SUBSHELL;
-	node->children = ft_calloc(1, sizeof(*node->children));
+	node->children = ft_calloc(2, sizeof(*node->children));
 	if (!node->children)
 		return (shell_exit(node->shell), false);
 	node->children[0] = ast_create(

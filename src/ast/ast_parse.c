@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 01:11:30 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/23 17:02:44 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:43:57 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ast_parse_cut_by(
 	token_and = ast_tokens_find(node->tokens, token);
 	if (!token_and)
 		return (false);
-	children = ft_calloc(2, sizeof(*children));
+	children = ft_calloc(3, sizeof(*children));
 	if (!children)
 		return (shell_exit(node->shell), false);
 	children[0] = ast_create(
@@ -42,9 +42,9 @@ static int	ast_parse_cut_by(
 
 void	ast_parse(t_ast *node)
 {
-	if (ast_parse_cut_by(node, "&&", AST_AND))
-		return ;
 	if (ast_parse_cut_by(node, "||", AST_OR))
+		return ;
+	if (ast_parse_cut_by(node, "&&", AST_AND))
 		return ;
 	if (ast_parse_pipe(node))
 		return ;
