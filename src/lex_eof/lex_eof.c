@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/23 07:32:44 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/23 08:03:19 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,12 @@ void	lex_eof(t_sh *shell, int entry_state)
 	t_lexer		lexer;
 	char		**ntoks;
 
+	ntoks = NULL;
 	if (!shell->lexer.tokens)
 		shell->lexer.tokens = ft_calloc(1, sizeof(char *));
 	shell->lexer.entry_state = entry_state;
-	while ((shell->lexer.entry_state == 3 ||
-		shell->lexer.entry_state == 4 || shell->lexer.entry_state == 6))
+	while (shell->lexer.entry_state > 1)
 	{
-		ntoks = NULL;
 		ft_memset(&lexer, 0, sizeof(t_lexer));
 		lex_eof_read_input(shell, &lexer, &ntoks, entry_state);
 		debug_new_tokens(shell, lexer.tokens);

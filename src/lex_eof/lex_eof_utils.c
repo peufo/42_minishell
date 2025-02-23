@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/23 07:31:53 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/23 07:57:20 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,15 @@ void	sub_last_token(t_sh *shell, t_lexer *lexer)
 
 	i = 0;
 	token = NULL;
-	debug(shell, "Hello Hello bye bye 1\n");
-	debug_arr(shell, (char *[]){"Token to be pushed : %s\n", ntoks[i], "\n", NULL});
 	if (shell->lexer.token.value)
 		token = ft_strjoin(shell->lexer.token.value, ntoks[i++]);
 	else if (shell->lexer.entry_state == 0)
 		token = ft_strjoin(shell->line, ntoks[i++]);
-	debug(shell, "Hello Hello bye bye 2\n");
 	if (token)
 		string_array_push(&shell->lexer.tokens, token);
-	debug(shell, "Hello Hello bye bye 3\n");
-	debug_arr(shell, (char *[]){"Token to be pushed : %s\n", ntoks[i], "\n", NULL});
 	while (ntoks && ntoks[i])
 	{
 		debug_arr(shell, (char *[]){"Token to be pushed : \n", ntoks[i], "\n", NULL});
 		string_array_push(&shell->lexer.tokens, ntoks[i++]);
 	}
-	debug(shell, "Hello Hello bye bye 4\n");
 }

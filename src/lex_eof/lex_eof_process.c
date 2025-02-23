@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 08:10:56 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/23 07:19:32 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/23 08:05:22 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ void	lex_eof_process_quotes_and_var(t_sh *shell, t_lexer *lexer)
 {
 	int	state;
 
-	debug_arr(shell, (char *[]){"cursor in quote  and var:", lexer->cursor, "\n", NULL});
+	debug_arr(shell, (char *[]){"cursor in quote and var:", lexer->cursor, "\n", NULL});
 	state = shell->lexer.entry_state;
 	debug_arr(shell, (char *[]){"\nEntry state is : ", ft_itoa(state), "\n", NULL});
 	if (*(lexer->cursor) && (*lexer->cursor == '\'' || state == 3))
 		lex_eof_process_single_quote(shell, lexer);
-	else if (*lexer->cursor && (*lexer->cursor == '"' || state % 2 == 0))
+	else if (*lexer->cursor && (*lexer->cursor == '"' || state == 4 || state == 6))
 		lex_eof_process_double_quote(shell, lexer);
 	else if (*lexer->cursor == '$')
 		lex_eof_process_variable(shell, lexer);
