@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/23 10:06:17 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/23 10:54:09 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,47 +17,6 @@ void	lex_eof_free(t_sh *shell, t_lexer *lex)
 	if (!lex)
 		return (lex_free(shell));
 	lex_free(shell);
-}
-
-static void stack_to_buffer(char **buffer, char *line)
-{
-	char	*tmp;
-	size_t	tlen;
-
-	if (!line)
-		return ;
-	tlen = ft_strlen(line) + 2;
-	if (buffer && *buffer)
-		tlen += ft_strlen(*buffer);
-	tmp = ft_calloc(1, tlen + 1);
-	if (!tmp)
-		return ;
-	if (buffer && *buffer)
-	{
-		ft_strlcat(tmp, ft_strdup(*buffer), tlen + 1);
-		ft_strlcat(tmp, ft_strdup("\n"), tlen + 1);
-	}
-	ft_strlcat(tmp, line, tlen + 1);
-	free(*buffer);
-	*buffer = tmp;
-	printf("buffer is : %s\n", *buffer);
-}
-
-static void	stack_new_input(char **buffer, t_lexer *lex, char ***new_tokens, char *line)
-{
-	int	i;
-
-	i = 0;
-	if (!*new_tokens)
-	{
-		*new_tokens = ft_calloc(1, sizeof(char *));
-		if (!*new_tokens)
-			return ;
-	}
-	while (lex->tokens && lex->tokens[i])
-		string_array_push(new_tokens, lex->tokens[i++]);
-	printf("Nb of tokens pushed into new tab is : %d\n", i);
-	stack_to_buffer(buffer, line);
 }
 
 static void	debug_ntok(t_sh *shell, t_lexer *lex)
@@ -82,7 +41,8 @@ static bool	check_buffer(char *buffer)
 	return (check_string(buffer));
 }
 
-static void	lex_eof_read_input(t_sh *shell, t_lexer *lex, char ***ntoks, int state)
+static void	lex_eof_read_input(t_sh *shell, t_lexer *lex,
+		char ***ntoks, int state)
 {
 	char	*line;
 	char	*readline_buffer;
@@ -91,14 +51,10 @@ static void	lex_eof_read_input(t_sh *shell, t_lexer *lex, char ***ntoks, int sta
 	while (1)
 	{
 		if (lex_eof_get_last_type(shell) || shell->lexer.entry_state > 1)
-		{
-			debug(shell, "\nWoo new line !\n");
 			lex->cursor = readline("EOF >");
-		}
 		if (!lex->cursor && !shell->lexer.tokens)
 			shell_exit(shell);
 		line = ft_strdup(lex->cursor);
-		printf("\nLINE OF INPUT IS :%s\n", line);
 		while (*(lex->cursor))
 		{
 			lex_eof_process_quotes_and_var(shell, lex);

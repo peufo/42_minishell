@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/23 07:32:31 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/23 10:53:31 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,9 @@ void	sub_last_token(t_sh *shell, t_lexer *lexer);
 void	lexer_eof_skip_whitespace(t_sh *shell, t_lexer *lexer);
 void	lexer_eof_skip_comment(t_sh *shell, t_lexer *lexer);
 bool	check_end_in_line(char *line, int state);
+void	stack_to_buffer(char **buffer, char *line);
+void	stack_new_input(char **buffer, t_lexer *lex,
+			char ***new_tokens, char *line);
 
 //	PROCESSES
 void	lex_eof_process_word(t_sh *shell, t_lexer *lexer);

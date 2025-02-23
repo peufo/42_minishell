@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/23 07:57:20 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/23 10:50:59 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 
 void	lexer_eof_skip_whitespace(t_sh *shell, t_lexer *lexer)
 {
-	while (*lexer->cursor && ft_isspace(*lexer->cursor))
+	while (*lexer->cursor && ft_isspace(*lexer->cursor) && shell)
 		lexer->cursor++;
-	(void)shell;
 }
 
 void	lexer_eof_skip_comment(t_sh *shell, t_lexer *lexer)
 {
-	if (*lexer->cursor == '#')
+	if (shell && *lexer->cursor == '#')
 	{
 		while (*lexer->cursor)
 			lexer->cursor++;
 	}
-	(void)shell;
 }
 
 char	*ft_cut(char *from, char *to)
@@ -52,10 +50,11 @@ void	sub_last_token(t_sh *shell, t_lexer *lexer)
 {
 	int		i;
 	char	*token;
-	char	**ntoks = lexer->tokens;
+	char	**ntoks;
 
 	i = 0;
 	token = NULL;
+	ntoks = lexer->tokens;
 	if (shell->lexer.token.value)
 		token = ft_strjoin(shell->lexer.token.value, ntoks[i++]);
 	else if (shell->lexer.entry_state == 0)
@@ -64,7 +63,8 @@ void	sub_last_token(t_sh *shell, t_lexer *lexer)
 		string_array_push(&shell->lexer.tokens, token);
 	while (ntoks && ntoks[i])
 	{
-		debug_arr(shell, (char *[]){"Token to be pushed : \n", ntoks[i], "\n", NULL});
+		debug_arr(shell, (char *[]){"Token to be pushed : \n",
+			ntoks[i], "\n", NULL});
 		string_array_push(&shell->lexer.tokens, ntoks[i++]);
 	}
 }

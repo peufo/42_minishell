@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/21 14:43:53 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/23 10:41:01 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static t_lexer_state	get_next_state(t_sh *shell)
 	return (LEXER_NO_STATE);
 }
 /*
-static void	lex_get_context(t_sh *shell, char **cursor, int state, int next_state)
+static void	lex_get_context(t_sh *shell, char **cursor,
+		int state, int next_state)
 {
 	return ;
 	if (!cursor || !*cursor)
@@ -93,8 +94,8 @@ void	lex(t_sh *shell)
 		next_state = get_next_state(shell);
 		if (*(shell->lexer.cursor) == '#' && next_state <= 1)
 			skip_line(shell);
-		if (shell->lexer.state == 4 || shell->lexer.state == 3 ||
-				shell->lexer.state == 6)
+		if (shell->lexer.state == 4 || shell->lexer.state == 3
+			|| shell->lexer.state == 6)
 			shell->lexer.entry_state = shell->lexer.state;
 		if (next_state)
 			lexer_action(shell, next_state);
