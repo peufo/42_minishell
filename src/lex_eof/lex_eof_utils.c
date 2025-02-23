@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/23 10:50:59 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/23 12:10:43 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ void	sub_last_token(t_sh *shell, t_lexer *lexer)
 		string_array_push(&shell->lexer.tokens, token);
 	while (ntoks && ntoks[i])
 	{
-		debug_arr(shell, (char *[]){"Token to be pushed : \n",
-			ntoks[i], "\n", NULL});
 		string_array_push(&shell->lexer.tokens, ntoks[i++]);
 	}
 }

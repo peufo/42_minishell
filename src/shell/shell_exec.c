@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/23 08:00:31 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/23 10:59:53 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static bool	shell_check_cursor(t_sh *shell)
 	int	last_type;
 
 	last_type = lex_eof_get_last_type(shell);
-	printf("last type was : %d\n", last_type);
 	if (last_type != AST_COMMAND && last_type != AST_END)
 	{
 		shell->lexer.entry_state = last_type;
@@ -28,7 +27,6 @@ static bool	shell_check_cursor(t_sh *shell)
 
 static void	bonus_exec(t_sh *shell)
 {
-	printf("\n=== Into bonus exec ===\n");
 	debug_input(shell);
 	lex(shell);
 	if (!shell->lexer.token.value && !shell->lexer.tokens)
@@ -42,7 +40,6 @@ static void	bonus_exec(t_sh *shell)
 
 static void	basic_exec(t_sh *shell)
 {
-	printf("\n=== Into basic exec ===\n");
 	debug_input(shell);
 	lex(shell);
 	debug_tokens(shell);
