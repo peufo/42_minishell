@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:12:21 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 15:28:09 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:37:19 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,25 +80,7 @@ static char	*find_bin(char *dir, char *name)
 	return (NULL);
 }
 
-static int	exec_bin_as_child(t_sh *shell, t_ast *node, char *bin)
-{
-	pid_t	pid;
-	int		status;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		status = execve(bin, node->args, shell->env);
-		free(bin);
-		shell_exit(shell);
-		return (status);
-	}
-	free(bin);
-	waitpid(pid, &status, 0);
-	return (status);
-}
-
-int	exec_bin(t_sh *shell, t_ast *node)
+int	exec_bin(t_ast *node)
 {
 	char	**paths;
 	char	**dir;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_eof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/24 08:27:55 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 15:38:06 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	lex_eof_read_input(t_sh *shell, t_lexer *lex,
 		if (check_buffer(readline_buffer))
 		{
 			shell->lexer.entry_state = 0;
-			return (add_history(readline_buffer));
+			return ((void)add_history(readline_buffer));
 		}
 	}
 }
@@ -102,5 +102,4 @@ void	lex_eof(t_sh *shell, int entry_state)
 		debug_new_tokens(shell, lexer.tokens);
 		sub_last_token(shell, &lexer);
 	}
-	debug_tokens(shell);
 }

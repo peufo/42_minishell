@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   lex_eof_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/24 07:47:46 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 15:41:58 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_atype	parse_get_type(char *tok)
+{
+	int				i;
+	static t_ttype	ttype[] = {
+	{"&&", AST_AND},
+	{"||", AST_OR},
+	{"|", AST_PIPELINE},
+	{"(", AST_SUBSHELL},
+	{"<", AST_GREAT},
+	{">", AST_LESS},
+	{">>", AST_DGREAT},
+	{"<<", AST_DLESS},
+	{NULL, 0}
+	};
+
+	i = 0;
+	if (tok == NULL)
+		return (AST_NULL);
+	while (ttype[i].tok)
+	{
+		if (!ft_strcmp(ttype[i].tok, tok))
+			return (ttype[i].op);
+		i++;
+	}
+	return (AST_COMMAND);
+}
 
 void	lexer_eof_skip_whitespace(t_sh *shell, t_lexer *lexer)
 {
@@ -39,7 +66,7 @@ int	lex_eof_get_last_type(t_sh *shell)
 
 	i = 0;
 	if (!shell->lexer.tokens && !shell->lexer.token.value)
-		return (AST_OP_NULL);
+		return (AST_NULL);
 	while (shell->lexer.tokens[i])
 		i++;
 	type = parse_get_type(shell->lexer.tokens[i - 1]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/23 10:59:53 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 15:43:26 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static bool	shell_check_cursor(t_sh *shell)
 	int	last_type;
 
 	last_type = lex_eof_get_last_type(shell);
-	if (last_type != AST_COMMAND && last_type != AST_END)
+	if (last_type != AST_COMMAND && last_type != AST_NULL)
 	{
 		shell->lexer.entry_state = last_type;
 		return (BONUS_MOD);
@@ -32,23 +32,30 @@ static void	bonus_exec(t_sh *shell)
 	if (!shell->lexer.token.value && !shell->lexer.tokens)
 		shell->lexer.entry_state = 1;
 	lex_eof(shell, shell->lexer.entry_state);
-	debug_tokens(shell);
-	parse(shell);
+	shell->ast = ast_create(
+			shell,
+			string_array_dup(shell->lexer.tokens)
+			);
+	ast_debug(shell->ast, 0);
+	exec_ast(shell->ast);
 	lex_free(shell);
-	parse_free(shell);
+	ast_free(&shell->ast);
 }
 
 static void	basic_exec(t_sh *shell)
 {
 	debug_input(shell);
 	lex(shell);
-	debug_tokens(shell);
 	if (shell_check_cursor(shell))
 		lex_eof(shell, shell->lexer.entry_state);
-	parse(shell);
-	executor(shell);
+	shell->ast = ast_create(
+			shell,
+			string_array_dup(shell->lexer.tokens)
+			);
+	ast_debug(shell->ast, 0);
+	exec_ast(shell->ast);
 	lex_free(shell);
-	parse_free(shell);
+	ast_free(&shell->ast);
 }
 
 void	shell_exec(t_sh *shell)
