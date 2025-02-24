@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/24 14:17:55 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 15:20:33 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,8 @@ static bool	check_buffer_and_last_token(char *buffer, t_lexer *lexer, t_sh *shel
 	int	type;
 
 	i = 0;
+	type = 0;
 	newstate = 0;
-	if (line && check_end_in_line(line, shell->lexer.entry_state))
-		return (true);
-	if (!buffer)
-		return (true);
 	while (lexer->tokens && lexer->tokens[i])
 		i++;
 	if (i == 0)
@@ -55,6 +52,10 @@ static bool	check_buffer_and_last_token(char *buffer, t_lexer *lexer, t_sh *shel
 	type = parse_get_type(lexer->tokens[i - 1]);
 	if (type <= 1)
 		newstate = check_string(buffer);
+	if (line && check_end_in_line(line, shell->lexer.entry_state, type))
+		return (true);
+	if (!buffer)
+		return (true);
 	if (newstate)
 		return (true);
 	shell->lexer.entry_state = newstate;
@@ -104,8 +105,8 @@ static void	lex_eof_read_input(t_sh *shell, t_lexer *lex)
 			free(shell->line);
 			shell->line = NULL;
 		}
-	//	printf("Type is : %d\n", shell->lexer.entry_state);
-		if (check_buffer_and_last_token(readline_buffer, lex, shell, line) && check_end_in_line(line, shell->lexer.entry_state))
+		printf("Type is : %d\n", shell->lexer.entry_state);
+		if (check_buffer_and_last_token(readline_buffer, lex, shell, line) && check_end_in_line(line, shell->lexer.entry_state, lex_eof_get_last_type(shell)))
 		{
 	//		printf("Type is : %d\n", shell->lexer.entry_state);
 			shell->lexer.entry_state = 0;

@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 06:59:20 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/24 14:03:38 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 15:16:13 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,8 @@ static bool	check_quote(char *line, int state)
 	return (UNCLOSED);
 }
 
-bool	check_end_in_line(char *line, int state)
+bool	check_end_in_line(char *line, int state, int type)
 {
-	printf("jskjkf");
 	if (!line)
 		return (false);
 	if (state == LEXER_DQUOTE || state == LEXER_VAR_DQUOTE)
@@ -65,7 +64,7 @@ bool	check_end_in_line(char *line, int state)
 		printf("line computed with check dquote\n");
 		return (check_dquote(line, state));
 	}
-	else if (state == LEXER_QUOTE)
+	else if (state == LEXER_QUOTE && type != 3)
 	{
 		if (*line == '\'')
 			return (LINE_IS_COMPLETE);
