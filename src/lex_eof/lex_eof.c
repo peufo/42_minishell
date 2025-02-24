@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/24 14:09:28 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 14:17:55 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,5 +157,9 @@ void	lex_eof(t_sh *shell, int entry_state)
 		shell->lexer.entry_state = lex_eof_get_last_type(shell);
 	}
 	debug(shell, "\n\nOUT\n\n");
+	if (string_array_len(shell->lexer.tokens) <= 1 && shell->lexer.token.value)
+		string_array_push(&shell->lexer.tokens, ft_strdup(shell->lexer.token.value));
+	else if (string_array_len(shell->lexer.tokens) <= 1 && lexer.token.value)
+		string_array_push(&shell->lexer.tokens, ft_strdup(lexer.token.value));
 	debug_new_tokens(shell, shell->lexer.tokens);
 }
