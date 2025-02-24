@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/24 07:47:44 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 08:27:55 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static void	lex_eof_read_input(t_sh *shell, t_lexer *lex,
 	{
 		if (shell->lexer.entry_state > 1 || lex_eof_get_last_type(shell))
 			lex->cursor = readline("EOF >");
-		printf("Cursor is : %s\n", lex->cursor);
 		if (!lex->cursor)
 			shell_exit(shell);
 		line = ft_strdup(lex->cursor);
@@ -98,14 +97,10 @@ void	lex_eof(t_sh *shell, int entry_state)
 	printf("Data : %s \n TYpe : %d\n", shell->lexer.token.value, shell->lexer.entry_state);
 	while (shell->lexer.entry_state > 1)
 	{
-		debug(shell, "\nNew loop in lex_eof\n");
 		ft_memset(&lexer, 0, sizeof(t_lexer));
 		lex_eof_read_input(shell, &lexer, &ntoks, entry_state);
-		debug(shell, "\nInput read ok-->go debug\n");
 		debug_new_tokens(shell, lexer.tokens);
-		debug(shell, "\nDebug ok-->go push toks\n");
 		sub_last_token(shell, &lexer);
-		debug(shell, "\nSub ok-->going out\n");
 	}
 	debug_tokens(shell);
 }
