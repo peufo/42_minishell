@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/23 12:10:43 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 07:47:46 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	lex_eof_get_last_type(t_sh *shell)
 	t_atype	type;
 
 	i = 0;
-	if (!shell->lexer.tokens)
+	if (!shell->lexer.tokens && !shell->lexer.token.value)
 		return (AST_OP_NULL);
 	while (shell->lexer.tokens[i])
 		i++;
@@ -49,20 +49,22 @@ int	lex_eof_get_last_type(t_sh *shell)
 void	sub_last_token(t_sh *shell, t_lexer *lexer)
 {
 	int		i;
+	int		last_type;
 	char	*token;
 	char	**ntoks;
 
 	i = 0;
 	token = NULL;
 	ntoks = lexer->tokens;
-	if (shell->lexer.token.value)
+	last_type = lex_eof_get_last_type(shell);
+	if (last_type > 1)
+		string_array_push(&shell->lexer.tokens, ntoks[i++]);
+	else if (shell->lexer.token.value)
 		token = ft_strjoin(shell->lexer.token.value, ntoks[i++]);
 	else if (shell->lexer.entry_state == 0)
 		token = ft_strjoin(shell->line, ntoks[i++]);
 	if (token)
 		string_array_push(&shell->lexer.tokens, token);
 	while (ntoks && ntoks[i])
-	{
 		string_array_push(&shell->lexer.tokens, ntoks[i++]);
-	}
 }
