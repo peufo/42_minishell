@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 15:22:29 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:40:25 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ bool	check_end_in_line(char *line, int state);
 void	stack_to_buffer(char **buffer, char *line);
 void	stack_new_input(char **buffer, t_lexer *lex,
 			char ***new_tokens, char *line);
+int		parse_get_type(char *tok);
 
 //	PROCESSES
 void	lex_eof_process_word(t_sh *shell, t_lexer *lexer);

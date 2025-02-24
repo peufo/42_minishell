@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   lex_eof_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/24 15:41:58 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/24 12:40:31 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_atype	parse_get_type(char *tok)
+int	parse_get_type(char *tok)
 {
 	int				i;
 	static t_ttype	ttype[] = {
-	{"&&", AST_AND},
-	{"||", AST_OR},
-	{"|", AST_PIPELINE},
-	{"(", AST_SUBSHELL},
-	{"<", AST_GREAT},
-	{">", AST_LESS},
-	{">>", AST_DGREAT},
-	{"<<", AST_DLESS},
+	{"&&", 3},
+	{"||", 3},
+	{"|", 2},
+	{"(", 5},
+	{"<", 4},
+	{">", 4},
+	{">>", 4},
+	{"<<", 4},
 	{NULL, 0}
 	};
 
@@ -36,7 +36,7 @@ t_atype	parse_get_type(char *tok)
 			return (ttype[i].op);
 		i++;
 	}
-	return (AST_COMMAND);
+	return (1);
 }
 
 void	lexer_eof_skip_whitespace(t_sh *shell, t_lexer *lexer)
