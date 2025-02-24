@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 15:01:21 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:22:29 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,19 @@ typedef struct s_ast		t_ast;
 typedef struct s_sh			t_sh;
 
 // INPUT =======================================================================
+# define BASIC_MOD 0
+# define BONUS_MOD 1
+# define CLOSED 1
+# define UNCLOSED 0
+# define LINE_IS_COMPLETE 1
 
-void	input_read(t_sh *shell);
+bool	input_read(t_sh *shell);
+int		check_string(char *input);
 
 // LEXER =======================================================================
 
 # define CHARSET_META "|&;()<> \t\n"
 # define CHARSET_META_VISIBLE "|&;()<>"
-# define BASIC_MOD 0
-# define BONUS_MOD 1
 
 typedef enum e_lexer_state
 {
@@ -86,6 +90,7 @@ typedef enum e_lexer_state
 
 struct s_lexer
 {
+	t_lexer_state		entry_state;
 	t_lexer_state		state;
 	char				*cursor;
 	t_string			token;
@@ -112,12 +117,32 @@ void	lexer_action_end_token(t_sh *shell);
 void	lexer_action_expand_var(t_sh *shell);
 void	lexer_action_expand_var_end_token(t_sh *shell);
 void	lexer_action_skip_blank(t_sh *shell);
+void	lexer_action_next_char(t_sh *shell);
 
 //	EOF LEXER
-bool	check_token(t_sh *shell);
-bool	lex_check_eof(t_sh *shell);
-bool	lex_check_var(t_sh *shell, char *line, char **buffer);
-bool	lex_check_quotes(t_sh *shell, char *line, char **buffer);
+void	lex_eof(t_sh *shell, int entry_state);
+void	lex_eof_free(t_sh *shellm, t_lexer *lex);
+
+//	UTILS
+char	*ft_cut(char *from, char *to);
+int		lex_eof_get_last_type(t_sh *shell);
+void	sub_last_token(t_sh *shell, t_lexer *lexer);
+void	lexer_eof_skip_whitespace(t_sh *shell, t_lexer *lexer);
+void	lexer_eof_skip_comment(t_sh *shell, t_lexer *lexer);
+bool	check_end_in_line(char *line, int state);
+void	stack_to_buffer(char **buffer, char *line);
+void	stack_new_input(char **buffer, t_lexer *lex,
+			char ***new_tokens, char *line);
+
+//	PROCESSES
+void	lex_eof_process_word(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_parenthesis(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_redirection(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_gate_and_pipe(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_quotes_and_var(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_single_quote(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_double_quote(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_variable(t_sh *shell, t_lexer *lexer);
 
 // PARSER ====================================================================
 

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:56:04 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 15:03:31 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:22:42 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	debug_new_tokens(t_sh *shell, char **toks)
 	int	i;
 
 	i = 0;
+	if (!toks || !*toks)
+		return ;
 	while (toks[i] != NULL)
 	{
 		debug(shell, "\nnew token is :");

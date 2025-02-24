@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	lexer_action_next_char(t_sh *shell)
+void	lexer_action_next_char(t_sh *shell)
 {
 	shell->lexer.cursor++;
 }

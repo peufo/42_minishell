@@ -6,11 +6,12 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:05:13 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 14:04:15 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/21 12:34:12 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "string_array.h"
+#include <stdio.h>
 
 int	string_array_len(char **arr)
 {
@@ -70,7 +71,10 @@ void	string_array_push(char ***arr, char *str)
 	int		arr_len;
 
 	if (!str)
+	{
+		printf("Array virtually pushed \n");
 		return ;
+	}
 	arr_len = string_array_len(*arr);
 	dup = ft_calloc(arr_len + 2, sizeof(**arr));
 	if (!dup)
