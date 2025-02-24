@@ -1,1 +1,1 @@
-echo "YO" > log/redirect/yo
+echo "YO" > test.txt

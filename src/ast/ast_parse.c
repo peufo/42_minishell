@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 01:11:30 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/23 18:43:57 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/24 22:45:14 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,9 @@ void	ast_parse(t_ast *node)
 		return ;
 	if (ast_parse_pipe(node))
 		return ;
-	if (ast_parse_cut_by(node, ">", AST_GREAT))
-		return ;
-	if (ast_parse_cut_by(node, ">>", AST_DGREAT))
-		return ;
-	if (ast_parse_cut_by(node, "<", AST_LESS))
-		return ;
-	if (ast_parse_cut_by(node, "<<", AST_DLESS))
-		return ;
 	if (ast_parse_subshell(node))
 		return ;
 	node->type = AST_COMMAND;
+	ast_parse_redirect(node);
 	return ;
 }

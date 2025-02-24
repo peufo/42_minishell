@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:06:26 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 14:01:28 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/24 21:40:42 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,22 @@
 int	exec_great(t_ast *node)
 {
 	int		fd;
-	t_pipe	redir_pipe;
+	t_exe	exe;
 
+	node->pid = fork();
+	if (node->pid)
+	{
+		waitpid(node->pid, &node->status, 0);
+		return (node->status);
+	}
 	fd = open(*node->children[1]->tokens, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (fd == -1)
 		return (1);
-	pipe(redir_pipe.fildes);
-	dup2(fd, redir_pipe.in);
-	close(redir_pipe.out);
-	node->children[0]->pipe_out = &redir_pipe;
-	exec_child(node->children[0], get_exe(node->children[0]));
+	dup2(fd, STDOUT_FILENO);
+	exe = get_exe(node->children[0]);
+	node->children[0]->status = exe(node->children[0]);
+	close(fd);
+	exit(node->children[0]->status);
 	return (node->children[0]->status);
 }
 

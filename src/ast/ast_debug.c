@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:07:24 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 15:11:19 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/24 23:07:14 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ static void	ast_debug_tokens(t_ast *node)
 	debug(node->shell, "\"");
 	while (*tokens)
 	{
-		debug(node->shell, ", ");
-		debug(node->shell, "\"");
+		debug(node->shell, ", \"");
 		debug(node->shell, *(tokens++));
 		debug(node->shell, "\"");
 	}
@@ -57,6 +56,23 @@ static void	ast_debug_children(t_ast *node, int deep)
 		ast_debug(*(children++), deep + 1);
 }
 
+static void	ast_debug_files(t_ast *node, char **files)
+{
+	if (!files || !*files)
+	{
+		debug(node->shell, "()");
+		return ;
+	}
+	debug(node->shell, "(");
+	debug(node->shell, *(files++));
+	while (*files)
+	{
+		debug(node->shell, ", ");
+		debug(node->shell, *(files++));
+	}
+	debug(node->shell, ")");
+}
+
 void	ast_debug(t_ast *node, int deep)
 {
 	int		i;
@@ -68,8 +84,12 @@ void	ast_debug(t_ast *node, int deep)
 		i++;
 	}
 	debug(node->shell, ast_debug_type(node));
-	debug(node->shell, " - ");
+	debug(node->shell, " ");
+	ast_debug_files(node, node->files_in);
+	debug(node->shell, "->");
 	ast_debug_tokens(node);
+	debug(node->shell, "->");
+	ast_debug_files(node, node->files_out);
 	debug(node->shell, "\n");
 	ast_debug_children(node, deep);
 }

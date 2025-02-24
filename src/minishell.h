@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 15:17:24 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/25 13:05:02 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,8 @@ struct s_ast
 	t_atype	type;
 	t_pipe	*pipe_in;
 	t_pipe	*pipe_out;
+	char	**files_out;
+	char	**files_in;
 };
 
 t_ast	*ast_create(t_sh *shell, char **tokens);
@@ -183,6 +185,7 @@ void	ast_free(t_ast **node);
 void	ast_parse(t_ast *node);
 int		ast_parse_pipe(t_ast *node);
 int		ast_parse_subshell(t_ast *node);
+void	ast_parse_redirect(t_ast *node);
 char	**ast_tokens_find(char **tokens, char *token);
 void	ast_debug(t_ast *node, int deep);
 
@@ -254,7 +257,6 @@ int		ft_isspace(int c);
 
 // DEBUG =======================================================================
 void	debug_input(t_sh *shell);
-void	debug_ast(t_sh *shell);
 void	debug_new_tokens(t_sh *shell, char **toks);
 void	debug_two_lists(t_sh *shell, t_list *l1, t_list *l2);
 

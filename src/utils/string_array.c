@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_array.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:05:13 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/21 12:34:12 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 23:30:11 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,7 @@ void	string_array_push(char ***arr, char *str)
 	int		arr_len;
 
 	if (!str)
-	{
-		printf("Array virtually pushed \n");
 		return ;
-	}
 	arr_len = string_array_len(*arr);
 	dup = ft_calloc(arr_len + 2, sizeof(**arr));
 	if (!dup)
@@ -101,5 +98,5 @@ void	string_array_delete(char **arr, char *str)
 		arr++;
 	}
 	free(str);
-	*arr = NULL;
+	*(arr) = NULL;
 }
