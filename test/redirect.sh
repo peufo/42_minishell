@@ -1,0 +1,1 @@
+echo "YO" > log/redirect/yo
