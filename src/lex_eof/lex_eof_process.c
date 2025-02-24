@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 08:10:56 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/24 06:13:12 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 08:15:49 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,26 +57,25 @@ void	lex_eof_process_gate_and_pipe(t_sh *shell, t_lexer *lexer)
 	char	*start;
 	char	*str;
 
-	start = lexer->cursor;
 	if (*lexer->cursor == '|' && shell)
 	{
-		lexer->cursor++;
+		start = lexer->cursor++;
 		if (*lexer->cursor == '|')
 		{
+			lexer->cursor++;
 			str = ft_cut(start, lexer->cursor);
 			string_array_push(&lexer->tokens, str);
-			lexer->cursor++;
 		}
 		else
 			string_array_push(&lexer->tokens, ft_cut(start, lexer->cursor));
 	}
 	else if (*lexer->cursor == '&')
 	{
-		lexer->cursor++;
+		start = lexer->cursor++;
 		if (*lexer->cursor == '&')
 		{
-			string_array_push(&lexer->tokens, ft_cut(start, lexer->cursor));
 			lexer->cursor++;
+			string_array_push(&lexer->tokens, ft_cut(start, lexer->cursor));
 		}
 	}
 }
