@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 07:39:17 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/24 13:25:59 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 13:57:56 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	lex_eof_process_single_quote(t_sh *shell, t_lexer *lexer)
 	if (*lexer->cursor == '\'')
 	{
 		string_array_push(&lexer->tokens, ft_cut(start, lexer->cursor));
-		lexer->cursor++;
+		if (*lexer->cursor)
+			lexer->cursor++;
 		shell->lexer.entry_state = LEXER_DEFAULT;
 	}
 	else
@@ -77,7 +78,7 @@ static void	double_quote_help_find_var(t_sh *shell,
 		*start = lexer->cursor;
 		shell->lexer.entry_state = LEXER_DEFAULT;
 	}
-	else
+	else if (*lexer->cursor)
 		lexer->cursor++;
 }
 
@@ -88,16 +89,15 @@ void	lex_eof_process_double_quote(t_sh *shell, t_lexer *lexer)
 	if (*lexer->cursor != '"' && (shell->lexer.entry_state != 1
 			&& shell->lexer.entry_state != 4 && shell->lexer.entry_state != 0))
 		return ;
-	st = ++lexer->cursor;
-	if (shell->lexer.entry_state == 0)
-		st--;
+	st = lexer->cursor++;
 	while (*lexer->cursor && *lexer->cursor != '"')
 		double_quote_help_find_var(shell, lexer, &st);
 	if (*lexer->cursor == '"')
 	{
 		if (lexer->cursor > st)
 			string_array_push(&lexer->tokens, ft_cut(st, lexer->cursor));
-		lexer->cursor++;
+		if (*lexer->cursor)
+			lexer->cursor++;
 		shell->lexer.entry_state = LEXER_DEFAULT;
 	}
 	else

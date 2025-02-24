@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/24 13:32:20 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 14:09:28 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	debug_ntok(t_sh *shell, t_lexer *lex)
 	i = 0;
 	toks = lex->tokens;
 	if (!toks || !*toks)
-		return ;
+		return (debug(shell, "No toks\n"));
 	while (toks[i])
 	{
 		debug(shell, "\nToken is :");
@@ -36,7 +36,7 @@ static void	debug_ntok(t_sh *shell, t_lexer *lex)
 	}
 }
 
-static bool	check_buffer_and_last_token(char *buffer, t_lexer *lexer, t_sh *shell)
+static bool	check_buffer_and_last_token(char *buffer, t_lexer *lexer, t_sh *shell, char *line)
 {
 	int	i;
 	int	newstate;
@@ -44,6 +44,8 @@ static bool	check_buffer_and_last_token(char *buffer, t_lexer *lexer, t_sh *shel
 
 	i = 0;
 	newstate = 0;
+	if (line && check_end_in_line(line, shell->lexer.entry_state))
+		return (true);
 	if (!buffer)
 		return (true);
 	while (lexer->tokens && lexer->tokens[i])
@@ -56,7 +58,7 @@ static bool	check_buffer_and_last_token(char *buffer, t_lexer *lexer, t_sh *shel
 	if (newstate)
 		return (true);
 	shell->lexer.entry_state = newstate;
-	printf("buffer is false\n");
+//	printf("buffer is false\n");
 	return (false);
 }
 
@@ -90,20 +92,22 @@ static void	lex_eof_read_input(t_sh *shell, t_lexer *lex)
 			lex_eof_process_redirection(shell, lex);
 			debug(shell, "\ngates\n");
 			lex_eof_process_gate_and_pipe(shell, lex);
+			debug(shell, "\n out of loop\n");
 		}
 		debug_ntok(shell, lex);
 		if (shell->line)
 			readline_buffer = ft_strdup(shell->line);
 		stack_new_input(&readline_buffer, lex, line);
+		debug(shell, "keeping up\n");
 		if (shell->line)
 		{
 			free(shell->line);
 			shell->line = NULL;
 		}
-		printf("Type is : %d\n", shell->lexer.entry_state);
-		if (check_buffer_and_last_token(readline_buffer, lex, shell) && check_end_in_line(line, shell->lexer.entry_state))
+	//	printf("Type is : %d\n", shell->lexer.entry_state);
+		if (check_buffer_and_last_token(readline_buffer, lex, shell, line) && check_end_in_line(line, shell->lexer.entry_state))
 		{
-			printf("Type is : %d\n", shell->lexer.entry_state);
+	//		printf("Type is : %d\n", shell->lexer.entry_state);
 			shell->lexer.entry_state = 0;
 			add_history(readline_buffer);
 			return ;
@@ -140,14 +144,16 @@ void	lex_eof(t_sh *shell, int entry_state)
 	if (!shell->lexer.tokens)
 		shell->lexer.tokens = ft_calloc(1, sizeof(char *));
 	shell->lexer.entry_state = entry_state;
-	printf("Data : %s \n TYpe : %d\n", shell->lexer.token.value, shell->lexer.entry_state);
+	//printf("Data : %s \n TYpe : %d\n", shell->lexer.token.value, shell->lexer.entry_state);
 	while (shell->lexer.entry_state > 1)
 	{
-		printf("Type is : %d\n", shell->lexer.entry_state);
+	//	printf("Type is : %d\n", shell->lexer.entry_state);
 		ft_memset(&lexer, 0, sizeof(t_lexer));
 		lex_eof_read_input(shell, &lexer);
 		debug_new_tokens(shell, lexer.tokens);
+		debug(shell, "let's sub\n");
 		sub_last_token(shell, &lexer);
+		debug(shell, "good sub\n");
 		shell->lexer.entry_state = lex_eof_get_last_type(shell);
 	}
 	debug(shell, "\n\nOUT\n\n");
