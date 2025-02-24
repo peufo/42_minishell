@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:56:04 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/22 23:09:50 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:03:31 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,36 +50,13 @@ void	debug_two_lists(t_sh *shell, t_list *l1, t_list *l2)
 	debug(shell, "end of debug list\n");
 }
 
-void	debug_tokens(t_sh *shell)
-{
-	char	**tokens;
-
-	tokens = shell->lexer.tokens;
-	if (!tokens)
-	{
-		debug(shell, "NO TOKENS\n");
-		return ;
-	}
-	debug(shell, "\nTOKENS:");
-	while (*tokens)
-	{
-		debug_arr(shell, (char *[]){
-			" [",
-			*tokens,
-			"]",
-			NULL
-		});
-		tokens++;
-	}
-	debug(shell, "\n");
-}
-
 void	debug_input(t_sh *shell)
 {
 	debug_arr(shell, (char *[]){
 		"============\n",
 		"INPUT: ",
 		shell->line,
+		"\n",
 		NULL
 	});
 }

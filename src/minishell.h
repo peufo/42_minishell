@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/23 17:15:15 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:01:21 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ void	ast_parse(t_ast *node);
 int		ast_parse_pipe(t_ast *node);
 int		ast_parse_subshell(t_ast *node);
 char	**ast_tokens_find(char **tokens, char *token);
+void	ast_debug(t_ast *node, int deep);
 
 // SHELL =======================================================================
 
@@ -228,7 +229,6 @@ int		ft_isspace(int c);
 
 // DEBUG =======================================================================
 void	debug_input(t_sh *shell);
-void	debug_tokens(t_sh *shell);
 void	debug_ast(t_sh *shell);
 void	debug_new_tokens(t_sh *shell, char **toks);
 void	debug_two_lists(t_sh *shell, t_list *l1, t_list *l2);
