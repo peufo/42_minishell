@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:51:49 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/23 11:00:40 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 13:18:25 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,19 @@ void	stack_to_buffer(char **buffer, char *line)
 	*buffer = tmp;
 }
 
-void	stack_new_input(char **buffer, t_lexer *lex,
-		char ***new_tokens, char *line)
+void	stack_new_input(char **buffer, t_lexer *lex, char *line)
 {
-	int	i;
+	(void)lex;
+//	int	i;
 
-	i = 0;
-	if (!*new_tokens)
-	{
-		*new_tokens = ft_calloc(1, sizeof(char *));
-		if (!*new_tokens)
-			return ;
-	}
-	while (lex->tokens && lex->tokens[i])
-		string_array_push(new_tokens, lex->tokens[i++]);
+//	i = 0;
+//	if (!*new_tokens)
+//	{
+//		*new_tokens = ft_calloc(1, sizeof(char *));
+////		if (!*new_tokens)
+	//		return ;
+	//}
+//	while (lex->tokens && lex->tokens[i])
+//		string_array_push(new_tokens, lex->tokens[i++]);
 	stack_to_buffer(buffer, line);
 }

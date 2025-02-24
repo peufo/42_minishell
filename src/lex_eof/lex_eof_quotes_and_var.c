@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 07:39:17 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/24 12:28:47 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 13:25:59 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	lex_eof_process_single_quote(t_sh *shell, t_lexer *lexer)
 	}
 	else
 	{
-		shell->lexer.token.value = ft_cut(start, lexer->cursor);
+		lexer->token.value = ft_cut(start, lexer->cursor);
 		shell->lexer.entry_state = LEXER_QUOTE;
 	}
 }
@@ -102,7 +102,7 @@ void	lex_eof_process_double_quote(t_sh *shell, t_lexer *lexer)
 	}
 	else
 	{
-		shell->lexer.token.value = ft_cut(st, lexer->cursor);
+		lexer->token.value = ft_cut(st, lexer->cursor);
 		shell->lexer.entry_state = LEXER_DQUOTE;
 	}
 }
