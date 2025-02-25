@@ -12,36 +12,36 @@
 
 #include "minishell.h"
 
-void	lexer_action_next_char(t_sh *shell)
+void	lexer_action_next_char(t_ast *node)
 {
-	shell->lexer.cursor++;
+	node->lexer.cursor++;
 }
 
-void	lexer_action_skip_blank(t_sh *shell)
+void	lexer_action_skip_blank(t_ast *node)
 {
 	char	**cursor;
 
-	cursor = &shell->lexer.cursor;
+	cursor = &node->lexer.cursor;
 	while (**cursor == ' ' || **cursor == '\t' || **cursor == '\n')
 		(*cursor)++;
 }
 
-void	lexer_action_end_token(t_sh *shell)
+void	lexer_action_end_token(t_ast *node)
 {
-	if (!shell->lexer.token.value)
+	if (!node->lexer.token.value)
 		return ;
-	string_array_push(&shell->lexer.tokens, shell->lexer.token.value);
-	shell->lexer.token.value = NULL;
-	lexer_action_skip_blank(shell);
+	string_array_push(&node->lexer.tokens, node->lexer.token.value);
+	node->lexer.token.value = NULL;
+	lexer_action_skip_blank(node);
 }
 
-void	lexer_action_ensure_token(t_sh *shell)
+void	lexer_action_ensure_token(t_ast *node)
 {
-	string_push_str(&shell->lexer.token, "");
-	shell->lexer.cursor++;
+	string_push_str(&node->lexer.token, "");
+	node->lexer.cursor++;
 }
 
-void	lexer_action(t_sh *shell, t_lexer_state next_state)
+void	lexer_action(t_ast *node, t_lexer_state next_state)
 {
 	t_lexer_action_handler			handler;
 	static t_lexer_action_handler	handlers[][8] = {
@@ -55,9 +55,9 @@ void	lexer_action(t_sh *shell, t_lexer_state next_state)
 	[LEXER_VAR][LEXER_META] = lexer_action_expand_var_end_token,
 	};
 
-	handler = handlers[shell->lexer.state][next_state];
+	handler = handlers[node->lexer.state][next_state];
 	if (!handler)
 		handler = lexer_action_next_char;
-	handler(shell);
-	shell->lexer.state = next_state;
+	handler(node);
+	node->lexer.state = next_state;
 }

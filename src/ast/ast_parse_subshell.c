@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_parse_subshell.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 15:09:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/23 18:22:02 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:22:51 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int	ast_parse_subshell(t_ast *node)
 {
-	char	**tokens;
+	char	*line;
 
-	tokens = node->tokens;
-	if (ft_strcmp(*tokens, "("))
+	line = node->line;
+	if (*line != '(')
 		return (false);
-	while (*tokens)
-		tokens++;
-	tokens--;
-	if (ft_strcmp(*tokens, ")"))
+	while (*line)
+		line++;
+	line--;
+	if (*line != ')')
 		return (false);
 	node->type = AST_SUBSHELL;
 	node->children = ft_calloc(2, sizeof(*node->children));
@@ -30,7 +30,7 @@ int	ast_parse_subshell(t_ast *node)
 		return (shell_exit(node->shell), false);
 	node->children[0] = ast_create(
 			node->shell,
-			string_array_slice(node->tokens + 1, tokens)
+			ft_strcut(node->line + 1, line)
 			);
 	return (true);
 }

@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   lex.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 15:29:15 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:42:31 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	skip_line(t_sh *shell)
+static void	skip_line(t_ast *node)
 {
-	while (*(shell->lexer.cursor) != '\0')
-		shell->lexer.cursor++;
+	while (*(node->lexer.cursor) != '\0')
+		node->lexer.cursor++;
 }
 
-static bool	next_state_match(t_sh *shell, t_lexer_next_state *next)
+static bool	next_state_match(t_ast *node, t_lexer_next_state *next)
 {
-	if (next->state != shell->lexer.state)
+	if (next->state != node->lexer.state)
 		return (false);
-	if (!ft_include(next->charset, *shell->lexer.cursor))
+	if (!ft_include(next->charset, *node->lexer.cursor))
 		return (false);
 	return (true);
 }
 
-static t_lexer_state	get_next_state(t_sh *shell)
+static t_lexer_state	get_next_state(t_ast *node)
 {
 	t_lexer_next_state			*next;
 	static t_lexer_next_state	next_states[] = {
@@ -49,65 +49,42 @@ static t_lexer_state	get_next_state(t_sh *shell)
 	next = next_states;
 	while (next->state)
 	{
-		if (next_state_match(shell, next))
+		if (next_state_match(node, next))
 			return (next->next_state);
 		next++;
 	}
 	return (LEXER_NO_STATE);
 }
-/*
-static void	lex_get_context(t_sh *shell, char **cursor,
-		int state, int next_state)
-{
-	return ;
-	if (!cursor || !*cursor)
-		return ;
-	printf("Cursor is : %s\n", *cursor);
-	printf("Acutal state is : %d\n", state);
-	printf("Next state is : %d\n", next_state);
-	if (shell->lexer.token.value)
-		printf("\nToken is : %s\n\n", shell->lexer.token.value);
-	else
-		printf("\nNo token in this context\n");
-}*/
-/*
-static bool	lex_hawk_eye(t_sh *shell, char **str, int state, int next)
-{
-	if (*str[0] == '"' && *str[1] == '\0' && state == 1 && next == 4)
-		return (BONUS_MOD);
-	if (*str[0] == '\0')
-	return (BASIC_MOD);
-}*/
 
-void	lex(t_sh *shell)
+void	lex(t_ast *node)
 {
 	t_lexer_state	next_state;
 
-	lex_free(shell);
-	shell->lexer.state = LEXER_DEFAULT;
-	shell->lexer.cursor = shell->line;
-	if (!ft_strlen(shell->lexer.cursor))
-		shell_exit(shell);
-	lexer_action_skip_blank(shell);
-	while (*(shell->lexer.cursor))
+	node->lexer.state = LEXER_DEFAULT;
+	node->lexer.cursor = node->line;
+	if (!ft_strlen(node->lexer.cursor))
+		shell_exit(node->shell);
+	lexer_action_skip_blank(node);
+	while (*(node->lexer.cursor))
 	{
-		next_state = get_next_state(shell);
-		if (*(shell->lexer.cursor) == '#' && next_state <= 1)
-			skip_line(shell);
-		if (shell->lexer.state == 4 || shell->lexer.state == 3
-			|| shell->lexer.state == 6)
-			shell->lexer.entry_state = shell->lexer.state;
+		next_state = get_next_state(node);
+		if (*(node->lexer.cursor) == '#' && next_state <= 1)
+			skip_line(node);
+		if (node->lexer.state == 4 || node->lexer.state == 3
+			|| node->lexer.state == 6)
+			node->lexer.entry_state = node->lexer.state;
 		if (next_state)
-			lexer_action(shell, next_state);
+			lexer_action(node, next_state);
 		else
-			lexer_state(shell);
+			lexer_state(node);
 	}
-	lexer_action(shell, LEXER_META);
+	lexer_action(node, LEXER_META);
+	node->tokens = string_array_dup(node->lexer.tokens);
 }
 
-void	lex_free(t_sh *shell)
+void	lex_free(t_lexer *lexer)
 {
-	string_free(&shell->lexer.token);
-	string_free(&shell->lexer.varname);
-	string_array_free(&shell->lexer.tokens);
+	string_free(&lexer->token);
+	string_free(&lexer->varname);
+	string_array_free(&lexer->tokens);
 }

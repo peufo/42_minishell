@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 01:11:30 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 16:16:44 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:03:06 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,22 @@ static int	ast_parse_cut_by(
 	t_atype type
 )
 {
-	char	**token_and;
+	char	*cursor;
 	t_ast	**children;
 
-	token_and = ast_tokens_find(node->tokens, token);
-	if (!token_and)
+	cursor = ast_tokens_find(node->line, token);
+	if (!cursor)
 		return (false);
 	children = ft_calloc(3, sizeof(*children));
 	if (!children)
 		return (shell_exit(node->shell), false);
 	children[0] = ast_create(
 			node->shell,
-			string_array_slice(node->tokens, token_and)
+			ft_strcut(node->line, cursor)
 			);
 	children[1] = ast_create(
 			node->shell,
-			string_array_slice(token_and + 1, NULL)
+			ft_strcut(cursor + 1, NULL)
 			);
 	node->children = children;
 	node->type = type;

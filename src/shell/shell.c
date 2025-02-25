@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 15:35:14 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:15:12 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	shell_init(t_sh *shell, char **env)
 
 void	shell_exit(t_sh *shell)
 {
-	lex_free(shell);
+	lex_free(&shell->lexer);
 	ast_free(&shell->ast);
 	shell_free(shell);
 	debug(shell, "\n[ CLEAN EXIT OK ]\n");

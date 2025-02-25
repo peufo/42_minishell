@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 14:39:20 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:14:16 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,23 +105,22 @@ typedef struct e_lexer_next_state
 	t_lexer_state	next_state;
 }	t_lexer_next_state;
 
-typedef void				(*t_lexer_state_handler)(t_sh *);
-typedef void				(*t_lexer_action_handler)(t_sh *);
+typedef void				(*t_lexer_state_handler)(t_ast *);
+typedef void				(*t_lexer_action_handler)(t_ast *);
 
 //	MAIN LEXER
-void	lex(t_sh *shell);
-void	lex_free(t_sh *shell);
-void	lexer_state(t_sh *shell);
-void	lexer_action(t_sh *shell, t_lexer_state next_state);
-void	lexer_action_end_token(t_sh *shell);
-void	lexer_action_expand_var(t_sh *shell);
-void	lexer_action_expand_var_end_token(t_sh *shell);
-void	lexer_action_skip_blank(t_sh *shell);
-void	lexer_action_next_char(t_sh *shell);
+void	lex(t_ast *node);
+void	lex_free(t_lexer *lexer);
+void	lexer_state(t_ast *node);
+void	lexer_action(t_ast *node, t_lexer_state next_state);
+void	lexer_action_end_token(t_ast *node);
+void	lexer_action_expand_var(t_ast *node);
+void	lexer_action_expand_var_end_token(t_ast *node);
+void	lexer_action_skip_blank(t_ast *node);
+void	lexer_action_next_char(t_ast *node);
 
 //	EOF LEXER
 void	lex_eof(t_sh *shell, int entry_state);
-void	lex_eof_free(t_sh *shellm, t_lexer *lex);
 
 //	UTILS
 char	*ft_cut(char *from, char *to);
@@ -156,6 +155,13 @@ typedef enum e_atype
 	AST_COMMAND,
 }	t_atype;
 
+typedef enum e_ast_state
+{
+	AST_STATE_DEFAULT,
+	AST_STATE_QUOTE,
+	AST_STATE_DQUOTE
+}	t_ast_state;
+
 typedef struct s_ttype
 {
 	char		*tok;
@@ -166,7 +172,9 @@ struct s_ast
 {
 	t_sh	*shell;
 	t_ast	**children;
+	char	*line;
 	char	**tokens;
+	t_lexer	lexer;
 	pid_t	pid;
 	int		status;
 	t_atype	type;
@@ -174,19 +182,18 @@ struct s_ast
 	t_pipe	*pipe_out;
 	char	**files_in;
 	char	**files_out;
-	int		*fildes_in;
-	int		*fildes_out;
-	int		out;
-	int		in;
+	int		fd_in;
+	int		fd_out;
+	int		fd_std_in;
+	int		fd_std_out;
 };
 
-t_ast	*ast_create(t_sh *shell, char **tokens);
+t_ast	*ast_create(t_sh *shell, char *line);
 void	ast_free(t_ast **node);
 void	ast_parse(t_ast *node);
 int		ast_parse_pipe(t_ast *node);
 int		ast_parse_subshell(t_ast *node);
-void	ast_parse_redirect(t_ast *node);
-char	**ast_tokens_find(char **tokens, char *token);
+char	*ast_tokens_find(char *line, char *token);
 void	ast_debug(t_ast *node, int deep);
 
 // SHELL =======================================================================
@@ -197,9 +204,9 @@ struct s_sh
 	char		*line;
 	char		**env;
 	t_pipe		pipe;
+	t_lexer		lexer;
 	bool		is_running;
 	bool		is_interactive;
-	t_lexer		lexer;
 	t_ast		*ast;
 	int			debug_fd;
 };
@@ -240,11 +247,8 @@ int		exec_subshell(t_ast *node);
 int		exec_pipeline(t_ast *node);
 int		exec_and(t_ast *node);
 int		exec_or(t_ast *node);
-int		exec_great(t_ast *node);
-int		exec_dgreat(t_ast *node);
-int		exec_less(t_ast *node);
-int		exec_dless(t_ast *node);
 t_exe	get_exe(t_ast *node);
+void	exec_pick_redirections(t_ast *node, char ***files, char *token);
 
 // UTILS =======================================================================
 void	debug(t_sh *shell, char *str);
