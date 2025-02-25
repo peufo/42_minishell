@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 01:11:30 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 22:45:14 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 16:16:44 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,5 @@ void	ast_parse(t_ast *node)
 	if (ast_parse_subshell(node))
 		return ;
 	node->type = AST_COMMAND;
-	ast_parse_redirect(node);
 	return ;
 }
