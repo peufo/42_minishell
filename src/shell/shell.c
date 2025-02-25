@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/18 07:41:43 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 15:35:14 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,36 +35,10 @@ void	shell_init(t_sh *shell, char **env)
 		return (shell_exit(shell));
 }
 
-void	shell_exec(t_sh *shell)
-{
-	shell->is_interactive = isatty(shell->pipe.in);
-	errno = false;
-	shell->is_running = true;
-	debug(shell, "INIT SHELL AT : ");
-	debug(shell, __TIME__);
-	debug(shell, "\n\n");
-	while (shell->is_running)
-	{
-		input_read(shell);
-		if (!shell->line)
-			break ;
-		debug_input(shell);
-		lex(shell);
-		lex_check_eof(shell);
-		debug_tokens(shell);
-		parse(shell);
-		debug_ast(shell);
-		executor(shell);
-		lex_free(shell);
-		parse_free(shell);
-	}
-	shell_exit(shell);
-}
-
 void	shell_exit(t_sh *shell)
 {
 	lex_free(shell);
-	parse_free(shell);
+	ast_free(&shell->ast);
 	shell_free(shell);
 	debug(shell, "\n[ CLEAN EXIT OK ]\n");
 	close(shell->debug_fd);

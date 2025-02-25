@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/18 08:35:13 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/25 13:05:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,19 @@
 
 typedef union u_pipe
 {
-	int	in_out[2];
+	int	fildes[2];
 	struct
 	{
-		int	in;
 		int	out;
+		int	in;
 	};
 }	t_pipe;
+
+typedef struct s_child
+{
+	pid_t	pid;
+	int		status;
+}	t_child;
 
 typedef struct s_utils
 {
@@ -57,8 +63,14 @@ typedef struct s_ast		t_ast;
 typedef struct s_sh			t_sh;
 
 // INPUT =======================================================================
+# define BASIC_MOD 0
+# define BONUS_MOD 1
+# define CLOSED 1
+# define UNCLOSED 0
+# define LINE_IS_COMPLETE 1
 
-void	input_read(t_sh *shell);
+bool	input_read(t_sh *shell);
+int		check_string(char *input);
 
 // LEXER =======================================================================
 
@@ -78,6 +90,7 @@ typedef enum e_lexer_state
 
 struct s_lexer
 {
+	t_lexer_state		entry_state;
 	t_lexer_state		state;
 	char				*cursor;
 	t_string			token;
@@ -104,35 +117,44 @@ void	lexer_action_end_token(t_sh *shell);
 void	lexer_action_expand_var(t_sh *shell);
 void	lexer_action_expand_var_end_token(t_sh *shell);
 void	lexer_action_skip_blank(t_sh *shell);
+void	lexer_action_next_char(t_sh *shell);
 
 //	EOF LEXER
-void	lex_check_eof(t_sh *shell);
-bool	lex_check_var(t_sh *shell, char *line, char **buffer);
-bool	lex_check_quotes(t_sh *shell, char *line, char **buffer);
+void	lex_eof(t_sh *shell, int entry_state);
+void	lex_eof_free(t_sh *shellm, t_lexer *lex);
+
+//	UTILS
+char	*ft_cut(char *from, char *to);
+int		lex_eof_get_last_type(t_sh *shell);
+void	sub_last_token(t_sh *shell, t_lexer *lexer);
+void	lexer_eof_skip_whitespace(t_sh *shell, t_lexer *lexer);
+void	lexer_eof_skip_comment(t_sh *shell, t_lexer *lexer);
+bool	check_end_in_line(char *line, int state, int type);
+void	stack_to_buffer(char **buffer, char *line);
+void	stack_new_input(char **buffer, t_lexer *lex, char *line);
+int		parse_get_type(char *tok);
+
+//	PROCESSES
+void	lex_eof_process_word(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_parenthesis(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_redirection(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_gate_and_pipe(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_quotes_and_var(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_single_quote(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_double_quote(t_sh *shell, t_lexer *lexer);
+void	lex_eof_process_variable(t_sh *shell, t_lexer *lexer);
 
 // PARSER ====================================================================
 
 typedef enum e_atype
 {
-	AST_SCRIPT,
-	AST_COMMAND,
-	AST_PIPELINE,
-	AST_LOGICAL,
-	AST_REDIRECT,
+	AST_NULL,
 	AST_SUBSHELL,
-	AST_END,
+	AST_AND,
+	AST_OR,
+	AST_PIPELINE,
+	AST_COMMAND,
 }	t_atype;
-
-typedef enum e_aop
-{
-	AST_OP_NULL,
-	AST_OP_AND,
-	AST_OP_OR,
-	AST_OP_GREAT,
-	AST_OP_DGREAT,
-	AST_OP_LESS,
-	AST_OP_DLESS,
-}	t_aop;
 
 typedef struct s_ttype
 {
@@ -140,56 +162,30 @@ typedef struct s_ttype
 	t_atype		op;
 }	t_ttype;
 
-typedef struct s_otype
-{
-	char	*tok;
-	t_aop	op;
-}	t_otype;
-
 struct s_ast
 {
-	struct s_ast		*left;
-	struct s_ast		*right;
-	char				**args;
-	int					pipe[2];
-	t_atype				type;
-	t_aop				op;
+	t_sh	*shell;
+	t_ast	**children;
+	char	**tokens;
+	pid_t	pid;
+	int		status;
+	t_atype	type;
+	t_pipe	*pipe_in;
+	t_pipe	*pipe_out;
+	char	**files_in;
+	char	**files_out;
+	int		*fildes_in;
+	int		*fildes_out;
 };
 
-void	parse(t_sh *shell);
-void	parse_free(t_sh *shell);
-
-/////////// UTILS /////////////
-
-char	**parse_collector(char **toks);
-t_ast	*parse_init_ast(void);
-char	**parse_word_content(t_sh *shell, char *element);
-
-/////////// CHECKERS /////////////
-
-int		check_for_simple_pars(t_sh *shell, char **toks);
-
-/////////// HANDLERS /////////////
-
-t_ast	*parse_handle_script(char **toks, t_sh *shell);
-
-/////////// GETERS /////////////
-
-t_atype	parse_get_type(char *tok);
-t_aop	parse_get_op(char *tok);
-int		parse_get_nbops(char **toks, int len);
-t_list	*parse_get_typelist(char **toks, int mod, t_sh *shell);
-
-// EXEC ========================================================================
-
-int		executor(t_sh *shell);
-int		exec_bin(t_sh *shell);
-int		exec_ast(t_sh *shell, t_ast *node);
-void	exec_handle_pipeline(t_sh *shell, t_ast *node);
-void	exec_handle_redirection(t_sh *shell, t_ast *node);
-void	exec_handle_command(t_sh *shell, t_ast *node);
-void	exec_handle_logical(t_sh *shell, t_ast *node);
-void	exec_make_redir_work(t_sh *shell, t_ast *node);
+t_ast	*ast_create(t_sh *shell, char **tokens);
+void	ast_free(t_ast **node);
+void	ast_parse(t_ast *node);
+int		ast_parse_pipe(t_ast *node);
+int		ast_parse_subshell(t_ast *node);
+void	ast_parse_redirect(t_ast *node);
+char	**ast_tokens_find(char **tokens, char *token);
+void	ast_debug(t_ast *node, int deep);
 
 // SHELL =======================================================================
 
@@ -212,25 +208,41 @@ void	shell_exit(t_sh *shell);
 
 // BUILTINS ====================================================================
 
-typedef int					(*t_bfunc)(t_sh *);
+typedef int					(*t_exe)(t_ast *);
 typedef struct s_builtin
 {
 	char	*name;
-	t_bfunc	function;
+	t_exe	exe;
 }	t_builtin;
 
-t_bfunc	get_builtin(char *cmd);
-int		builtin_echo(t_sh *shell);
-int		builtin_cd(t_sh *shell);
-int		builtin_pwd(t_sh *shell);
-int		builtin_export(t_sh *shell);
-int		builtin_unset(t_sh *shell);
-int		builtin_env(t_sh *shell);
-int		builtin_exit(t_sh *shell);
+t_exe	get_builtin(char *cmd);
+int		builtin_echo(t_ast *node);
+int		builtin_cd(t_ast *node);
+int		builtin_pwd(t_ast *node);
+int		builtin_export(t_ast *node);
+int		builtin_unset(t_ast *node);
+int		builtin_env(t_ast *node);
+int		builtin_exit(t_ast *node);
 
 void	env_set(t_sh *shell, char *key, char *value);
 char	*env_get(t_sh *shell, char *varname);
 void	env_unset(t_sh *shell, char *varname);
+
+// EXEC ========================================================================
+
+int		exec_ast(t_ast *node);
+int		exec_bin(t_ast *node);
+void	exec_child(t_ast *node, t_exe exe);
+int		exec_command(t_ast *node);
+int		exec_subshell(t_ast *node);
+int		exec_pipeline(t_ast *node);
+int		exec_and(t_ast *node);
+int		exec_or(t_ast *node);
+int		exec_great(t_ast *node);
+int		exec_dgreat(t_ast *node);
+int		exec_less(t_ast *node);
+int		exec_dless(t_ast *node);
+t_exe	get_exe(t_ast *node);
 
 // UTILS =======================================================================
 void	debug(t_sh *shell, char *str);
@@ -243,8 +255,6 @@ int		ft_isspace(int c);
 
 // DEBUG =======================================================================
 void	debug_input(t_sh *shell);
-void	debug_tokens(t_sh *shell);
-void	debug_ast(t_sh *shell);
 void	debug_new_tokens(t_sh *shell, char **toks);
 void	debug_two_lists(t_sh *shell, t_list *l1, t_list *l2);
 

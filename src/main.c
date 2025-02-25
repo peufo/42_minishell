@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/18 07:30:49 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 15:22:51 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int ac, char **av, char **env)
 	t_sh	shell;
 
 	shell_init(&shell, env);
-	shell.debug_fd = open("./log/debug.log", O_RDWR | O_CREAT, 0666);
+	shell.debug_fd = open("./log/debug.log", O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (ac == 2)
 	{
 		shell.pipe.in = open(av[1], O_RDONLY | O_NONBLOCK);
@@ -26,6 +26,6 @@ int	main(int ac, char **av, char **env)
 		shell.name = av[1];
 	}
 	shell_exec(&shell);
-	parse_free(&shell);
+	ast_free(&shell.ast);
 	return (0);
 }

@@ -11,6 +11,7 @@ if [ $(uname) = "Linux" ]; then
 	LEAKS_CMD="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=log/leaks.log -s"
 else
 	LEAKS_CMD="leaks -quiet --atExit --"
+	LEAKS_CMD=""
 fi
 
 watch() {

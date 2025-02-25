@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/18 07:38:19 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 15:29:15 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,29 @@ static t_lexer_state	get_next_state(t_sh *shell)
 	}
 	return (LEXER_NO_STATE);
 }
+/*
+static void	lex_get_context(t_sh *shell, char **cursor,
+		int state, int next_state)
+{
+	return ;
+	if (!cursor || !*cursor)
+		return ;
+	printf("Cursor is : %s\n", *cursor);
+	printf("Acutal state is : %d\n", state);
+	printf("Next state is : %d\n", next_state);
+	if (shell->lexer.token.value)
+		printf("\nToken is : %s\n\n", shell->lexer.token.value);
+	else
+		printf("\nNo token in this context\n");
+}*/
+/*
+static bool	lex_hawk_eye(t_sh *shell, char **str, int state, int next)
+{
+	if (*str[0] == '"' && *str[1] == '\0' && state == 1 && next == 4)
+		return (BONUS_MOD);
+	if (*str[0] == '\0')
+	return (BASIC_MOD);
+}*/
 
 void	lex(t_sh *shell)
 {
@@ -71,6 +94,9 @@ void	lex(t_sh *shell)
 		next_state = get_next_state(shell);
 		if (*(shell->lexer.cursor) == '#' && next_state <= 1)
 			skip_line(shell);
+		if (shell->lexer.state == 4 || shell->lexer.state == 3
+			|| shell->lexer.state == 6)
+			shell->lexer.entry_state = shell->lexer.state;
 		if (next_state)
 			lexer_action(shell, next_state);
 		else

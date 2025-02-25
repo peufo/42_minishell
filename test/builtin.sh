@@ -2,13 +2,17 @@ echo "Salut $USER"
 echo "Salut Jonas"
 echo "Salut Alex"
 echo Y'O '$LOGNAME" "comment"$"va ?
+
 echo
 echo -n
+echo -nnnn yo
+echo -n -n -n yoyo
+echo -n -nn -n -As  -n -n yoyo
 echo
-cd /etc/../home
-pwd
-cd
-pwd
+
+export MY_FLAG="-n"
+echo -n "$MY_FLAG" -n yoyo
+echo -n $MY_FLAG -nn -n -As  -n -n yoyo
 echo 1 I LOVE ''
 echo 2 I LOVE ""
 export LOVED

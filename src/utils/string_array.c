@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   string_array.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:05:13 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/15 14:04:15 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/24 23:30:11 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "string_array.h"
+#include <stdio.h>
 
 int	string_array_len(char **arr)
 {
@@ -97,5 +98,5 @@ void	string_array_delete(char **arr, char *str)
 		arr++;
 	}
 	free(str);
-	*arr = NULL;
+	*(arr) = NULL;
 }

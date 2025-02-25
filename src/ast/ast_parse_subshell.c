@@ -1,50 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ast_parse_subshell.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/19 19:10:39 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 15:25:04 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/02/23 15:09:40 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/02/23 18:22:02 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	is_flag(char *str)
+int	ast_parse_subshell(t_ast *node)
 {
-	if (!*str || *str != '-')
+	char	**tokens;
+
+	tokens = node->tokens;
+	if (ft_strcmp(*tokens, "("))
 		return (false);
-	str++;
-	while (*str)
-		if (*str++ != 'n')
-			return (false);
+	while (*tokens)
+		tokens++;
+	tokens--;
+	if (ft_strcmp(*tokens, ")"))
+		return (false);
+	node->type = AST_SUBSHELL;
+	node->children = ft_calloc(2, sizeof(*node->children));
+	if (!node->children)
+		return (shell_exit(node->shell), false);
+	node->children[0] = ast_create(
+			node->shell,
+			string_array_slice(node->tokens + 1, tokens)
+			);
 	return (true);
-}
-
-int	builtin_echo(t_ast *node)
-{
-	char	**args;
-	bool	new_line;
-
-	new_line = true;
-	args = node->tokens + 1;
-	while (args && *args)
-	{
-		if (!is_flag(*args))
-			break ;
-		args++;
-		new_line = false;
-	}
-	while (*args)
-	{
-		ft_putstr(*args);
-		if (args[1])
-			ft_putstr(" ");
-		args++;
-	}
-	if (new_line)
-		ft_putstr("\n");
-	return (0);
 }

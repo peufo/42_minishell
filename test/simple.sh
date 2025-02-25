@@ -1,2 +1,1 @@
-echo "YO MEC"
-echo "Sa va ?"
+echo YO

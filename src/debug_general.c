@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_general.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:56:04 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/17 12:14:36 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:22:42 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	debug_new_tokens(t_sh *shell, char **toks)
 	int	i;
 
 	i = 0;
+	if (!toks || !*toks)
+		return ;
 	while (toks[i] != NULL)
 	{
 		debug(shell, "\nnew token is :");
@@ -50,35 +52,13 @@ void	debug_two_lists(t_sh *shell, t_list *l1, t_list *l2)
 	debug(shell, "end of debug list\n");
 }
 
-void	debug_tokens(t_sh *shell)
-{
-	char	**tokens;
-
-	tokens = shell->lexer.tokens;
-	if (!tokens)
-	{
-		debug(shell, "NO TOKENS\n");
-		return ;
-	}
-	debug(shell, "\nTOKENS:\n");
-	while (*tokens)
-	{
-		debug_arr(shell, (char *[]){
-			"[",
-			*tokens,
-			"]\n",
-			NULL
-		});
-		tokens++;
-	}
-}
-
 void	debug_input(t_sh *shell)
 {
 	debug_arr(shell, (char *[]){
 		"============\n",
 		"INPUT: ",
 		shell->line,
+		"\n",
 		NULL
 	});
 }

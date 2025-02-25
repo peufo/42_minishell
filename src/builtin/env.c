@@ -6,23 +6,23 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:15:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/05 00:31:02 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:25:21 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_env(t_sh *shell)
+int	builtin_env(t_ast *node)
 {
 	char	**env;
 
-	if (!shell->env)
+	if (!node->shell->env)
 		return (1);
-	env = shell->env;
+	env = node->shell->env;
 	while (*env)
 	{
-		ft_putstr_fd(*env, shell->pipe.out);
-		ft_putstr_fd("\n", shell->pipe.out);
+		ft_putstr(*env);
+		ft_putstr("\n");
 		env++;
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_array.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 20:01:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/14 11:43:03 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:24:13 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 int		string_array_len(char **arr);
 char	**string_array_dup(char **arr);
+char	**string_array_slice(char **from, char **to);
 void	string_array_free(char ***arr);
 void	string_array_push(char ***arr, char *str);
 void	string_array_delete(char **arr, char *str);
