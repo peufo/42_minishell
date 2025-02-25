@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 06:59:20 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/24 15:38:03 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/25 04:26:45 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,6 @@ bool	check_end_in_line(char *line, int state, int type)
 	//	printf("line computed with check quote\n");
 		return (check_quote(line, state));
 	}
-	printf("line is complete\n");
+//	printf("line is complete\n");
 	return (LINE_IS_COMPLETE);
 }

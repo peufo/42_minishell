@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/24 14:11:27 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/25 04:59:14 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	sub_last_token(t_sh *shell, t_lexer *lexer)
 	i = 0;
 	token = NULL;
 	ntoks = lexer->tokens;
-//	debug(shell, "1\n");
+	debug_new_tokens(shell, lexer->tokens);
 	last_type = lex_eof_get_last_type(shell);
 	if (last_type > 1)
 		string_array_push(&shell->lexer.tokens, ntoks[i++]);
@@ -93,6 +93,13 @@ void	sub_last_token(t_sh *shell, t_lexer *lexer)
 		token = ft_strjoin(shell->lexer.token.value, ntoks[i++]);
 	else if (shell->lexer.entry_state == 0 && ntoks && *ntoks)
 		token = ft_strjoin(shell->line, ntoks[i++]);
+	else if (lexer->token.value && *lexer->token.value)
+	{
+		while (*lexer->token.value && (ft_isspace(*lexer->token.value)
+				|| *lexer->token.value == '\'' || *lexer->token.value == '"'))
+			lexer->token.value++;
+		token = ft_strdup(lexer->token.value);
+	}
 //	debug(shell, "2\n");
 	if (token)
 		string_array_push(&shell->lexer.tokens, token);
