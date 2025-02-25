@@ -56,10 +56,11 @@ run_test() {
 	local TEST_NAME="$(basename $TEST_FILE .sh)"
 	mkdir -p "$LOG_DIR/$TEST_NAME"
 	local LOG_FILE="$LOG_DIR/$TEST_NAME/mini.log"
-	$COMMAND > "$LOG_FILE"
+	local LOG_FILE_ERR="$LOG_DIR/$TEST_NAME/mini_error.log"
+	$COMMAND > "$LOG_FILE" 2> "$LOG_FILE_ERR"
 	info "$TEST_NAME \ttest/$TEST_NAME.sh"
-	echo -e "mini\t\t$LOG_FILE"
-	get_diff $TEST_FILE $LOG_FILE
+	echo -e "mini\t\t$LOG_FILE\t$LOG_FILE_ERR"
+	get_diff $TEST_FILE $LOG_FILE $LOG_FILE_ERR
 	check_leaks
 	echo
 }
@@ -67,17 +68,25 @@ run_test() {
 get_diff() {
 	TEST_FILE=$1
 	LOG_FILE_MINI=$2
-	TEST_NAME="$(basename $TEST_FILE .sh)"
-	LOG_FILE_BASH="$LOG_DIR/$TEST_NAME/bash.log"
-	LOG_FILE_DIFF="$LOG_DIR/$TEST_NAME/diff.diff"
-	bash $TEST_FILE > $LOG_FILE_BASH
-	DIFF=$(diff -u $LOG_FILE_BASH $LOG_FILE_MINI)
-	diff -u $LOG_FILE_BASH $LOG_FILE_MINI > $LOG_FILE_DIFF
-	echo -e "bash\t\t$LOG_FILE_BASH"
+	LOG_FILE_MINI_ERR=$3
+	local TEST_NAME="$(basename $TEST_FILE .sh)"
+	local LOG_FILE="$LOG_DIR/$TEST_NAME/bash.log"
+	local LOG_FILE_ERR="$LOG_DIR/$TEST_NAME/bash_error.log"
+	local DIFF_FILE="$LOG_DIR/$TEST_NAME/diff.diff"
+	local DIFF_FILE_ERR="$LOG_DIR/$TEST_NAME/diff_error.diff"
+	bash $TEST_FILE > $LOG_FILE 2> $LOG_FILE_ERR
+	local DIFF=$(diff -u $LOG_FILE $LOG_FILE_MINI)
+	local DIFF_ERR=$(diff -u $LOG_FILE_ERR $LOG_FILE_MINI_ERR)
+	echo -e "bash\t\t$LOG_FILE\t$LOG_FILE_ERR"
 	if [[ $DIFF == "" ]] ; then
-		success "DIFF\tOK"
+		success "DIFF\t\tOK"
 	else
-		warning "DIFF\tERROR\t$LOG_FILE_DIFF"
+		warning "DIFF\t\tERROR\t$DIFF_FILE"
+	fi
+	if [[ $DIFF_ERR == "" ]] ; then
+		success "DIFF_ERR\tOK"
+	else
+		warning "DIFF_ERR\tERROR\t$DIFF_FILE_ERR"
 	fi
 }
 
@@ -128,9 +137,9 @@ norminette_pretty() {
 check_leaks() {
 	LEAKS_DETECTED=$(cat ./log/leaks.log | grep "ERROR SUMMARY" | awk '{printf "%s", $4}' | tr -d "0")
 	if [[ $LEAKS_DETECTED == "" ]] ; then
-		success "LEAKS\tOK"
+		success "LEAKS\t\tOK"
 	else
-		warning "LEAKS\tERROR\t./log/leaks.log"
+		warning "LEAKS\t\tERROR\t./log/leaks.log"
 	fi
 }
 
