@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/25 16:19:28 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:26:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void	exec_redirect_open(t_ast *node)
 
 static void	exec_redirect_close(t_ast *node)
 {
-
 	if (!node->files_out)
 		return ;
 	close(node->fd_out);
@@ -43,28 +42,13 @@ static void	exec_redirect_close(t_ast *node)
 	close(node->fd_std_out);
 }
 
-static void	pick_redirections(t_ast *node, char ***files, char *token)
-{
-	char	**cursor;
-
-	cursor = string_array_find_match(node->tokens, token);
-	while (cursor)
-	{
-		if (!*(cursor + 1))
-			return (throw_error("parse error", __FILE__, __LINE__));
-		string_array_push(files, ft_strdup(*(cursor + 1)));
-		string_array_delete(node->tokens, *cursor);
-		string_array_delete(node->tokens, *cursor);
-		cursor = string_array_find_match(cursor, token);
-	}
-}
-
 int	exec_command(t_ast *node)
 {
 	t_exe	builtin;
 
-	pick_redirections(node, &node->files_in, "<");
-	pick_redirections(node, &node->files_out, ">");
+	exec_pick_redirections(node, &node->files_in, "<");
+	exec_pick_redirections(node, &node->files_out, ">");
+	lex(node);
 	exec_redirect_open(node);
 	builtin = get_builtin(*node->tokens);
 	if (builtin)

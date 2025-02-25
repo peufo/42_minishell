@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lex_eof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/25 05:04:58 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/25 18:14:20 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	lex_eof_free(t_sh *shell, t_lexer *lex)
-{
-	if (!lex)
-		return (lex_free(shell));
-	lex_free(shell);
-}
 
 static void	debug_ntok(t_sh *shell, t_lexer *lex)
 {
@@ -101,38 +94,27 @@ static void	lex_eof_read_input(t_sh *shell, t_lexer *lex)
 			else
 				break ;
 		}
-	//	debug(shell, "\nNEW EOF\n\n");
 		while (*(lex->cursor))
 		{
-	//		debug(shell, "\nquotes\n");
 			lex_eof_process_quotes_and_var(shell, lex);
-	//		debug(shell, "\nwhitespace\n");
 			lexer_eof_skip_whitespace(shell, lex);
-	//		debug(shell, "\ncomment\n");
 			lexer_eof_skip_comment(shell, lex);
-	//		debug(shell, "\npar\n");
 			lex_eof_process_parenthesis(shell, lex);
-	//		debug(shell, "\redir\n");
 			lex_eof_process_redirection(shell, lex);
-	//		debug(shell, "\ngates\n");
 			lex_eof_process_gate_and_pipe(shell, lex);
-	//		debug(shell, "\n out of loop\n");
 		}
 		debug_arr(shell, (char *[]){"State is ", ft_itoa(shell->lexer.entry_state), "\n", NULL});
 		debug_ntok(shell, lex);
 		if (shell->line)
 			readline_buffer = ft_strdup(shell->line);
 		stack_new_input(&readline_buffer, lex, line);
-	//	debug(shell, "keeping up\n");
 		if (shell->line)
 		{
 			free(shell->line);
 			shell->line = NULL;
 		}
-	//	printf("Type is : %d\n", shell->lexer.entry_state);
 		if (check_buffer_and_last_token(readline_buffer, lex, shell, line) && check_end_in_line(line, shell->lexer.entry_state, lex_eof_get_last_type(shell)))
 		{
-	//		printf("Type is : %d\n", shell->lexer.entry_state);
 			shell->lexer.entry_state = 0;
 			if (tmp != NULL)
 				free(tmp);
@@ -172,10 +154,8 @@ void	lex_eof(t_sh *shell, int entry_state)
 	if (!shell->lexer.tokens)
 		shell->lexer.tokens = ft_calloc(1, sizeof(char *));
 	shell->lexer.entry_state = entry_state;
-	//printf("Data : %s \n TYpe : %d\n", shell->lexer.token.value, shell->lexer.entry_state);
 	while (shell->lexer.entry_state > 1)
 	{
-	//	printf("Type is : %d\n", shell->lexer.entry_state);
 		ft_memset(&lexer, 0, sizeof(t_lexer));
 		lex_eof_read_input(shell, &lexer);
 		debug_new_tokens(shell, lexer.tokens);

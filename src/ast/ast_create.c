@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ast_create.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 00:30:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 00:23:53 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:44:31 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_ast	*ast_create(t_sh *shell, char **tokens)
+t_ast	*ast_create(t_sh *shell, char *line)
 {
 	t_ast	*node;
 
-	if (!tokens)
+	if (!line)
 		return (NULL);
 	node = ft_calloc(1, sizeof(*node));
 	if (!node)
 		return (shell_exit(shell), NULL);
 	node->shell = shell;
-	node->tokens = tokens;
+	node->line = line;
 	ast_parse(node);
 	return (node);
 }
@@ -41,13 +41,12 @@ void	ast_free(t_ast **node)
 		free((*node)->children);
 		(*node)->children = NULL;
 	}
-	if ((*node)->fildes_in)
-		free((*node)->fildes_in);
-	if ((*node)->fildes_out)
-		free((*node)->fildes_out);
 	string_array_free(&(*node)->files_in);
 	string_array_free(&(*node)->files_out);
 	string_array_free(&(*node)->tokens);
+	lex_free(&(*node)->lexer);
+	free((*node)->line);
+	(*node)->line = NULL;
 	free(*node);
 	*node = NULL;
 }

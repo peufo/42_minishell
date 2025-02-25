@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/24 12:25:30 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/25 18:15:04 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,33 +28,25 @@ static bool	shell_check_cursor(t_sh *shell)
 static void	bonus_exec(t_sh *shell)
 {
 	debug_input(shell);
-	lex(shell);
 	if (!shell->lexer.token.value && !shell->lexer.tokens)
 		shell->lexer.entry_state = 1;
 	lex_eof(shell, shell->lexer.entry_state);
-	shell->ast = ast_create(
-			shell,
-			string_array_dup(shell->lexer.tokens)
-			);
+	shell->ast = ast_create(shell, ft_strdup(shell->line));
 	ast_debug(shell->ast, 0);
 	exec_ast(shell->ast);
-	lex_free(shell);
+	lex_free(&shell->lexer);
 	ast_free(&shell->ast);
 }
 
 static void	basic_exec(t_sh *shell)
 {
 	debug_input(shell);
-	lex(shell);
 	if (shell_check_cursor(shell))
 		lex_eof(shell, shell->lexer.entry_state);
-	shell->ast = ast_create(
-			shell,
-			string_array_dup(shell->lexer.tokens)
-			);
+	shell->ast = ast_create(shell, ft_strdup(shell->line));
 	ast_debug(shell->ast, 0);
 	exec_ast(shell->ast);
-	lex_free(shell);
+	lex_free(&shell->lexer);
 	ast_free(&shell->ast);
 }
 

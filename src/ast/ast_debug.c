@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_debug.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:07:24 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 23:56:34 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 16:53:59 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,6 @@ static char	*ast_debug_type(t_ast *node)
 	};
 
 	return (types[node->type]);
-}
-
-static void	ast_debug_tokens(t_ast *node)
-{
-	char	**tokens;
-
-	tokens = node->tokens;
-	debug(node->shell, "[\"");
-	debug(node->shell, *(tokens++));
-	debug(node->shell, "\"");
-	while (*tokens)
-	{
-		debug(node->shell, ", \"");
-		debug(node->shell, *(tokens++));
-		debug(node->shell, "\"");
-	}
-	debug(node->shell, "]");
 }
 
 static void	ast_debug_children(t_ast *node, int deep)
@@ -82,9 +65,9 @@ void	ast_debug(t_ast *node, int deep)
 	debug(node->shell, ast_debug_type(node));
 	debug(node->shell, " ");
 	ast_debug_files(node, node->files_in);
-	debug(node->shell, "->");
-	ast_debug_tokens(node);
-	debug(node->shell, "->");
+	debug(node->shell, "->[");
+	debug(node->shell, node->line);
+	debug(node->shell, "]->");
 	ast_debug_files(node, node->files_out);
 	debug(node->shell, "\n");
 	ast_debug_children(node, deep);
