@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 14:40:59 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 18:18:02 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:57:36 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ast_tokens_find(char *line, char *token)
 				in_parenthesis++;
 			else if (*cursor == ')')
 				in_parenthesis--;
-			if (!in_parenthesis && !ft_strcmp(cursor, token))
+			if (!in_parenthesis && ft_startwith(cursor, token))
 				break ;
 		}
 		cursor++;

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 01:11:30 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 18:03:06 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:59:43 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	ast_parse_cut_by(
 			);
 	children[1] = ast_create(
 			node->shell,
-			ft_strcut(cursor + 1, NULL)
+			ft_strcut(cursor + ft_strlen(token), NULL)
 			);
 	node->children = children;
 	node->type = type;
