@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:07:24 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 23:07:14 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/24 23:56:34 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@ static char	*ast_debug_type(t_ast *node)
 	[AST_SUBSHELL] = "AST_SUBSHELL",
 	[AST_AND] = "AST_AND",
 	[AST_OR] = "AST_OR",
-	[AST_GREAT] = "AST_GREAT",
-	[AST_DGREAT] = "AST_DGREAT",
-	[AST_LESS] = "AST_LESS",
-	[AST_DLESS] = "AST_DLESS",
 	[AST_PIPELINE] = "AST_PIPELINE"
 	};
 

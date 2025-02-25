@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/23 17:01:49 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/24 23:55:54 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@ int	exec_ast(t_ast *node)
 	[AST_SUBSHELL] = exec_subshell,
 	[AST_AND] = exec_and,
 	[AST_OR] = exec_or,
-	[AST_GREAT] = exec_great,
-	[AST_DGREAT] = exec_dgreat,
-	[AST_LESS] = exec_less,
-	[AST_DLESS] = exec_dless,
 	[AST_PIPELINE] = exec_pipeline
 	};
 

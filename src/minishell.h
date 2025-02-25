@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 13:05:02 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 13:05:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,10 +153,6 @@ typedef enum e_atype
 	AST_AND,
 	AST_OR,
 	AST_PIPELINE,
-	AST_GREAT,
-	AST_DGREAT,
-	AST_LESS,
-	AST_DLESS,
 	AST_COMMAND,
 }	t_atype;
 
@@ -176,8 +172,10 @@ struct s_ast
 	t_atype	type;
 	t_pipe	*pipe_in;
 	t_pipe	*pipe_out;
-	char	**files_out;
 	char	**files_in;
+	char	**files_out;
+	int		*fildes_in;
+	int		*fildes_out;
 };
 
 t_ast	*ast_create(t_sh *shell, char **tokens);

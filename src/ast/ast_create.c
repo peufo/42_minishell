@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 00:30:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 22:41:23 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 00:23:53 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ void	ast_free(t_ast **node)
 		free((*node)->children);
 		(*node)->children = NULL;
 	}
+	if ((*node)->fildes_in)
+		free((*node)->fildes_in);
+	if ((*node)->fildes_out)
+		free((*node)->fildes_out);
 	string_array_free(&(*node)->files_in);
 	string_array_free(&(*node)->files_out);
 	string_array_free(&(*node)->tokens);

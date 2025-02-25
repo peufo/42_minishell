@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 22:44:18 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 23:48:41 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 00:37:51 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,22 @@ static void	ast_redirect_pick(t_ast *node, char ***files, char *token)
 
 void	ast_parse_redirect(t_ast *node)
 {
-	ast_redirect_pick(node, &node->files_out, ">");
+	int	files_count;
+
 	ast_redirect_pick(node, &node->files_in, "<");
+	ast_redirect_pick(node, &node->files_out, ">");
+	files_count = string_array_len(node->files_in);
+	if (files_count)
+	{
+		node->fildes_in = ft_calloc(files_count, sizeof(*node->fildes_in));
+		if (!node->fildes_in)
+			return ((void)shell_exit(node->shell));
+	}
+	files_count = string_array_len(node->files_out);
+	if (files_count)
+	{
+		node->fildes_out = ft_calloc(files_count, sizeof(*node->fildes_out));
+		if (!node->fildes_out)
+			return ((void)shell_exit(node->shell));
+	}
 }
