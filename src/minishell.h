@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 13:05:30 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:39:20 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,8 @@ struct s_ast
 	char	**files_out;
 	int		*fildes_in;
 	int		*fildes_out;
+	int		out;
+	int		in;
 };
 
 t_ast	*ast_create(t_sh *shell, char **tokens);

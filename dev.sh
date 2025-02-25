@@ -77,6 +77,8 @@ get_diff() {
 	bash $TEST_FILE > $LOG_FILE 2> $LOG_FILE_ERR
 	local DIFF=$(diff -u $LOG_FILE $LOG_FILE_MINI)
 	local DIFF_ERR=$(diff -u $LOG_FILE_ERR $LOG_FILE_MINI_ERR)
+	echo "$DIFF" > "$DIFF_FILE"
+	echo "$DIFF_ERR" > "$DIFF_FILE_ERR"
 	echo -e "bash\t\t$LOG_FILE\t$LOG_FILE_ERR"
 	if [[ $DIFF == "" ]] ; then
 		success "DIFF\t\tOK"
