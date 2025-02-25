@@ -10,12 +10,6 @@ echo -n -n -n yoyo
 echo -n -nn -n -As  -n -n yoyo
 echo
 
-cd ~
-pwd
-cd ..
-pwd
-cd
-pwd
 
 export MY_FLAG="-n"
 echo -n "$MY_FLAG" -n yoyo
