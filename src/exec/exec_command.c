@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/25 15:09:02 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/25 16:19:28 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,48 +15,56 @@
 static void	exec_redirect_open(t_ast *node)
 {
 	char	**files;
-	int		*fildes;
 
 	if (!node->files_out)
 		return ;
-	node->out = dup(STDOUT_FILENO);
+	node->fd_std_out = dup(STDOUT_FILENO);
 	files = node->files_out;
-	fildes = node->fildes_out;
 	while (*files)
 	{
-		*fildes = open(*files, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-		if (*fildes == -1)
+		node->fd_out = open(*files, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+		if (node->fd_out == -1)
 			shell_exit(node->shell);
-		if (!*(files + 1))
-			dup2(*fildes, STDOUT_FILENO);
+		if (!(files + 1))
+			close(node->fd_out);
+		else
+			dup2(node->fd_out, STDOUT_FILENO);
 		files++;
-		fildes++;
 	}
 }
 
 static void	exec_redirect_close(t_ast *node)
 {
-	char	**files;
-	int		*fildes;
 
 	if (!node->files_out)
 		return ;
-	files = node->files_out;
-	fildes = node->fildes_out;
-	while (*files)
+	close(node->fd_out);
+	dup2(node->fd_std_out, STDOUT_FILENO);
+	close(node->fd_std_out);
+}
+
+static void	pick_redirections(t_ast *node, char ***files, char *token)
+{
+	char	**cursor;
+
+	cursor = string_array_find_match(node->tokens, token);
+	while (cursor)
 	{
-		close(*(fildes++));
-		files++;
+		if (!*(cursor + 1))
+			return (throw_error("parse error", __FILE__, __LINE__));
+		string_array_push(files, ft_strdup(*(cursor + 1)));
+		string_array_delete(node->tokens, *cursor);
+		string_array_delete(node->tokens, *cursor);
+		cursor = string_array_find_match(cursor, token);
 	}
-	dup2(node->out, STDOUT_FILENO);
-	close(node->out);
 }
 
 int	exec_command(t_ast *node)
 {
 	t_exe	builtin;
 
-
+	pick_redirections(node, &node->files_in, "<");
+	pick_redirections(node, &node->files_out, ">");
 	exec_redirect_open(node);
 	builtin = get_builtin(*node->tokens);
 	if (builtin)
