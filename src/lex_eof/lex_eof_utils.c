@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/25 04:59:14 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/27 10:29:13 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,72 +39,20 @@ int	parse_get_type(char *tok)
 	return (1);
 }
 
-void	lexer_eof_skip_whitespace(t_sh *shell, t_lexer *lexer)
+int	get_stack_state(t_input *input)
 {
-	while (*lexer->cursor && ft_isspace(*lexer->cursor) && shell)
-		lexer->cursor++;
+	int	state;
+
+	state = 0;
+	(void)input;
+	return (state);
 }
 
-void	lexer_eof_skip_comment(t_sh *shell, t_lexer *lexer)
+int	get_last_token_type(t_input *input)
 {
-	if (shell && *lexer->cursor == '#')
-	{
-		while (*lexer->cursor)
-			lexer->cursor++;
-	}
-}
+	int	token_type;
 
-char	*ft_cut(char *from, char *to)
-{
-	return (ft_substr(from, 0, to - from));
-}
-
-int	lex_eof_get_last_type(t_sh *shell)
-{
-	int		i;
-	t_atype	type;
-
-	i = 0;
-	if (!shell->lexer.tokens)
-		return (AST_NULL);
-	while (shell->lexer.tokens[i])
-		i++;
-	if (i == 0)
-		return (0);
-	type = parse_get_type(shell->lexer.tokens[i - 1]);
-	return (type);
-}
-
-void	sub_last_token(t_sh *shell, t_lexer *lexer)
-{
-	int		i;
-	int		last_type;
-	char	*token;
-	char	**ntoks;
-
-	i = 0;
-	token = NULL;
-	ntoks = lexer->tokens;
-	debug_new_tokens(shell, lexer->tokens);
-	last_type = lex_eof_get_last_type(shell);
-	if (last_type > 1)
-		string_array_push(&shell->lexer.tokens, ntoks[i++]);
-	else if (shell->lexer.token.value && ntoks && *ntoks)
-		token = ft_strjoin(shell->lexer.token.value, ntoks[i++]);
-	else if (shell->lexer.entry_state == 0 && ntoks && *ntoks)
-		token = ft_strjoin(shell->line, ntoks[i++]);
-	else if (lexer->token.value && *lexer->token.value)
-	{
-		while (*lexer->token.value && (ft_isspace(*lexer->token.value)
-				|| *lexer->token.value == '\'' || *lexer->token.value == '"'))
-			lexer->token.value++;
-		token = ft_strdup(lexer->token.value);
-	}
-//	debug(shell, "2\n");
-	if (token)
-		string_array_push(&shell->lexer.tokens, token);
-//	debug(shell, "3\n");
-	while (ntoks && ntoks[i])
-		string_array_push(&shell->lexer.tokens, ntoks[i++]);
-//	debug(shell, "4\n");
+	token_type = 0;
+	(void)input;
+	return (token_type);
 }

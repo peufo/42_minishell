@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 18:14:16 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/27 10:28:50 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,14 @@ typedef struct s_sh			t_sh;
 # define UNCLOSED 0
 # define LINE_IS_COMPLETE 1
 
+typedef struct s_input
+{
+	char	*line;
+	char	*stack;
+	int		state;
+	int		last;
+}	t_input;
+
 bool	input_read(t_sh *shell);
 int		check_string(char *input);
 
@@ -120,28 +128,14 @@ void	lexer_action_skip_blank(t_ast *node);
 void	lexer_action_next_char(t_ast *node);
 
 //	EOF LEXER
-void	lex_eof(t_sh *shell, int entry_state);
+void	lex_eof(t_sh *shell);
 
 //	UTILS
-char	*ft_cut(char *from, char *to);
-int		lex_eof_get_last_type(t_sh *shell);
-void	sub_last_token(t_sh *shell, t_lexer *lexer);
-void	lexer_eof_skip_whitespace(t_sh *shell, t_lexer *lexer);
-void	lexer_eof_skip_comment(t_sh *shell, t_lexer *lexer);
-bool	check_end_in_line(char *line, int state, int type);
+int		get_stack_state(t_input *input);
+int		get_last_token_type(t_input *input);
+bool	check_end_in_line(t_input *input);
 void	stack_to_buffer(char **buffer, char *line);
-void	stack_new_input(char **buffer, t_lexer *lex, char *line);
 int		parse_get_type(char *tok);
-
-//	PROCESSES
-void	lex_eof_process_word(t_sh *shell, t_lexer *lexer);
-void	lex_eof_process_parenthesis(t_sh *shell, t_lexer *lexer);
-void	lex_eof_process_redirection(t_sh *shell, t_lexer *lexer);
-void	lex_eof_process_gate_and_pipe(t_sh *shell, t_lexer *lexer);
-void	lex_eof_process_quotes_and_var(t_sh *shell, t_lexer *lexer);
-void	lex_eof_process_single_quote(t_sh *shell, t_lexer *lexer);
-void	lex_eof_process_double_quote(t_sh *shell, t_lexer *lexer);
-void	lex_eof_process_variable(t_sh *shell, t_lexer *lexer);
 
 // PARSER ====================================================================
 

@@ -3,59 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   lex_eof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/25 18:14:20 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/02/27 10:33:15 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	debug_ntok(t_sh *shell, t_lexer *lex)
+#define OK 1
+#
+static bool	check_line(t_input *input)
 {
-	char	**toks;
-	int		i;
-
-	i = 0;
-	toks = lex->tokens;
-	if (!toks || !*toks)
-		return (debug(shell, "No toks\n"));
-	while (toks[i])
-	{
-		debug(shell, "\nToken is :");
-		debug(shell, toks[i++]);
-		debug(shell, "\n");
-	}
-}
-
-static bool	check_buffer_and_last_token(char *buffer, t_lexer *lexer, t_sh *shell, char *line)
-{
-	int	i;
-	int	newstate;
-	int	type;
-
-	i = 0;
-	type = 0;
-	newstate = 0;
-	debug(shell, "\ntokens of lexer in checker :");
-	debug_ntok(shell, lexer);
-	while (lexer->tokens && lexer->tokens[i])
-		i++;
-	if (i == 0)
-		return (true);
-	type = parse_get_type(lexer->tokens[i - 1]);
-	if (type <= 1)
-		newstate = check_string(buffer);
-	if (line && check_end_in_line(line, shell->lexer.entry_state, type))
-		return (true);
-	if (!buffer)
-		return (true);
-	if (newstate)
-		return (true);
-	shell->lexer.entry_state = newstate;
-//	printf("buffer is false\n");
-	return (false);
+	if (!check_string(input->stack))
+		return (LINE_IS_COMPLETE);
+	return (0);
 }
 
 static bool	is_empty_line(char *line)
@@ -69,107 +31,77 @@ static bool	is_empty_line(char *line)
 	return (1);
 }
 
-static void	lex_eof_read_input(t_sh *shell, t_lexer *lex)
+static void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 {
-	char	*line;
-	char	*stack;
-	char	*tmp;
-	char	*readline_buffer;
+	while (!input->line || !*input->line)
+	{
+		if (input->state >= 1)
+			input->line = readline("EOF >");
+		if (!input->line)
+			shell_exit(shell);
+		if (input->line && is_empty_line(input->line))
+			input->line = NULL;
+		else
+			break ;
+	}
+	if (shell->line)
+		input->line = ft_strdup(shell->line);
+}
 
-	line = NULL;
-	tmp = NULL;
-	stack = NULL;
-	readline_buffer = NULL;
+static void	lex_eof_checkout(t_input *input)
+{
+	char	*res;
+
+	input->state = 0;
+	res = ft_strjoin(input->stack, input->line);
+	add_history(res);
+
+}
+
+static void	lex_eof_read_input(t_sh *shell, t_input *input)
+{
+	printf("reading input\n");
 	while (1)
 	{
-		while (!line || *line)
-		{
-			if (shell->lexer.entry_state > 1 || lex_eof_get_last_type(shell))
-				lex->cursor = readline("EOF >");
-			if (!lex->cursor)
-				shell_exit(shell);
-			line = ft_strdup(lex->cursor);
-			if (line && is_empty_line(line))
-				line = NULL;
-			else
-				break ;
-		}
-		while (*(lex->cursor))
-		{
-			lex_eof_process_quotes_and_var(shell, lex);
-			lexer_eof_skip_whitespace(shell, lex);
-			lexer_eof_skip_comment(shell, lex);
-			lex_eof_process_parenthesis(shell, lex);
-			lex_eof_process_redirection(shell, lex);
-			lex_eof_process_gate_and_pipe(shell, lex);
-		}
-		debug_arr(shell, (char *[]){"State is ", ft_itoa(shell->lexer.entry_state), "\n", NULL});
-		debug_ntok(shell, lex);
-		if (shell->line)
-			readline_buffer = ft_strdup(shell->line);
-		stack_new_input(&readline_buffer, lex, line);
+		get_safe_readline_inputs(shell, input);
+		printf("helli\n");
+		stack_to_buffer(&input->stack, input->line);
+		printf("helli\n");
 		if (shell->line)
 		{
 			free(shell->line);
 			shell->line = NULL;
 		}
-		if (check_buffer_and_last_token(readline_buffer, lex, shell, line) && check_end_in_line(line, shell->lexer.entry_state, lex_eof_get_last_type(shell)))
-		{
-			shell->lexer.entry_state = 0;
-			if (tmp != NULL)
-				free(tmp);
-			tmp = ft_strjoin(readline_buffer, stack);
-			add_history(readline_buffer);
-			return ;
-		}
-		if (lex->token.value)
-		{
-//			debug(shell, "ca bug sale\n");
-			if (!stack && lex->token.value)
-				stack = ft_strdup(shell->lexer.token.value);
-//			debug(shell, "step1\n");
-			if (!lex->tokens)
-				lex->tokens = ft_calloc(2, sizeof(char *));
-//			debug(shell, "step2\n");
-			tmp = ft_strjoin(stack, lex->token.value);
-//			debug(shell, "step2.2\n");
-			lex->tokens[0] = ft_strdup(tmp);
-//			debug(shell, "step3\n");
-			if (stack && *lex->tokens)
-			{
-				free(stack);
-				stack = ft_strdup(*lex->tokens);
-			}
-//			debug(shell, "finalement pas\n");
-		}
-		free(line);
-		line = NULL;
+		if (check_line(input))
+			return (lex_eof_checkout(input));
+		free(input->line);
+		input->line = NULL;
 	}
+	printf("boooof\n");
 }
 
-void	lex_eof(t_sh *shell, int entry_state)
+void	lex_eof(t_sh *shell)
 {
-	t_lexer		lexer;
+	t_input		*input;
 
-	if (!shell->lexer.tokens)
-		shell->lexer.tokens = ft_calloc(1, sizeof(char *));
-	shell->lexer.entry_state = entry_state;
-	while (shell->lexer.entry_state > 1)
+	printf("hello\n");
+	input = ft_calloc(1, sizeof(t_input));
+	printf("helli\n");
+	while (1)
 	{
-		ft_memset(&lexer, 0, sizeof(t_lexer));
-		lex_eof_read_input(shell, &lexer);
-		debug_new_tokens(shell, lexer.tokens);
-		debug(shell, "let's sub\n");
-		sub_last_token(shell, &lexer);
-		debug(shell, "good sub\n");
-		shell->lexer.entry_state = lex_eof_get_last_type(shell);
-		debug_arr(shell, (char *[]){"State in handler is ", ft_itoa(shell->lexer.entry_state), "\n", NULL});
-
+		lex_eof_read_input(shell, input);
+		printf("helli2\n");
+		input->state = get_stack_state(input);
+		printf("helli3\n");
+		input->last = get_last_token_type(input);
+		printf("helli4\n");
+		debug_arr(shell, (char *[]){"State in handler is ",
+			ft_itoa(input->state), "\n", NULL});
+		if (input->state == 1 && input->last == 0)
+			break ;
 	}
+	printf("helli\n");
 	debug(shell, "\n\nOUT\n\n");
-	if (string_array_len(shell->lexer.tokens) <= 1 && shell->lexer.token.value)
-		string_array_push(&shell->lexer.tokens, ft_strdup(shell->lexer.token.value));
-	else if (string_array_len(shell->lexer.tokens) <= 1 && lexer.token.value)
-		string_array_push(&shell->lexer.tokens, ft_strdup(lexer.token.value));
-	debug_new_tokens(shell, shell->lexer.tokens);
+	printf("helli5\n");
+	shell->line = ft_strdup(input->stack);
 }
