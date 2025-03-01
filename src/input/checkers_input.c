@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:00:56 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/23 10:03:55 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/28 11:16:15 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,19 @@ int	check_string(char *input)
 		if (input[u.k] == '"')
 		{
 			if (!look_inside_dquo(input, &u.k))
-				return (0);
+				return (INPUT_DQUOTE);
 		}
 		else if (input[u.k] == '\'')
 		{
 			if (!look_inside_squo(input, &u.k))
-				return (0);
+				return (INPUT_QUOTE);
 		}
 		else
 			helper(input, &u.i, &u.j, &u.k);
 	}
 	if (u.j != u.i)
-		return (throw_error("Unclosed parentheses", __FILE__, __LINE__), 0);
-	return (1);
+		return (INPUT_PARENTHESES);
+	return (0);
 }
 
 int	check_double(t_lexer *lexer, char c)
