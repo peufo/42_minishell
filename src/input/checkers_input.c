@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:00:56 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/28 11:16:15 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 07:57:34 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	check_string(char *input)
 	t_utils	u;
 
 	if (!input)
-		return (0);
+		return (-1);
 	ft_bzero(&u, sizeof(t_utils));
 	while (input[u.k])
 	{

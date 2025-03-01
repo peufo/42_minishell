@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/28 11:03:13 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 08:06:23 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ void	lex_eof(t_sh *shell)
 	t_input		*input;
 
 	input = ft_calloc(1, sizeof(t_input));
-	while (input->state != 1 || input->last == 0)
+	while (input->state > 0 || input->last > 0)
 	{
 		lex_eof_read_input(shell, input);
-		input->state = get_stack_state(input);
+		input->state = check_string(input->stack);
 		input->last = get_last_token_type(input);
 		debug_arr(shell, (char *[]){"State in handler is ",
 			ft_itoa(input->state), "\n", NULL});
