@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/01 09:38:25 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:37:30 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,12 @@ typedef struct s_input
 	int		state;
 	int		last;
 }	t_input;
+
+typedef struct s_operator
+{
+	char *op;
+	int type;
+} 	t_operator;
 
 bool	input_read(t_sh *shell);
 int		check_string(char *input);
@@ -260,6 +266,7 @@ bool	ft_include(char *str, char c);
 bool	ft_startwith(char *str, char *start);
 int		ft_isop(char *str);
 int		ft_isspace(int c);
+char	*ft_strrchrstr(const char *str, char *to_find);
 
 // DEBUG =======================================================================
 void	debug_input(t_sh *shell);

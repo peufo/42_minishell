@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/27 11:35:25 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:12:14 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	builtin_cd(t_ast *node)
 	{
 		path = ft_strdup(env_get(node->shell, "HOME"));
 		status = change_the_directory(path, node);
-		return (status);
+		return (free(path), status);
 	}
 	else
 		path = ft_strdup(node->tokens[1]);
