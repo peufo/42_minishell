@@ -6,18 +6,11 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/01 09:37:13 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 10:57:04 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static bool	check_line(t_input *input)
-{
-	if (!check_string(input->stack))
-		return (true);
-	return (false);
-}
 
 static bool	is_empty_line(char *line)
 {
@@ -32,35 +25,41 @@ static bool	is_empty_line(char *line)
 
 static void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 {
-	printf("state is : %d\n", input->state);
-	while (!input->line || !*input->line)
-	{
-		if (input->state >= 1)
-			input->line = readline("EOF >");
-		if (!input->line)
-			shell_exit(shell);
-		if (input->line && is_empty_line(input->line))
-			input->line = NULL;
-		else
-			break ;
-	}
 	if (shell->line)
+	{
 		input->line = ft_strdup(shell->line);
+		free(shell->line);
+		shell->line = NULL;
+	}
+	else
+	{
+		while (!input->line || !*input->line)
+		{
+			if (input->state >= 1)
+				input->line = readline("EOF >");
+			if (!input->line)
+				shell_exit(shell);
+			if (input->line && is_empty_line(input->line))
+				input->line = NULL;
+			else
+				break ;
+		}
+	}
 }
 
 static void	lex_eof_checkout(t_input *input)
 {
 	char	*res;
 
+	res = input->stack;
 	input->state = 0;
-	res = ft_strjoin(input->stack, input->line);
-	add_history(res);
+	(void)res;
+	add_history(input->stack);
 }
 
 static void	lex_eof_read_input(t_sh *shell, t_input *input)
 {
-	printf("reading input\n");
-	while (1)
+	while (input->state > 0 || input->last > 0)
 	{
 		get_safe_readline_inputs(shell, input);
 		stack_to_buffer(&input->stack, input->line);
@@ -69,7 +68,12 @@ static void	lex_eof_read_input(t_sh *shell, t_input *input)
 			free(shell->line);
 			shell->line = NULL;
 		}
-		if (check_line(input))
+		input->state = check_string(input->stack);
+		printf("State is : %d\n", input->state);
+		input->last = get_last_token_type(input->stack);
+		printf("Last operator is : %d\n", input->last);
+		printf("Stack is : %s\n", input->stack);
+		if (input->state <= 0 && input->last <= 0)
 			return (lex_eof_checkout(input));
 		free(input->line);
 		input->line = NULL;
@@ -80,17 +84,12 @@ void	lex_eof(t_sh *shell)
 {
 	t_input		*input;
 
-	printf("hallo\n");
 	input = ft_calloc(1, sizeof(t_input));
 	input->state = LEXER_DEFAULT;
 	while (input->state > 0 || input->last > 0)
 	{
-		printf("looping\n");
 		lex_eof_read_input(shell, input);
-		input->state = check_string(input->stack);
-		printf("quote and unquotes are ok\n");
-		input->last = get_last_token_type(input->stack);
-		printf("operators checked\n");
+		printf("Stack is %s\n", input->stack);
 		debug_arr(shell, (char *[]){"State in handler is ",
 			ft_itoa(input->state), "\n", NULL});
 	}

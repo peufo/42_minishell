@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/01 09:20:04 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 10:35:02 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static bool	lex_check_start(char *input)
 {
-	if (check_string(input))
+	if (check_string(input) || get_last_token_type(input))
 		return (BONUS_MOD);
 	return (BASIC_MOD);
 }
