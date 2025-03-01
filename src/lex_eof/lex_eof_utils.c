@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/01 10:14:36 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 10:23:38 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static int	check_whitespaces(char *echo, char *to_find)
 	char	*is_redir;
 
 	i = 0;
-	printf("into whitespaces checker\n");
 	is_redir = ft_strrchrstr(echo, "<<");
 	while (echo[i] == to_find[0] || ft_isspace(echo[i]))
 		i++;
@@ -94,10 +93,7 @@ static int	find_last_operator(char *line, char *to_find)
 	int		type;
 	char	*echo;
 
-	printf("one try for to find to be : %s\n", to_find);
-	printf("Line is : %s\n", line);
 	echo = ft_strrchrstr(line, to_find);
-	printf("echo is %s\n", echo);
 	if (!echo)
 		return (0);
 	type = check_whitespaces(echo, to_find);
@@ -108,7 +104,6 @@ int	get_last_token_type(char *input)
 {
 	int		token_type;
 
-	printf("looking for last operator\n");
 	token_type = find_last_operator(input, "&&");
 	if (token_type)
 		return (token_type);
