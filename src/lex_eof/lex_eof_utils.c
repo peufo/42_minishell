@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/28 15:29:49 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 08:56:28 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,55 +39,89 @@ int	parse_get_type(char *tok)
 	return (1);
 }
 
-static int	get_operator_type(char *buffer, int len)
+static int	get_operator_type(char *op)
 {
-	while (0 == 1)
-		(void)buffer;
+	int			i;
+	static int	operators[] = {
+	{"&&", INPUT_AND},
+	{"||", INPUT_OR},
+	{"|", INPUT_PIPE},
+	{"<<", INPUT_REDIR},
+	{NULL, 0}
+	};
+
+	i = 0;
+	while (operators[i].op)
+	{
+		if (!ft_strcmp(operators[i].op, op))
+			return (operators[i].op);
+		i++;
+	}
 	return (0);
 }
+
 int	get_stack_state(t_input *input, int len)
 {
-	int	state;
-
-	state = 0;
-	(void)input;
-	return (state);
+	return (check_string(input->stack));
 }
 
-static int	check_validity(char *buffer, int len)
+static int	check_whitespaces(char *echo, char *to_find)
 {
-	int	type;
+	size_t	i;
 
-	type = 0;
-	(void)buffer;
-	return (type);
+	i = 0;
+	while (echo[i] == to_find[0] || ft_isspace(echo[i]))
+		i++;
+	if (i == ft_strlen(echo))
+		return (get_operator_type(to_find));
+	return (0);
 }
 
-static bool	is_meta_char(char c)
+int	find_last_operator(char *line, char *to_find)
 {
-	if (c == '&' || c == '|' || c == '>' || c == '<')
-		return (true);
-	return (false);
+	size_t	len;
+	int		type;
+	char	*echo;
+	char	*next;
+
+	len = ft_strlen(line);
+	echo = ft_strnstr(line, to_find, len);
+	if (!echo)
+		return (0);
+	next = ft_strnstr(echo, to_find, ft_strlen(echo));
+	if (!next)
+		type = check_whitespaces(echo, to_find);
+	else
+	{
+		while (next)
+		{
+			free(echo);
+			echo = next;
+			next = ft_strnstr(echo, to_find, ft_strlen(echo));			
+		}
+		type = check_whitespaces(echo, to_find);
+	}
+	return (free(echo), type);
 }
+
 
 /* u.x itere sur la string 	&&	u.jiest actif si quote
 	&& u.j pour dquote 	&& 	u.k est actif si parentheses ouvertes	*/
 int	get_last_token_type(t_input *input)
 {
-	int	i;
-	int	token_type;
+	int		token_type;
 
-	i = 0;
-	if (input->stack && input->state <= 1)
-		return (0);
-	while (input->stack[i])
-		i++;
-	if (i > 1)
-	{
-		if (is_meta_char(input->stack))
-			token_type = check_validity(input->stack, i);
-	}
-	else if (i == 1)
-		token_type = get_operator_type(input->stack, i);
-	return (token_type);
+	token_type = find_last_operator(input->stack, "&&");
+	if (token_type)
+		return (token_type);
+	token_type = find_last_operator(input->stack, "||");
+	if (token_type)
+		return (token_type);
+	token_type = find_last_operator(input->stack, "|");
+	if (token_type)
+		return (token_type);
+	token_type = find_last_operator(input->stack, "<<");
+	if (token_type)
+		return (token_type);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/27 10:28:50 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 08:53:00 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,15 @@ typedef struct s_sh			t_sh;
 # define BONUS_MOD 1
 # define CLOSED 1
 # define UNCLOSED 0
+# define INPUT_PIPE 1
+# define INPUT_OR 2
+# define INPUT_AND 3
 # define LINE_IS_COMPLETE 1
+# define INPUT_QUOTE 2
+# define INPUT_DQUOTE 3
+# define INPUT_PARENTHESES 4
+# define INPUT_EOF 5
+# define INPUT_REDIR 6
 
 typedef struct s_input
 {
@@ -79,6 +87,16 @@ typedef struct s_input
 
 bool	input_read(t_sh *shell);
 int		check_string(char *input);
+
+//	EOF LEXER
+void	lex_eof(t_sh *shell);
+
+//	UTILS
+int		get_stack_state(t_input *input);
+int		get_last_token_type(t_input *input);
+bool	check_end_in_line(t_input *input);
+void	stack_to_buffer(char **buffer, char *line);
+int		parse_get_type(char *tok);
 
 // LEXER =======================================================================
 
