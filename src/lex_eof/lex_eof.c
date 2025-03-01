@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/01 08:06:23 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 09:37:13 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,17 @@ void	lex_eof(t_sh *shell)
 {
 	t_input		*input;
 
+	printf("hallo\n");
 	input = ft_calloc(1, sizeof(t_input));
+	input->state = LEXER_DEFAULT;
 	while (input->state > 0 || input->last > 0)
 	{
+		printf("looping\n");
 		lex_eof_read_input(shell, input);
 		input->state = check_string(input->stack);
-		input->last = get_last_token_type(input);
+		printf("quote and unquotes are ok\n");
+		input->last = get_last_token_type(input->stack);
+		printf("operators checked\n");
 		debug_arr(shell, (char *[]){"State in handler is ",
 			ft_itoa(input->state), "\n", NULL});
 	}

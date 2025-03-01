@@ -6,43 +6,22 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/01 08:56:28 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 10:14:36 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_get_type(char *tok)
+typedef struct s_operator
 {
-	int				i;
-	static t_ttype	ttype[] = {
-	{"&&", 3},
-	{"||", 3},
-	{"|", 2},
-	{"(", 5},
-	{"<", 4},
-	{">", 4},
-	{">>", 4},
-	{"<<", 4},
-	{NULL, 0}
-	};
-
-	i = 0;
-	if (tok == NULL)
-		return (AST_NULL);
-	while (ttype[i].tok)
-	{
-		if (!ft_strcmp(ttype[i].tok, tok))
-			return (ttype[i].op);
-		i++;
-	}
-	return (1);
-}
+	char *op;
+	int type;
+} 	t_operator;
 
 static int	get_operator_type(char *op)
 {
-	int			i;
-	static int	operators[] = {
+	int					i;
+	static t_operator	operators[] = {
 	{"&&", INPUT_AND},
 	{"||", INPUT_OR},
 	{"|", INPUT_PIPE},
@@ -54,13 +33,35 @@ static int	get_operator_type(char *op)
 	while (operators[i].op)
 	{
 		if (!ft_strcmp(operators[i].op, op))
-			return (operators[i].op);
+			return ((int)operators[i].type);
 		i++;
 	}
 	return (0);
 }
 
-int	get_stack_state(t_input *input, int len)
+static char	*ft_strrchrstr(const char *str, char *to_find)
+{
+	char	*cursor;
+	char	*res;
+	size_t	j;
+	size_t	len;
+
+	res = NULL;
+	len = ft_strlen(to_find);
+	cursor = (char *)str;
+	while (cursor && *cursor)
+	{
+		j = 0;
+		while (cursor[j] == to_find[j])
+			j++;
+		if (j >= len)
+			res = cursor;
+		cursor++;
+	}
+	return (res);
+}
+
+int	get_stack_state(t_input *input)
 {
 	return (check_string(input->stack));
 }
@@ -68,59 +69,56 @@ int	get_stack_state(t_input *input, int len)
 static int	check_whitespaces(char *echo, char *to_find)
 {
 	size_t	i;
+	char	*is_redir;
 
 	i = 0;
+	printf("into whitespaces checker\n");
+	is_redir = ft_strrchrstr(echo, "<<");
 	while (echo[i] == to_find[0] || ft_isspace(echo[i]))
 		i++;
-	if (i == ft_strlen(echo))
+	if (i == ft_strlen(echo) && !is_redir)
 		return (get_operator_type(to_find));
+	else if (is_redir)
+	{
+		while (ft_isspace(*is_redir) || *is_redir == to_find[0])
+			is_redir++;
+		if (!ft_isalnum(*is_redir))
+			return (0);
+		return (INPUT_REDIR);
+	}
 	return (0);
 }
 
-int	find_last_operator(char *line, char *to_find)
+static int	find_last_operator(char *line, char *to_find)
 {
-	size_t	len;
 	int		type;
 	char	*echo;
-	char	*next;
 
-	len = ft_strlen(line);
-	echo = ft_strnstr(line, to_find, len);
+	printf("one try for to find to be : %s\n", to_find);
+	printf("Line is : %s\n", line);
+	echo = ft_strrchrstr(line, to_find);
+	printf("echo is %s\n", echo);
 	if (!echo)
 		return (0);
-	next = ft_strnstr(echo, to_find, ft_strlen(echo));
-	if (!next)
-		type = check_whitespaces(echo, to_find);
-	else
-	{
-		while (next)
-		{
-			free(echo);
-			echo = next;
-			next = ft_strnstr(echo, to_find, ft_strlen(echo));			
-		}
-		type = check_whitespaces(echo, to_find);
-	}
-	return (free(echo), type);
+	type = check_whitespaces(echo, to_find);
+	return (type);
 }
 
-
-/* u.x itere sur la string 	&&	u.jiest actif si quote
-	&& u.j pour dquote 	&& 	u.k est actif si parentheses ouvertes	*/
-int	get_last_token_type(t_input *input)
+int	get_last_token_type(char *input)
 {
 	int		token_type;
 
-	token_type = find_last_operator(input->stack, "&&");
+	printf("looking for last operator\n");
+	token_type = find_last_operator(input, "&&");
 	if (token_type)
 		return (token_type);
-	token_type = find_last_operator(input->stack, "||");
+	token_type = find_last_operator(input, "||");
 	if (token_type)
 		return (token_type);
-	token_type = find_last_operator(input->stack, "|");
+	token_type = find_last_operator(input, "|");
 	if (token_type)
 		return (token_type);
-	token_type = find_last_operator(input->stack, "<<");
+	token_type = find_last_operator(input, "<<");
 	if (token_type)
 		return (token_type);
 	return (0);

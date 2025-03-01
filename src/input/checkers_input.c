@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:00:56 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/01 07:57:34 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 09:38:35 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	check_string(char *input)
 	}
 	if (u.j != u.i)
 		return (INPUT_PARENTHESES);
-	return (0);
+	return (get_last_token_type(input));
 }
 
 int	check_double(t_lexer *lexer, char c)

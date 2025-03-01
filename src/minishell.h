@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/01 08:53:00 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 09:38:25 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	lex_eof(t_sh *shell);
 
 //	UTILS
 int		get_stack_state(t_input *input);
-int		get_last_token_type(t_input *input);
+int		get_last_token_type(char *input);
 bool	check_end_in_line(t_input *input);
 void	stack_to_buffer(char **buffer, char *line);
 int		parse_get_type(char *tok);
@@ -144,16 +144,6 @@ void	lexer_action_expand_var(t_ast *node);
 void	lexer_action_expand_var_end_token(t_ast *node);
 void	lexer_action_skip_blank(t_ast *node);
 void	lexer_action_next_char(t_ast *node);
-
-//	EOF LEXER
-void	lex_eof(t_sh *shell);
-
-//	UTILS
-int		get_stack_state(t_input *input);
-int		get_last_token_type(t_input *input);
-bool	check_end_in_line(t_input *input);
-void	stack_to_buffer(char **buffer, char *line);
-int		parse_get_type(char *tok);
 
 // PARSER ====================================================================
 
