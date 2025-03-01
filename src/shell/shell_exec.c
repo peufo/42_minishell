@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/28 11:16:37 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 09:19:35 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	basic_exec(t_sh *shell, int exec)
 {
 	debug_input(shell);
+	printf("exec state is : %d\n", exec);
 	if (exec)
 		lex_eof(shell);
 	shell->ast = ast_create(shell, ft_strdup(shell->line));
