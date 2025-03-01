@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/27 11:30:28 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/27 11:35:25 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ static int	handle_tilde(t_ast *node, char *path)
 			end++;
 		jump = ft_strcut(start, end);
 		status = do_the_jump(node, jump);
+		free(jump);
 		jump = NULL;
 		if (status != 0)
 			return (1);

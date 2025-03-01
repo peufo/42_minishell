@@ -6,18 +6,17 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/27 10:33:15 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/02/28 11:03:13 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define OK 1
-#
+
 static bool	check_line(t_input *input)
 {
 	if (!check_string(input->stack))
-		return (LINE_IS_COMPLETE);
-	return (0);
+		return (true);
+	return (false);
 }
 
 static bool	is_empty_line(char *line)
@@ -27,12 +26,13 @@ static bool	is_empty_line(char *line)
 	i = 0;
 	while (line && line[i])
 		if (!ft_isspace(line[i++]))
-			return (0);
-	return (1);
+			return (false);
+	return (true);
 }
 
 static void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 {
+	printf("state is : %d\n", input->state);
 	while (!input->line || !*input->line)
 	{
 		if (input->state >= 1)
@@ -55,7 +55,6 @@ static void	lex_eof_checkout(t_input *input)
 	input->state = 0;
 	res = ft_strjoin(input->stack, input->line);
 	add_history(res);
-
 }
 
 static void	lex_eof_read_input(t_sh *shell, t_input *input)
@@ -64,9 +63,7 @@ static void	lex_eof_read_input(t_sh *shell, t_input *input)
 	while (1)
 	{
 		get_safe_readline_inputs(shell, input);
-		printf("helli\n");
 		stack_to_buffer(&input->stack, input->line);
-		printf("helli\n");
 		if (shell->line)
 		{
 			free(shell->line);
@@ -77,31 +74,23 @@ static void	lex_eof_read_input(t_sh *shell, t_input *input)
 		free(input->line);
 		input->line = NULL;
 	}
-	printf("boooof\n");
 }
 
 void	lex_eof(t_sh *shell)
 {
 	t_input		*input;
 
-	printf("hello\n");
 	input = ft_calloc(1, sizeof(t_input));
-	printf("helli\n");
-	while (1)
+	while (input->state != 1 || input->last == 0)
 	{
 		lex_eof_read_input(shell, input);
-		printf("helli2\n");
 		input->state = get_stack_state(input);
-		printf("helli3\n");
 		input->last = get_last_token_type(input);
-		printf("helli4\n");
 		debug_arr(shell, (char *[]){"State in handler is ",
 			ft_itoa(input->state), "\n", NULL});
-		if (input->state == 1 && input->last == 0)
-			break ;
 	}
-	printf("helli\n");
-	debug(shell, "\n\nOUT\n\n");
-	printf("helli5\n");
-	shell->line = ft_strdup(input->stack);
+	if (input->stack)
+		shell->line = ft_strdup(input->stack);
+	else
+		shell_exit(shell);
 }
