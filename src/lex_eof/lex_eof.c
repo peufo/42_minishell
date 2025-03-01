@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/01 11:04:40 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:36:08 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,7 @@ static void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 
 static void	lex_eof_checkout(t_input *input)
 {
-	char	*res;
-
-	res = input->stack;
 	input->state = 0;
-	(void)res;
 	add_history(input->stack);
 }
 
@@ -68,13 +64,9 @@ static void	lex_eof_read_input(t_sh *shell, t_input *input)
 			shell->line = NULL;
 		}
 		input->state = check_string(input->stack);
-//		printf("State is : %d\n", input->state);
 		input->last = get_last_token_type(input->stack);
-//		printf("Last operator is : %d\n", input->last);
-//		printf("Stack is : %s\n", input->stack);
 		if (input->state <= 0 && input->last <= 0)
 			return (lex_eof_checkout(input));
-//		printf("NOT OUT\n");
 		free(input->line);
 		input->line = NULL;
 	}
@@ -87,12 +79,7 @@ void	lex_eof(t_sh *shell)
 	input = ft_calloc(1, sizeof(t_input));
 	input->state = LEXER_DEFAULT;
 	while (input->state > 0 || input->last > 0)
-	{
 		lex_eof_read_input(shell, input);
-	//	printf("Stack is %s\n", input->stack);
-	//	debug_arr(shell, (char *[]){"State in handler is ",
-	//		ft_itoa(input->state), "\n", NULL});
-	}
 	if (input->stack)
 		shell->line = ft_strdup(input->stack);
 	else

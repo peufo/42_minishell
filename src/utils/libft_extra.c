@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_extra.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:20:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/10 15:05:28 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/01 11:37:07 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,26 @@ int	ft_isspace(int c)
 	if (c == 32 || (c >= 9 && c <= 13))
 		return (1);
 	return (0);
+}
+
+char	*ft_strrchrstr(const char *str, char *to_find)
+{
+	char	*cursor;
+	char	*res;
+	size_t	j;
+	size_t	len;
+
+	res = NULL;
+	len = ft_strlen(to_find);
+	cursor = (char *)str;
+	while (cursor && *cursor)
+	{
+		j = 0;
+		while (cursor[j] == to_find[j])
+			j++;
+		if (j >= len)
+			res = cursor;
+		cursor++;
+	}
+	return (res);
 }

@@ -6,17 +6,11 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/01 10:23:38 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/01 11:37:39 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-typedef struct s_operator
-{
-	char *op;
-	int type;
-} 	t_operator;
 
 static int	get_operator_type(char *op)
 {
@@ -37,28 +31,6 @@ static int	get_operator_type(char *op)
 		i++;
 	}
 	return (0);
-}
-
-static char	*ft_strrchrstr(const char *str, char *to_find)
-{
-	char	*cursor;
-	char	*res;
-	size_t	j;
-	size_t	len;
-
-	res = NULL;
-	len = ft_strlen(to_find);
-	cursor = (char *)str;
-	while (cursor && *cursor)
-	{
-		j = 0;
-		while (cursor[j] == to_find[j])
-			j++;
-		if (j >= len)
-			res = cursor;
-		cursor++;
-	}
-	return (res);
 }
 
 int	get_stack_state(t_input *input)
