@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_create.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 00:30:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 18:44:31 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/02 16:47:35 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ void	ast_free(t_ast **node)
 	string_array_free(&(*node)->files_out);
 	string_array_free(&(*node)->tokens);
 	lex_free(&(*node)->lexer);
+	if ((*node)->pipes)
+	{
+		free((*node)->pipes);
+		(*node)->pipes = NULL;
+	}
 	free((*node)->line);
 	(*node)->line = NULL;
 	free(*node);

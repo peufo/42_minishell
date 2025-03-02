@@ -6,36 +6,54 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:53:27 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/23 18:07:06 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/02 16:54:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_pipeline(t_ast *node)
+static int	get_children_count(t_ast *node)
+{
+	int	children_count;
+
+	children_count = 0;
+	while (node->children[children_count])
+		children_count++;
+	return (children_count);
+}
+
+static t_pipe	*create_pipes(t_ast *node)
 {
 	t_pipe	*pipes;
+	int		children_count;
+
+	children_count = get_children_count(node);
+	pipes = ft_calloc(children_count - 1, sizeof(*pipes));
+	if (!pipes)
+		return (shell_exit(node->shell), NULL);
+	return (pipes);
+}
+
+int	exec_pipeline(t_ast *node)
+{
 	int		i;
 
-	i = 0;
-	while (node->children[i])
-		i++;
-	pipes = ft_calloc(i - 1, sizeof(*pipes));
-	if (!pipes)
-		return (shell_exit(node->shell), 1);
+	node->pipes = create_pipes(node);
+	if (!node->pipes)
+		return (shell_exit(node->shell), false);
+	i = get_children_count(node);
 	while (--i)
 	{
-		pipe(pipes[i - 1].fildes);
-		node->children[i]->pipe_in = pipes + i - 1;
-		node->children[i - 1]->pipe_out = pipes + i - 1;
-		exec_child(node->children[i], get_exe(node->children[i]));
+		pipe(node->pipes[i - 1].fildes);
+		node->children[i]->pipe_in = node->pipes + i - 1;
+		node->children[i - 1]->pipe_out = node->pipes + i - 1;
+		exec_child(node->children[i], exec_ast);
 	}
-	exec_child(node->children[i], get_exe(node->children[i]));
+	exec_child(node->children[i], exec_ast);
 	while (node->children[i])
 	{
 		waitpid(node->children[i]->pid, &node->children[i]->status, 0);
 		i++;
 	}
-	free(pipes);
 	return (node->children[i - 1]->status);
 }
