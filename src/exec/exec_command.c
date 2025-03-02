@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/27 10:24:29 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/02 13:15:17 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	exec_redirect_open(t_ast *node)
 		node->fd_out = open(*files, O_WRONLY | O_CREAT | O_TRUNC, 0666);
 		if (node->fd_out == -1)
 			shell_exit(node->shell);
-		if (!(files))	// + 1
+		if (!(files))
 		{
 			close(node->fd_out);
 		}
