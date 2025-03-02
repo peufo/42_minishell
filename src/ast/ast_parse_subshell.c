@@ -3,26 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ast_parse_subshell.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 15:09:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 18:22:51 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/02 13:43:59 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ast_parse_subshell(t_ast *node)
+static char *get_parenthesis_open(char *line)
 {
-	char	*line;
-
-	line = node->line;
+	while (ft_isspace(*line))
+		line++;
 	if (*line != '(')
-		return (false);
+		return (NULL);
+	return (line);
+}
+
+static char * get_parenthesis_close(char *line)
+{
 	while (*line)
 		line++;
 	line--;
+	while (ft_isspace(*line))
+		line--;
 	if (*line != ')')
+		return (NULL);
+	return (line);
+}
+
+int	ast_parse_subshell(t_ast *node)
+{
+	char	*parenthesis_open;
+	char	*parenthesis_close;
+
+	parenthesis_open = get_parenthesis_open(node->line);
+	parenthesis_close = get_parenthesis_close(node->line);
+	if (!parenthesis_open || !parenthesis_close)
 		return (false);
 	node->type = AST_SUBSHELL;
 	node->children = ft_calloc(2, sizeof(*node->children));
@@ -30,7 +48,7 @@ int	ast_parse_subshell(t_ast *node)
 		return (shell_exit(node->shell), false);
 	node->children[0] = ast_create(
 			node->shell,
-			ft_strcut(node->line + 1, line)
+			ft_strcut(parenthesis_open + 1, parenthesis_close)
 			);
 	return (true);
 }
