@@ -6,13 +6,13 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/01 11:12:14 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/02 07:12:56 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int change_the_directory(char *newpath, t_ast *node)
+static int	change_the_directory(char *newpath, t_ast *node)
 {
 	char	*cwd;
 	int		status;
