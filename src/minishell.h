@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/02 07:00:34 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/02 07:11:52 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ typedef struct s_input
 
 typedef struct s_operator
 {
-	char *op;
-	int type;
-} 	t_operator;
+	char	*op;
+	int		type;
+}	t_operator;
 
 bool	input_read(t_sh *shell);
 int		check_string(char *input);
@@ -103,7 +103,7 @@ int		get_stack_state(t_input *input);
 int		get_last_token_type(char *input, char *is_redir);
 bool	check_end_in_line(t_input *input);
 void	stack_to_buffer(char **buffer, char *line);
-int		parse_get_type(char *tok);
+char	*catch_the_redir_code(char *line);
 
 // LEXER =======================================================================
 

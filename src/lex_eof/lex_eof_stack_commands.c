@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:51:49 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/02/27 10:20:06 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/02 07:10:49 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,26 @@ void	stack_to_buffer(char **buffer, char *line)
 	ft_strlcat(tmp, line, tlen + 1);
 	free(*buffer);
 	*buffer = tmp;
+}
+
+char	*catch_the_redir_code(char *line)
+{
+	int		i;
+	int		len;
+	char	*res;
+	char	*tmp;
+
+	i = 0;
+	len = 0;
+	tmp = ft_strrchrstr(ft_strdup(line), "<<");
+	while (ft_isspace(tmp[i]) || tmp[i] == '<')
+		i++;
+	while (ft_isalnum(tmp[i + len]))
+		len++;
+	res = ft_calloc(len + 1, sizeof(char));
+	len = 0;
+	while (ft_isalnum(tmp[i]))
+		res[len++] = tmp[i++];
+	res[len] = '\0';
+	return (res);
 }
