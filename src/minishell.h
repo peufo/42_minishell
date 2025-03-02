@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/02 07:11:52 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/02 14:54:54 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_input
 {
 	char	*line;
 	char	*stack;
+	char	*redir_input;
 	char	*redir_code;
 	int		state;
 	int		last;

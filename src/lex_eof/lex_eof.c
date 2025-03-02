@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/02 07:09:51 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/02 14:55:12 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ static void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 
 static bool	lex_eof_checkout(t_input *input)
 {
-	if (input->last != INPUT_REDIR && input->state > 0 && input->last > 0)
+	if (input->last != INPUT_REDIR && (input->state > 0 || input->last > 0))
 		return (false);
 	if (input->redir_code)
 	{
+		stack_to_buffer(&input->redir_input, ft_strdup(input->line));
 		if (!ft_strcmp(input->line, input->redir_code))
 		{
 			input->last = 0;
