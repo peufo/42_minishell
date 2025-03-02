@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/01 11:36:08 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/02 07:09:51 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,34 @@ static void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 	}
 }
 
-static void	lex_eof_checkout(t_input *input)
+static bool	lex_eof_checkout(t_input *input)
 {
-	input->state = 0;
-	add_history(input->stack);
+	if (input->last != INPUT_REDIR && input->state > 0 && input->last > 0)
+		return (false);
+	if (input->redir_code)
+	{
+		if (!ft_strcmp(input->line, input->redir_code))
+		{
+			input->last = 0;
+			input->state = 0;
+			return (true);
+		}
+	}
+	else if (input->last == INPUT_REDIR)
+	{
+		input->state = INPUT_REDIR;
+		input->redir_code = catch_the_redir_code(input->line);
+		return (false);
+	}
+	return (true);
 }
 
 static void	lex_eof_read_input(t_sh *shell, t_input *input)
 {
-	while (input->state > 0 || input->last > 0)
+	bool	out;
+
+	out = false;
+	while ((input->state > 0 || input->last > 0) && out == false)
 	{
 		get_safe_readline_inputs(shell, input);
 		stack_to_buffer(&input->stack, input->line);
@@ -64,9 +83,9 @@ static void	lex_eof_read_input(t_sh *shell, t_input *input)
 			shell->line = NULL;
 		}
 		input->state = check_string(input->stack);
-		input->last = get_last_token_type(input->stack);
-		if (input->state <= 0 && input->last <= 0)
-			return (lex_eof_checkout(input));
+		input->last = get_last_token_type(input->stack, input->redir_code);
+		out = lex_eof_checkout(input);
+		add_history(input->stack);
 		free(input->line);
 		input->line = NULL;
 	}

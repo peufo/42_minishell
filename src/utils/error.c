@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:20:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 19:03:45 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/02 07:09:03 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	throw_error(char *error, char *file, int line)
 {
 	char	*str;
-
 
 	str = ft_itoa(line);
 	ft_putstr_fd("\n\n", STDERR_FILENO);
@@ -28,6 +27,5 @@ void	throw_error(char *error, char *file, int line)
 	ft_putstr_fd("\n", STDERR_FILENO);
 	ft_putstr_fd(error, STDERR_FILENO);
 	ft_putstr_fd("\n\n", STDERR_FILENO);
-
 	free(str);
 }
