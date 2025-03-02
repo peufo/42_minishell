@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:08:33 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/23 15:47:31 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/02 16:13:57 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,5 @@ void	exec_child(t_ast *node, t_exe exe)
 	pipes_connect(node);
 	node->status = exe(node);
 	pipes_close(node);
-	exit(node->status);
+	shell_exit(node->shell);
 }

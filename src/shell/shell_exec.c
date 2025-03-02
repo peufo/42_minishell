@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/03 09:08:52 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/03 20:09:59 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	basic_exec(t_sh *shell, int exec)
 	ast_debug(shell->ast, 0);
 	exec_ast(shell->ast);
 	input_free(shell->input);
-	lex_free(&shell->lexer);
 	ast_free(&shell->ast);
 }
 

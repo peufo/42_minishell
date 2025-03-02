@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/03 19:59:59 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:08:51 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ struct s_ast
 	pid_t	pid;
 	int		status;
 	t_atype	type;
+	t_pipe	*pipes;
 	t_pipe	*pipe_in;
 	t_pipe	*pipe_out;
 	char	**files_in;
