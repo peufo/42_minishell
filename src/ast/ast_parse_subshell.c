@@ -6,13 +6,13 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 15:09:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/02 13:43:59 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/02 13:45:08 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *get_parenthesis_open(char *line)
+static char	*get_parenthesis_open(char *line)
 {
 	while (ft_isspace(*line))
 		line++;
@@ -21,7 +21,7 @@ static char *get_parenthesis_open(char *line)
 	return (line);
 }
 
-static char * get_parenthesis_close(char *line)
+static char	*get_parenthesis_close(char *line)
 {
 	while (*line)
 		line++;
