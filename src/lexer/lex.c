@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/02 13:30:01 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/02 13:44:59 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	lex(t_ast *node)
 		next_state = get_next_state(node);
 		if (*(node->lexer.cursor) == '#' && next_state <= LEXER_DEFAULT)
 			skip_line(node);
-		if (node->lexer.state == LEXER_DQUOTE 
+		if (node->lexer.state == LEXER_DQUOTE
 			|| node->lexer.state == LEXER_QUOTE
 			|| node->lexer.state == LEXER_VAR_DQUOTE)
 			node->lexer.entry_state = node->lexer.state;
