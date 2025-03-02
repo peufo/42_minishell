@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/01 11:37:39 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/02 06:50:47 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,12 @@ static int	find_last_operator(char *line, char *to_find)
 	return (type);
 }
 
-int	get_last_token_type(char *input)
+int	get_last_token_type(char *input, char *is_redir)
 {
 	int		token_type;
 
+	if (is_redir)
+		return (INPUT_REDIR);
 	token_type = find_last_operator(input, "&&");
 	if (token_type)
 		return (token_type);

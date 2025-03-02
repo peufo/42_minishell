@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/01 11:37:30 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/02 07:00:34 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_input
 {
 	char	*line;
 	char	*stack;
+	char	*redir_code;
 	int		state;
 	int		last;
 }	t_input;
@@ -99,7 +100,7 @@ void	lex_eof(t_sh *shell);
 
 //	UTILS
 int		get_stack_state(t_input *input);
-int		get_last_token_type(char *input);
+int		get_last_token_type(char *input, char *is_redir);
 bool	check_end_in_line(t_input *input);
 void	stack_to_buffer(char **buffer, char *line);
 int		parse_get_type(char *tok);
