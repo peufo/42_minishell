@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/03 07:07:20 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/03 09:08:52 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	basic_exec(t_sh *shell, int exec)
 {
 	debug_input(shell);
-	if (exec)
+	if (exec || ft_strnstr(shell->line, "<<", ft_strlen(shell->line)))
 		lex_eof(shell);
 	shell->ast = ast_create(shell, ft_strdup(shell->line));
 	ast_debug(shell->ast, 0);

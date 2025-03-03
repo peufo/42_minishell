@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/03 08:23:50 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/03 09:06:11 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,16 @@ char	*catch_the_redir_code(char *line)
 
 bool	check_for_redir(t_input *input)
 {
+	if (input->line)
+		printf("Line is : %s\n", input->line);
+	else
+		printf("Fuak\n");
 	if (input->state == INPUT_DQUOTE || input->state == INPUT_QUOTE)
 		return (false);
 	else if (!input->redir_code
 			&& ft_strnstr(input->line, "<<", ft_strlen(input->line)))
 	{
+		printf("getting the code\n");
 		input->redir_code = catch_the_redir_code(input->line);
 		return (true);
 	}
