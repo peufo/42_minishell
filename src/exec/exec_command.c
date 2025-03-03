@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/02 13:15:17 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:05:25 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int	exec_command(t_ast *node)
 {
 	t_exe	builtin;
 
+	lex(node);
 	exec_pick_redirections(node, &node->files_in, "<");
 	exec_pick_redirections(node, &node->files_out, ">");
-	lex(node);
 	exec_redirect_open(node);
 	builtin = get_builtin(*node->tokens);
 	if (builtin)
