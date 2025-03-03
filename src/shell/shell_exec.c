@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/01 11:12:48 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/03 07:07:20 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,17 @@ static void	basic_exec(t_sh *shell, int exec)
 	shell->ast = ast_create(shell, ft_strdup(shell->line));
 	ast_debug(shell->ast, 0);
 	exec_ast(shell->ast);
+	input_free(shell->input);
 	lex_free(&shell->lexer);
 	ast_free(&shell->ast);
 }
 
 void	shell_exec(t_sh *shell)
 {
-	int	exec;
+	int		exec;
 
+	shell->input = ft_calloc(1, sizeof(t_input));
+	shell->input->state = LEXER_DEFAULT;
 	shell->is_interactive = isatty(shell->pipe.in);
 	errno = false;
 	shell->is_running = true;

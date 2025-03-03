@@ -6,16 +6,16 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/02 07:08:29 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/03 06:56:00 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "get_next_line.h"
 
-static bool	lex_check_start(char *input)
+static bool	lex_check_start(char *line, t_input *input)
 {
-	if (check_string(input) || get_last_token_type(input, NULL))
+	if (check_string(line) || get_last_token_type(line, input))
 		return (BONUS_MOD);
 	return (BASIC_MOD);
 }
@@ -41,7 +41,7 @@ bool	input_read(t_sh	*shell)
 		if (!shell->line)
 			shell_exit(shell);
 		errno = false;
-		if (!lex_check_start(shell->line))
+		if (!lex_check_start(shell->line, shell->input))
 			add_history(shell->line);
 	}
 	else
@@ -50,5 +50,5 @@ bool	input_read(t_sh	*shell)
 		shell_exit(shell);
 	if (shell->line && is_empty_line(shell->line))
 		input_read(shell);
-	return (lex_check_start(shell->line));
+	return (lex_check_start(shell->line, shell->input));
 }
