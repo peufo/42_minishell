@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:08:33 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/02 16:13:57 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/03 19:37:01 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,32 @@
 
 static void	pipes_connect(t_ast *node)
 {
+	debug(node->shell, "PIPE_CONNECT_IN:\n");
 	if (node->pipe_in)
 	{
-		close(node->pipe_in->in);
-		dup2(node->pipe_in->out, STDIN_FILENO);
+		if (close(node->pipe_in->in) == -1)
+		debug(node->shell, "CLOSE PIPE_IN->IN FAILED");
+		if (dup2(node->pipe_in->out, STDIN_FILENO) == -1)
+		debug(node->shell, "DUP2 PIPE_IN->OUT FAILED");
 	}
+	debug(node->shell, "PIPE_CONNECT_OUT:\n");
 	if (node->pipe_out)
 	{
-		close(node->pipe_out->out);
-		dup2(node->pipe_out->in, STDOUT_FILENO);
+		if (close(node->pipe_out->out) == -1)
+			debug(node->shell, "CLOSE PIPE_OUT->OUT FAILED\n");
+		if (dup2(node->pipe_out->in, STDOUT_FILENO))
+			debug(node->shell, "DUP2 PIPE_OUT->IN FAILED\n");
 	}
 }
 
 static void	pipes_close(t_ast *node)
 {
 	if (node->pipe_in)
-		close(node->pipe_in->out);
+		if (close(node->pipe_in->out) == -1)
+			debug(node->shell, "CLOSE PIPE_IN->OUT FAILED\n");
 	if (node->pipe_out)
-		close(node->pipe_out->in);
+		if (close(node->pipe_out->in) == -1)
+			debug(node->shell, "CLOSE PIPE_OUT->IN FAILED\n");
 }
 
 void	exec_child(t_ast *node, t_exe exe)

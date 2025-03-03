@@ -34,12 +34,15 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/minishell",
-			"args": ["./test/redirect.sh"],
+			"args": ["./test/pipe.sh"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
-			"MIMode": "lldb"
+			"MIMode": "lldb",
+			"setupCommands": [
+				{ "text": "settings set target.process.follow-fork-mode child" }
+			]
 		}
 	]
 }
