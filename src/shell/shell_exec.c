@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/03 20:09:59 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:12:09 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	shell_exec(t_sh *shell)
 		exec = input_read(shell);
 		if (!shell->line)
 			break ;
+		if (*shell->line == '#')
+			continue ;
 		basic_exec(shell, exec);
 	}
 	shell_exit(shell);
