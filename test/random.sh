@@ -10,8 +10,8 @@ echo "aspas ->'"
 echo "aspas -> ' "
 echo 'aspas ->"'
 echo 'aspas -> " '
-echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<"
-echo '> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<'
+#echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<"
+#echo '> >> < * ? [ ] | ; [ ] || && ( ) & # $ \ <<'
 echo "exit_code ->$? user ->$USER home -> $HOME"
 echo 'exit_code ->$? user ->$USER home -> $HOME'
 echo "$"
