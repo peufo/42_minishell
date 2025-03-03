@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:08:33 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/03 19:37:01 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:24:55 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ static void	pipes_connect(t_ast *node)
 	if (node->pipe_in)
 	{
 		if (close(node->pipe_in->in) == -1)
-		debug(node->shell, "CLOSE PIPE_IN->IN FAILED");
+			debug(node->shell, "CLOSE PIPE_IN->IN FAILED");
 		if (dup2(node->pipe_in->out, STDIN_FILENO) == -1)
-		debug(node->shell, "DUP2 PIPE_IN->OUT FAILED");
+			debug(node->shell, "DUP2 PIPE_IN->OUT FAILED");
 	}
 	debug(node->shell, "PIPE_CONNECT_OUT:\n");
 	if (node->pipe_out)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_eof_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:02:13 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/03 08:07:42 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/03 20:23:16 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ static int	find_last_operator(char *line, char *to_find, t_input *input)
 
 int	get_last_token_type(char *line, t_input *input)
 {
-	int		token_type;
-	
+	int	token_type;
+
 	if (input->state == INPUT_DQUOTE || input->state == INPUT_QUOTE)
 		return (0);
 	token_type = find_last_operator(line, "&&", input);

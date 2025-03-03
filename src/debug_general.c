@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_general.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:56:04 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/03 07:53:21 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/03 20:22:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,19 @@ void	debug_input_struct(t_sh *shell)
 	if (i->stack)
 		debug_arr(shell, (char *[]){"Stack : ", i->stack, "\n", NULL});
 	debug_arr(shell, (char *[]){"State : ", ft_itoa(i->state), "\n", NULL});
-	debug_arr(shell, (char *[]){"Last operator :", ft_itoa(i->last), "\n", NULL});
+	debug_arr(shell, (char *[]){
+		"Last operator :",
+		ft_itoa(i->last),
+		"\n",
+		NULL
+	});
 	debug(shell, "\nABOUT REDIRECTION\n");
-	debug_arr(shell, (char *[]){"Is redir ? ", ft_itoa(i->is_redir), "\n", NULL});
+	debug_arr(shell, (char *[]){
+		"Is redir ? ",
+		ft_itoa(i->is_redir),
+		"\n",
+		NULL
+	});
 	debug_arr(shell, (char *[]){"Redir code : ", i->redir_code, "\n", NULL});
-	debug_arr(shell, (char *[]){"Redir input :", i->redir_input, "\n", NULL});		
+	debug_arr(shell, (char *[]){"Redir input :", i->redir_input, "\n", NULL});
 }
