@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/02 14:54:54 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/03 07:14:30 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_input
 {
 	char	*line;
 	char	*stack;
+	bool	is_redir;
 	char	*redir_input;
 	char	*redir_code;
 	int		state;
@@ -98,13 +99,14 @@ int		check_string(char *input);
 
 //	EOF LEXER
 void	lex_eof(t_sh *shell);
+void	input_free(t_input *input);
 
 //	UTILS
 int		get_stack_state(t_input *input);
-int		get_last_token_type(char *input, char *is_redir);
-bool	check_end_in_line(t_input *input);
+int		get_last_token_type(char *line, t_input *input);
 void	stack_to_buffer(char **buffer, char *line);
 char	*catch_the_redir_code(char *line);
+bool	check_for_redir(t_input *input);
 
 // LEXER =======================================================================
 
@@ -215,6 +217,7 @@ struct s_sh
 	char		**env;
 	t_pipe		pipe;
 	t_lexer		lexer;
+	t_input		*input;
 	bool		is_running;
 	bool		is_interactive;
 	t_ast		*ast;

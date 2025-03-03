@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:51:49 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/02 07:10:49 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/03 05:58:56 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,14 @@ char	*catch_the_redir_code(char *line)
 		res[len++] = tmp[i++];
 	res[len] = '\0';
 	return (res);
+}
+
+bool	check_for_redir(t_input *input)
+{
+	if (input->state == INPUT_DQUOTE || input->state == INPUT_QUOTE)
+		return (false);
+	if (ft_strnstr(input->line, "<<", ft_strlen(input->line)))
+		return (true);	
+	else
+		return (false);
 }
