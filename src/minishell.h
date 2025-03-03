@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/03 07:14:30 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/03 07:53:17 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,5 +277,6 @@ char	*ft_strrchrstr(const char *str, char *to_find);
 void	debug_input(t_sh *shell);
 void	debug_new_tokens(t_sh *shell, char **toks);
 void	debug_two_lists(t_sh *shell, t_list *l1, t_list *l2);
+void	debug_input_struct(t_sh *shell);
 
 #endif

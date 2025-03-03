@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/03 07:14:35 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/03 08:50:37 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	input_free(t_input *input)
 {
+	printf("Doing the cleaning\n");
 	if (!input)
 		return ;
 	ft_memset(input, 0, sizeof(t_input));
