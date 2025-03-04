@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_debug.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:07:24 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 16:53:59 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:06:54 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,19 @@ static void	ast_debug_children(t_ast *node, int deep)
 		ast_debug(*(children++), deep + 1);
 }
 
-static void	ast_debug_files(t_ast *node, char **files)
+static void	ast_debug_files(char **files)
 {
 	if (!files || !*files)
 	{
-		debug(node->shell, "()");
+		DEBUG("()");
 		return ;
 	}
-	debug(node->shell, "(");
-	debug(node->shell, *(files++));
+	DEBUG("(%s", *(files++));
 	while (*files)
 	{
-		debug(node->shell, ", ");
-		debug(node->shell, *(files++));
+		DEBUG(", %s", *(files++));
 	}
-	debug(node->shell, ")");
+	DEBUG(")");
 }
 
 void	ast_debug(t_ast *node, int deep)
@@ -59,16 +57,13 @@ void	ast_debug(t_ast *node, int deep)
 	i = 0;
 	while (i < deep)
 	{
-		debug(node->shell, "\t");
+		DEBUG("\t");
 		i++;
 	}
-	debug(node->shell, ast_debug_type(node));
-	debug(node->shell, " ");
-	ast_debug_files(node, node->files_in);
-	debug(node->shell, "->[");
-	debug(node->shell, node->line);
-	debug(node->shell, "]->");
-	ast_debug_files(node, node->files_out);
-	debug(node->shell, "\n");
+	DEBUG("%s ", ast_debug_type(node));
+	ast_debug_files(node->files_in);
+	DEBUG("->[%s]->", node->line);
+	ast_debug_files(node->files_out);
+	DEBUG("\n");
 	ast_debug_children(node, deep);
 }

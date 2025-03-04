@@ -26,6 +26,7 @@
 		"stdlib.h": "c",
 		"__node_handle": "c",
 		"ios": "c",
-		"vector": "c"
+		"vector": "c",
+		"debug.h": "c"
 	}
 }

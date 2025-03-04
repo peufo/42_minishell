@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/03 20:08:51 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:02:26 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # include "input/get_next_line.h"
 # include "utils/string.h"
 # include "utils/string_array.h"
+# include "debug.h"
 
 typedef union u_pipe
 {
@@ -222,7 +223,6 @@ struct s_sh
 	bool		is_running;
 	bool		is_interactive;
 	t_ast		*ast;
-	int			debug_fd;
 };
 
 void	shell_init(t_sh *shell, char **env);
@@ -265,8 +265,6 @@ t_exe	get_exe(t_ast *node);
 void	exec_pick_redirections(t_ast *node, char ***files, char *token);
 
 // UTILS =======================================================================
-void	debug(t_sh *shell, char *str);
-void	debug_arr(t_sh *shell, char **arr);
 void	throw_error(char *error, char *file, int line);
 bool	ft_include(char *str, char c);
 bool	ft_startwith(char *str, char *start);
@@ -275,9 +273,8 @@ int		ft_isspace(int c);
 char	*ft_strrchrstr(const char *str, char *to_find);
 
 // DEBUG =======================================================================
-void	debug_input(t_sh *shell);
-void	debug_new_tokens(t_sh *shell, char **toks);
-void	debug_two_lists(t_sh *shell, t_list *l1, t_list *l2);
+void	debug_new_tokens(char **toks);
+void	debug_two_lists(t_list *l1, t_list *l2);
 void	debug_input_struct(t_sh *shell);
 
 #endif

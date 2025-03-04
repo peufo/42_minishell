@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 15:43:54 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/01/30 16:01:18 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/03/04 13:12:11 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/03/04 14:11:18 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 
-void	debug(t_sh *shell, char *str)
-{
-	ft_putstr_fd(str, shell->debug_fd);
-}
+#ifndef DEBUG_H
+# define DEBUG_H
 
-void	debug_arr(t_sh *shell, char **arr)
-{
-	while (*arr)
-	{
-		debug(shell, *arr);
-		arr++;
-	}
-}
+int	debug_get_fd(void);
+
+# define DEBUG(...)	dprintf(debug_get_fd(), __VA_ARGS__)
+# define DEBUG_CLOSE() close(debug_get_fd())
+
+#endif
