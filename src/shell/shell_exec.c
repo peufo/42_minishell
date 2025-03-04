@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/03 20:19:07 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:09:06 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	basic_exec(t_sh *shell, int exec)
 {
-	debug_input(shell);
+	DEBUG("============\nINPUT: %s\n", shell->line);
 	if (exec || ft_strnstr(shell->line, "<<", ft_strlen(shell->line)))
 		lex_eof(shell);
 	shell->ast = ast_create(shell, ft_strdup(shell->line));
@@ -33,9 +33,7 @@ void	shell_exec(t_sh *shell)
 	shell->is_interactive = isatty(shell->pipe.in);
 	errno = false;
 	shell->is_running = true;
-	debug(shell, "INIT SHELL AT : ");
-	debug(shell, __TIME__);
-	debug(shell, "\n\n");
+	DEBUG("INIT SHELL AT : %s\n\n", __TIME__);
 	while (shell->is_running)
 	{
 		exec = input_read(shell);

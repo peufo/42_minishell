@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 17:13:05 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/04 13:51:59 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	main(int ac, char **av, char **env)
 	t_sh	shell;
 
 	shell_init(&shell, env);
-	shell.debug_fd = open("./log/debug.log", O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (ac == 2)
 	{
 		shell.pipe.in = open(av[1], O_RDONLY | O_NONBLOCK);
@@ -28,4 +27,13 @@ int	main(int ac, char **av, char **env)
 	shell_exec(&shell);
 	ast_free(&shell.ast);
 	return (0);
+}
+
+int	debug_get_fd(void)
+{
+	static int	debug_fd = -1;
+
+	if (debug_fd == -1)
+		debug_fd = open("./log/debug.log", O_RDWR | O_CREAT | O_TRUNC, 0666);
+	return (debug_fd);
 }

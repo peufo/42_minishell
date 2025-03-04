@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/03 20:11:12 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/04 14:11:24 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	shell_exit(t_sh *shell)
 	input_free(shell->input);
 	ast_free(&shell->ast);
 	shell_free(shell);
-	debug(shell, "\n[ CLEAN EXIT OK ]\n");
-	close(shell->debug_fd);
+	DEBUG("\n[ CLEAN EXIT OK ]\n");
+	DEBUG_CLOSE();
 	if (!errno)
 		exit(0);
 	perror(shell->name);
