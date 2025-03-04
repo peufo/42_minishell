@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/02 19:05:25 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:43:55 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	exec_redirect_close(t_ast *node)
 	close(node->fd_std_out);
 }
 
+// TODO: handle redirect INPUT & APPEND
 int	exec_command(t_ast *node)
 {
 	t_exe	builtin;
@@ -57,6 +58,11 @@ int	exec_command(t_ast *node)
 	{
 		node->status = builtin(node);
 		exec_redirect_close(node);
+		return (node->status);
+	}
+	if (node->pid)
+	{
+		node->status = exec_bin(node);
 		return (node->status);
 	}
 	exec_child(node, exec_bin);

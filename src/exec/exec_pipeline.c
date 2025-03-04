@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:53:27 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/02 16:54:30 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/04 12:50:06 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static t_pipe	*create_pipes(t_ast *node)
 int	exec_pipeline(t_ast *node)
 {
 	int		i;
+	t_pipe	*p;
 
 	node->pipes = create_pipes(node);
 	if (!node->pipes)
@@ -44,9 +45,10 @@ int	exec_pipeline(t_ast *node)
 	i = get_children_count(node);
 	while (--i)
 	{
-		pipe(node->pipes[i - 1].fildes);
-		node->children[i]->pipe_in = node->pipes + i - 1;
-		node->children[i - 1]->pipe_out = node->pipes + i - 1;
+		p = &node->pipes[i - 1];
+		pipe(p->fildes);
+		node->children[i]->pipe_in = p;
+		node->children[i - 1]->pipe_out = p;
 		exec_child(node->children[i], exec_ast);
 	}
 	exec_child(node->children[i], exec_ast);
