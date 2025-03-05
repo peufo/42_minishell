@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_debug.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:07:24 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/04 14:06:54 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:51:17 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,24 @@ static void	ast_debug_files(char **files)
 	DEBUG(")");
 }
 
+static void	ast_debug_line(t_ast *node)
+{
+	char	*line;
+	char	*cursor;
+
+	line = ft_strdup(node->line);
+	if (!line)
+		return ;
+	cursor = line;
+	while (*cursor)
+		cursor++;
+	cursor--;
+	if (*cursor == '\n')
+		*cursor = '\0';
+	DEBUG("->[%s]->", line);
+	free(line);
+}
+
 void	ast_debug(t_ast *node, int deep)
 {
 	int		i;
@@ -62,7 +80,7 @@ void	ast_debug(t_ast *node, int deep)
 	}
 	DEBUG("%s ", ast_debug_type(node));
 	ast_debug_files(node->files_in);
-	DEBUG("->[%s]->", node->line);
+	ast_debug_line(node);
 	ast_debug_files(node->files_out);
 	DEBUG("\n");
 	ast_debug_children(node, deep);
