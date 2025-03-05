@@ -47,6 +47,7 @@ void	lexer_action(t_ast *node, t_lexer_state next_state)
 	static t_lexer_action_handler	handlers[][8] = {
 	[LEXER_VAR][LEXER_DQUOTE] = lexer_action_expand_var,
 	[LEXER_VAR][LEXER_QUOTE] = lexer_action_expand_var,
+	[LEXER_VAR][LEXER_DEFAULT] = lexer_action_expand_var,
 	[LEXER_VAR_DQUOTE][LEXER_DQUOTE] = lexer_action_expand_var,
 	[LEXER_VAR_DQUOTE][LEXER_DEFAULT] = lexer_action_expand_var,
 	[LEXER_DEFAULT][LEXER_QUOTE] = lexer_action_ensure_token,
