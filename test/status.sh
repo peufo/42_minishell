@@ -1,0 +1,1 @@
+echo "EXIT WITH $? STATUS"

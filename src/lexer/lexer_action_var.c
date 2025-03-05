@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:13:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 18:17:12 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/05 17:43:08 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,21 @@ static void	expand_var(t_ast *node)
 		string_push_str(&node->lexer.token, value);
 }
 
+static void	expand_exit_status(t_ast *node)
+{
+	char	*exit_status;
+
+	exit_status = ft_itoa(node->shell->exit_status);
+	string_push_str(&node->lexer.token, exit_status);
+	free(exit_status);
+}
+
 void	lexer_action_expand_var(t_ast *node)
 {
-	if (!node->lexer.varname.value)
+	if (!node->lexer.varname.value && *node->lexer.cursor == '?')
+		expand_exit_status(node);
+	else if (!node->lexer.varname.value)
 		string_push_str(&node->lexer.token, "$");
-	else if (!ft_strcmp(node->lexer.varname.value, "?"))
-		string_push_str(&node->lexer.token, "TODO: EXIT_STATUS");
 	else
 		expand_var(node);
 	if (*(node->lexer.cursor) != '\0')

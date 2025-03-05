@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/05 12:52:50 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/05 17:17:19 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,7 @@ struct s_sh
 	bool		is_running;
 	bool		is_interactive;
 	t_ast		*ast;
+	int			exit_status;
 };
 
 void	shell_init(t_sh *shell, char **env);
