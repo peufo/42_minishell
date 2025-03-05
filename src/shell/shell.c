@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/04 14:11:24 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:44:48 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	shell_exit(t_sh *shell)
 	input_free(shell->input);
 	ast_free(&shell->ast);
 	shell_free(shell);
-	DEBUG("\n[ CLEAN EXIT OK ]\n");
+	DEBUG("\n[%d]\t🏁🏁🏁 CLEAN EXIT OK 🏁🏁🏁\n", getpid());
 	DEBUG_CLOSE();
 	if (!errno)
 		exit(0);
