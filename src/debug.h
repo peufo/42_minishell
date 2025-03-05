@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 13:12:11 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/04 14:11:18 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:19:57 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef DEBUG_H
 # define DEBUG_H
