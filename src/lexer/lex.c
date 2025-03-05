@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/02 13:44:59 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/05 17:47:43 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,25 @@ static void	skip_line(t_ast *node)
 		node->lexer.cursor++;
 }
 
-static bool	next_state_match(t_ast *node, t_lexer_next_state *next)
+static t_lexer_state	find_next_state_match(
+	t_ast *node,
+	t_lexer_next_state *next_states)
 {
-	if (next->state != node->lexer.state)
-		return (false);
-	if (!ft_include(next->charset, *node->lexer.cursor))
-		return (false);
-	return (true);
+	t_lexer_next_state			*next;
+
+	next = next_states;
+	while (next->state)
+	{
+		if (next->state == node->lexer.state
+			&& ft_include(next->charset, *node->lexer.cursor))
+			return (next->next_state);
+		next++;
+	}
+	return (LEXER_NO_STATE);
 }
 
 static t_lexer_state	get_next_state(t_ast *node)
 {
-	t_lexer_next_state			*next;
 	static t_lexer_next_state	next_states[] = {
 	{LEXER_DEFAULT, "\"", LEXER_DQUOTE},
 	{LEXER_DEFAULT, "'", LEXER_QUOTE},
@@ -41,19 +48,14 @@ static t_lexer_state	get_next_state(t_ast *node)
 	{LEXER_VAR, "\"", LEXER_DQUOTE},
 	{LEXER_VAR, "'", LEXER_QUOTE},
 	{LEXER_VAR, CHARSET_META, LEXER_META},
+	{LEXER_VAR, "?", LEXER_META},
 	{LEXER_VAR_DQUOTE, "\"", LEXER_DEFAULT},
 	{LEXER_VAR_DQUOTE, CHARSET_META, LEXER_DQUOTE},
+	{LEXER_VAR_DQUOTE, "?", LEXER_DQUOTE},
 	{0, NULL, 0}
 	};
 
-	next = next_states;
-	while (next->state)
-	{
-		if (next_state_match(node, next))
-			return (next->next_state);
-		next++;
-	}
-	return (LEXER_NO_STATE);
+	return (find_next_state_match(node, next_states));
 }
 
 void	lex(t_ast *node)
