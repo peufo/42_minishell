@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:53:27 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/04 12:50:06 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:22:36 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	get_children_count(t_ast *node)
 	return (children_count);
 }
 
-static t_pipe	*create_pipes(t_ast *node)
+static t_pipe	*pipes_create(t_ast *node)
 {
 	t_pipe	*pipes;
 	int		children_count;
@@ -34,12 +34,28 @@ static t_pipe	*create_pipes(t_ast *node)
 	return (pipes);
 }
 
+static void	pipes_close(t_ast *node)
+{
+	int	children_count;
+	int	i;
+
+	children_count = get_children_count(node);
+	i = 0;
+	while (i < children_count - 1)
+	{
+		close(node->pipes[i].in);
+		close(node->pipes[i].out);
+		i++;
+	}
+	return ;
+}
+
 int	exec_pipeline(t_ast *node)
 {
 	int		i;
 	t_pipe	*p;
 
-	node->pipes = create_pipes(node);
+	node->pipes = pipes_create(node);
 	if (!node->pipes)
 		return (shell_exit(node->shell), false);
 	i = get_children_count(node);
@@ -52,6 +68,7 @@ int	exec_pipeline(t_ast *node)
 		exec_child(node->children[i], exec_ast);
 	}
 	exec_child(node->children[i], exec_ast);
+	pipes_close(node);
 	while (node->children[i])
 	{
 		waitpid(node->children[i]->pid, &node->children[i]->status, 0);
