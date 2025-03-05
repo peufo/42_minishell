@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/04 14:02:26 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:52:50 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ struct s_ast
 	char	**tokens;
 	t_lexer	lexer;
 	pid_t	pid;
+	bool	is_child_process;
 	int		status;
 	t_atype	type;
 	t_pipe	*pipes;

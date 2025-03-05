@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/03 20:43:55 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:53:27 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	exec_command(t_ast *node)
 		exec_redirect_close(node);
 		return (node->status);
 	}
-	if (node->pid)
+	if (node->is_child_process)
 	{
 		node->status = exec_bin(node);
 		return (node->status);

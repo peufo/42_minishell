@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:08:33 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/05 12:51:12 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:53:20 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	exec_child(t_ast *node, t_exe exe)
 		pipes_close(node);
 		return ;
 	}
+	node->is_child_process = true;
 	pipes_connect(node);
 	node->status = exe(node);
 	pipes_close(node);
