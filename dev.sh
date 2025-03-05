@@ -120,11 +120,12 @@ norminette_pretty() {
 	else
 		warning "\nNORMINETTE\tERROR"
 		AWK_SCRIPT='{
-			if($2 == "Error!") {
+			if ($2 == "Error!") {
 				filename = $1;
-				print "";
-			} else {
-				printf "%s%d:%d\t", filename, $4, $6;
+				if (filename == "./src/debug.h:") print "\n[./src/debug.h]\tThe macros bro 🧙🧙🧙"
+				else print "";
+			} else if (filename != "./src/debug.h:") {
+				printf "[%s%d:%d]\t", filename, $4, $6;
 				for(i = 7; i <= NF; i++) {
 					printf "%s ", $i;
 				};
