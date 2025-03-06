@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/06 10:38:01 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/06 14:38:04 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ typedef void				(*t_lexer_state_handler)(t_ast *);
 typedef void				(*t_lexer_action_handler)(t_ast *);
 
 //	MAIN LEXER
-void	lex(t_ast *node);
+void	lex(t_ast *node, char *line);
 void	lex_free(t_lexer *lexer);
 void	lexer_state(t_ast *node);
 void	lexer_action(t_ast *node, t_lexer_state next_state);
@@ -209,6 +209,7 @@ struct s_ast
 };
 
 t_ast	*ast_create(t_sh *shell, char *line);
+void	ast_parse_command(t_ast *node);
 void	ast_free(t_ast **node);
 void	ast_parse(t_ast *node);
 int		ast_parse_pipe(t_ast *node);
@@ -269,7 +270,6 @@ int		exec_pipeline(t_ast *node);
 int		exec_and(t_ast *node);
 int		exec_or(t_ast *node);
 t_exe	get_exe(t_ast *node);
-void	exec_pick_redirections(t_ast *node, char ***files, char *token);
 
 // UTILS =======================================================================
 void	throw_error(char *error, char *file, int line);
