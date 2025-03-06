@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/05 17:57:34 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:27:16 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,6 +268,7 @@ void	exec_pick_redirections(t_ast *node, char ***files, char *token);
 
 // UTILS =======================================================================
 void	throw_error(char *error, char *file, int line);
+int		waitstatus(pid_t pid);
 bool	ft_include(char *str, char c);
 bool	ft_startwith(char *str, char *start);
 int		ft_isop(char *str);

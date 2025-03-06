@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:53:27 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/05 13:22:36 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:28:20 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,9 @@ int	exec_pipeline(t_ast *node)
 	pipes_close(node);
 	while (node->children[i])
 	{
-		waitpid(node->children[i]->pid, &node->children[i]->status, 0);
+		node->status = waitstatus(node->children[i]->pid);
 		i++;
 	}
+	node->shell->exit_status = node->children[i - 1]->status;
 	return (node->children[i - 1]->status);
 }

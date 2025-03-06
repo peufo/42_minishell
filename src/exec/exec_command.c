@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/05 13:33:57 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:27:43 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,19 @@ int	exec_command(t_ast *node)
 	if (builtin)
 	{
 		node->status = builtin(node);
+		node->shell->exit_status = node->status;
 		exec_redirect_close(node);
 		return (node->status);
 	}
 	if (node->is_child_process)
 	{
 		node->status = exec_bin(node);
+		node->shell->exit_status = node->status;
 		return (node->status);
 	}
 	exec_child(node, exec_bin);
 	exec_redirect_close(node);
-	waitpid(node->pid, &node->status, 0);
+	node->status = waitstatus(node->pid);
+	node->shell->exit_status = node->status;
 	return (node->status);
 }
