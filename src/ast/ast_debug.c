@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:07:24 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/05 12:56:48 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:37:54 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ void	ast_debug(t_ast *node, int deep)
 		i++;
 	}
 	DEBUG("%s ", ast_debug_type(node));
-	ast_debug_files(node->files_in);
+	ast_debug_files(node->redir.files_in);
 	ast_debug_line(node);
-	ast_debug_files(node->files_out);
+	ast_debug_files(node->redir.files_out);
 	DEBUG("\n");
 	ast_debug_children(node, deep);
 }

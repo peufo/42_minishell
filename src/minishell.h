@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/06 10:27:16 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:38:01 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,16 @@ typedef struct s_ttype
 	t_atype		op;
 }	t_ttype;
 
+typedef struct s_redir
+{
+	char	**files_in;
+	char	**files_out;
+	int		fd_in;
+	int		fd_out;
+	int		fd_std_in;
+	int		fd_std_out;
+}	t_redir;
+
 struct s_ast
 {
 	t_sh	*shell;
@@ -192,15 +202,10 @@ struct s_ast
 	bool	is_child_process;
 	int		status;
 	t_atype	type;
-	t_pipe	*pipes;
 	t_pipe	*pipe_in;
+	t_pipe	*pipes;
 	t_pipe	*pipe_out;
-	char	**files_in;
-	char	**files_out;
-	int		fd_in;
-	int		fd_out;
-	int		fd_std_in;
-	int		fd_std_out;
+	t_redir	redir;
 };
 
 t_ast	*ast_create(t_sh *shell, char *line);

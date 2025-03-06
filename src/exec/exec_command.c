@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/06 10:27:43 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:37:39 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,32 @@ static void	exec_redirect_open(t_ast *node)
 {
 	char	**files;
 
-	if (!node->files_out)
+	if (!node->redir.files_out)
 		return ;
-	node->fd_std_out = dup(STDOUT_FILENO);
-	files = node->files_out;
+	node->redir.fd_std_out = dup(STDOUT_FILENO);
+	files = node->redir.files_out;
 	while (*files)
 	{
-		node->fd_out = open(*files, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-		if (node->fd_out == -1)
+		node->redir.fd_out = open(*files, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+		if (node->redir.fd_out == -1)
 			shell_exit(node->shell);
 		if (!(files))
 		{
-			close(node->fd_out);
+			close(node->redir.fd_out);
 		}
 		else
-			dup2(node->fd_out, STDOUT_FILENO);
+			dup2(node->redir.fd_out, STDOUT_FILENO);
 		files++;
 	}
 }
 
 static void	exec_redirect_close(t_ast *node)
 {
-	if (!node->files_out)
+	if (!node->redir.files_out)
 		return ;
-	close(node->fd_out);
-	dup2(node->fd_std_out, STDOUT_FILENO);
-	close(node->fd_std_out);
+	close(node->redir.fd_out);
+	dup2(node->redir.fd_std_out, STDOUT_FILENO);
+	close(node->redir.fd_std_out);
 }
 
 // TODO: handle redirect INPUT & APPEND
@@ -50,8 +50,8 @@ int	exec_command(t_ast *node)
 	t_exe	builtin;
 
 	lex(node);
-	exec_pick_redirections(node, &node->files_in, "<");
-	exec_pick_redirections(node, &node->files_out, ">");
+	exec_pick_redirections(node, &node->redir.files_in, "<");
+	exec_pick_redirections(node, &node->redir.files_out, ">");
 	exec_redirect_open(node);
 	builtin = get_builtin(*node->tokens);
 	if (builtin)
