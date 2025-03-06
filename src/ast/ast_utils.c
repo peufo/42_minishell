@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 14:40:59 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 18:57:36 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/06 10:43:16 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ static t_ast_state	get_next_state(t_ast_state state, char token)
 char	*ast_tokens_find(char *line, char *token)
 {
 	char		*cursor;
-	int			in_parenthesis;
+	int			in_brackets;
 	t_ast_state	state;
 
-	in_parenthesis = 0;
+	in_brackets = 0;
 	cursor = line;
 	state = AST_STATE_DEFAULT;
 	while (*cursor)
@@ -40,10 +40,10 @@ char	*ast_tokens_find(char *line, char *token)
 		if (state == AST_STATE_DEFAULT)
 		{
 			if (*cursor == '(')
-				in_parenthesis++;
+				in_brackets++;
 			else if (*cursor == ')')
-				in_parenthesis--;
-			if (!in_parenthesis && ft_startwith(cursor, token))
+				in_brackets--;
+			if (!in_brackets && ft_startwith(cursor, token))
 				break ;
 		}
 		cursor++;
