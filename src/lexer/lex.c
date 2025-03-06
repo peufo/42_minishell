@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/05 18:02:30 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/06 14:37:57 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ static t_lexer_state	get_next_state(t_ast *node)
 	return (find_next_state_match(node, next_states));
 }
 
-void	lex(t_ast *node)
+void	lex(t_ast *node, char *line)
 {
 	t_lexer_state	next_state;
 
 	node->lexer.state = LEXER_DEFAULT;
-	node->lexer.cursor = node->line;
+	node->lexer.cursor = line;
 	if (!ft_strlen(node->lexer.cursor))
 		shell_exit(node->shell);
 	lexer_action_skip_blank(node);

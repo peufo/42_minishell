@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 01:11:30 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/25 18:59:43 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/06 14:25:34 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ void	ast_parse(t_ast *node)
 		return ;
 	if (ast_parse_subshell(node))
 		return ;
-	node->type = AST_COMMAND;
+	ast_parse_command(node);
 	return ;
 }
