@@ -6,3 +6,4 @@ lib/**/*.a
 *.log
 *.out
 *.diff
+log/*
