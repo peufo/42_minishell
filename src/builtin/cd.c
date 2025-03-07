@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/03 20:00:13 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:56:14 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//TODO: print error "No such file or directory"
 static int	change_the_directory(char *newpath, t_ast *node)
 {
 	char	*cwd;
@@ -70,6 +71,13 @@ static int	handle_tilde(t_ast *node, char *path)
 	return (0);
 }
 
+static int	too_many_args_error(t_ast *node)
+{
+	ft_putstr_fd(node->shell->name, STDERR_FILENO);
+	ft_putstr_fd(": cd: too many arguments\n", STDERR_FILENO);
+	return (1);
+}
+
 int	builtin_cd(t_ast *node)
 {
 	int		status;
@@ -81,8 +89,9 @@ int	builtin_cd(t_ast *node)
 		status = change_the_directory(path, node);
 		return (free(path), status);
 	}
-	else
-		path = ft_strdup(node->tokens[1]);
+	if (string_array_len(node->tokens) > 2)
+		return (too_many_args_error(node));
+	path = ft_strdup(node->tokens[1]);
 	if (handle_tilde(node, path) != 0)
 		return (free(path), 1);
 	else

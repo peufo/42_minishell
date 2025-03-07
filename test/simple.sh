@@ -1,2 +1,1 @@
-export prout="HELLO WORLD"
-echo "$prout"
+cat | cat | ls
