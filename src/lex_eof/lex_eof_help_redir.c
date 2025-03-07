@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/07 08:32:49 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/07 08:58:42 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,22 @@ char	*catch_the_redir_code(char *line)
 	return (res);
 }
 
-void	safe_init_redir_array(t_input *input)
+void	safe_init_redir_array(t_sh *shell, t_input *input)
 {
 	int		count;
-	bool	a;
-	bool	b;
+	bool	dquote;
+	bool	squote;
 
-	a = false;
-	b = false;
+	dquote = false;
+	squote = false;
+/*	if (shell->lexer.cursor && shell->lexer.state == INPUT_DQUOTE)
+		dquote = true;
+	if (shell->lexer.cursor && shell->lexer.state == INPUT_QUOTE)
+		squote = true;*/
 	if (input->redir_line)
-		count = count_redir_in_line(input->redir_line, a, b);
+		count = count_redir_in_line(shell, input->redir_line, dquote, squote);
 	else if (input->line)
-		count = count_redir_in_line(input->line, a, b);
+		count = count_redir_in_line(shell, input->line, dquote, squote);
 	input->nb_redir = count;
 	if (input->redir_input)
 		free(input->redir_input);

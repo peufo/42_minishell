@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/07 08:46:53 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/07 11:29:23 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ static void	lex_eof_read_input(t_sh *shell, t_input *input)
 	while (input->state > 0 || input->last > 0)
 	{
 		get_safe_readline_inputs(shell, input);
-		count = count_redir_in_line(input->line, false, false);
+		if (shell->line)
+			count = count_redir_in_line(shell, shell->line, false, false);
+		else if (input->line)
+			count = count_redir_in_line(shell, input->line, false, false);
 		printf("Count of redirs : %d\n", count);
 		if (count > 0)	
 			treat_redirections(input, shell);
