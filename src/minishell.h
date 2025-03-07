@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/06 14:38:04 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:29:25 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,7 @@ struct s_sh
 void	shell_init(t_sh *shell, char **env);
 void	shell_exec(t_sh *shell);
 void	shell_exit(t_sh *shell);
+void	shell_free(t_sh *shell);
 
 // BUILTINS ====================================================================
 

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/05 12:44:48 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/07 16:39:38 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ void	input_free(t_input *input)
 	ft_memset(input, 0, sizeof(t_input));
 }
 
-static void	shell_free(t_sh *shell)
+void	shell_free(t_sh *shell)
 {
 	if (shell->line)
 	{
 		free(shell->line);
 		shell->line = NULL;
 	}
-	if (!shell->is_interactive && shell->pipe.in != -1)
+	if (shell->pipe.in)
 		close(shell->pipe.in);
 	string_array_free(&shell->env);
 }
