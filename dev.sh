@@ -4,11 +4,15 @@ SRC_DIR="./src"
 LOG_DIR="log"
 PROG="./minishell"
 LEAKS_CHECK=true
+LEAKS_CHECK_CHILDREN=false
 
 make fclean
 
 if [ $(uname) = "Linux" ]; then
-	LEAKS_CMD="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=log/leaks.log"
+	LEAKS_CMD="valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes --log-file=log/leaks.log"
+	if LEAKS_CHECK_CHILDREN ; then
+		LEAKS_CMD="$LEAKS_CMD --trace-children=yes"
+	fi
 else
 	LEAKS_CMD="leaks -quiet --atExit --"
 	LEAKS_CMD=""

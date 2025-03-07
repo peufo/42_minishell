@@ -1,1 +1,2 @@
-echo "HELLO WORLD"
+export prout="HELLO WORLD"
+echo "$prout"
