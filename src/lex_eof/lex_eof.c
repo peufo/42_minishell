@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/07 11:29:23 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/07 12:45:02 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,23 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 		}
 	}
 }
+/*
+static void	handle_chaos(t_sh *shell)
+{
+	printf("\n\nDEBUG START\n\n");
+	printf("Shell Line : %s\n", shell->line);
+	printf("Input Line : %s\n", shell->input->line);
+	printf("State : %d\nLast : %d\n", shell->input->state, shell->input->last);
+	printf("Stack at : %s\n", shell->input->stack);
+	printf("\n\nDEBUG END\n\n");
+}*/
 
 static void	lex_eof_read_input(t_sh *shell, t_input *input)
 {
-	int	count;
-
+	printf("Into EOF Input\n");
 	while (input->state > 0 || input->last > 0)
 	{
 		get_safe_readline_inputs(shell, input);
-		if (shell->line)
-			count = count_redir_in_line(shell, shell->line, false, false);
-		else if (input->line)
-			count = count_redir_in_line(shell, input->line, false, false);
-		printf("Count of redirs : %d\n", count);
-		if (count > 0)	
-			treat_redirections(input, shell);
 		stack_to_buffer(&input->stack, input->line);
 		if (shell->line)
 		{
@@ -85,13 +87,17 @@ static void	lex_eof_read_input(t_sh *shell, t_input *input)
 		input->state = check_string(input->stack);
 		input->last = get_last_token_type(input->stack, input);
 		stack_to_history(input->stack, shell);
+		handle_chaos(shell);
 	}
 }
 
 void	lex_eof(t_sh *shell)
 {
-	debug(shell, "In eof\n");
-	shell->input->state = check_string(shell->input->line);
+	printf("Into EOF\n");
+	if (shell->line)
+		shell->input->state = check_string(shell->line);
+	else
+		shell->input->state = check_string(shell->input->line);
 	shell->input->last = get_last_token_type(shell->line, shell->input);
 	while (shell->input->state > 0 || shell->input->last > 0)
 		lex_eof_read_input(shell, shell->input);
