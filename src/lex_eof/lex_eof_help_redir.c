@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/07 08:58:42 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/07 11:35:36 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	safe_init_redir_array(t_sh *shell, t_input *input)
 
 	dquote = false;
 	squote = false;
-/*	if (shell->lexer.cursor && shell->lexer.state == INPUT_DQUOTE)
+	if (input->state == INPUT_DQUOTE)
 		dquote = true;
-	if (shell->lexer.cursor && shell->lexer.state == INPUT_QUOTE)
-		squote = true;*/
+	if (input->state == INPUT_QUOTE)
+		squote = true;
 	if (input->redir_line)
 		count = count_redir_in_line(shell, input->redir_line, dquote, squote);
 	else if (input->line)

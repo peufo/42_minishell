@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/07 11:31:09 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/07 12:42:46 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static bool	apply_redir_logic(t_input *input, t_sh *shell)
 	input->is_redir = true;
 	while ((input->line || input->redir_line) && i < input->nb_redir)
 	{
-		stack_to_buffer(&input->stack, input->redir_line);
+		stack_to_buffer(&input->redir_input[i], input->redir_line);
 		if (input->redir_line)
 		{
 			if (!ft_strcmp(input->redir_line, input->redir_code[i]))
@@ -65,7 +65,6 @@ static bool	apply_redir_logic(t_input *input, t_sh *shell)
 		get_safe_readline_inputs(shell, input);
 	}
 	input->is_redir = false;
-	stack_to_history(input->stack, shell);
 	return (true);
 }
 
@@ -78,10 +77,6 @@ int	count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote)
 	count = 0;
 	head = ft_strdup(line);
 	cursor = head;
-	if (shell->input->state == INPUT_QUOTE)
-		quote = true;
-	if (shell->input->state == INPUT_DQUOTE)
-		dquote = true;
 	if (!cursor)
 		return (0);
 	while (*cursor)
@@ -109,7 +104,10 @@ void	treat_redirections(t_input *input, t_sh *shell)
 	if (shell->line)
 		transfer_shell_line(shell);
 	safe_init_redir_array(shell, input);
-	cursor = ft_strdup(input->line);
+	if (!input->stack)
+		cursor = ft_strdup(input->line);
+	else
+		cursor = ft_strdup(input->stack);
 	get_all_codes(input, cursor);
 	if (!input->redir_line)
 		input->redir_line = input->line;
