@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/07 16:39:38 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/08 14:04:25 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,19 @@ void	input_free(t_input *input)
 {
 	if (!input)
 		return ;
-	ft_memset(input, 0, sizeof(t_input));
 	if (input->redir_code)
-	{
-		free(input->redir_code);
-		input->redir_code = NULL;
-	}
+		string_array_free(&input->redir_code);
 	if (input->redir_input)
+		string_array_free(&input->redir_input);
+	if (input->line)
 	{
-		free(input->redir_input);
-		input->redir_input = NULL;
+		free(input->line);
+		input->line = NULL;
+	}
+	if (input->stack)
+	{
+		free(input->stack);
+		input->stack = NULL;
 	}
 	ft_memset(input, 0, sizeof(t_input));
 }

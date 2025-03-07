@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 14:56:04 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/04 14:05:46 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/08 13:56:47 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,4 @@ void	debug_input_struct(t_sh *shell)
 		return ;
 	DEBUG("\nDEBUG INPUT\n");
 	DEBUG("Input line : %s\n", i->line);
-	if (i->stack)
-		DEBUG("Stack : %s\n", i->stack);
-	DEBUG("State : %d\n", i->state);
-	DEBUG("Last operator : %d\n", i->last);
-	DEBUG("\nABOUT REDIRECTION\n");
-	DEBUG("Is redir ? %d\n", i->is_redir);
-	DEBUG("Redir code : %s\n", i->redir_code);
-	DEBUG("Redir input : %s\n", i->redir_input);
 }
