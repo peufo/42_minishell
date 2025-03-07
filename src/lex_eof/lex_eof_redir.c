@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/07 08:44:40 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/07 11:31:09 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static bool	apply_redir_logic(t_input *input, t_sh *shell)
 	return (true);
 }
 
-int	count_redir_in_line(char *line, bool dquote, bool quote)
+int	count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote)
 {
 	char	*head;
 	char	*cursor;
@@ -78,6 +78,10 @@ int	count_redir_in_line(char *line, bool dquote, bool quote)
 	count = 0;
 	head = ft_strdup(line);
 	cursor = head;
+	if (shell->input->state == INPUT_QUOTE)
+		quote = true;
+	if (shell->input->state == INPUT_DQUOTE)
+		dquote = true;
 	if (!cursor)
 		return (0);
 	while (*cursor)
@@ -94,6 +98,7 @@ int	count_redir_in_line(char *line, bool dquote, bool quote)
 		else
 			cursor++;
 	}
+	(void)shell;
 	return (free(head), count);
 }
 
@@ -103,7 +108,7 @@ void	treat_redirections(t_input *input, t_sh *shell)
 
 	if (shell->line)
 		transfer_shell_line(shell);
-	safe_init_redir_array(input);
+	safe_init_redir_array(shell, input);
 	cursor = ft_strdup(input->line);
 	get_all_codes(input, cursor);
 	if (!input->redir_line)

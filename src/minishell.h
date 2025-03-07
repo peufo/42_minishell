@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/08 14:03:10 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/08 14:05:07 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,11 @@ int		get_stack_state(t_input *input);
 int		get_last_token_type(char *line, t_input *input);
 void	stack_to_buffer(char **buffer, char *line);
 void	transfer_shell_line(t_sh *shell);
-void	safe_init_redir_array(t_input *input);
+void	safe_init_redir_array(t_sh *shell, t_input *input);
 void	checkout_from_redir(t_sh *shell);
 bool	check_redir(char *cursor);
 void	check_quotes(char c, bool *dquote, bool *quote);
-int		count_redir_in_line(char *line, bool dquote, bool quote);
+int		count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote);
 
 //	REDIRECTION
 void	treat_redirections(t_input *input, t_sh *shell);
