@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/03 06:56:00 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/07 08:02:55 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static bool	is_empty_line(char *line)
 	return (1);
 }
 
-bool	input_read(t_sh	*shell)
+bool	input_read(t_sh	*shell, int sig)
 {
 	if (shell->line)
 		free(shell->line);
@@ -49,6 +49,6 @@ bool	input_read(t_sh	*shell)
 	if (errno)
 		shell_exit(shell);
 	if (shell->line && is_empty_line(shell->line))
-		input_read(shell);
+		input_read(shell, sig);
 	return (lex_check_start(shell->line, shell->input));
 }

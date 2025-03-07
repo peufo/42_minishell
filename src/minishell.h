@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/07 20:01:22 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/08 14:03:10 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,10 @@ typedef struct s_input
 	char	*line;
 	char	*stack;
 	bool	is_redir;
-	char	*redir_input;
-	char	*redir_code;
+	char	**redir_input;
+	char	*redir_line;
+	char	**redir_code;
+	int		nb_redir;
 	int		state;
 	int		last;
 }	t_input;
@@ -95,8 +97,12 @@ typedef struct s_operator
 	int		type;
 }	t_operator;
 
-bool	input_read(t_sh *shell);
+//	SIGNAL
+void	handle_signal(int sig);
+
+bool	input_read(t_sh *shell, int sig);
 int		check_string(char *input);
+void	stack_to_history(char *line, t_sh *shell);
 
 //	EOF LEXER
 void	lex_eof(t_sh *shell);
@@ -106,8 +112,18 @@ void	input_free(t_input *input);
 int		get_stack_state(t_input *input);
 int		get_last_token_type(char *line, t_input *input);
 void	stack_to_buffer(char **buffer, char *line);
+void	transfer_shell_line(t_sh *shell);
+void	safe_init_redir_array(t_input *input);
+void	checkout_from_redir(t_sh *shell);
+bool	check_redir(char *cursor);
+void	check_quotes(char c, bool *dquote, bool *quote);
+int		count_redir_in_line(char *line, bool dquote, bool quote);
+
+//	REDIRECTION
+void	treat_redirections(t_input *input, t_sh *shell);
 char	*catch_the_redir_code(char *line);
-bool	check_for_redir(t_input *input);
+bool	check_for_redir(t_input *input, t_sh *shell);
+void	get_safe_readline_inputs(t_sh *shell, t_input *input);
 
 // LEXER =======================================================================
 
@@ -279,6 +295,7 @@ bool	ft_include(char *str, char c);
 bool	ft_startwith(char *str, char *start);
 int		ft_isop(char *str);
 int		ft_isspace(int c);
+char	*ft_strchrstr(const char *str, char *to_find);
 char	*ft_strrchrstr(const char *str, char *to_find);
 
 // DEBUG =======================================================================
