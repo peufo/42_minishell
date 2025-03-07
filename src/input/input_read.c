@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/07 08:02:55 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/07 13:03:00 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ static bool	is_empty_line(char *line)
 
 bool	input_read(t_sh	*shell, int sig)
 {
+	actualise(shell);
+	if (shell->signal == 2 || shell->signal == 15)
+		shell_exit(shell);
 	if (shell->line)
 		free(shell->line);
 	if (shell->is_interactive)
