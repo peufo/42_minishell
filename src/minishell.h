@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/08 14:05:07 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/08 14:09:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_operator
 
 //	SIGNAL
 void	handle_signal(int sig);
+void	actualise(t_sh *shell);
 
 bool	input_read(t_sh *shell, int sig);
 int		check_string(char *input);
@@ -247,6 +248,7 @@ struct s_sh
 	bool		is_interactive;
 	t_ast		*ast;
 	int			exit_status;
+	int			signal;
 };
 
 void	shell_init(t_sh *shell, char **env);

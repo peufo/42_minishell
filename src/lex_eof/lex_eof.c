@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/07 12:45:02 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/07 13:04:23 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 		while ((!input->line || !*input->line)
 			|| (!input->redir_line || !*input->redir_line))
 		{
+			actualise(shell);
+			if (shell->signal == 2 || shell->signal == 15)
+				shell_exit(shell);
 			if (input->is_redir)
 				input->redir_line = readline("redir-mode > ");
 			else
@@ -87,7 +90,6 @@ static void	lex_eof_read_input(t_sh *shell, t_input *input)
 		input->state = check_string(input->stack);
 		input->last = get_last_token_type(input->stack, input);
 		stack_to_history(input->stack, shell);
-		handle_chaos(shell);
 	}
 }
 
