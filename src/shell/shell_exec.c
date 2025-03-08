@@ -6,32 +6,17 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/08 14:10:47 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/08 14:14:11 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ready_to_go(t_sh *shell)
-{
-	t_ast	*node;
-
-	node = ft_calloc(1, sizeof(t_ast));
-	if (!node)
-		shell_exit(shell);
-	node = ast_create(shell, "echo bye bye");
-	ast_parse(node);
-	exec_ast(node);
-	shell_exit(shell);
-}
-
 static void	basic_exec(t_sh *shell, int exec)
 {
-	debug_input(shell);
 	if (exec)
 		lex_eof(shell);
 	treat_redirections(shell->input, shell);
-	printf("Out of input\n");
 	shell->ast = ast_create(shell, ft_strdup(shell->line));
 	ast_debug(shell->ast, 0);
 	exec_ast(shell->ast);
@@ -62,5 +47,5 @@ void	shell_exec(t_sh *shell)
 			continue ;
 		basic_exec(shell, exec);
 	}
-	ready_to_go(shell);
+	shell_exit(shell);
 }
