@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/07 17:56:14 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/08 12:50:05 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //TODO: print error "No such file or directory"
+//TODO: don't work with --trace-children=yes ... WHY ?
 static int	change_the_directory(char *newpath, t_ast *node)
 {
 	char	*cwd;
