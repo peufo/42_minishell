@@ -1,1 +1,1 @@
-cat | cat | ls
+echo "HELLO WORD"
