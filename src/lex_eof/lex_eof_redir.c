@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/07 12:42:46 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/08 09:37:54 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,13 @@ int	count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote)
 void	treat_redirections(t_input *input, t_sh *shell)
 {
 	char	*cursor;
+	char	*head;
 
 	if (shell->line)
+	{
+		head = ft_strdup(shell->line);
 		transfer_shell_line(shell);
+	}
 	safe_init_redir_array(shell, input);
 	if (!input->stack)
 		cursor = ft_strdup(input->line);
@@ -115,4 +119,5 @@ void	treat_redirections(t_input *input, t_sh *shell)
 		return (throw_error("Shit\n", __FILE__, __LINE__));
 	checkout_from_redir(shell);
 	free(cursor);
+	shell->line = head;
 }
