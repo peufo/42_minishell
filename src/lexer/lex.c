@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lex.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/06 14:37:57 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/08 09:05:25 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	skip_line(t_ast *node)
-{
-	while (*(node->lexer.cursor) != '\0')
-		node->lexer.cursor++;
-}
 
 static t_lexer_state	find_next_state_match(
 	t_ast *node,
@@ -70,8 +64,6 @@ void	lex(t_ast *node, char *line)
 	while (*(node->lexer.cursor))
 	{
 		next_state = get_next_state(node);
-		if (*(node->lexer.cursor) == '#' && next_state <= LEXER_DEFAULT)
-			skip_line(node);
 		if (node->lexer.state == LEXER_DQUOTE
 			|| node->lexer.state == LEXER_QUOTE
 			|| node->lexer.state == LEXER_VAR_DQUOTE)
