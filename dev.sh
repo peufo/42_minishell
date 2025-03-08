@@ -9,7 +9,7 @@ make fclean
 
 if [ $(uname) = "Linux" ]; then
 	LEAKS_CMD="valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes --log-file=log/leaks.log"
-	LEAKS_CMD="$LEAKS_CMD --trace-children=yes"
+	#LEAKS_CMD="$LEAKS_CMD --trace-children=yes"
 else
 	LEAKS_CMD="leaks -quiet --atExit --"
 	LEAKS_CMD=""
