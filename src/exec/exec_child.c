@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:08:33 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/07 20:21:29 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/08 12:36:26 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,38 +38,29 @@ static void	pipe_debug(t_ast *node, char *msg)
 		DEBUG("[%d]\t-→-()-→-\t%s\n", getpid(), msg);
 }
 
+static void	close_fd(t_ast *node, int fd)
+{
+	if (close(fd) == -1)
+		shell_exit(node->shell);
+}
+
 static void	pipes_connect(t_ast *node)
 {
 	pipe_debug(node, "CONNECT");
 	if (node->pipe_in)
 	{
-		if (close(node->pipe_in->in) == -1)
-			pipe_debug(node, "CLOSE PIPE_IN->IN FAILED");
+		close_fd(node, node->pipe_in->in);
 		if (dup2(node->pipe_in->out, STDIN_FILENO) == -1)
-			pipe_debug(node, "DUP2 PIPE_IN->OUT FAILED");
-		//if (close(node->pipe_in->out) == -1)
-		//	pipe_debug(node, "CLOSE PIPE_IN->OUT FAILED");
+			shell_exit(node->shell);
+		close_fd(node, node->pipe_in->out);
 	}
 	if (node->pipe_out)
 	{
-		if (close(node->pipe_out->out) == -1)
-			pipe_debug(node, "CLOSE PIPE_OUT->OUT FAILED");
+		close_fd(node, node->pipe_out->out);
 		if (dup2(node->pipe_out->in, STDOUT_FILENO) == -1)
-			pipe_debug(node, "DUP2 PIPE_OUT->IN FAILED");
-		//if (close(node->pipe_out->in) == -1)
-		//	pipe_debug(node, "CLOSE PIPE_OUT->IN FAILED");
+			shell_exit(node->shell);
+		close_fd(node, node->pipe_out->in);
 	}
-}
-
-static void	pipes_close(t_ast *node)
-{
-	pipe_debug(node, "CLOSE");
-	if (node->pipe_in)
-		if (close(node->pipe_in->out) == -1)
-			pipe_debug(node, "CLOSE PIPE_IN->OUT FAILED");
-	if (node->pipe_out)
-		if (close(node->pipe_out->in) == -1)
-			pipe_debug(node, "CLOSE PIPE_OUT->IN FAILED");
 }
 
 void	exec_child(t_ast *node, t_exe exe)
@@ -77,11 +68,11 @@ void	exec_child(t_ast *node, t_exe exe)
 	pipe_debug(node, "FORK");
 	node->pid = fork();
 	if (node->pid)
-	{
+	{	
 		if (node->pipe_out)
 		{
-			close(node->pipe_out->in);
-			close(node->pipe_out->out);
+			close_fd(node, node->pipe_out->out);
+			close_fd(node, node->pipe_out->in);
 		}
 		return ;
 	}
@@ -89,7 +80,6 @@ void	exec_child(t_ast *node, t_exe exe)
 	ast_debug(node, 0);
 	node->is_child_process = true;
 	pipes_connect(node);
-	pipes_close(node);
 	node->status = exe(node);
 	shell_exit(node->shell);
 }
