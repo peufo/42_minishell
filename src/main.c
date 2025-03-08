@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/08 14:09:33 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/08 09:11:27 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ volatile sig_atomic_t	g_signal_received = 0;
 void	handle_signal(int sig)
 {
 	g_signal_received = sig;
+	if (sig == SIGINT)
+		exit(EXIT_SUCCESS);
 }
 
 void	actualise(t_sh *shell)
