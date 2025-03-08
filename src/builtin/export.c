@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/07 17:30:48 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/08 13:10:59 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static bool	is_correct_identifier(char *token)
-{	
+{
 	if (!*token)
 		return (false);
 	if (!ft_isalpha(*token) && *token != '_')

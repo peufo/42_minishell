@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:08:33 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/08 12:36:26 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/08 13:12:19 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	exec_child(t_ast *node, t_exe exe)
 	pipe_debug(node, "FORK");
 	node->pid = fork();
 	if (node->pid)
-	{	
+	{
 		if (node->pipe_out)
 		{
 			close_fd(node, node->pipe_out->out);
