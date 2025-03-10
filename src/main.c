@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/10 14:53:06 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/10 15:22:03 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ volatile sig_atomic_t	g_signal_received = 0;
 void	handle_signal(int sig)
 {
 	g_signal_received = sig;
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
 }
 
 void	actualise(t_sh *shell)
