@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/08 14:11:39 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/10 13:11:32 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ void	checkout_from_redir(t_sh *shell);
 bool	check_redir(char *cursor);
 void	check_quotes(char c, bool *dquote, bool *quote);
 int		count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote);
+int		get_the_fucking_line(t_sh *shell);
+bool	is_empty_line(char *line);
 
 //	REDIRECTION
 void	treat_redirections(t_input *input, t_sh *shell);
