@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/07 13:03:00 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/11 10:28:53 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static bool	lex_check_start(char *line, t_input *input)
 	return (BASIC_MOD);
 }
 
-static bool	is_empty_line(char *line)
+static bool	iss_empty_line(char *line)
 {
 	int	i;
 
@@ -44,14 +44,14 @@ bool	input_read(t_sh	*shell, int sig)
 		if (!shell->line)
 			shell_exit(shell);
 		errno = false;
-		if (!lex_check_start(shell->line, shell->input))
+		if (!lex_check_start(shell->line, &shell->input))
 			add_history(shell->line);
 	}
 	else
 		shell->line = get_next_line(shell->pipe.in);
 	if (errno)
 		shell_exit(shell);
-	if (shell->line && is_empty_line(shell->line))
+	if (shell->line && iss_empty_line(shell->line))
 		input_read(shell, sig);
-	return (lex_check_start(shell->line, shell->input));
+	return (lex_check_start(shell->line, &shell->input));
 }

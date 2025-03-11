@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/10 13:11:32 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/11 10:28:17 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ struct s_sh
 	char		**env;
 	t_pipe		pipe;
 	t_lexer		lexer;
-	t_input		*input;
+	t_input		input;
 	bool		is_running;
 	bool		is_interactive;
 	t_ast		*ast;

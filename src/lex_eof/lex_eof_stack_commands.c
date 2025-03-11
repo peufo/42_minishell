@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:51:49 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/07 08:23:46 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/11 10:33:55 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ static void	store_history(t_sh *shell, char *line)
 void	stack_to_history(char *line, t_sh *shell)
 {
 	store_history(shell, line);
-	add_history(line);
+//	if (shell->input.redir_line)
+//		add_history(line);
 }
