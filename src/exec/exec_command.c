@@ -6,12 +6,18 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/10 14:58:50 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/11 10:44:05 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// >
+
+static void	debug_iinnppuutt(t_input input)
+{
+	(void)input;
+}
+
+//to handle : > prout
 static void	exec_redirect_open(t_ast *node)
 {
 	char	**files;
@@ -19,7 +25,10 @@ static void	exec_redirect_open(t_ast *node)
 	if (!node->redir.files_out)
 		return ;
 	node->redir.fd_std_out = dup(STDOUT_FILENO);
-	files = node->redir.files_out;
+	if (node->shell->input.redir_input)
+		debug_iinnppuutt(node->shell->input);
+	else
+		files = node->redir.files_out;
 	while (*files)
 	{
 		// >>   O_TRUNC O_APPEND

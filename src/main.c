@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/10 15:22:03 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/11 10:47:31 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,24 @@
 
 volatile sig_atomic_t	g_signal_received = 0;
 
+int	g_signals(int new)
+{
+	static int	value;
+
+	if (new == -1)
+		return (value);
+	value = new;
+	return (value);
+}
+
 void	handle_signal(int sig)
 {
 	g_signal_received = sig;
 	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
+	if (!g_signals(-1))
+		rl_redisplay();
 }
 
 void	actualise(t_sh *shell)
@@ -32,7 +44,7 @@ int	main(int ac, char **av, char **env)
 	t_sh	shell;
 
 	shell_init(&shell, env);
-	signal(SIGINT, handle_signal);
+	signal(SIGINT, &handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	if (ac == 2)
 	{
