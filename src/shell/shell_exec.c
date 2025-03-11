@@ -38,14 +38,14 @@ void	shell_exec(t_sh *shell)
 	errno = false;
 	shell->is_running = true;
 	DEBUG("INIT SHELL AT : %s\n\n", __TIME__);
-	while (shell->is_running && shell->signal == 0)
+	while (shell->is_running)
 	{
 		actualise(shell);
 		DEBUG("In exec, signal at : %d\n", shell->signal);
 		exec = input_read(shell, 0);
 		if (!shell->line)
-			break ;
-		if (*shell->line == '#')
+			exec = input_read(shell, 0);
+		if (shell->line && *shell->line == '#')
 			continue ;
 		basic_exec(shell, exec);
 	}

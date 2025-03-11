@@ -42,9 +42,6 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 		while ((!input->line || !*input->line)
 			|| (!input->redir_line || !*input->redir_line))
 		{
-			actualise(shell);
-			if (shell->signal == 2 || shell->signal == 15)
-				shell_exit(shell);
 			if (get_the_fucking_line(shell))
 				break ;
 		}
@@ -85,7 +82,7 @@ void	lex_eof(t_sh *shell)
 	else
 		shell->input.state = check_string(shell->input.line);
 	shell->input.last = get_last_token_type(shell->line, &shell->input);
-	while (shell->input.state > 0 || shell->input.last > 0)
+	if (shell->input.state > 0 || shell->input.last > 0)
 		lex_eof_read_input(shell, &shell->input);
 	if (shell->input.stack)
 		shell->line = ft_strdup(shell->input.stack);

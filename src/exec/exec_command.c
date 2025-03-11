@@ -25,10 +25,8 @@ static void	exec_redirect_open(t_ast *node)
 	if (!node->redir.files_out)
 		return ;
 	node->redir.fd_std_out = dup(STDOUT_FILENO);
-	if (node->shell->input.redir_input)
-		debug_iinnppuutt(node->shell->input);
-	else
-		files = node->redir.files_out;
+	debug_iinnppuutt(node->shell->input);
+	files = node->redir.files_out;
 	while (*files)
 	{
 		// >>   O_TRUNC O_APPEND
