@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/10 13:37:22 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/11 10:30:47 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ bool	is_empty_line(char *line)
 
 static bool	check_input_line(t_sh *shell)
 {
-	if (shell->input->line)
+	if (shell->input.line)
 	{
-		free(shell->input->line);
-		shell->input->line = NULL;
+		free(shell->input.line);
+		shell->input.line = NULL;
 	}
 	return (true);
 }
@@ -81,14 +81,14 @@ static void	lex_eof_read_input(t_sh *shell, t_input *input)
 void	lex_eof(t_sh *shell)
 {
 	if (shell->line)
-		shell->input->state = check_string(shell->line);
+		shell->input.state = check_string(shell->line);
 	else
-		shell->input->state = check_string(shell->input->line);
-	shell->input->last = get_last_token_type(shell->line, shell->input);
-	while (shell->input->state > 0 || shell->input->last > 0)
-		lex_eof_read_input(shell, shell->input);
-	if (shell->input->stack)
-		shell->line = ft_strdup(shell->input->stack);
+		shell->input.state = check_string(shell->input.line);
+	shell->input.last = get_last_token_type(shell->line, &shell->input);
+	while (shell->input.state > 0 || shell->input.last > 0)
+		lex_eof_read_input(shell, &shell->input);
+	if (shell->input.stack)
+		shell->line = ft_strdup(shell->input.stack);
 	else
 		shell_exit(shell);
 }
