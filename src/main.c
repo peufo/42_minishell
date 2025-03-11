@@ -14,24 +14,13 @@
 
 volatile sig_atomic_t	g_signal_received = 0;
 
-int	g_signals(int new)
-{
-	static int	value;
-
-	if (new == -1)
-		return (value);
-	value = new;
-	return (value);
-}
-
 void	handle_signal(int sig)
 {
 	g_signal_received = sig;
 	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	if (!g_signals(-1))
-		rl_redisplay();
+	rl_redisplay();
 }
 
 void	actualise(t_sh *shell)

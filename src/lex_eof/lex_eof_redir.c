@@ -14,9 +14,9 @@
 
 void	transfer_shell_line(t_sh *shell)
 {
-	shell->input.line = ft_strdup(shell->line);
-	free(shell->line);
-	shell->line = NULL;
+	shell->input.line = shell->line;
+//	free(shell->line);
+//	shell->line = NULL;
 }
 
 static void	get_all_codes(t_input *input, char *cursor)

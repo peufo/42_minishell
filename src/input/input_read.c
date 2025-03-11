@@ -33,16 +33,14 @@ static bool	iss_empty_line(char *line)
 
 bool	input_read(t_sh	*shell, int sig)
 {
-	actualise(shell);
-	if (shell->signal == 2 || shell->signal == 15)
-		shell_exit(shell);
+	(void)sig;
 	if (shell->line)
 		free(shell->line);
 	if (shell->is_interactive)
 	{
 		shell->line = readline("MyMinishell>");
 		if (!shell->line)
-			shell_exit(shell);
+			rl_redisplay();
 		errno = false;
 		if (!lex_check_start(shell->line, &shell->input))
 			add_history(shell->line);
@@ -52,6 +50,6 @@ bool	input_read(t_sh	*shell, int sig)
 	if (errno)
 		shell_exit(shell);
 	if (shell->line && iss_empty_line(shell->line))
-		input_read(shell, sig);
+		input_read(shell, 0);
 	return (lex_check_start(shell->line, &shell->input));
 }
