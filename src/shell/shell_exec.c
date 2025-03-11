@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/08 14:14:11 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/11 23:38:50 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	shell_exec(t_sh *shell)
 	while (shell->is_running && shell->signal == 0)
 	{
 		actualise(shell);
-		DEBUG("In exec, signal at : %d\n", shell->signal);
 		exec = input_read(shell, 0);
 		if (!shell->line)
 			break ;
