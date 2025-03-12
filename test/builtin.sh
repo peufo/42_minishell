@@ -1,3 +1,5 @@
+env | grep -v "_=" | grep -v "LD_PRELOAD="
+
 echo "Salut $USER"
 echo "Salut Jonas"
 echo "Salut Alex"

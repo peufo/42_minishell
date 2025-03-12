@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/12 14:45:10 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:01:18 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static void	exec_redirect(t_ast *node)
 	exec_redirect_open(node, node->redir.files_in, O_RDONLY, STDIN_FILENO);
 }
 
-// TODO: handle redirect INPUT & APPEND
 int	exec_command(t_ast *node)
 {
 	t_exe	builtin;

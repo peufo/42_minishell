@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:26:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/12 14:09:45 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:00:05 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static void	pick_redir(t_ast *node, char ***files, char *token)
 	}
 }
 
-// TODO: find if last is ">" or ">>"
 void	ast_parse_command(t_ast *node)
 {
 	char	*last_write;
