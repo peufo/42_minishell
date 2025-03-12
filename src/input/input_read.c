@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_read.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/07 13:03:00 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/12 21:31:05 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ bool	input_read(t_sh	*shell, int sig)
 		free(shell->line);
 	if (shell->is_interactive)
 	{
-		shell->line = readline("MyMinishell>");
+		shell_update_prompt(shell);
+		shell->line = readline(shell->prompt.value);
 		if (!shell->line)
 			shell_exit(shell);
 		errno = false;

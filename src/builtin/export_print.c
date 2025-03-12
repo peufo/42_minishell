@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:50:03 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/12 19:50:50 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 23:20:39 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,13 @@ static int	env_cmp(char *a, char *b)
 	if (*b == '=')
 		return (0);
 	return (*a < *b);
-	
 }
 
 static int	get_index(t_ast *node, char *env_val)
 {
 	int		index;
 	char	**env;
-	
+
 	index = 0;
 	env = node->shell->env;
 	while (*env)

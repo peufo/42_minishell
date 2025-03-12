@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/12 17:42:53 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 23:20:24 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	shell_free(t_sh *shell)
 	if (shell->pipe.in)
 		close(shell->pipe.in);
 	string_array_free(&shell->env);
+	string_free(&shell->prompt);
 }
 
 void	shell_init(t_sh *shell, char **env)
@@ -55,7 +56,7 @@ void	shell_init(t_sh *shell, char **env)
 	shell->pipe.in = STDIN_FILENO;
 	shell->pipe.out = STDOUT_FILENO;
 	shell->env = string_array_dup(env);
-	shlvl_val =  ft_itoa(ft_atoi(env_get(shell, "SHLVL")) + 1);
+	shlvl_val = ft_itoa(ft_atoi(env_get(shell, "SHLVL")) + 1);
 	if (!shlvl_val)
 		shell_exit(shell);
 	shlvl_env = ft_strcat("SHLVL=", shlvl_val);

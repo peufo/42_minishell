@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/12 14:08:03 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 22:45:51 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,12 @@ typedef struct s_sh			t_sh;
 # define INPUT_PARENTHESES 4
 # define INPUT_EOF 5
 # define INPUT_REDIR 6
+
+# define PROMPT_RED "31"
+# define PROMPT_GREEN "32"
+# define PROMPT_YELLOW "33"
+# define PROMPT_BLUE "36"
+# define PROMPT_PURPLE "35"
 
 typedef struct s_input
 {
@@ -244,6 +250,7 @@ struct s_sh
 	char		*name;
 	char		*line;
 	char		**env;
+	t_string	prompt;
 	t_pipe		pipe;
 	t_lexer		lexer;
 	t_input		*input;
@@ -258,6 +265,7 @@ void	shell_init(t_sh *shell, char **env);
 void	shell_exec(t_sh *shell);
 void	shell_exit(t_sh *shell);
 void	shell_free(t_sh *shell);
+void	shell_update_prompt(t_sh *shell);
 
 // BUILTINS ====================================================================
 
@@ -273,6 +281,7 @@ int		builtin_echo(t_ast *node);
 int		builtin_cd(t_ast *node);
 int		builtin_pwd(t_ast *node);
 int		builtin_export(t_ast *node);
+int		builtin_export_print(t_ast *node);
 int		builtin_unset(t_ast *node);
 int		builtin_env(t_ast *node);
 int		builtin_exit(t_ast *node);
