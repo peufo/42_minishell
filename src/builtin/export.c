@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/08 13:10:59 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 19:51:42 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static int	identifier_error(t_ast *node, char *identifier)
 	return (1);
 }
 
-// TODO: print env on alhabet order when no args
 int	builtin_export(t_ast *node)
 {
 	char	*identifier;
@@ -57,7 +56,7 @@ int	builtin_export(t_ast *node)
 
 	token = node->tokens[1];
 	if (!token)
-		return (0);
+		return (builtin_export_print(node));
 	identifier = take_identifier(token);
 	if (!identifier)
 		return (shell_exit(node->shell), 1);
