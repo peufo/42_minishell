@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:26:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/12 15:00:05 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/13 00:27:40 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,28 @@ static void	delete_chars(char *from, char *to)
 		*(from++) = '\0';
 }
 
-static void	pick_redir(t_ast *node, char ***files, char *token)
+static int	pick_redir(t_ast *node, char ***files, char *token)
 {
 	char	*cursor;
 	char	*word;
 	int		token_len;
 
+	if (node->status)
+		return (node->status);
 	token_len = ft_strlen(token);
 	cursor = ast_tokens_find(node->line, token);
 	while (cursor)
 	{
 		if (!*(cursor + token_len))
-			return (throw_error("parse error", __FILE__, __LINE__));
+			return (throw_error(node, (char *[]){"parse error", NULL}));
 		word = take_word(node, cursor + token_len);
 		if (!word)
-			return (throw_error("parse error", __FILE__, __LINE__));
+			return (throw_error(node, (char *[]){"parse error", NULL}));
 		string_array_push(files, word);
 		delete_chars(cursor, ast_tokens_find(cursor + token_len + 1, " "));
 		cursor = ast_tokens_find(cursor, token);
 	}
+	return (0);
 }
 
 void	ast_parse_command(t_ast *node)

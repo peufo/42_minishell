@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/12 22:45:51 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/13 00:14:00 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,7 +303,7 @@ int		exec_or(t_ast *node);
 t_exe	get_exe(t_ast *node);
 
 // UTILS =======================================================================
-void	throw_error(char *error, char *file, int line);
+int		throw_error(t_ast *node, char **error);
 int		waitstatus(pid_t pid);
 bool	ft_include(char *str, char c);
 bool	ft_startwith(char *str, char *start);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_bin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:12:21 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/07 16:45:10 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/13 00:18:50 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	exec_bin(t_ast *node)
 	}
 	string_array_free(&paths);
 	if (!bin)
-		return (throw_error("Command not found", __FILE__, __LINE__), 1);
+		return (throw_error(node, (char *[]){"Command not found", NULL}));
 	if (execve(bin, node->tokens, node->shell->env) == -1)
 		shell_exit(node->shell);
 	return (0);

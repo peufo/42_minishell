@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_eof_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/07 12:42:46 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/13 00:19:54 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	treat_redirections(t_input *input, t_sh *shell)
 	if (!input->redir_line)
 		input->redir_line = input->line;
 	if (!apply_redir_logic(input, shell))
-		return (throw_error("Shit\n", __FILE__, __LINE__));
+		return (shell_exit(shell));
 	checkout_from_redir(shell);
 	free(cursor);
 }
