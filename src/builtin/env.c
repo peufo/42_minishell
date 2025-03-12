@@ -6,13 +6,12 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:15:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/12 18:44:59 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 18:46:47 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO: FILTER empty values
 int	builtin_env(t_ast *node)
 {
 	char	**env;
