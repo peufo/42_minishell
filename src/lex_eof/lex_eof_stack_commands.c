@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_eof_stack_commands.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:51:49 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/07 08:23:46 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/12 13:57:26 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,5 @@ void	stack_to_history(char *line, t_sh *shell)
 {
 	store_history(shell, line);
 	add_history(line);
+	errno = false;
 }

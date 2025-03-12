@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_parse_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:26:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/06 15:07:54 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 14:09:45 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,17 @@ static void	pick_redir(t_ast *node, char ***files, char *token)
 	}
 }
 
+// TODO: find if last is ">" or ">>"
 void	ast_parse_command(t_ast *node)
 {
+	char	*last_write;
+	char	*last_append;
+
 	node->type = AST_COMMAND;
+	last_write = ast_tokens_find_last(node->line, ">");
+	last_append = ast_tokens_find_last(node->line, ">>");
+	node->redir.is_last_append = last_append && last_append >= last_write - 1;
+	pick_redir(node, &node->redir.files_out_append, ">>");
 	pick_redir(node, &node->redir.files_out, ">");
 	pick_redir(node, &node->redir.files_in, "<");
 }

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/08 14:11:39 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 14:08:03 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,10 +202,12 @@ typedef struct s_redir
 {
 	char	**files_in;
 	char	**files_out;
+	char	**files_out_append;
 	int		fd_in;
 	int		fd_out;
 	int		fd_std_in;
 	int		fd_std_out;
+	int		is_last_append;
 }	t_redir;
 
 struct s_ast
@@ -232,6 +234,7 @@ void	ast_parse(t_ast *node);
 int		ast_parse_pipe(t_ast *node);
 int		ast_parse_subshell(t_ast *node);
 char	*ast_tokens_find(char *line, char *token);
+char	*ast_tokens_find_last(char *line, char *token);
 void	ast_debug(t_ast *node, int deep);
 
 // SHELL =======================================================================

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 14:40:59 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/06 10:43:16 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 12:51:46 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,23 @@ static t_ast_state	get_next_state(t_ast_state state, char token)
 	if (state == AST_STATE_QUOTE && token == '\'')
 		return (AST_STATE_DEFAULT);
 	return (state);
+}
+
+char	*ast_tokens_find_last(char *line, char *token)
+{
+	char	*cursor;
+	char	*last_result;
+
+	cursor = ast_tokens_find(line, token);
+	last_result = cursor;
+	while (cursor && *cursor)
+	{
+		cursor = ast_tokens_find(cursor + 1, token);
+		if (!cursor || !*cursor)
+			return (last_result);
+		last_result = cursor;
+	}
+	return (last_result);
 }
 
 char	*ast_tokens_find(char *line, char *token)

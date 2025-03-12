@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/11 23:46:55 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 14:32:24 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,24 @@ static void	exec_redirect_open(
 	t_ast *node,
 	char **files,
 	int open_flags,
-	int std_fd
-)
+	int std_fd)
 {
-	int	fd;
+	int		fd;
+	bool	connect_last;
 
 	if (!files)
 		return ;
+	connect_last = (files == node->redir.files_in)
+		|| (node->redir.is_last_append && files == node->redir.files_out_append)
+		|| (!node->redir.is_last_append && files == node->redir.files_out);
 	while (*files)
 	{
 		fd = open(*files, open_flags, 0666);
 		if (fd == -1)
 			shell_exit(node->shell);
-		if (!*(files + 1))
+		if (connect_last && !*(files + 1))
 			if (dup2(fd, std_fd) == -1)
-				shell_exit(node->shell);		
+				shell_exit(node->shell);
 		if (close(fd) == -1)
 			shell_exit(node->shell);
 		files++;
@@ -54,11 +57,24 @@ static void	exec_redir_restore_std(t_ast *node)
 
 static void	exec_redirect(t_ast *node)
 {
+	static int	f_create = O_CREAT | O_WRONLY | O_TRUNC;
+	static int	f_append = O_CREAT | O_WRONLY | O_APPEND;
+	char		**files_out_append;
+	char		**files_out;
+
+	files_out = node->redir.files_out;
+	files_out_append = node->redir.files_out_append;
 	exec_redir_save_std(node);
-	exec_redirect_open(node,
-		node->redir.files_out,
-		O_WRONLY | O_CREAT | O_TRUNC,
-		STDOUT_FILENO);
+	if (node->redir.is_last_append)
+	{
+		exec_redirect_open(node, files_out, f_create, STDOUT_FILENO);
+		exec_redirect_open(node, files_out_append, f_append, STDOUT_FILENO);
+	}
+	else
+	{
+		exec_redirect_open(node, files_out_append, f_append, STDOUT_FILENO);
+		exec_redirect_open(node, files_out, f_create, STDOUT_FILENO);
+	}
 	exec_redirect_open(node, node->redir.files_in, O_RDONLY, STDIN_FILENO);
 }
 
