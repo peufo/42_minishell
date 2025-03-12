@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/12 14:32:24 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 14:45:10 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,16 @@ static void	exec_redirect_open(
 	int std_fd)
 {
 	int		fd;
-	bool	connect_last;
 
 	if (!files)
 		return ;
-	connect_last = (files == node->redir.files_in)
-		|| (node->redir.is_last_append && files == node->redir.files_out_append)
-		|| (!node->redir.is_last_append && files == node->redir.files_out);
 	while (*files)
 	{
 		fd = open(*files, open_flags, 0666);
 		if (fd == -1)
 			shell_exit(node->shell);
-		if (connect_last && !*(files + 1))
-			if (dup2(fd, std_fd) == -1)
-				shell_exit(node->shell);
+		if (dup2(fd, std_fd) == -1)
+			shell_exit(node->shell);
 		if (close(fd) == -1)
 			shell_exit(node->shell);
 		files++;
