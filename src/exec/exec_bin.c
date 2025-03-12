@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:12:21 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/13 00:18:50 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/13 00:54:27 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,12 @@ int	exec_bin(t_ast *node)
 	char	**dir;
 	char	*bin;
 
+	if (**node->tokens == '.' || **node->tokens == '/')
+	{
+		if (execve(*node->tokens, node->tokens, node->shell->env) == -1)
+			shell_exit(node->shell);
+		return (0);
+	}
 	paths = get_paths(node->shell);
 	dir = paths;
 	bin = NULL;
