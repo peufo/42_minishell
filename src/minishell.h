@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 07:41:44 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/15 15:00:10 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,6 +250,8 @@ void	ast_free(t_ast **node);
 void	ast_parse(t_ast *node);
 int		ast_parse_pipe(t_ast *node);
 int		ast_parse_subshell(t_ast *node);
+void	ast_parse_tilde(t_ast *node);
+void	ast_parse_wildcard(t_ast *node);
 char	*ast_tokens_find(char *line, char *token);
 char	*ast_tokens_find_last(char *line, char *token);
 void	ast_debug(t_ast *node, int deep);
@@ -314,7 +316,7 @@ int		exec_or(t_ast *node);
 t_exe	get_exe(t_ast *node);
 
 // UTILS =======================================================================
-int		throw_error(t_ast *node, char **error);
+int		throw(t_ast *node, char **error);
 int		waitstatus(pid_t pid);
 bool	ft_include(char *str, char c);
 bool	ft_startwith(char *str, char *start);

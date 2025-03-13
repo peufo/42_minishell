@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/13 00:13:56 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/13 21:24:25 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*take_identifier(char *token)
 
 static int	identifier_error(t_ast *node, char *identifier)
 {
-	throw_error(node, (char *[]){
+	throw(node, (char *[]){
 		"export: ",
 		identifier,
 		": not a valid identifier",
