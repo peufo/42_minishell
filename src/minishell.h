@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 15:00:10 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:05:24 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,6 +255,7 @@ void	ast_parse_wildcard(t_ast *node);
 char	*ast_tokens_find(char *line, char *token);
 char	*ast_tokens_find_last(char *line, char *token);
 void	ast_debug(t_ast *node, int deep);
+char	*ast_take_word(t_ast *node, char *cursor);
 
 // SHELL =======================================================================
 
