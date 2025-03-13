@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 19:21:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/04 22:13:34 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/13 12:59:19 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,32 @@ t_string_result	string_push_str(t_string *string, char *str)
 	if (string_ensure_malloc(string, ft_strlen(str)))
 		return (STRING_ERROR);
 	ft_strlcat(string->value, str, string->len);
+	return (STRING_SUCCESS);
+}
+
+t_string_result	string_replace(
+	t_string *string,
+	char *start,
+	char *end,
+	char *with)
+{
+	int		with_len;
+	char	*w;
+	char	*r;
+
+	with_len = ft_strlen(with);
+	if (string_ensure_malloc(string, (with_len - (end - start))))
+		return (STRING_ERROR);
+	r = end;
+	while (*r)
+		r++;
+	w = r + with_len - (end - start);
+	while (r > start)
+		*(w--) = *(r--);
+	w = start;
+	r = with;
+	while (*r)
+		*(w++) = *(r++);
 	return (STRING_SUCCESS);
 }
 

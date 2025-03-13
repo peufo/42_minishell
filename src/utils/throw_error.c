@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   throw_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:06:10 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 12:59:52 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/15 15:05:01 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	throw_error2(t_sh *shell, char **error)
 	return (1);
 }
 
-int	throw_error(t_ast *node, char **error)
+int	throw(t_ast *node, char **error)
 {
 	ft_putstr_fd(node->shell->name, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
