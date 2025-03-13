@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/11 10:32:12 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/13 09:21:47 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	transfer_shell_line(t_sh *shell)
 {
-	shell->input.line = shell->line;
+	shell->input.line = ft_strdup(shell->line);
 //	free(shell->line);
 //	shell->line = NULL;
 }
