@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/11 10:30:47 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/13 09:26:35 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ void	lex_eof(t_sh *shell)
 		shell->input.state = check_string(shell->input.line);
 	shell->input.last = get_last_token_type(shell->line, &shell->input);
 	if (shell->input.state > 0 || shell->input.last > 0)
+	{
 		lex_eof_read_input(shell, &shell->input);
+		add_history(shell->input.stack);
+	}
 	if (shell->input.stack)
 		shell->line = ft_strdup(shell->input.stack);
 	else
