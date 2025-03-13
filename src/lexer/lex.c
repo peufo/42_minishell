@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/08 09:05:25 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/15 15:05:32 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ static t_lexer_state	get_next_state(t_ast *node)
 	{LEXER_VAR, "\"", LEXER_DQUOTE},
 	{LEXER_VAR, "'", LEXER_QUOTE},
 	{LEXER_VAR, CHARSET_META, LEXER_META},
-	{LEXER_VAR, "?", LEXER_DEFAULT},
+	{LEXER_VAR, "?*", LEXER_DEFAULT},
 	{LEXER_VAR_DQUOTE, "\"", LEXER_DEFAULT},
 	{LEXER_VAR_DQUOTE, CHARSET_META, LEXER_DQUOTE},
-	{LEXER_VAR_DQUOTE, "?", LEXER_DQUOTE},
+	{LEXER_VAR_DQUOTE, "?*", LEXER_DQUOTE},
 	{0, NULL, 0}
 	};
 
