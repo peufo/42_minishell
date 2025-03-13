@@ -6,13 +6,13 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:26:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/13 21:24:25 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/14 00:39:17 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*take_word(t_ast *node, char *cursor)
+char	*ast_take_word(t_ast *node, char *cursor)
 {
 	char	*word;
 
@@ -53,7 +53,7 @@ static int	pick_redir(t_ast *node, char ***files, char *token)
 	{
 		if (!*(cursor + token_len))
 			return (throw(node, (char *[]){"parse error", NULL}));
-		word = take_word(node, cursor + token_len);
+		word = ast_take_word(node, cursor + token_len);
 		if (!word)
 			return (throw(node, (char *[]){"parse error", NULL}));
 		string_array_push(files, word);
