@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   throw_error.c                                      :+:      :+:    :+:   */
+/*   ast_parse_wildcard.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 00:06:10 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/13 21:24:25 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/03/13 10:17:56 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/03/13 21:27:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	throw(t_ast *node, char **error)
+// TODO: replace * with list of files
+void	ast_parse_wildcard(t_ast *node)
 {
-	ft_putstr_fd(node->shell->name, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	while (*error)
-		ft_putstr_fd(*(error++), STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-	node->status = 1;
-	node->shell->exit_status = 1;
-	return (1);
+	(void)node;
 }

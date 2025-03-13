@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:26:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/13 00:27:40 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/13 21:24:25 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ static int	pick_redir(t_ast *node, char ***files, char *token)
 	while (cursor)
 	{
 		if (!*(cursor + token_len))
-			return (throw_error(node, (char *[]){"parse error", NULL}));
+			return (throw(node, (char *[]){"parse error", NULL}));
 		word = take_word(node, cursor + token_len);
 		if (!word)
-			return (throw_error(node, (char *[]){"parse error", NULL}));
+			return (throw(node, (char *[]){"parse error", NULL}));
 		string_array_push(files, word);
 		delete_chars(cursor, ast_tokens_find(cursor + token_len + 1, " "));
 		cursor = ast_tokens_find(cursor, token);
@@ -75,4 +75,6 @@ void	ast_parse_command(t_ast *node)
 	pick_redir(node, &node->redir.files_out_append, ">>");
 	pick_redir(node, &node->redir.files_out, ">");
 	pick_redir(node, &node->redir.files_in, "<");
+	ast_parse_tilde(node);
+	ast_parse_wildcard(node);
 }

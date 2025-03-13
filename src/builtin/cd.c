@@ -6,31 +6,47 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/12 23:37:40 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/13 21:28:17 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	change_the_directory(char *newpath, t_ast *node)
+static int	handle_chdir_error(t_ast *node, char *new_path, char *cwd)
+{
+	char	*error_name;
+
+	free(cwd);
+	if (errno == ENOENT)
+	{
+		throw(node, (char *[]){
+			"cd: ",
+			new_path,
+			": No such file or directory",
+			NULL});
+		errno = false;
+		return (1);
+	}
+	error_name = ft_strcat(node->shell->name, ": cd: ");
+	if (!error_name)
+		return (shell_exit(node->shell), 1);
+	perror(error_name);
+	free(error_name);
+	errno = false;
+	return (1);
+}
+
+static int	change_dir(t_ast *node, char *new_path)
 {
 	char	*cwd;
 	int		status;
-	char	*error_origin;
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (1);
-	status = chdir(newpath);
+	status = chdir(new_path);
 	if (errno)
-	{
-		error_origin = ft_strcat("minishell: cd: ", newpath);
-		perror(error_origin);
-		free(cwd);
-		free(error_origin);
-		errno = false;
-		return (1);
-	}
+		return (handle_chdir_error(node, new_path, cwd));
 	env_set(node->shell, "OLDPWD", ft_strcat("OLDPWD=", cwd));
 	free(cwd);
 	cwd = getcwd(NULL, 0);
@@ -41,68 +57,11 @@ static int	change_the_directory(char *newpath, t_ast *node)
 	return (status);
 }
 
-static int	do_the_jump(t_ast *node, char *jump)
-{
-	char	*path;
-	int		status;
-
-	if (jump[0] == '~')
-		path = ft_strdup(env_get(node->shell, "HOME"));
-	else
-		path = ft_strdup(jump);
-	status = change_the_directory(path, node);
-	return (free(path), status);
-}
-
-static int	handle_tilde(t_ast *node, char *path)
-{
-	char	*start;
-	char	*end;
-	char	*jump;
-	int		status;
-
-	start = path;
-	while (*start)
-	{
-		end = start;
-		while (*end && *end != '/')
-			end++;
-		jump = ft_strcut(start, end);
-		status = do_the_jump(node, jump);
-		free(jump);
-		jump = NULL;
-		if (status != 0)
-			return (1);
-		start = end;
-		if (*start == '/')
-			start++;
-	}
-	return (0);
-}
-
-static int	too_many_args_error(t_ast *node)
-{
-	ft_putstr_fd(node->shell->name, STDERR_FILENO);
-	ft_putstr_fd(": cd: too many arguments\n", STDERR_FILENO);
-	return (1);
-}
-
 int	builtin_cd(t_ast *node)
 {
-	int		status;
-	char	*path;
-
-	if (!node->tokens[1])
-	{
-		path = ft_strdup(env_get(node->shell, "HOME"));
-		status = change_the_directory(path, node);
-		return (free(path), status);
-	}
 	if (string_array_len(node->tokens) > 2)
-		return (too_many_args_error(node));
-	path = ft_strdup(node->tokens[1]);
-	if (handle_tilde(node, path) != 0)
-		return (free(path), 1);
-	else
-		return (free(path), 0);
+		return (throw(node, (char *[]){"cd: too many arguments", NULL}));
+	if (node->tokens[1])
+		return (change_dir(node, node->tokens[1]));
+	return (change_dir(node, env_get(node->shell, "HOME")));
 }
