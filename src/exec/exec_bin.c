@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:12:21 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/13 21:24:25 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/13 22:51:04 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,28 @@ static char	*find_bin(char *dir, char *name)
 	return (NULL);
 }
 
+static int	exec_run(t_ast *node, char *file, char **argv, char **envp)
+{
+	bool	is_script;
+	char	*cursor;
+	char	**argv_dup;
+
+	cursor = file;
+	while (*cursor)
+		cursor++;
+	is_script = (cursor - file > 3 && !ft_strcmp(cursor - 3, ".sh"));
+	if (is_script)
+	{
+		argv_dup = string_array_dup(argv);
+		string_array_unshift(&argv_dup, file);
+		argv = argv_dup;
+		file = ft_strdup(env_get(node->shell, "_"));
+	}
+	if (execve(file, argv, envp) == -1)
+		shell_exit(node->shell);
+	return (0);
+}
+
 int	exec_bin(t_ast *node)
 {
 	char	**paths;
@@ -87,11 +109,7 @@ int	exec_bin(t_ast *node)
 	char	*bin;
 
 	if (**node->tokens == '.' || **node->tokens == '/')
-	{
-		if (execve(*node->tokens, node->tokens, node->shell->env) == -1)
-			shell_exit(node->shell);
-		return (0);
-	}
+		return (exec_run(node, *node->tokens, node->tokens, node->shell->env));
 	paths = get_paths(node->shell);
 	dir = paths;
 	bin = NULL;
@@ -103,7 +121,5 @@ int	exec_bin(t_ast *node)
 	string_array_free(&paths);
 	if (!bin)
 		return (throw(node, (char *[]){"Command not found", NULL}));
-	if (execve(bin, node->tokens, node->shell->env) == -1)
-		shell_exit(node->shell);
-	return (0);
+	return (exec_run(node, bin, node->tokens, node->shell->env));
 }
