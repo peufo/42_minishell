@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:56 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 20:44:03 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/14 22:39:35 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void	wild_init_pattern(t_ast *node, t_wild *wild, char *line)
 	if (!wild->start)
 		return ;
 	wild->end = wild->start;
-	while (!ft_isspace(*wild->end))
+	while (*wild->end && !ft_isspace(*wild->end))
 		wild->end++;
 	while (wild->start > line && !ft_isspace(*wild->start))
 		wild->start--;
