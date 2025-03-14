@@ -1,10 +1,14 @@
-env | grep -v "_=" | grep -v "LD_PRELOAD="
+######################################################
+##		GREP ET CAT DOIVENT ETRE TESTE A LA MAIN	##
+######################################################
+
+#env | grep -v "_=" | grep -v "LD_PRELOAD="
 echo
 export PROUT
 export HAHA=
-env | grep -v "_=" | grep -v "LD_PRELOAD=" | sort
+#env | grep -v "_=" | grep -v "LD_PRELOAD=" | sort
 
-export | grep -v "LD_PRELOAD="
+#export | grep -v "LD_PRELOAD="
 
 echo "Salut $USER"
 echo "Salut Jonas"
