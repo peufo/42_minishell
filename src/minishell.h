@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 15:05:42 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:05:50 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,9 +331,7 @@ t_exe	get_exe(t_ast *node);
 int		throw(t_ast *node, char **error);
 int		waitstatus(pid_t pid);
 bool	ft_include(char *str, char c);
-bool	ft_startwith(char *str, char *start);
 int		ft_isop(char *str);
-int		ft_isspace(int c);
 char	*ft_strchrstr(const char *str, char *to_find);
 char	*ft_strrchrstr(const char *str, char *to_find);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_extra.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:20:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/01 11:37:07 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/14 19:56:02 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,6 @@ bool	ft_include(char *str, char c)
 		if (*(str++) == c)
 			return (true);
 	return (false);
-}
-
-bool	ft_startwith(char *str, char *start)
-{
-	while (*start && *str)
-		if (*(start++) != *(str++))
-			return (false);
-	if (*start)
-		return (false);
-	return (true);
 }
 
 int	ft_isop(char *str)
@@ -49,13 +39,6 @@ int	ft_isop(char *str)
 	while (ft_strncmp(ops[i], str, ft_strlen(str)) && i < 8)
 		i++;
 	if (i >= 6)
-		return (1);
-	return (0);
-}
-
-int	ft_isspace(int c)
-{
-	if (c == 32 || (c >= 9 && c <= 13))
 		return (1);
 	return (0);
 }

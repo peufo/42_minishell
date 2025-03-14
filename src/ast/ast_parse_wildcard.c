@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:56 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 19:46:48 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/14 20:44:03 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,26 @@
 static bool	match(char *filename, t_wild *wild)
 {
 	char	**sections;
+	char	*f;
 
-	if (!ft_strcmp(filename, ".") || !ft_strcmp(filename, ".."))
+	f = filename;
+	if (!ft_strcmp(f, ".") || !ft_strcmp(f, ".."))
 		return (false);
 	sections = wild->sections;
 	if (!*sections)
 		return (true);
-	if (!wild->is_wild_start && !ft_startwith(filename, *(sections++)))
+	if (!wild->is_wild_start && !ft_startwith(f, *(sections++)))
 		return (false);
 	while (*sections)
 	{
-		while (*filename && !ft_startwith(filename, *sections))
-			filename++;
-		if (!*filename)
+		while (*f && !ft_startwith(f, *sections))
+			f++;
+		if (!*f)
 			return (false);
+		f += ft_strlen(*sections);
 		sections++;
 	}
-	if (wild->is_wild_end && !*filename)
+	if (!wild->is_wild_end && !ft_endwith(filename, *(sections - 1)))
 		return (false);
 	return (true);
 }
@@ -121,7 +124,11 @@ void	ast_parse_wildcard(t_ast *node)
 			break ;
 		i = wild.start - line.value;
 		wild_get_files(node, &wild);
-		DEBUG("FILES: %s\n", wild.files.value);
+		if (!wild.files.value)
+		{
+			i += ft_strlen(wild.pattern);
+			continue;
+		}
 		string_replace(&line, wild.start, wild.end, wild.files.value);
 		i += ft_strlen(wild.files.value);
 	}
