@@ -17,11 +17,7 @@ static void	exec_redirect_open(
 	char **files,
 	int open_flags,
 	int std_fd)
-{
-	int		fd;
 
-	if (!files)
-		return ;
 	while (*files)
 	{
 		fd = open(*files, open_flags, 0666);
@@ -80,8 +76,10 @@ int	exec_command(t_ast *node)
 	lex(node, node->line);
 	exec_redirect(node);
 	builtin = get_builtin(*node->tokens);
+//	printf("Exec command\n");
 	if (builtin)
 	{
+//		printf("Builtin\n");
 		node->status = builtin(node);
 		node->shell->exit_status = node->status;
 		exec_redir_restore_std(node);
@@ -89,6 +87,7 @@ int	exec_command(t_ast *node)
 	}
 	if (node->is_child_process)
 	{
+//		printf("Children\n");
 		node->status = exec_bin(node);
 		exec_redir_restore_std(node);
 		node->shell->exit_status = node->status;

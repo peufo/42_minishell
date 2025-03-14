@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 01:11:30 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/06 14:25:34 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:10:17 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static int	ast_parse_cut_by(
 	return (true);
 }
 
+/*	Il faut checker des bails comme echo | | echo --> ca ne devrait pas passer	*/
 void	ast_parse(t_ast *node)
 {
 	if (ast_parse_cut_by(node, "||", AST_OR))

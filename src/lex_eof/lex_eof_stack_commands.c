@@ -44,6 +44,5 @@ static void	store_history(t_sh *shell, char *line)
 void	stack_to_history(char *line, t_sh *shell)
 {
 	store_history(shell, line);
-//add_history(line);
 	errno = false;
 }

@@ -127,6 +127,8 @@ void	checkout_from_redir(t_sh *shell);
 bool	check_redir(char *cursor);
 void	check_quotes(char c, bool *dquote, bool *quote);
 int		count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote);
+int		get_the_fucking_line(t_sh *shell);
+bool	is_empty_line(char *line);
 
 //	REDIRECTION
 void	treat_redirections(t_input *input, t_sh *shell);

@@ -5,14 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/14 12:31:40 by dyodlm           ###   ########.fr       */
+/*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             *//*   Updated: 2025/03/14 12:31:40 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	is_empty_line(char *line)
+bool	is_empty_line(char *line)
 {
 	int	i;
 
@@ -52,13 +51,8 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 			if (input->line && is_empty_line(input->line))
 				input->line = NULL;
 			else
+//			if (get_the_fucking_line(shell))
 				break ;
-			if (input->redir_line && is_empty_line(input->redir_line))
-				input->redir_line = NULL;
-			else
-				break ;
-			if (!input->line)
-				input->line = input->redir_line;
 		}
 	}
 }
@@ -97,8 +91,11 @@ void	lex_eof(t_sh *shell)
 	else
 		shell->input.state = check_string(shell->input.line);
 	shell->input.last = get_last_token_type(shell->line, &shell->input);
-	while (shell->input.state > 0 || shell->input.last > 0)
+	if (shell->input.state > 0 || shell->input.last > 0)
+	{
 		lex_eof_read_input(shell, &shell->input);
+		add_history(shell->input.stack);
+	}
 	if (shell->input.stack)
 		shell->line = ft_strdup(shell->input.stack);
 	else

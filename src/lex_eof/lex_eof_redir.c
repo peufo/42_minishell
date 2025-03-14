@@ -100,7 +100,7 @@ int	count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote)
 void	treat_redirections(t_input *input, t_sh *shell)
 {
 	char	*cursor;
-	
+  
 	if (shell->line)
 		transfer_shell_line(shell);
 	safe_init_redir_array(shell, input);

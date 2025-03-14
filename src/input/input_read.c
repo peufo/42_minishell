@@ -20,7 +20,7 @@ static bool	lex_check_start(char *line, t_input *input)
 	return (BASIC_MOD);
 }
 
-static bool	is_empty_line(char *line)
+static bool	iss_empty_line(char *line)
 {
 	int	i;
 
@@ -34,6 +34,7 @@ static bool	is_empty_line(char *line)
 bool	input_read(t_sh	*shell, int sig)
 {
 	actualise(shell);
+	(void)sig;
 	if (shell->line)
 		free(shell->line);
 	if (shell->is_interactive)
@@ -41,11 +42,11 @@ bool	input_read(t_sh	*shell, int sig)
 		shell_update_prompt(shell);
 		shell->line = readline(shell->prompt.value);
 		if (!shell->line)
-			shell_exit(shell);
+			rl_redisplay();
 		errno = false;
 		if (!lex_check_start(shell->line, &shell->input))
 		{
-			if (!is_empty_line(shell->line))
+			if (!iss_empty_line(shell->line)
 				add_history(shell->line);
 		}
 	}
@@ -53,7 +54,7 @@ bool	input_read(t_sh	*shell, int sig)
 		shell->line = get_next_line(shell->pipe.in);
 	if (errno)
 		shell_exit(shell);
-	if (shell->line && is_empty_line(shell->line))
-		input_read(shell, sig);
+	if (shell->line && iss_empty_line(shell->line))
+		input_read(shell, 0);
 	return (lex_check_start(shell->line, &shell->input));
 }
