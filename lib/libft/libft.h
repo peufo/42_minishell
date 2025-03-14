@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 22:24:54 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/12 21:20:46 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/14 20:06:49 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+int		ft_endwith(char *str, char *end);
+int		ft_startwith(char *str, char *start);
+int		ft_isspace(int c);
 int		ft_isdigit(int c);
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
