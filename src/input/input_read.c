@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_read.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/12 21:31:05 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/14 07:48:03 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ static bool	is_empty_line(char *line)
 bool	input_read(t_sh	*shell, int sig)
 {
 	actualise(shell);
-	if (shell->signal == 2 || shell->signal == 15)
-		shell_exit(shell);
 	if (shell->line)
 		free(shell->line);
 	if (shell->is_interactive)
@@ -45,7 +43,7 @@ bool	input_read(t_sh	*shell, int sig)
 		if (!shell->line)
 			shell_exit(shell);
 		errno = false;
-		if (!lex_check_start(shell->line, shell->input))
+		if (!lex_check_start(shell->line, &shell->input))
 			add_history(shell->line);
 	}
 	else
@@ -54,5 +52,5 @@ bool	input_read(t_sh	*shell, int sig)
 		shell_exit(shell);
 	if (shell->line && is_empty_line(shell->line))
 		input_read(shell, sig);
-	return (lex_check_start(shell->line, shell->input));
+	return (lex_check_start(shell->line, &shell->input));
 }

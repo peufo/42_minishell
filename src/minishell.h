@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/13 00:14:00 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/14 07:47:43 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,7 @@ struct s_sh
 	t_string	prompt;
 	t_pipe		pipe;
 	t_lexer		lexer;
-	t_input		*input;
+	t_input		input;
 	bool		is_running;
 	bool		is_interactive;
 	t_ast		*ast;

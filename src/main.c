@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/13 00:36:50 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/14 07:54:57 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ volatile sig_atomic_t	g_signal_received = 0;
 void	handle_signal(int sig)
 {
 	g_signal_received = sig;
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+//	rl_redisplay();
 }
 
 void	actualise(t_sh *shell)
@@ -29,8 +33,8 @@ int	main(int ac, char **av, char **env)
 	t_sh	shell;
 
 	shell_init(&shell, env);
-	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, handle_signal);
+	signal(SIGINT, &handle_signal);
+	signal(SIGQUIT, SIG_IGN);
 	if (ac == 2)
 	{
 		shell.pipe.in = open(av[1], O_RDONLY);

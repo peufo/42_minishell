@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_eof_help_redir.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/11 23:42:42 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/14 07:49:31 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ bool	check_redir(char *cursor)
 
 void	checkout_from_redir(t_sh *shell)
 {
-	if (shell->input->stack)
-		shell->line = ft_strdup(shell->input->stack);
-	else if (shell->input->line)
-		shell->line = ft_strdup(shell->input->line);
+	if (shell->input.stack)
+		shell->line = ft_strdup(shell->input.stack);
+	else if (shell->input.line)
+		shell->line = ft_strdup(shell->input.line);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_eof_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/13 00:19:54 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/14 07:49:38 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	transfer_shell_line(t_sh *shell)
 {
-	shell->input->line = ft_strdup(shell->line);
+	shell->input.line = ft_strdup(shell->line);
 	free(shell->line);
 	shell->line = NULL;
 }

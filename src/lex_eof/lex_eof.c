@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/07 13:04:23 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/14 07:49:18 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ static bool	is_empty_line(char *line)
 
 static bool	check_input_line(t_sh *shell)
 {
-	if (shell->input->line)
+	if (shell->input.line)
 	{
-		free(shell->input->line);
-		shell->input->line = NULL;
+		free(shell->input.line);
+		shell->input.line = NULL;
 	}
 	return (true);
 }
@@ -43,8 +43,6 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 			|| (!input->redir_line || !*input->redir_line))
 		{
 			actualise(shell);
-			if (shell->signal == 2 || shell->signal == 15)
-				shell_exit(shell);
 			if (input->is_redir)
 				input->redir_line = readline("redir-mode > ");
 			else
@@ -97,14 +95,14 @@ void	lex_eof(t_sh *shell)
 {
 	printf("Into EOF\n");
 	if (shell->line)
-		shell->input->state = check_string(shell->line);
+		shell->input.state = check_string(shell->line);
 	else
-		shell->input->state = check_string(shell->input->line);
-	shell->input->last = get_last_token_type(shell->line, shell->input);
-	while (shell->input->state > 0 || shell->input->last > 0)
-		lex_eof_read_input(shell, shell->input);
-	if (shell->input->stack)
-		shell->line = ft_strdup(shell->input->stack);
+		shell->input.state = check_string(shell->input.line);
+	shell->input.last = get_last_token_type(shell->line, &shell->input);
+	while (shell->input.state > 0 || shell->input.last > 0)
+		lex_eof_read_input(shell, &shell->input);
+	if (shell->input.stack)
+		shell->line = ft_strdup(shell->input.stack);
 	else
 		shell_exit(shell);
 }
