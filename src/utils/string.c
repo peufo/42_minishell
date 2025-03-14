@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 19:21:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/13 12:59:19 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/14 16:17:52 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,23 @@ t_string_result	string_replace(
 	char *end,
 	char *with)
 {
-	int		with_len;
+	int		index_start;
+	int		index_end;
 	char	*w;
 	char	*r;
 
-	with_len = ft_strlen(with);
-	if (string_ensure_malloc(string, (with_len - (end - start))))
+	if (!with)
 		return (STRING_ERROR);
+	index_start = start - string->value;
+	index_end = end - string->value;
+	if (string_ensure_malloc(string, (ft_strlen(with) - (end - start))))
+		return (STRING_ERROR);
+	start = string->value + index_start;
+	end = string->value + index_end;
 	r = end;
 	while (*r)
 		r++;
-	w = r + with_len - (end - start);
+	w = r + ft_strlen(with) - (end - start);
 	while (r > start)
 		*(w--) = *(r--);
 	w = start;
