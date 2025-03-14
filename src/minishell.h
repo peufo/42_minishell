@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 07:47:43 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/14 13:05:19 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ void	actualise(t_sh *shell);
 bool	input_read(t_sh *shell, int sig);
 int		check_string(char *input);
 void	stack_to_history(char *line, t_sh *shell);
+bool	did_eye_of_sawron(t_sh *shell);
+int		throw_error2(t_sh *shell, char **error);
 
 //	EOF LEXER
 void	lex_eof(t_sh *shell);
@@ -129,7 +131,6 @@ int		count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote);
 //	REDIRECTION
 void	treat_redirections(t_input *input, t_sh *shell);
 char	*catch_the_redir_code(char *line);
-bool	check_for_redir(t_input *input, t_sh *shell);
 void	get_safe_readline_inputs(t_sh *shell, t_input *input);
 
 // LEXER =======================================================================

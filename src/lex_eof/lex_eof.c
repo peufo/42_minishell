@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/14 07:49:18 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/14 12:31:40 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static void	handle_chaos(t_sh *shell)
 
 static void	lex_eof_read_input(t_sh *shell, t_input *input)
 {
-	printf("Into EOF Input\n");
 	while (input->state > 0 || input->last > 0)
 	{
 		get_safe_readline_inputs(shell, input);
@@ -93,7 +92,6 @@ static void	lex_eof_read_input(t_sh *shell, t_input *input)
 
 void	lex_eof(t_sh *shell)
 {
-	printf("Into EOF\n");
 	if (shell->line)
 		shell->input.state = check_string(shell->line);
 	else
