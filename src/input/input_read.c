@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 07:48:03 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/14 08:04:35 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,16 @@ bool	input_read(t_sh	*shell, int sig)
 		free(shell->line);
 	if (shell->is_interactive)
 	{
-		shell_update_prompt(shell);
-		shell->line = readline(shell->prompt.value);
+//		shell_update_prompt(shell);
+		shell->line = readline("MyMinishell>");//readline(shell->prompt.value);
 		if (!shell->line)
 			shell_exit(shell);
 		errno = false;
 		if (!lex_check_start(shell->line, &shell->input))
-			add_history(shell->line);
+		{
+			if (!is_empty_line(shell->line))
+				add_history(shell->line);
+		}
 	}
 	else
 		shell->line = get_next_line(shell->pipe.in);
