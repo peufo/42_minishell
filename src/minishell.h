@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 15:05:24 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:05:42 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,17 @@ typedef struct s_operator
 	char	*op;
 	int		type;
 }	t_operator;
+
+typedef struct s_wild
+{
+	char		*start;
+	char		*end;
+	char		*pattern;
+	char		**sections;
+	bool		is_wild_start;
+	bool		is_wild_end;
+	t_string	files;
+}	t_wild;
 
 //	SIGNAL
 void	handle_signal(int sig);
