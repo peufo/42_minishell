@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 12:19:40 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/14 14:16:48 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ bool	input_read(t_sh	*shell, int sig)
 		errno = false;
 		if (!lex_check_start(shell->line, &shell->input))
 		{
-			if (!iss_empty_line(shell->line)
+			if (!iss_empty_line(shell->line))
 				add_history(shell->line);
 		}
 	}
