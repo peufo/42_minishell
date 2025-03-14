@@ -1,7 +1,9 @@
+echo *
 echo *e
-echo .* HAHAHA *e
+echo .*
+echo .* "HAHAHA\n" *e
 echo *e*
 echo *e*e
-echo .*i*
+echo *i*
 export DOT="."
 echo $DOT*i*
