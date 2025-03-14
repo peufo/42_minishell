@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:56 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 22:39:35 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/14 22:52:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static bool	match(char *filename, t_wild *wild)
 
 	f = filename;
 	if (!ft_strcmp(f, ".") || !ft_strcmp(f, ".."))
+		return (false);
+	if (wild->is_wild_start && *f == '.')
 		return (false);
 	sections = wild->sections;
 	if (!*sections)
