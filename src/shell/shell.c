@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/11 10:35:25 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/14 08:18:26 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,27 @@ void	shell_free(t_sh *shell)
 	if (shell->pipe.in)
 		close(shell->pipe.in);
 	string_array_free(&shell->env);
+	string_free(&shell->prompt);
 }
 
 void	shell_init(t_sh *shell, char **env)
 {
+	char	*shlvl_val;
+	char	*shlvl_env;
+
 	ft_memset(shell, 0, sizeof(*shell));
 	shell->name = "minishell";
 	shell->pipe.in = STDIN_FILENO;
 	shell->pipe.out = STDOUT_FILENO;
 	shell->env = string_array_dup(env);
+	shlvl_val = ft_itoa(ft_atoi(env_get(shell, "SHLVL")) + 1);
+	if (!shlvl_val)
+		shell_exit(shell);
+	shlvl_env = ft_strcat("SHLVL=", shlvl_val);
+	free(shlvl_val);
+	if (!shlvl_env)
+		shell_exit(shell);
+	env_set(shell, "SHLVL", shlvl_env);
 	if (!shell->env)
 		return (shell_exit(shell));
 }

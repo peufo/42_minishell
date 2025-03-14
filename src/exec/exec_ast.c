@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/08 09:27:39 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/13 00:27:05 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ int	exec_ast(t_ast *node)
 	[AST_PIPELINE] = exec_pipeline
 	};
 
+	if (node->status)
+		return (node->status);
 	handler = handlers[node->type];
 	if (!handler)
-		return (throw_error("No handler found ", __FILE__, __LINE__), 0);
+		return (shell_exit(node->shell), 1);
 	return (handler(node));
 }

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/08 13:10:59 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/13 00:13:56 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,15 @@ static char	*take_identifier(char *token)
 
 static int	identifier_error(t_ast *node, char *identifier)
 {
-	ft_putstr_fd(node->shell->name, STDERR_FILENO);
-	ft_putstr_fd(": export: `", STDERR_FILENO);
-	ft_putstr_fd(identifier, STDERR_FILENO);
-	ft_putstr_fd("': not a valid identifier", STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
+	throw_error(node, (char *[]){
+		"export: ",
+		identifier,
+		": not a valid identifier",
+		NULL});
 	free(identifier);
 	return (1);
 }
 
-// TODO: print env on alhabet order when no args
 int	builtin_export(t_ast *node)
 {
 	char	*identifier;
@@ -57,7 +56,7 @@ int	builtin_export(t_ast *node)
 
 	token = node->tokens[1];
 	if (!token)
-		return (0);
+		return (builtin_export_print(node));
 	identifier = take_identifier(token);
 	if (!identifier)
 		return (shell_exit(node->shell), 1);

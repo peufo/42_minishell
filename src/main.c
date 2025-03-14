@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/11 10:47:31 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/14 07:58:00 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int ac, char **av, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	if (ac == 2)
 	{
-		shell.pipe.in = open(av[1], O_RDONLY | O_NONBLOCK);
+		shell.pipe.in = open(av[1], O_RDONLY);
 		if (shell.pipe.in == -1)
 			return (shell_exit(&shell), 1);
 		shell.name = av[1];

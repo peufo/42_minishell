@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:12:21 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/10 15:19:30 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/14 07:52:00 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,12 @@ int	exec_bin(t_ast *node)
 	char	**dir;
 	char	*bin;
 
+	if (**node->tokens == '.' || **node->tokens == '/')
+	{
+		if (execve(*node->tokens, node->tokens, node->shell->env) == -1)
+			shell_exit(node->shell);
+		return (0);
+	}
 	paths = get_paths(node->shell);
 	dir = paths;
 	bin = NULL;
@@ -96,9 +102,8 @@ int	exec_bin(t_ast *node)
 	}
 	string_array_free(&paths);
 	if (!bin)
-		return (throw_error("Command not found", __FILE__, __LINE__), 1);
+		return (throw_error(node, (char *[]){"Command not found", NULL}));
 	signal(SIGQUIT, SIG_DFL);
-//	kill(node->pid, SIGINT);
 	if (execve(bin, node->tokens, node->shell->env) == -1)
 		shell_exit(node->shell);
 	return (0);

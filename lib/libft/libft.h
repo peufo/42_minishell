@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 22:24:54 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/16 19:19:45 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 21:20:46 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	*ft_strnstr(const char *str, const char *find, size_t len);
 void	*ft_calloc(size_t count, size_t size);
+char	*ft_stradd(char *src, char *dst, char *dst_end);
 char	*ft_strdup(const char *str);
 char	*ft_strcut(char *start, char *end);
 char	*ft_substr(char const *s, unsigned int start, size_t len);

@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/13 09:27:00 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/14 12:19:40 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,20 @@ static bool	iss_empty_line(char *line)
 
 bool	input_read(t_sh	*shell, int sig)
 {
+	actualise(shell);
 	(void)sig;
 	if (shell->line)
 		free(shell->line);
 	if (shell->is_interactive)
 	{
-		shell->line = readline("MyMinishell>");
+		shell_update_prompt(shell);
+		shell->line = readline(shell->prompt.value);
 		if (!shell->line)
 			rl_redisplay();
 		errno = false;
 		if (!lex_check_start(shell->line, &shell->input))
 		{
-			if (!iss_empty_line(shell->line))
+			if (!iss_empty_line(shell->line)
 				add_history(shell->line);
 		}
 	}

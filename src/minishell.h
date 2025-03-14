@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/11 10:28:17 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/14 13:05:19 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,12 @@ typedef struct s_sh			t_sh;
 # define INPUT_EOF 5
 # define INPUT_REDIR 6
 
+# define PROMPT_RED "31"
+# define PROMPT_GREEN "32"
+# define PROMPT_YELLOW "33"
+# define PROMPT_BLUE "36"
+# define PROMPT_PURPLE "35"
+
 typedef struct s_input
 {
 	char	*line;
@@ -104,6 +110,8 @@ void	actualise(t_sh *shell);
 bool	input_read(t_sh *shell, int sig);
 int		check_string(char *input);
 void	stack_to_history(char *line, t_sh *shell);
+bool	did_eye_of_sawron(t_sh *shell);
+int		throw_error2(t_sh *shell, char **error);
 
 //	EOF LEXER
 void	lex_eof(t_sh *shell);
@@ -125,7 +133,6 @@ bool	is_empty_line(char *line);
 //	REDIRECTION
 void	treat_redirections(t_input *input, t_sh *shell);
 char	*catch_the_redir_code(char *line);
-bool	check_for_redir(t_input *input, t_sh *shell);
 void	get_safe_readline_inputs(t_sh *shell, t_input *input);
 
 // LEXER =======================================================================
@@ -204,10 +211,12 @@ typedef struct s_redir
 {
 	char	**files_in;
 	char	**files_out;
+	char	**files_out_append;
 	int		fd_in;
 	int		fd_out;
 	int		fd_std_in;
 	int		fd_std_out;
+	int		is_last_append;
 }	t_redir;
 
 struct s_ast
@@ -234,6 +243,7 @@ void	ast_parse(t_ast *node);
 int		ast_parse_pipe(t_ast *node);
 int		ast_parse_subshell(t_ast *node);
 char	*ast_tokens_find(char *line, char *token);
+char	*ast_tokens_find_last(char *line, char *token);
 void	ast_debug(t_ast *node, int deep);
 
 // SHELL =======================================================================
@@ -243,6 +253,7 @@ struct s_sh
 	char		*name;
 	char		*line;
 	char		**env;
+	t_string	prompt;
 	t_pipe		pipe;
 	t_lexer		lexer;
 	t_input		input;
@@ -257,6 +268,7 @@ void	shell_init(t_sh *shell, char **env);
 void	shell_exec(t_sh *shell);
 void	shell_exit(t_sh *shell);
 void	shell_free(t_sh *shell);
+void	shell_update_prompt(t_sh *shell);
 
 // BUILTINS ====================================================================
 
@@ -272,6 +284,7 @@ int		builtin_echo(t_ast *node);
 int		builtin_cd(t_ast *node);
 int		builtin_pwd(t_ast *node);
 int		builtin_export(t_ast *node);
+int		builtin_export_print(t_ast *node);
 int		builtin_unset(t_ast *node);
 int		builtin_env(t_ast *node);
 int		builtin_exit(t_ast *node);
@@ -293,7 +306,7 @@ int		exec_or(t_ast *node);
 t_exe	get_exe(t_ast *node);
 
 // UTILS =======================================================================
-void	throw_error(char *error, char *file, int line);
+int		throw_error(t_ast *node, char **error);
 int		waitstatus(pid_t pid);
 bool	ft_include(char *str, char c);
 bool	ft_startwith(char *str, char *start);

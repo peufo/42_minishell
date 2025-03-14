@@ -3,27 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:15:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/07 17:14:38 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 18:46:47 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO: FILTER empty values
 int	builtin_env(t_ast *node)
 {
 	char	**env;
+	char	*cursor;
 
 	if (!node->shell->env)
 		return (1);
 	env = node->shell->env;
 	while (*env)
 	{
-		ft_putstr(*env);
-		ft_putstr("\n");
+		cursor = *env;
+		while (*cursor && *cursor != '=')
+			cursor++;
+		if (*cursor == '=')
+		{
+			ft_putstr(*env);
+			ft_putstr("\n");
+		}
 		env++;
 	}
 	return (0);

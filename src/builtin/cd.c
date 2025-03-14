@@ -6,23 +6,31 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/08 12:50:05 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/12 23:37:40 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//TODO: print error "No such file or directory"
-//TODO: don't work with --trace-children=yes ... WHY ?
 static int	change_the_directory(char *newpath, t_ast *node)
 {
 	char	*cwd;
 	int		status;
+	char	*error_origin;
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return (1);
 	status = chdir(newpath);
+	if (errno)
+	{
+		error_origin = ft_strcat("minishell: cd: ", newpath);
+		perror(error_origin);
+		free(cwd);
+		free(error_origin);
+		errno = false;
+		return (1);
+	}
 	env_set(node->shell, "OLDPWD", ft_strcat("OLDPWD=", cwd));
 	free(cwd);
 	cwd = getcwd(NULL, 0);

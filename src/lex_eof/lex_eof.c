@@ -5,8 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/13 09:26:35 by dyodlm           ###   ########.fr       */
+/*   Created: 2025/02/20 04:36:07 by dyodlm            #+#    #+#             *//*   Updated: 2025/03/14 12:31:40 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +41,17 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 		while ((!input->line || !*input->line)
 			|| (!input->redir_line || !*input->redir_line))
 		{
-			if (get_the_fucking_line(shell))
+			actualise(shell);
+			if (input->is_redir)
+				input->redir_line = readline("redir-mode > ");
+			else
+				input->line = readline("> ");
+			if (!input->line && !input->redir_line)
+				shell_exit(shell);
+			if (input->line && is_empty_line(input->line))
+				input->line = NULL;
+			else
+//			if (get_the_fucking_line(shell))
 				break ;
 		}
 	}

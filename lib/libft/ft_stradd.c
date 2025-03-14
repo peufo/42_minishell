@@ -1,13 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   ft_stradd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 07:50:58 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/05 08:40:33 by dyodlm           ###   ########.fr       */
+/*   Created: 2025/03/12 21:17:07 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/03/12 23:20:44 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+char	*ft_stradd(char *src, char *dst, char *dst_end)
+{
+	while (dst < dst_end && *src)
+		*(dst++) = *(src++);
+	*dst = '\n';
+	return (dst);
+}

@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/11 10:36:23 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/14 13:35:04 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ bool	check_redir(char *cursor)
 void	checkout_from_redir(t_sh *shell)
 {
 	if (shell->input.stack)
-		shell->line = shell->input.stack;
+		shell->line = ft_strdup(shell->input.stack);
 	else if (shell->input.line)
-		shell->line = shell->input.line;
+		shell->line = ft_strdup(shell->input.line);
 }

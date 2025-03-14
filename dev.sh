@@ -5,7 +5,7 @@ LOG_DIR="log"
 PROG="./minishell"
 LEAKS_CHECK=true
 
-make fclean
+make
 
 if [ $(uname) = "Linux" ]; then
 	LEAKS_CMD="valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes --log-file=log/leaks.log"
