@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:07:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 09:15:46 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/15 15:09:59 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static void	add(t_sh *shell, char *msg, char *color)
 {
 	t_string	*prompt;
 
+	if (!msg)
+		return ;
 	prompt = &shell->prompt;
 	if (!prompt->value)
 		return ;
