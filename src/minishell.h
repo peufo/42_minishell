@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 15:12:06 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:16:39 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ bool	input_read(t_sh *shell);
 int		check_string(char *input);
 void	stack_to_history(char *line, t_sh *shell);
 bool	did_eye_of_sawron(t_sh *shell);
-int		throw_error2(t_sh *shell, char **error);
+int		throw_shell(t_sh *shell, char **error);
 
 //	EOF LEXER
 void	lex_eof(t_sh *shell);
