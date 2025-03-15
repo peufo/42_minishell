@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_parse_tilde.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 16:15:59 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 11:51:16 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ void	ast_parse_tilde(t_ast *node)
 	char		*tilde;
 	char		*home;
 
+	home = env_get(node->shell, "HOME");
 	line.value = NULL;
 	string_push_str(&line, node->line);
 	tilde = ast_tokens_find(line.value, "~");
 	if (!tilde)
 		return (free(line.value));
-	home = env_get(node->shell, "HOME");
 	while (tilde)
 	{
 		if (is_expendable(&line, tilde))
