@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   string_array_join.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/03 20:20:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 12:55:25 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/03/15 12:33:28 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/03/15 12:47:28 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "string_array.h"
 
-int	ft_strcmp(char *s1, char *s2)
+char	*string_array_join(char **arr, char *separator)
 {
-	while (*s1 && *s2 && *s1 == *s2)
+	t_string	join;
+
+	join.value = NULL;
+	if (!arr)
+		return (NULL);
+	if (*arr)
+		string_push_str(&join, *(arr++));
+	while (*arr)
 	{
-		s1++;
-		s2++;
+		string_push_str(&join, separator);
+		string_push_str(&join, *(arr++));
 	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
+	return (join.value);
 }

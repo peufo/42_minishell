@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_array_sort.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:05:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 11:01:00 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 14:04:05 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	get_index(char **arr, char *value, int (cmp)(char*, char*))
 
 	index = 0;
 	while (*arr)
-		index += cmp(*(arr++), value);
+		index += cmp(*(arr++), value) > 0;
 	return (index);
 }
 
@@ -53,9 +53,11 @@ void	string_array_sort(char **arr, int (cmp)(char*, char*))
 	len = string_array_len(arr);
 	i = 0;
 	while (i < len)
+	{
 		arr[i] = dup[indexes[i]];
+		i++;
+	}
 	free(indexes);
+	free(dup);
 	return ;
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 11:51:16 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 12:22:05 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ static bool	is_expendable(t_string *line, char *tilde)
 
 	if (!tilde)
 		return (false);
-	before_ok = tilde == line->value || ft_isspace(*(tilde - 1));
-	after_ok = *(tilde + 1) == '\0'
-		|| ft_isspace(*(tilde + 1))
-		|| *(tilde + 1) == '/';
+	before_ok = (tilde == line->value || ft_isspace(*(tilde - 1)));
+	after_ok = (*(tilde + 1) == '\0'
+			|| ft_isspace(*(tilde + 1))
+			|| *(tilde + 1) == '/');
 	return (before_ok && after_ok);
 }
 
