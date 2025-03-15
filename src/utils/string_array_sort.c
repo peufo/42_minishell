@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_array_sort.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:05:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 14:37:15 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 14:49:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	cmp_alpha(char *a, char *b)
 		a++;
 		b++;
 	}
-	return (*a - *b);
+	return (*b - *a);
 }
 
 static int	get_index(char **arr, char *value, int (cmp)(char*, char*))
