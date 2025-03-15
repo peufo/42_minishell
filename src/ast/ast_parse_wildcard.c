@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:56 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 14:05:34 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 14:34:02 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	wild_get_files(t_ast *node, t_wild *wild)
 			string_array_push(&files, ft_strdup(dp->d_name));
 	}
 	closedir(dirp);
-	string_array_sort(files, ft_strcmp);
+	string_array_sort_alpha(files);
 	wild->files = string_array_join(files, " ");
 	string_array_free(&files);
 	return ;

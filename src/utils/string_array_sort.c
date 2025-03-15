@@ -6,11 +6,21 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:05:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 14:04:05 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 14:37:15 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "string_array.h"
+
+static int	cmp_alpha(char *a, char *b)
+{
+	while (*a && *b && *a == *b)
+	{
+		a++;
+		b++;
+	}
+	return (*a - *b);
+}
 
 static int	get_index(char **arr, char *value, int (cmp)(char*, char*))
 {
@@ -60,4 +70,9 @@ void	string_array_sort(char **arr, int (cmp)(char*, char*))
 	free(indexes);
 	free(dup);
 	return ;
+}
+
+void	string_array_sort_alpha(char **arr)
+{
+	string_array_sort(arr, cmp_alpha);
 }
