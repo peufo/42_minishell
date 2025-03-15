@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/14 12:58:50 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/15 09:15:43 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,17 @@ void	shell_exec(t_sh *shell)
 	while (shell->is_running)
 	{
 		actualise(shell);
-		exec = input_read(shell, 0);
-		if (!shell->line && shell->is_interactive)
-			shell_exec(shell);
-		else if (!shell->line && !shell->is_interactive)
-			shell_exit(shell);
-		if (*shell->line == '#')
-			continue ;
-		basic_exec(shell, exec);
+		if (shell->signal != SIGINT)
+		{
+			exec = input_read(shell);
+			if (!shell->line && shell->is_interactive)
+				shell_exec(shell);
+			else if (!shell->line && !shell->is_interactive)
+				shell_exit(shell);
+			if (*shell->line == '#')
+				continue ;
+			basic_exec(shell, exec);
+		}
 	}
 	shell_exit(shell);
 }
