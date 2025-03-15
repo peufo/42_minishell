@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_read.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 09:18:57 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/15 15:23:29 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ bool	input_read(t_sh	*shell)
 	shell_update_prompt(shell);
 	if (shell->line)
 	{
-	free(shell->line);
-	shell->line = NULL;
+		free(shell->line);
+		shell->line = NULL;
 	}
 	if (shell->is_interactive)
 	{

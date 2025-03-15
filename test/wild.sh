@@ -11,3 +11,5 @@ echo $DOT*i*
 ls *o*
 
 export
+
+echo *not_exist

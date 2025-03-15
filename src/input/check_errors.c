@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:08:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/14 13:19:23 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/15 15:17:08 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	help(t_sh *shell, char *error)
 {
-	throw_error2(shell, (char *[]){"Your syntax is shit. What's with <<",
+	throw_shell(shell, (char *[]){"Your syntax is shit. What's with <<",
 		error, ">> ?", NULL});
 }
 

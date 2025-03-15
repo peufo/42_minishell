@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:07:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 15:11:48 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:23:31 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,13 @@ void	shell_update_prompt(t_sh *shell)
 	char	*base_color;
 	char	cwd[1024];
 
-	if (shell->prompt.value)
-		free(shell->prompt.value);
+	string_free(&shell->prompt);
+	string_push_str(&shell->prompt, "");
 	if (g_signal.is_sigint && shell->line && is_cat_or_grep(shell->line))
-		shell->prompt.value = ft_strdup("");
-	else
-		shell->prompt.value = ft_strdup("MINISHELL>");
-	g_signal.is_sigint = false;
-	return ;
+	{
+		g_signal.is_sigint = false;
+		return ;
+	}
 	if (shell->exit_status)
 		base_color = PROMPT_RED;
 	else
