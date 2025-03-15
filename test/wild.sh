@@ -9,3 +9,5 @@ export DOT="."
 echo $DOT*i*
 
 ls *o*
+
+export
