@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:50:03 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/12 23:20:39 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 11:05:37 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,37 +26,6 @@ static int	env_cmp(char *a, char *b)
 	if (*b == '=')
 		return (0);
 	return (*a < *b);
-}
-
-static int	get_index(t_ast *node, char *env_val)
-{
-	int		index;
-	char	**env;
-
-	index = 0;
-	env = node->shell->env;
-	while (*env)
-		index += env_cmp(*(env++), env_val);
-	return (index);
-}
-
-static int	*create_indexes(t_ast *node)
-{
-	int		env_count;
-	int		*indexes;
-	int		i;
-
-	env_count = string_array_len(node->shell->env);
-	indexes = ft_calloc(env_count, sizeof(*indexes));
-	if (!indexes)
-		return (NULL);
-	i = 0;
-	while (node->shell->env[i])
-	{
-		indexes[get_index(node, node->shell->env[i])] = i;
-		i++;
-	}
-	return (indexes);
 }
 
 static void	print_env(char *env)
@@ -83,7 +52,7 @@ int	builtin_export_print(t_ast *node)
 	int		*indexes;
 	int		i;
 
-	indexes = create_indexes(node);
+	indexes = string_array_create_indexes(node->shell->env, env_cmp);
 	if (!indexes)
 		return (shell_exit(node->shell), 1);
 	i = 0;

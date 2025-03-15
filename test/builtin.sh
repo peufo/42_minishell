@@ -3,8 +3,7 @@ echo
 export PROUT
 export HAHA=
 env | grep -v "_=" | grep -v "LD_PRELOAD=" | sort
-
-export | grep -v "LD_PRELOAD="
+export | grep -v "LD_PRELOAD=" | grep -b "_"
 
 echo "Salut $USER"
 echo "Salut Jonas"
@@ -17,7 +16,6 @@ echo -nnnn yo
 echo -n -n -n yoyo
 echo -n -nn -n -As  -n -n yoyo
 echo
-
 
 export MY_FLAG="-n"
 echo -n "$MY_FLAG" -n yoyo
