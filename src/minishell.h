@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 13:05:19 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/15 07:41:44 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@ typedef struct s_child
 	pid_t	pid;
 	int		status;
 }	t_child;
+
+typedef struct s_signal
+{
+	pid_t	pid;
+	bool	is_sigint;
+	bool	is_sigquit;
+	int		exit_status;
+}	t_signal;
 
 typedef struct s_utils
 {
@@ -107,7 +115,7 @@ typedef struct s_operator
 void	handle_signal(int sig);
 void	actualise(t_sh *shell);
 
-bool	input_read(t_sh *shell, int sig);
+bool	input_read(t_sh *shell);
 int		check_string(char *input);
 void	stack_to_history(char *line, t_sh *shell);
 bool	did_eye_of_sawron(t_sh *shell);
@@ -318,5 +326,7 @@ char	*ft_strrchrstr(const char *str, char *to_find);
 // DEBUG =======================================================================
 void	debug_new_tokens(char **toks);
 void	debug_two_lists(t_list *l1, t_list *l2);
+
+extern t_signal	g_signal;
 
 #endif

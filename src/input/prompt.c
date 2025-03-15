@@ -6,12 +6,23 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:07:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 12:28:25 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/15 09:15:46 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static bool	is_cat_or_grep(char *line)
+{
+	char	*iscat;
+	char	*isgrep;
+
+	iscat = ft_strchrstr(line, "cat");
+	isgrep = ft_strchrstr(line, "grep");
+	if (iscat || (isgrep && ft_strlen(isgrep) >= 6))
+		return (true);
+	return (false);
+}
 static void	add(t_sh *shell, char *msg, char *color)
 {
 	t_string	*prompt;
@@ -38,9 +49,12 @@ void	shell_update_prompt(t_sh *shell)
 
 	if (shell->prompt.value)
 		free(shell->prompt.value);
-	shell->prompt.value = ft_strdup("MINISHELL>");
+	if (g_signal.is_sigint && shell->line && is_cat_or_grep(shell->line))
+		shell->prompt.value = ft_strdup("");
+	else
+		shell->prompt.value = ft_strdup("MINISHELL>");
+	g_signal.is_sigint = false;
 	return ;
-	string_free(&shell->prompt);
 	if (shell->exit_status)
 		base_color = PROMPT_RED;
 	else
@@ -55,5 +69,4 @@ void	shell_update_prompt(t_sh *shell)
 	add(shell, "\n", NULL);
 	add(shell, "╰─", base_color);
 	add(shell, "$ ", PROMPT_BLUE);
-	return ;
 }

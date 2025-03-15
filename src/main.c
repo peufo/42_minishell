@@ -6,17 +6,18 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 07:58:00 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/15 09:15:33 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_signal_received = 0;
+t_signal	g_signal;
 
 void	handle_signal(int sig)
 {
-	g_signal_received = sig;
+	if (sig == SIGINT)
+		g_signal.is_sigint = true;
 	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -25,7 +26,7 @@ void	handle_signal(int sig)
 
 void	actualise(t_sh *shell)
 {
-	shell->signal = g_signal_received;
+	(void)shell;
 }
 
 int	main(int ac, char **av, char **env)
@@ -33,6 +34,7 @@ int	main(int ac, char **av, char **env)
 	t_sh	shell;
 
 	shell_init(&shell, env);
+	ft_bzero(&g_signal, sizeof(t_signal));
 	signal(SIGINT, &handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	if (ac == 2)

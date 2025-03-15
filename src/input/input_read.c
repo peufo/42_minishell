@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 14:16:48 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/15 09:18:57 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 static bool	lex_check_start(char *line, t_input *input)
 {
+	if (!line)
+		return (BASIC_MOD);
 	if (check_string(line) || get_last_token_type(line, input))
 		return (BONUS_MOD);
 	return (BASIC_MOD);
@@ -31,18 +33,17 @@ static bool	iss_empty_line(char *line)
 	return (1);
 }
 
-bool	input_read(t_sh	*shell, int sig)
+bool	input_read(t_sh	*shell)
 {
-	actualise(shell);
-	(void)sig;
+	shell_update_prompt(shell);
 	if (shell->line)
-		free(shell->line);
+	{
+	free(shell->line);
+	shell->line = NULL;
+	}
 	if (shell->is_interactive)
 	{
-		shell_update_prompt(shell);
 		shell->line = readline(shell->prompt.value);
-		if (!shell->line)
-			rl_redisplay();
 		errno = false;
 		if (!lex_check_start(shell->line, &shell->input))
 		{
@@ -55,6 +56,6 @@ bool	input_read(t_sh	*shell, int sig)
 	if (errno)
 		shell_exit(shell);
 	if (shell->line && iss_empty_line(shell->line))
-		input_read(shell, 0);
+		input_read(shell);
 	return (lex_check_start(shell->line, &shell->input));
 }
