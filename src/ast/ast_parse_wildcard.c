@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:56 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 11:57:38 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 14:05:34 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ static bool	match(char *filename, t_wild *wild)
 	char	*f;
 
 	f = filename;
-	if (!ft_strcmp(f, ".") || !ft_strcmp(f, ".."))
-		return (false);
 	if (wild->is_wild_start && *f == '.')
 		return (false);
 	sections = wild->sections;
@@ -46,7 +44,9 @@ static void	wild_get_files(t_ast *node, t_wild *wild)
 	DIR				*dirp;
 	struct dirent	*dp;
 	char			cwd[1024];
+	char			**files;
 
+	files = NULL;
 	getcwd(cwd, 1024);
 	dirp = opendir(cwd);
 	if (!dirp)
@@ -57,20 +57,23 @@ static void	wild_get_files(t_ast *node, t_wild *wild)
 		if (!dp)
 			break ;
 		if (match(dp->d_name, wild))
-		{
-			if (wild->files.value)
-				string_push_str(&wild->files, " ");
-			string_push_str(&wild->files, dp->d_name);
-		}
+			string_array_push(&files, ft_strdup(dp->d_name));
 	}
 	closedir(dirp);
+	string_array_sort(files, ft_strcmp);
+	wild->files = string_array_join(files, " ");
+	string_array_free(&files);
 	return ;
 }
 
 static void	wild_free(t_wild *wild)
 {
-	string_free(&wild->files);
 	string_array_free(&wild->sections);
+	if (wild->files)
+	{
+		free(wild->files);
+		wild->files = NULL;
+	}
 	if (wild->pattern)
 	{
 		free(wild->pattern);
@@ -112,11 +115,11 @@ void	ast_parse_wildcard(t_ast *node)
 	t_string	line;
 	int			i;
 
-	wild.files.value = NULL;
-	line.value = NULL;
-	string_push_str(&line, node->line);
+	wild.files = NULL;
 	wild.pattern = NULL;
 	wild.sections = NULL;
+	line.value = NULL;
+	string_push_str(&line, node->line);
 	i = 0;
 	while (line.value[i])
 	{
@@ -125,13 +128,13 @@ void	ast_parse_wildcard(t_ast *node)
 			break ;
 		i = wild.start - line.value;
 		wild_get_files(node, &wild);
-		if (!wild.files.value)
+		if (!wild.files)
 		{
 			i += ft_strlen(wild.pattern);
-			continue;
+			continue ;
 		}
-		string_replace(&line, wild.start, wild.end, wild.files.value);
-		i += ft_strlen(wild.files.value);
+		string_replace(&line, wild.start, wild.end, wild.files);
+		i += ft_strlen(wild.files);
 	}
 	wild_free(&wild);
 	free(node->line);
