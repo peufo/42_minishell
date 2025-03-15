@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 08:18:26 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/15 15:11:56 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,11 @@ void	shell_free(t_sh *shell)
 	string_free(&shell->prompt);
 }
 
-void	shell_init(t_sh *shell, char **env)
+static void	shell_update_shlvl(t_sh *shell)
 {
 	char	*shlvl_val;
 	char	*shlvl_env;
 
-	ft_memset(shell, 0, sizeof(*shell));
-	shell->name = "minishell";
-	shell->pipe.in = STDIN_FILENO;
-	shell->pipe.out = STDOUT_FILENO;
-	shell->env = string_array_dup(env);
 	shlvl_val = ft_itoa(ft_atoi(env_get(shell, "SHLVL")) + 1);
 	if (!shlvl_val)
 		shell_exit(shell);
@@ -64,6 +59,16 @@ void	shell_init(t_sh *shell, char **env)
 	if (!shlvl_env)
 		shell_exit(shell);
 	env_set(shell, "SHLVL", shlvl_env);
+}
+
+void	shell_init(t_sh *shell, char **env)
+{
+	ft_memset(shell, 0, sizeof(*shell));
+	shell->name = "minishell";
+	shell->pipe.in = STDIN_FILENO;
+	shell->pipe.out = STDOUT_FILENO;
+	shell->env = string_array_dup(env);
+	shell_update_shlvl(shell);
 	if (!shell->env)
 		return (shell_exit(shell));
 }
