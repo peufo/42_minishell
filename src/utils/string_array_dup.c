@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_array_dup.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:16:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 23:19:04 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 12:25:06 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	**string_array_dup_shallow(char **arr)
 	char	**dup;
 	int		arr_len;
 	int		i;
-	
+
 	if (!arr)
 		return (NULL);
 	arr_len = string_array_len(arr);

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 15:05:50 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 15:12:06 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ typedef struct s_wild
 	char		**sections;
 	bool		is_wild_start;
 	bool		is_wild_end;
-	t_string	files;
+	char		*files;
 }	t_wild;
 
 //	SIGNAL
