@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:07:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 11:45:35 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 11:58:23 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	add(t_sh *shell, char *msg, char *color)
 void	shell_update_prompt(t_sh *shell)
 {
 	char	*base_color;
+	char	cwd[1024];
 
 	string_free(&shell->prompt);
 	if (shell->exit_status)
@@ -46,7 +47,8 @@ void	shell_update_prompt(t_sh *shell)
 	add(shell, "@", PROMPT_BLUE);
 	add(shell, env_get(shell, "HOSTNAME"), PROMPT_BLUE);
 	add(shell, ")─[", base_color);
-	add(shell, env_get(shell, "PWD"), NULL);
+	getcwd(cwd, 1024);
+	add(shell, cwd, NULL);
 	add(shell, "]", base_color);
 	add(shell, "\n", NULL);
 	add(shell, "╰─", base_color);

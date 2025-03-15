@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_parse_wildcard.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:56 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 22:52:41 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 11:57:38 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,12 @@ static void	wild_get_files(t_ast *node, t_wild *wild)
 {
 	DIR				*dirp;
 	struct dirent	*dp;
+	char			cwd[1024];
 
-	dirp = opendir(env_get(node->shell, "PWD"));
+	getcwd(cwd, 1024);
+	dirp = opendir(cwd);
 	if (!dirp)
-	{
-		errno = false;
-		return ;
-	}
+		return (shell_exit(node->shell));
 	while (true)
 	{
 		dp = readdir(dirp);

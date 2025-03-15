@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 19:21:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 16:17:52 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 11:51:45 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ t_string_result	string_push_char(t_string *string, char c)
 
 t_string_result	string_push_str(t_string *string, char *str)
 {
+	if (!str)
+		return (STRING_ERROR);
 	if (string_ensure_malloc(string, ft_strlen(str)))
 		return (STRING_ERROR);
 	ft_strlcat(string->value, str, string->len);

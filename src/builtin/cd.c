@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/13 21:28:17 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 12:03:43 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,14 @@ static int	change_dir(t_ast *node, char *new_path)
 
 int	builtin_cd(t_ast *node)
 {
+	char	*home;
+
 	if (string_array_len(node->tokens) > 2)
 		return (throw(node, (char *[]){"cd: too many arguments", NULL}));
 	if (node->tokens[1])
 		return (change_dir(node, node->tokens[1]));
-	return (change_dir(node, env_get(node->shell, "HOME")));
+	home = env_get(node->shell, "HOME");
+	if (!home)
+		return (throw(node, (char *[]){"cd: HOME not set", NULL}));
+	return (change_dir(node, home));
 }

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 14:58:27 by jvoisard          #+#    #+#             */
-/*   Updated: 2024/10/08 16:30:14 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/15 12:09:54 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	ft_atoi(const char *str)
 
 	n = 0;
 	sign = 1;
+	if (!str)
+		return (0);
 	while (is_space(*str))
 		str++;
 	if (*str == '-' || *str == '+')
