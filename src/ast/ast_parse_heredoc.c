@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 08:36:55 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/16 15:24:16 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/16 15:25:24 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static char	*get_first_part(char *line, int	limit)
 	char	buffer[limit + 1];
 	char	*newline;
 
-	i = 0;
 	ft_bzero(&buffer, limit + 1);
 	while ((*line)++ && --limit > 0)
 		*buffer = *line;
