@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 11:21:20 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 10:23:50 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,9 @@ static void	exec_redirect(t_ast *node)
 int	exec_command(t_ast *node)
 {
 	t_exe	builtin;
-
+;
 	lex(node, node->line);
+	exec_heredoc(node);
 	exec_redirect(node);
 	builtin = get_builtin(*node->tokens);
 	if (builtin)
