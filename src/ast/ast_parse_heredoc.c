@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 08:36:55 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/16 15:25:24 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/16 15:37:22 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,11 @@ void	ft_suppress(char *from, char *to, char **line)
 	*line = newline;
 }
 
-static void	take_heredoc_out(char **line, t_input *input, int index)
+static void	take_heredoc_out(char **line)
 {
 	bool	dquote;
 	bool	squote;
 	char	*cursor;
-	char	*newline;
 	char	*from;
 
 	dquote = false;
@@ -69,7 +68,7 @@ static void	take_heredoc_out(char **line, t_input *input, int index)
 
 static void	str_to_file(t_ast *node, t_input *input, int start)
 {
-	int		index;
+	char	*index;
 	char	*name;
 
 
@@ -82,8 +81,9 @@ static void	str_to_file(t_ast *node, t_input *input, int start)
 	write(node->heredoc.fd_in,
 			input->redir_input[start],
 			ft_strlen(input->redir_input[start]));
-	free(index);
+	string_array_push(&node->heredoc.files_in, name);
 	free(name);
+	free(index);
 	close(node->heredoc.fd_in);
 }
 
@@ -107,5 +107,5 @@ void	ast_parse_heredoc(t_ast *node)
 	while (start < end)
 		start++;
 	str_to_file(node, &node->shell->input, start);
-	take_heredoc_out(&node->line, &node->shell->input, start);
+	take_heredoc_out(&node->line);
 }
