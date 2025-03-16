@@ -6,34 +6,37 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 08:36:55 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/16 15:12:11 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/16 15:24:16 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_suppress(char *from, char *to, char **line)
+static char	*get_first_part(char *line, int	limit)
 {
-	char	*tmp;
+	char	buffer[limit + 1];
 	char	*newline;
-	int		newlen;
-	int		first_step;
-	int		i;
 
 	i = 0;
+	ft_bzero(&buffer, limit + 1);
+	while ((*line)++ && --limit > 0)
+		*buffer = *line;
+	newline = ft_strdup(buffer);
+	return (newline);
+}
+
+void	ft_suppress(char *from, char *to, char **line)
+{
+	char	*newline;
+	char	*first_part;
+	int		first_step;
+
 	first_step = ft_strlen(*line) - ft_strlen(from);
-	newlen = first_step + ft_strlen(to);
-	newline = ft_calloc(newlen, 1);
-	tmp = ft_strdup(*line);
-	while (i < first_step)
-	{
-		newline[i] = tmp[i];
-		i++;
-	}
-	while (i < newlen)
-	{
-		newline[i] = tmp[i];
-	}
+	first_part = get_first_part(*line, first_step);
+	newline = ft_strjoin(first_part, ft_strdup(to));
+	free(first_part);
+	free(*line);
+	*line = newline;
 }
 
 static void	take_heredoc_out(char **line, t_input *input, int index)
@@ -75,7 +78,8 @@ static void	str_to_file(t_ast *node, t_input *input, int start)
 	name = ft_strjoin("heredoc_", index);
 	node->heredoc.fd_in = open(name, O_CREAT | O_WRONLY | O_TRUNC);
 	if (node->heredoc.fd_in == -1)
-		throw(node, (char *[]){"Fuck heredocs\n", NULL});
+		return (throw(node, (char *[]){"Fuck heredocs\n", NULL}),
+			shell_exit(node->shell));
 	write(node->heredoc.fd_in,
 			input->redir_input[start],
 			ft_strlen(input->redir_input[start]));
