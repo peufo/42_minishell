@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/14 13:46:18 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/16 09:20:07 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	transfer_shell_line(t_sh *shell)
 	shell->line = NULL;
 }
 
-static void	get_all_codes(t_input *input, char *cursor)
+void	get_all_codes(t_input *input, char *cursor)
 {
 	int		i;
 	char	*tmp;
@@ -100,7 +100,9 @@ int	count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote)
 void	treat_redirections(t_input *input, t_sh *shell)
 {
 	char	*cursor;
-  
+	char	*head;
+
+	head = ft_strdup(shell->line);
 	if (shell->line)
 		transfer_shell_line(shell);
 	safe_init_redir_array(shell, input);
@@ -114,5 +116,6 @@ void	treat_redirections(t_input *input, t_sh *shell)
 	if (!apply_redir_logic(input, shell))
 		return (shell_exit(shell));
 	checkout_from_redir(shell);
+	shell->line = head;
 	free(cursor);
 }

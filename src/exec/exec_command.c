@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/14 14:16:44 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/16 09:17:59 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,13 @@ static void	exec_redirect(t_ast *node)
 int	exec_command(t_ast *node)
 {
 	t_exe	builtin;
-
+;
 	lex(node, node->line);
+	exec_heredoc(node);
 	exec_redirect(node);
 	builtin = get_builtin(*node->tokens);
-//	printf("Exec command\n");
 	if (builtin)
 	{
-//		printf("Builtin\n");
 		node->status = builtin(node);
 		node->shell->exit_status = node->status;
 		exec_redir_restore_std(node);
@@ -91,7 +90,6 @@ int	exec_command(t_ast *node)
 	}
 	if (node->is_child_process)
 	{
-//		printf("Children\n");
 		node->status = exec_bin(node);
 		exec_redir_restore_std(node);
 		node->shell->exit_status = node->status;

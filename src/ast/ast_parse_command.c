@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_parse_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:26:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 12:22:20 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/16 09:33:20 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,37 @@ static int	pick_redir(t_ast *node, char ***files, char *token)
 	return (0);
 }
 
+static void	debug_redir_struct(t_redir r)
+{
+	int	i;
+
+	i = 0;
+	printf("\nDEBUG REDIR STRUCT\n");
+	while (r.files_in && r.files_in[i])
+		printf("Files in : %s\n", r.files_in[i++]);
+	i = 0;
+	if (r.files_out && r.files_out[i])
+		printf("Files out : %s\n", r.files_out[i++]);
+	i = 0;
+	if (r.files_out_append && r.files_out_append[i])
+		printf("Files last append : %s\n", r.files_out_append[i++]);
+}
 void	ast_parse_command(t_ast *node)
 {
 	char	*last_write;
 	char	*last_append;
 
 	node->type = AST_COMMAND;
+	ast_parse_heredoc(node);
+	printf("Line before command parse : %s\n", node->line);
 	last_write = ast_tokens_find_last(node->line, ">");
 	last_append = ast_tokens_find_last(node->line, ">>");
 	node->redir.is_last_append = (last_append && last_append >= last_write - 1);
 	pick_redir(node, &node->redir.files_out_append, ">>");
 	pick_redir(node, &node->redir.files_out, ">");
 	pick_redir(node, &node->redir.files_in, "<");
+	printf("Line after command parse : %s\n", node->line);
+	debug_redir_struct(node->redir);
 	ast_parse_tilde(node);
 	ast_parse_wildcard(node);
 }

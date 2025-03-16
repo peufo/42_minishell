@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/15 09:17:33 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/16 09:24:33 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,45 @@ bool	check_redir(char *cursor)
 	return (false);
 }
 
+static void	suppress_last_line(char **newline, char *line)
+{
+	int		i;
+	int		j;
+	char	*buf;
+	
+	i = 0;
+	j = 0;
+//	printf("Line beeing treated : %s\n", line);
+	while (line[i])
+		if (line[i++] == '\n')
+			j++;
+	i = 0;
+	while (line[i] && j > 0)
+		if (line[i++] == '\n')
+			j--;
+	j = 0;
+	buf = ft_calloc(i + 1, 1);
+	while (i-- > 0 && line[j])
+	{
+		buf[j] = line[j];
+		j++;
+	}
+	free(*newline);
+	*newline = buf;
+//	printf("Newline is %s\n", buf);
+}
+
 void	checkout_from_redir(t_sh *shell)
 {
-	if (shell->input.stack)
-		shell->line = ft_strdup(shell->input.stack);
-	else if (shell->input.line)
-		shell->line = ft_strdup(shell->input.line);
+	int		i;
+	char	*line;
+
+	i = 0;
+//	printf("yo\n");
+	if (!shell->input.redir_input || !shell->input.redir_input[0])
+		return ;
+	line = ft_strchr(shell->input.redir_input[0], '\n');
+	suppress_last_line(&shell->input.redir_input[0], line);
+	while (shell->input.redir_input[i] && ++i < shell->input.nb_redir)
+		suppress_last_line(&shell->input.redir_input[i], shell->input.redir_input[i]);
 }
