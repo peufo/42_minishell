@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_action_var.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:13:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 00:48:56 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:02:39 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	lexer_action_expand_var(t_ast *node)
 		string_push_str(&node->lexer.token, "$");
 	else
 		expand_var(node);
-	if (*(node->lexer.cursor) && !ft_include("?* \t\n", *(node->lexer.cursor)))
+	if (*(node->lexer.cursor) && !ft_include("'?* \t\n", *(node->lexer.cursor)))
 		node->lexer.cursor++;
 }
 
