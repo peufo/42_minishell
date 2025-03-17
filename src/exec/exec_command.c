@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/18 10:23:50 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 10:24:22 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,15 @@ static void	exec_redir_restore_std(t_ast *node)
 	}
 }
 
-static void	exec_redirect(t_ast *node)
+static void	exec_redirect(t_ast *node, char **files_in)
 {
 	static int	f_create = O_CREAT | O_WRONLY | O_TRUNC;
 	static int	f_append = O_CREAT | O_WRONLY | O_APPEND;
 	char		**files_out_append;
 	char		**files_out;
 
+	if (!files_in || !*files_in)
+		return ;
 	files_out = node->redir.files_out;
 	files_out_append = node->redir.files_out_append;
 	exec_redir_save_std(node);
@@ -70,16 +72,16 @@ static void	exec_redirect(t_ast *node)
 		exec_redirect_open(node, files_out_append, f_append, STDOUT_FILENO);
 		exec_redirect_open(node, files_out, f_create, STDOUT_FILENO);
 	}
-	exec_redirect_open(node, node->redir.files_in, O_RDONLY, STDIN_FILENO);
+	exec_redirect_open(node, files_in, O_RDONLY, STDIN_FILENO);
 }
 
 int	exec_command(t_ast *node)
 {
 	t_exe	builtin;
-;
+
 	lex(node, node->line);
-	exec_heredoc(node);
-	exec_redirect(node);
+	exec_redirect(node, node->heredoc.files_in);
+	exec_redirect(node, node->redir.files_in);
 	builtin = get_builtin(*node->tokens);
 	if (builtin)
 	{
