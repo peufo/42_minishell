@@ -6,13 +6,16 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:18:09 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 18:50:21 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 19:03:38 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	copy_safely(char **newline, char **line, char buffer[256], t_utils *u)
+static void	copy_safely(char **newline,
+						char **line,
+						char buffer[256],
+						t_utils *u)
 {
 	buffer[u->i++] = **line;
 	(*line)++;
@@ -29,8 +32,8 @@ static void	copy_safely(char **newline, char **line, char buffer[256], t_utils *
 static char	*get_newline(char *line, int step1, int step2)
 {
 	static char	buffer[256];
-	char	*newline;
-	t_utils	u;
+	char		*newline;
+	t_utils		u;
 
 	newline = NULL;
 	ft_bzero(&u, sizeof(t_utils));
@@ -61,10 +64,11 @@ void	ft_suppress(char *from, char *to, char **line)
 
 char	*get_line(int fd)
 {
-	ssize_t bytes_read;
+	ssize_t	bytes_read;
 	char	buffer[256];
-	char	*stack = NULL;
+	char	*stack;
 
+	stack = NULL;
 	while (1)
 	{
 		bytes_read = read(fd, buffer, sizeof(buffer) - 1);

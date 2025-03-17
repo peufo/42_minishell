@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/18 10:24:43 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 10:25:57 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,19 +80,12 @@ void	check_quotes(char c, bool *dquote, bool *quote)
 	}
 }
 
-bool	check_redir(char *cursor)
-{
-	if (cursor && cursor[0] == '<' && cursor[1] == '<')
-		return (true);
-	return (false);
-}
-
 static void	suppress_last_line(char **newline, char *line)
 {
 	int		i;
 	int		j;
 	char	*buf;
-	
+
 	i = 0;
 	j = 0;
 	while (line[i])
@@ -124,5 +117,6 @@ void	checkout_from_redir(t_sh *shell)
 	line = ft_strchr(shell->input.redir_input[0], '\n');
 	suppress_last_line(&shell->input.redir_input[0], line);
 	while (shell->input.redir_input[i] && ++i < shell->input.nb_redir)
-		suppress_last_line(&shell->input.redir_input[i], shell->input.redir_input[i]);
+		suppress_last_line(&shell->input.redir_input[i],
+			shell->input.redir_input[i]);
 }

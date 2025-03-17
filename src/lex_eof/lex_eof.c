@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:55:21 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 18:37:32 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 19:01:23 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 			if (input->line && is_empty_line(input->line))
 				input->line = NULL;
 			else
-//			if (get_the_fucking_line(shell))
 				break ;
 		}
 	}
