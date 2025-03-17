@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 10:17:02 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/17 11:21:20 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ static void	exec_redirect_open(
 
 static void	exec_redir_save_std(t_ast *node)
 {
-	if (node->redir.files_out)
+	if (node->redir.files_out || node->redir.files_out_append)
 		node->redir.fd_std_out = dup(STDOUT_FILENO);
 }
 
 static void	exec_redir_restore_std(t_ast *node)
 {
-	if (node->redir.files_out)
+	if (node->redir.files_out || node->redir.files_out_append)
 	{
 		dup2(node->redir.fd_std_out, STDOUT_FILENO);
 		close(node->redir.fd_std_out);
