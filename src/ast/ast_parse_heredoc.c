@@ -6,20 +6,32 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 08:36:55 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/16 15:37:22 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 14:31:35 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_first_part(char *line, int	limit)
+static char	*get_newline(char *line, int step1, int step2)
 {
-	char	buffer[limit + 1];
+	char	buffer[step1 + step2 + 1];
 	char	*newline;
+	int		i;
 
-	ft_bzero(&buffer, limit + 1);
-	while ((*line)++ && --limit > 0)
-		*buffer = *line;
+	i = 0;
+	ft_bzero(&buffer, step1 + step2 + 1);
+	while (*line && i < step1)
+	{
+		buffer[i++] = *line;
+		line++;
+	}
+	while (*line && step1++ < step2)
+		line++;
+	while (*line)
+	{
+		buffer[i++] = *line;
+		line++;
+	}
 	newline = ft_strdup(buffer);
 	return (newline);
 }
@@ -27,13 +39,12 @@ static char	*get_first_part(char *line, int	limit)
 void	ft_suppress(char *from, char *to, char **line)
 {
 	char	*newline;
-	char	*first_part;
-	int		first_step;
+	int		step1;
+	int		step2;
 
-	first_step = ft_strlen(*line) - ft_strlen(from);
-	first_part = get_first_part(*line, first_step);
-	newline = ft_strjoin(first_part, ft_strdup(to));
-	free(first_part);
+	step1 = ft_strlen(*line) - ft_strlen(from);
+	step2 = ft_strlen(*line) - ft_strlen(to);
+	newline = get_newline(*line, step1, step2);
 	free(*line);
 	*line = newline;
 }
@@ -59,11 +70,11 @@ static void	take_heredoc_out(char **line)
 			while (ft_isalnum(*cursor))
 				cursor++;
 			ft_suppress(from, cursor, line);
+			break ;
 		}
 		else
 			cursor++;
 	}
-	free(cursor);
 }
 
 static void	str_to_file(t_ast *node, t_input *input, int start)
@@ -74,17 +85,17 @@ static void	str_to_file(t_ast *node, t_input *input, int start)
 
 	index = ft_itoa(start);
 	name = ft_strjoin("heredoc_", index);
-	node->heredoc.fd_in = open(name, O_CREAT | O_WRONLY | O_TRUNC);
-	if (node->heredoc.fd_in == -1)
+	if (node->redir.fd_in)
+		printf("There is an fd in heredoc \n");
+	node->redir.fd_in = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0666);
+	if (node->redir.fd_in == -1)
 		return (throw(node, (char *[]){"Fuck heredocs\n", NULL}),
 			shell_exit(node->shell));
-	write(node->heredoc.fd_in,
-			input->redir_input[start],
-			ft_strlen(input->redir_input[start]));
-	string_array_push(&node->heredoc.files_in, name);
-	free(name);
-	free(index);
-	close(node->heredoc.fd_in);
+	write(node->redir.fd_in,
+			input->redir_input[start - 1],
+			ft_strlen(input->redir_input[start - 1]));
+	string_array_push(&node->redir.files_in, name);
+	close(node->redir.fd_in);
 }
 
 void	ast_parse_heredoc(t_ast *node)
@@ -95,8 +106,6 @@ void	ast_parse_heredoc(t_ast *node)
 	int		end;
 	char	*tmp;
 
-	printf("Line in heredoc parse :\n%s\n", node->line);
-	return ;
 	tmp = ft_strchrstr(node->shell->line, node->line);
 	redir_in_node = count_redir_in_line(node->shell, node->line, 0, 0);
 	if (redir_in_node == 0)
@@ -107,5 +116,6 @@ void	ast_parse_heredoc(t_ast *node)
 	while (start < end)
 		start++;
 	str_to_file(node, &node->shell->input, start);
-	take_heredoc_out(&node->line);
+	while (count_redir_in_line(node->shell, node->line, 0, 0))
+		take_heredoc_out(&node->line);
 }
