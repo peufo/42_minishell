@@ -6,11 +6,26 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 08:36:55 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 14:31:35 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 15:02:27 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+/*
+static char	*join_with_dup(const char *a, const char *b, size_t len)
+{
+	char	*str;
+
+	if (!a || !b)
+		return (0);
+	str = ft_calloc(len, sizeof(*str));
+	if (!str)
+		return (str);
+	
+	ft_strlcat(str, ft_strdup(a), len);
+	ft_strlcat(str, ft_strdup(b), len);
+	return (str);
+}*/
 
 static char	*get_newline(char *line, int step1, int step2)
 {
@@ -55,10 +70,12 @@ static void	take_heredoc_out(char **line)
 	bool	squote;
 	char	*cursor;
 	char	*from;
+	char	*head;
 
 	dquote = false;
 	squote = false;
 	cursor = ft_strdup(*line);
+	head = cursor;
 	while (*cursor)
 	{
 		check_quotes(*cursor, &dquote, &squote);
@@ -75,27 +92,33 @@ static void	take_heredoc_out(char **line)
 		else
 			cursor++;
 	}
+	free(head);
 }
 
 static void	str_to_file(t_ast *node, t_input *input, int start)
 {
-	char	*index;
-	char	*name;
+	static char	*prefix[] = {"hd1", "hd2", "hd3", "hd4", "hd5", "hd6", NULL};
+	static int	files = 0;
+	char		*name;
 
-
-	index = ft_itoa(start);
-	name = ft_strjoin("heredoc_", index);
+	if (files < 6)
+		name = prefix[files++];
+	else
+	{
+		files = 0;
+		str_to_file(node, input, start);
+	}
 	if (node->redir.fd_in)
 		printf("There is an fd in heredoc \n");
-	node->redir.fd_in = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0666);
-	if (node->redir.fd_in == -1)
+	node->heredoc.fd_in = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0666);
+	if (node->heredoc.fd_in == -1)
 		return (throw(node, (char *[]){"Fuck heredocs\n", NULL}),
 			shell_exit(node->shell));
-	write(node->redir.fd_in,
+	write(node->heredoc.fd_in,
 			input->redir_input[start - 1],
 			ft_strlen(input->redir_input[start - 1]));
-	string_array_push(&node->redir.files_in, name);
-	close(node->redir.fd_in);
+	string_array_push(&node->heredoc.files_in, ft_strdup(name));
+	close(node->heredoc.fd_in);
 }
 
 void	ast_parse_heredoc(t_ast *node)
@@ -106,9 +129,11 @@ void	ast_parse_heredoc(t_ast *node)
 	int		end;
 	char	*tmp;
 
-	tmp = ft_strchrstr(node->shell->line, node->line);
+	tmp = NULL;
+	if (node->line && node->shell->line)
+		tmp = ft_strchrstr(node->shell->line, node->line);
 	redir_in_node = count_redir_in_line(node->shell, node->line, 0, 0);
-	if (redir_in_node == 0)
+	if (redir_in_node == 0 || !tmp)
 		return ;
 	count_from = count_redir_in_line(node->shell, tmp, 0, 0);
 	start = node->shell->input.nb_redir - count_from;

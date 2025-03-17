@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 10:00:09 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/05 10:03:12 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 14:39:30 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strchrstr(const char *str, char *to_find)
 	while (cursor && *cursor)
 	{
 		j = 0;
-		while (cursor[j] == to_find[j])
+		while (to_find[j] && cursor[j] == to_find[j])
 			j++;
 		if (j >= len)
 			return (cursor);
