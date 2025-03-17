@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 18:01:26 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 18:02:02 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static bool	apply_redir_logic(t_input *input, t_sh *shell)
 		if (input->redir_line)
 		{
 			if (!ft_strncmp(input->redir_line,
-					input->redir_code[i], ft_strlen(input->redir_code[i])))
+					input->redir_code[i],
+					ft_strlen(input->redir_code[i])))
 				i++;
 		}
 		else if (input->line)
@@ -66,7 +67,6 @@ static bool	apply_redir_logic(t_input *input, t_sh *shell)
 		get_safe_readline_inputs(shell, input);
 	}
 	input->is_redir = false;
-	printf("Step ok\n");
 	return (true);
 }
 

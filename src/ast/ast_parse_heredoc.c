@@ -6,48 +6,11 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 08:36:55 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 15:39:28 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 18:38:55 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static char	*get_newline(char *line, int step1, int step2)
-{
-	char	buffer[step1 + step2 + 1];
-	char	*newline;
-	int		i;
-
-	i = 0;
-	ft_bzero(&buffer, step1 + step2 + 1);
-	while (*line && i < step1)
-	{
-		buffer[i++] = *line;
-		line++;
-	}
-	while (*line && step1++ < step2)
-		line++;
-	while (*line)
-	{
-		buffer[i++] = *line;
-		line++;
-	}
-	newline = ft_strdup(buffer);
-	return (newline);
-}
-
-void	ft_suppress(char *from, char *to, char **line)
-{
-	char	*newline;
-	int		step1;
-	int		step2;
-
-	step1 = ft_strlen(*line) - ft_strlen(from);
-	step2 = ft_strlen(*line) - ft_strlen(to);
-	newline = get_newline(*line, step1, step2);
-	free(*line);
-	*line = newline;
-}
 
 static void	take_heredoc_out(char **line)
 {
