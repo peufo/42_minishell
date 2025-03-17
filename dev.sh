@@ -18,6 +18,11 @@ fi
 watch() {
 	STATE_A=""
 	PROG_PID=""
+	TEST_DIR="test"
+	if [[ $2 != "" ]] ; then
+		TEST_DIR=$2
+	fi
+
 	while [[ true ]]
 	do
 		STATE_B=$(get_state)
@@ -36,9 +41,9 @@ watch() {
 				info "───────────────────────────────────────────────────\n"
 
 				if [[ $1 != "" ]] ; then
-					run_test "test/$1.sh"
+					run_test "$TEST_DIR/$1.sh"
 				else
-					for TEST_FILE in ./test/*.sh ; do 
+					for TEST_FILE in $TEST_DIR/*.sh ; do 
 						run_test "$TEST_FILE"
 					done
 				fi
@@ -59,7 +64,7 @@ run_test() {
 	local LOG_FILE="$LOG_DIR/$TEST_NAME/mini.log"
 	local LOG_FILE_ERR="$LOG_DIR/$TEST_NAME/mini_error.log"
 	$COMMAND > "$LOG_FILE" 2> "$LOG_FILE_ERR"
-	info "$TEST_NAME \ttest/$TEST_NAME.sh"
+	info "$TEST_NAME \t$TEST_FILE"
 	echo -e "mini\t\t$LOG_FILE\t$LOG_FILE_ERR"
 	get_diff $TEST_FILE $LOG_FILE $LOG_FILE_ERR
 	check_leaks
@@ -101,7 +106,8 @@ get_state() {
 	fi
 	SRC_STATE=$(find -L $SRC_DIR -type f -name "*.[ch]" -exec $MD5 {} \;)
 	TEST_STATE=$(find -L ./test -type f -name "*.sh" -exec $MD5 {} \;)
-	echo "$SRC_STATE $TEST_STATE"
+	TEST2_STATE=$(find -L ./testonline -type f -name "*.sh" -exec $MD5 {} \;)
+	echo "$SRC_STATE $TEST_STATE $TEST2_STATE"
 }
 
 sync_sources() {

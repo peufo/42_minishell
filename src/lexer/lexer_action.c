@@ -61,4 +61,6 @@ void	lexer_action(t_ast *node, t_lexer_state next_state)
 		handler = lexer_action_next_char;
 	handler(node);
 	node->lexer.state = next_state;
+	if (next_state == LEXER_META)
+		node->lexer.state = LEXER_DEFAULT;
 }
