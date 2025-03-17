@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:08:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/15 12:46:40 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 19:01:04 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	pipe_sentinel(char *line)
 	while (line[i] && ft_isspace(line[i]))
 		i++;
 	if ((line[i] && ft_isalnum(line[i])) || line[1] == '|' || line[i] == '('
-			|| line[i] == '<' || line[i] == '>')
+		|| line[i] == '<' || line[i] == '>')
 		return (0);
 	return (1);
 }

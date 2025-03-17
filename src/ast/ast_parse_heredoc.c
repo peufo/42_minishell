@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 08:36:55 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 18:38:55 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 19:00:07 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,18 @@
 
 static void	take_heredoc_out(char **line)
 {
-	bool	dquote;
-	bool	squote;
+	bool	quotes[2];
 	char	*cursor;
 	char	*from;
 	char	*head;
 
-	dquote = false;
-	squote = false;
+	ft_bzero(&quotes, sizeof(quotes));
 	cursor = ft_strdup(*line);
 	head = cursor;
 	while (*cursor)
 	{
-		check_quotes(*cursor, &dquote, &squote);
-		if (!dquote && !squote && check_redir(cursor))
+		check_quotes(*cursor, &quotes[0], &quotes[1]);
+		if (!quotes[0] && !quotes[1] && check_redir(cursor))
 		{
 			from = cursor;
 			while (*cursor == '<' || ft_isspace(*cursor))
@@ -63,8 +61,8 @@ static void	str_to_file(t_ast *node, t_input *input, int start)
 		return (throw(node, (char *[]){"Fuck heredocs\n", NULL}),
 			shell_exit(node->shell));
 	write(node->heredoc.fd_in,
-			input->redir_input[start - 1],
-			ft_strlen(input->redir_input[start - 1]));
+		input->redir_input[start - 1],
+		ft_strlen(input->redir_input[start - 1]));
 	string_array_push(&node->heredoc.files_in, ft_strdup(name));
 	close(node->heredoc.fd_in);
 }

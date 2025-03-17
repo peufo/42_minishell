@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 18:27:07 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 19:00:38 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	exec_redirect_open(
 	int std_fd)
 {
 	int	fd;
-	
+
 	if (!files)
 		return ;
 	while (*files)
