@@ -50,6 +50,8 @@
 		"unordered_set": "c",
 		"cstdio": "c",
 		"cstdlib": "c",
-		"new": "c"
+		"new": "c",
+		"*.tcc": "c",
+		"cwchar": "c"
 	}
 }
