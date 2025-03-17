@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/18 10:23:42 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 10:24:43 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ static void	suppress_last_line(char **newline, char *line)
 	
 	i = 0;
 	j = 0;
-//	printf("Line beeing treated : %s\n", line);
 	while (line[i])
 		if (line[i++] == '\n')
 			j++;
@@ -112,7 +111,6 @@ static void	suppress_last_line(char **newline, char *line)
 	}
 	free(*newline);
 	*newline = buf;
-//	printf("Newline is %s\n", buf);
 }
 
 void	checkout_from_redir(t_sh *shell)
@@ -121,7 +119,6 @@ void	checkout_from_redir(t_sh *shell)
 	char	*line;
 
 	i = 0;
-//	printf("yo\n");
 	if (!shell->input.redir_input || !shell->input.redir_input[0])
 		return ;
 	line = ft_strchr(shell->input.redir_input[0], '\n');

@@ -6,26 +6,11 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 08:36:55 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 15:02:27 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 15:39:28 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-static char	*join_with_dup(const char *a, const char *b, size_t len)
-{
-	char	*str;
-
-	if (!a || !b)
-		return (0);
-	str = ft_calloc(len, sizeof(*str));
-	if (!str)
-		return (str);
-	
-	ft_strlcat(str, ft_strdup(a), len);
-	ft_strlcat(str, ft_strdup(b), len);
-	return (str);
-}*/
 
 static char	*get_newline(char *line, int step1, int step2)
 {

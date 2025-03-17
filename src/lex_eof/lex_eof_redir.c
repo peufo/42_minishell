@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/18 10:23:20 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 10:24:51 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,18 @@ void	get_all_codes(t_input *input, char *cursor)
 	}
 }
 
+static char	*last_line(char *stack)
+{
+	char	*line;
+	
+	line = NULL;
+	printf("stack at : %s\n", stack);
+	return (line);
+}
+
 static bool	apply_redir_logic(t_input *input, t_sh *shell)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	input->is_redir = true;

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/18 10:24:22 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 10:24:34 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,20 @@ static void	exec_redirect_open(
 	{
 		fd = open(*files, open_flags, 0666);
 		if (fd == -1)
+		{
+			printf("Fd is invalid\n");
 			shell_exit(node->shell);
+		}
 		if (dup2(fd, std_fd) == -1)
+		{
+			printf("Dup2 failed\n");
 			shell_exit(node->shell);
+		}
 		if (close(fd) == -1)
+		{
+			printf("Close-up failed\n");
 			shell_exit(node->shell);
+		}
 		files++;
 	}
 }
@@ -80,7 +89,7 @@ int	exec_command(t_ast *node)
 	t_exe	builtin;
 
 	lex(node, node->line);
-	exec_redirect(node, node->heredoc.files_in);
+	exec_redirect_open(node, node->heredoc.files_in, O_RDONLY, STDIN_FILENO);
 	exec_redirect(node, node->redir.files_in);
 	builtin = get_builtin(*node->tokens);
 	if (builtin)
