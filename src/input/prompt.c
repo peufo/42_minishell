@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:07:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 15:23:31 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/17 11:51:42 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static bool	is_cat_or_grep(char *line)
 		return (true);
 	return (false);
 }
+
 static void	add(t_sh *shell, char *msg, char *color)
 {
 	t_string	*prompt;

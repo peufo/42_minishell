@@ -1,8 +1,8 @@
-# cat Dockerfile .gitignore
-# ls -l
-# pwd
-# cd ..
-# ls
-# pwd
-e
+cat Dockerfile .gitignore
+ls -l
+pwd
+cd ..
+ls
+pwd
+prout
 echo $?

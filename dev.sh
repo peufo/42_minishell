@@ -30,7 +30,7 @@ watch() {
 			rm -f "$PROG"
 			make
 			if [ ! -f "$PROG" ]; then
-				warning "COMPILATION\ERROR"
+				error "COMPILATION\ERROR"
 			else
 				success "COMPILATION\tOK\n"
 				info "───────────────────────────────────────────────────\n"
@@ -84,12 +84,12 @@ get_diff() {
 	if [[ $DIFF == "" ]] ; then
 		success "DIFF\t\tOK"
 	else
-		warning "DIFF\t\tERROR\t$DIFF_FILE"
+		error "DIFF\t\tERROR\t$DIFF_FILE"
 	fi
 	if [[ $DIFF_ERR == "" ]] ; then
 		success "DIFF_ERR\tOK"
 	else
-		warning "DIFF_ERR\tERROR\t$DIFF_FILE_ERR"
+		warning "DIFF_ERR\tWARNING\t$DIFF_FILE_ERR"
 	fi
 }
 
@@ -119,7 +119,7 @@ norminette_pretty() {
 	if [[ $NORM_ERROR == "" ]] ; then
 		success "\nNORMINETTE\tOK\n"
 	else
-		warning "\nNORMINETTE\tERROR"
+		error "\nNORMINETTE\tERROR"
 		AWK_SCRIPT='{
 			if ($2 == "Error!") {
 				filename = $1;
@@ -143,18 +143,21 @@ check_leaks() {
 	if [[ $LEAKS_DETECTED == "" ]] ; then
 		success "LEAKS\t\tOK"
 	else
-		warning "LEAKS\t\tERROR\t./log/leaks.log"
+		error "LEAKS\t\tERROR\t./log/leaks.log"
 	fi
 }
 
 info() {
 	echo -e "\033[36m$1\033[0m"
 }
-warning() {
+error() {
 	echo -e "\033[31m$1\033[0m"
 }
 success() {
 	echo -e "\033[32m$1\033[0m"
+}
+warning() {
+	echo -e "\033[33m$1\033[0m"
 }
 
 watch "$@"

@@ -1,9 +1,8 @@
-#env | grep -v "_=" | grep -v "LD_PRELOAD="
 echo
 export PROUT
 export HAHA=
-env | grep -v "_=" | grep -v "LD_PRELOAD=" | sort
-export | grep -v "LD_PRELOAD=" | grep -b "_"
+env | grep -v "_=" | grep -v "LD_" | grep -v "GLIBC" | grep -v "SHLVL" | sort
+export | grep -v "_" | grep -v "GLIBC"
 
 echo "Salut $USER"
 echo "Salut Jonas"

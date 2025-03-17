@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:56 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 14:34:02 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/17 11:52:00 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,3 +140,4 @@ void	ast_parse_wildcard(t_ast *node)
 	free(node->line);
 	node->line = line.value;
 }
+
