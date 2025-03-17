@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/16 09:15:59 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 17:36:48 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,6 +338,7 @@ bool	ft_include(char *str, char c);
 int		ft_isop(char *str);
 char	*ft_strchrstr(const char *str, char *to_find);
 char	*ft_strrchrstr(const char *str, char *to_find);
+char	*get_line(int fd);
 
 // DEBUG =======================================================================
 void	debug_new_tokens(char **toks);

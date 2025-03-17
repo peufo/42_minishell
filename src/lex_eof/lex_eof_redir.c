@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/18 10:24:51 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 10:25:00 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,9 @@ void	get_all_codes(t_input *input, char *cursor)
 	}
 }
 
-static char	*last_line(char *stack)
-{
-	char	*line;
-	
-	line = NULL;
-	printf("stack at : %s\n", stack);
-	return (line);
-}
-
 static bool	apply_redir_logic(t_input *input, t_sh *shell)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	input->is_redir = true;
@@ -61,7 +52,8 @@ static bool	apply_redir_logic(t_input *input, t_sh *shell)
 		stack_to_buffer(&input->redir_input[i], input->redir_line);
 		if (input->redir_line)
 		{
-			if (!ft_strcmp(input->redir_line, input->redir_code[i]))
+			if (!ft_strncmp(input->redir_line,
+					input->redir_code[i], ft_strlen(input->redir_code[i])))
 				i++;
 		}
 		else if (input->line)
@@ -74,6 +66,7 @@ static bool	apply_redir_logic(t_input *input, t_sh *shell)
 		get_safe_readline_inputs(shell, input);
 	}
 	input->is_redir = false;
+	printf("Step ok\n");
 	return (true);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:55:21 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 16:20:30 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 17:49:03 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 		{
 			actualise(shell);
 			if (input->is_redir)
+			{
+				ft_putstr_fd(">>", 1);
 				input->redir_line = get_line(STDIN_FILENO);
+			}
 			else
 				input->line = readline("> ");
 			if (!input->line && !input->redir_line)
@@ -56,6 +59,7 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 				break ;
 		}
 	}
+	printf("OOUt\n");
 }
 
 static void	lex_eof_read_input(t_sh *shell, t_input *input)

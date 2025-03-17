@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:18:09 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 16:23:49 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 17:49:37 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,21 @@
 
 char	*get_line(int fd)
 {
-	char	*line;
+	ssize_t bytes_read;
+	char	buffer[256];
+	char	*stack = NULL;
 
-	line = NULL;
-	while ()
-	return (line);
+	while (1)
+	{
+		bytes_read = read(fd, buffer, sizeof(buffer) - 1);
+		if (bytes_read == -1)
+			return (free(stack), NULL);
+		else if (bytes_read == 0)
+			break ;
+		buffer[bytes_read] = '\0';
+		stack_to_buffer(&stack, buffer);
+		if (ft_strchr(buffer, '\0') != NULL)
+			break ;
+	}
+	return (stack);
 }
