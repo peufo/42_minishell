@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/14 14:16:44 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 10:17:02 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	exec_redirect_open(
 	int std_fd)
 {
 	int	fd;
-	
+
 	if (!files)
 		return ;
 	while (*files)
@@ -80,10 +80,8 @@ int	exec_command(t_ast *node)
 	lex(node, node->line);
 	exec_redirect(node);
 	builtin = get_builtin(*node->tokens);
-//	printf("Exec command\n");
 	if (builtin)
 	{
-//		printf("Builtin\n");
 		node->status = builtin(node);
 		node->shell->exit_status = node->status;
 		exec_redir_restore_std(node);
@@ -91,7 +89,6 @@ int	exec_command(t_ast *node)
 	}
 	if (node->is_child_process)
 	{
-//		printf("Children\n");
 		node->status = exec_bin(node);
 		exec_redir_restore_std(node);
 		node->shell->exit_status = node->status;
