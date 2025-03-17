@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:26:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/16 10:16:11 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/17 14:32:39 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	pick_redir(t_ast *node, char ***files, char *token)
 	}
 	return (0);
 }
-
+/*
 static void	debug_redir_struct(t_redir r)
 {
 	int	i;
@@ -77,7 +77,8 @@ static void	debug_redir_struct(t_redir r)
 	i = 0;
 	if (r.files_out_append && r.files_out_append[i])
 		printf("Files last append : %s\n", r.files_out_append[i++]);
-}
+}*/
+
 void	ast_parse_command(t_ast *node)
 {
 	char	*last_write;
@@ -85,15 +86,12 @@ void	ast_parse_command(t_ast *node)
 
 	node->type = AST_COMMAND;
 	ast_parse_heredoc(node);
-	printf("Line before command parse : %s\n", node->line);
 	last_write = ast_tokens_find_last(node->line, ">");
 	last_append = ast_tokens_find_last(node->line, ">>");
 	node->redir.is_last_append = (last_append && last_append >= last_write - 1);
 	pick_redir(node, &node->redir.files_out_append, ">>");
 	pick_redir(node, &node->redir.files_out, ">");
 	pick_redir(node, &node->redir.files_in, "<");
-	printf("Line after command parse : %s\n", node->line);
-	debug_redir_struct(node->redir);
 	ast_parse_tilde(node);
 	ast_parse_wildcard(node);
 }
