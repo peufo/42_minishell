@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_ast.c                                         :+:      :+:    :+:   */
+/*   get_line.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/17 15:50:28 by dyodlm           ###   ########.fr       */
+/*   Created: 2025/03/17 16:18:09 by dyodlm            #+#    #+#             */
+/*   Updated: 2025/03/17 16:23:49 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_ast(t_ast *node)
+char	*get_line(int fd)
 {
-	t_exe			handler;
-	static t_exe	handlers[] = {
-	[AST_COMMAND] = exec_command,
-	[AST_SUBSHELL] = exec_subshell,
-	[AST_AND] = exec_and,
-	[AST_OR] = exec_or,
-	[AST_PIPELINE] = exec_pipeline
-	};
+	char	*line;
 
-	if (node->status)
-		return (node->status);
-	handler = handlers[node->type];
-	if (!handler)
-		return (shell_exit(node->shell), 1);
-	return (handler(node));
+	line = NULL;
+	while ()
+	return (line);
 }
