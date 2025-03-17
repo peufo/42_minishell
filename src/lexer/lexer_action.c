@@ -14,7 +14,8 @@
 
 void	lexer_action_next_char(t_ast *node)
 {
-	node->lexer.cursor++;
+	if (*(node->lexer.cursor))
+		node->lexer.cursor++;
 }
 
 void	lexer_action_skip_blank(t_ast *node)
