@@ -26,7 +26,10 @@ cat < $FILE_A
 grep o < $FILE_A
 grep . $FILE_A $FILE_B
 echo "YOLO" > $FILE_A >> $FILE_B 
+grep . $FILE_A $FILE_B
 echo "YALA" > $FILE_A >> $FILE_B >> $FILE_C
+grep . $FILE_A $FILE_B $FILE_C
+echo "HOHO" >> $FILE_A
 grep . $FILE_A $FILE_B $FILE_C
 grep "=" < Makefile > $FILE_A >> $FILE_B
 grep . $FILE_A $FILE_B $FILE_C
