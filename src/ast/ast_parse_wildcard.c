@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:56 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/17 13:54:39 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:22:45 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,21 @@ static void	wild_get_files(t_ast *node, t_wild *wild)
 	dirp = opendir(cwd);
 	if (!dirp)
 		return (shell_exit(node->shell));
-	while (true)
+	dp = (struct dirent *)1;
+	while (dp)
 	{
 		dp = readdir(dirp);
-		if (!dp)
-			break ;
-		if (match(dp->d_name, wild))
-			string_array_push(&files, ft_strdup(dp->d_name));
+		if (dp && match(dp->d_name, wild))
+			string_array_push(&files, ft_strcat_arr((char *[]){
+					"'",
+					dp->d_name,
+					"'",
+					NULL}));
 	}
 	closedir(dirp);
 	string_array_sort_alpha(files);
 	wild->files = string_array_join(files, " ");
 	string_array_free(&files);
-	return ;
 }
 
 static void	wild_free(t_wild *wild)
@@ -135,4 +137,3 @@ void	ast_parse_wildcard(t_ast *node)
 	free(node->line);
 	node->line = line.value;
 }
-

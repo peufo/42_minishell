@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 22:24:54 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 12:55:43 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:16:16 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ size_t	ft_strlen(const char *str);
 size_t	ft_strlcpy(char *dst, const char *src, size_t len);
 size_t	ft_strlcat(char *dst, const char *src, size_t dsize);
 char	*ft_strcat(char *a, char *b);
+char	*ft_strcat_arr(char **arr);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memset(void *str, int c, size_t n);
 void	*ft_memcpy(void *dst, const void *src, size_t n);

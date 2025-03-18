@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:07:24 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/17 11:17:49 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:40:26 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ static void	ast_debug_line(t_ast *node)
 	line = ft_strdup(node->line);
 	if (!line)
 		return ;
+	if (!*line)
+	{
+		DEBUG("->[%s]->", line);
+		return ;
+	}
 	cursor = line;
 	while (*cursor)
 		cursor++;
