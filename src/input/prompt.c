@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:07:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/17 19:01:11 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/18 06:36:00 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ void	shell_update_prompt(t_sh *shell)
 	string_free(&shell->prompt);
 	string_push_str(&shell->prompt, "");
 	if (g_signal.is_sigint && shell->line && is_cat_or_grep(shell->line))
-	{
 		g_signal.is_sigint = false;
-		return ;
-	}
 	if (shell->exit_status)
 		base_color = PROMPT_RED;
 	else
