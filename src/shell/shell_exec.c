@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/15 09:15:43 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/18 14:27:21 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static void	basic_exec(t_sh *shell, int exec)
 {
 	if (exec)
 		lex_eof(shell);
-	if (did_eye_of_sawron(shell))
-		return ;
+	// if (did_eye_of_sawron(shell))
+	// 	return ;
 	treat_redirections(&shell->input, shell);
 	shell->ast = ast_create(shell, ft_strdup(shell->line));
 	ast_debug(shell->ast, 0);

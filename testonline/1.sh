@@ -35,91 +35,91 @@
 
 /bin/echo "$ "
 
-# /bin/echo hi >./log/outfile01 | /bin/echo bye
+/bin/echo hi >./log/outfile01 | /bin/echo bye
 
-# /bin/echo <123 <456 hi | /bin/echo 42
+/bin/echo <123 <456 hi | /bin/echo 42
 
-# /bin/echo '$='
+/bin/echo '$='
 
-# /bin/echo '$ '
+/bin/echo '$ '
 
-# /bin/echo "$?"
+/bin/echo "$?"
 
-# /bin/echo '$?'
+/bin/echo '$?'
 
-# /bin/echo "'$?'"
+/bin/echo "'$?'"
 
-# /bin/echo "cat lol.c | cat > lol.c"
+/bin/echo "cat lol.c | cat > lol.c"
 
-# /bin/echo "cat lol.c '|' cat > lol.c"
+/bin/echo "cat lol.c '|' cat > lol.c"
 
-# /bin/echo '$USER' "$USER" "text  ' text"
+/bin/echo '$USER' "$USER" "text  ' text"
 
-# /bin/echo $USER =intergalaktikus miaf*szomez
+/bin/echo $USER =intergalaktikus miaf*szomez
 
-# /bin/echo -n"-n" bonjour
+/bin/echo -n"-n" bonjour
 
-# /bin/echo "'$USER'"
+/bin/echo "'$USER'"
 
-# /bin/echo " '$USER' "
+/bin/echo " '$USER' "
 
-# /bin/echo text"$USER"
+/bin/echo text"$USER"
 
-# /bin/echo text"'$USER'" ' $USER '
+/bin/echo text"'$USER'" ' $USER '
 
-# /bin/echo "text"   "$USER"    "$USER"
+/bin/echo "text"   "$USER"    "$USER"
 
-# /bin/echo '              $USER          '
+/bin/echo '              $USER          '
 
-# /bin/echo ''''''''''$USER''''''''''
+/bin/echo ''''''''''$USER''''''''''
 
-# /bin/echo """"""""$USER""""""""
+/bin/echo """"""""$USER""""""""
 
-# /bin/echo '""""""""$USER""""""""'
+/bin/echo '""""""""$USER""""""""'
 
-# /bin/echo ""'""""""$USER""""""'""
+/bin/echo ""'""""""$USER""""""'""
 
-# /bin/echo """"""""'$USER'""""""""
+/bin/echo """"""""'$USER'""""""""
 
-# /bin/echo """""""'"$USER"'"""""""
+/bin/echo """""""'"$USER"'"""""""
 
-# /bin/echo """"""'""$USER""'""""""
+/bin/echo """"""'""$USER""'""""""
 
-# /bin/echo ""'""'""""$USER""""'""'""
+/bin/echo ""'""'""""$USER""""'""'""
 
-# /bin/echo '""'""'""""$USER""""'""'""'
+/bin/echo '""'""'""""$USER""""'""'""'
 
-# /bin/echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
+/bin/echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
 
-# /bin/echo "text" "text$USER" ... "$USER"
+/bin/echo "text" "text$USER" ... "$USER"
 
-# /bin/echo
+/bin/echo
 
-# /bin/echo ''
+/bin/echo ''
 
-# /bin/echo ""
+/bin/echo ""
 
-# /bin/echo '' ""
+/bin/echo '' ""
 
-# /bin/echo /bin/echo
+/bin/echo /bin/echo
 
-# /bin/echo test1
+/bin/echo test1
 
-# /bin/echo 'test1'
+/bin/echo 'test1'
 
-# /bin/echo "/bin/echo hallo"
+/bin/echo "/bin/echo hallo"
 
-# /bin/echo /bin/echo"1"
+/bin/echo /bin/echo"1"
 
-# /bin/echo "test1 test2"
+/bin/echo "test1 test2"
 
-# /bin/echo "test1  test2" test3
+/bin/echo "test1  test2" test3
 
-# /bin/echo " test1 test2 " 'test3 '
+/bin/echo " test1 test2 " 'test3 '
 
-# /bin/echo test1		test2
+/bin/echo test1		test2
 
-# /bin/echo $USER$TESTNOTFOUND$HOME$
+/bin/echo $USER$TESTNOTFOUND$HOME$
 
 # /bin/echo $USER$TESTNOTFOUND$HOME$WTF$PWD
 
