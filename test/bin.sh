@@ -4,3 +4,5 @@ pwd
 cd ..
 ls
 pwd
+prout
+echo $?

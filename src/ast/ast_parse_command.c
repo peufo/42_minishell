@@ -44,6 +44,7 @@ static int	pick_redir(t_ast *node, char ***files, char *token)
 	char	*cursor;
 	char	*word;
 	int		token_len;
+	char	*word_start;
 
 	if (node->status)
 		return (node->status);
@@ -57,7 +58,10 @@ static int	pick_redir(t_ast *node, char ***files, char *token)
 		if (!word)
 			return (throw(node, (char *[]){"parse error", NULL}));
 		string_array_push(files, word);
-		delete_chars(cursor, ast_tokens_find(cursor + token_len + 1, " "));
+		word_start = cursor + token_len;
+		if (*word_start == ' ')
+			word_start++;
+		delete_chars(cursor, ast_tokens_find(word_start, " "));
 		cursor = ast_tokens_find(cursor, token);
 	}
 	return (0);

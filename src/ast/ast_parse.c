@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ast_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 01:11:30 by jvoisard          #+#    #+#             */
 /*   Updated: 2025/03/15 12:50:25 by dyodlm           ###   ########.fr       */

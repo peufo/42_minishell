@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_debug.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:07:24 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/08 09:27:57 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/18 17:00:55 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ static void	ast_debug_line(t_ast *node)
 	line = ft_strdup(node->line);
 	if (!line)
 		return ;
+	if (!*line)
+	{
+		DEBUG("->[%s]->", line);
+		free(line);
+		return ;
+	}
 	cursor = line;
 	while (*cursor)
 		cursor++;
@@ -82,6 +88,7 @@ void	ast_debug(t_ast *node, int deep)
 	ast_debug_files(node->redir.files_in);
 	ast_debug_line(node);
 	ast_debug_files(node->redir.files_out);
+	ast_debug_files(node->redir.files_out_append);
 	DEBUG("\n");
 	ast_debug_children(node, deep);
 }

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   lex_eof_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
 /*   Updated: 2025/03/18 06:37:39 by dyodlm           ###   ########.fr       */

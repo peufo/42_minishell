@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   lex_eof_help_redir.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
 /*   Updated: 2025/03/18 06:42:41 by dyodlm           ###   ########.fr       */
@@ -42,12 +42,9 @@ void	safe_init_redir_array(t_sh *shell, t_input *input)
 	bool	dquote;
 	bool	squote;
 
-	dquote = false;
-	squote = false;
-	if (input->state == INPUT_DQUOTE)
-		dquote = true;
-	if (input->state == INPUT_QUOTE)
-		squote = true;
+	count = 0;
+	dquote = input->state == INPUT_DQUOTE;
+	squote = input->state == INPUT_QUOTE;
 	if (input->redir_line)
 		count = count_redir_in_line(shell, input->redir_line, dquote, squote);
 	else if (input->line)

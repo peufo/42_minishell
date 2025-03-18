@@ -35,7 +35,7 @@
 
 /bin/echo "$ "
 
-/bin/echo hi >./outfiles/outfile01 | /bin/echo bye
+/bin/echo hi >./log/outfile01 | /bin/echo bye
 
 /bin/echo <123 <456 hi | /bin/echo 42
 
@@ -48,20 +48,6 @@
 /bin/echo '$?'
 
 /bin/echo "'$?'"
-
-/bin/echo \$USER
-
-/bin/echo \\$USER
-
-/bin/echo \\\$USER
-
-/bin/echo \\\\$USER
-
-/bin/echo \\\\\$USER
-
-/bin/echo \\\\\\\\\$USER
-
-/bin/echo \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\$USER \$PATH \\$PWD
 
 /bin/echo "cat lol.c | cat > lol.c"
 

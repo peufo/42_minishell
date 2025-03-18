@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_bin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:12:21 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 15:01:07 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:25:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,12 @@ static char	*find_bin(char *dir, char *name)
 	return (NULL);
 }
 
-int	exec_bin(t_ast *node)
+static char	*get_bin_path(t_ast *node)
 {
 	char	**paths;
 	char	**dir;
 	char	*bin;
 
-	if (**node->tokens == '.' || **node->tokens == '/')
-	{
-		if (execve(*node->tokens, node->tokens, node->shell->env) == -1)
-			shell_exit(node->shell);
-		return (0);
-	}
 	paths = get_paths(node->shell);
 	dir = paths;
 	bin = NULL;
@@ -101,10 +95,31 @@ int	exec_bin(t_ast *node)
 		dir++;
 	}
 	string_array_free(&paths);
-	if (!bin)
-		return (throw(node, (char *[]){"Command not found", NULL}));
+	return (bin);
+}
+
+int	exec_bin(t_ast *node)
+{
+	char	*bin_path;
+
+	if (**node->tokens == '.' || **node->tokens == '/')
+	{
+		if (execve(*node->tokens, node->tokens, node->shell->env) == -1)
+			shell_exit(node->shell);
+		return (0);
+	}
+	bin_path = get_bin_path(node);
+	if (!bin_path)
+	{
+		node->status = 127;
+		node->shell->exit_status = 127;
+		return (throw(node, (char *[]){
+				*node->tokens,
+				": command not found",
+				NULL}));
+	}
 	signal(SIGQUIT, SIG_DFL);
-	if (execve(bin, node->tokens, node->shell->env) == -1)
+	if (execve(bin_path, node->tokens, node->shell->env) == -1)
 		shell_exit(node->shell);
 	return (0);
 }

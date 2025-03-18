@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:15:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/12 18:46:47 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:48:52 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ char	*env_get(t_sh *shell, char *varname)
 	char	**arr_ptr;
 	char	*value;
 
+	if (!varname)
+		return (NULL);
 	arr_ptr = get_env_ptr(shell, varname);
 	if (!arr_ptr)
 		return (NULL);
