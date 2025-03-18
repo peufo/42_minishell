@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_create.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 00:30:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/12 14:48:01 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:29:22 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@ static void	ast_free_redir(t_ast **node)
 	string_array_free(&(*node)->redir.files_out_append);
 }
 
+static void	ast_free_heredoc(t_ast **node)
+{
+	if ((*node)->heredoc.files_in)
+		unlink(*(*node)->heredoc.files_in);
+	string_array_free(&(*node)->heredoc.files_in);
+}
+
 void	ast_free(t_ast **node)
 {
 	t_ast	**children;
@@ -48,6 +55,7 @@ void	ast_free(t_ast **node)
 		free((*node)->children);
 		(*node)->children = NULL;
 	}
+	ast_free_heredoc(node);
 	ast_free_redir(node);
 	string_array_free(&(*node)->tokens);
 	lex_free(&(*node)->lexer);

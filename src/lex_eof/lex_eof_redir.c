@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 13:58:29 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 06:37:39 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	transfer_shell_line(t_sh *shell)
 	shell->line = NULL;
 }
 
-static void	get_all_codes(t_input *input, char *cursor)
+void	get_all_codes(t_input *input, char *cursor)
 {
 	int		i;
 	char	*tmp;
@@ -52,7 +52,9 @@ static bool	apply_redir_logic(t_input *input, t_sh *shell)
 		stack_to_buffer(&input->redir_input[i], input->redir_line);
 		if (input->redir_line)
 		{
-			if (!ft_strcmp(input->redir_line, input->redir_code[i]))
+			if (!ft_strncmp(input->redir_line,
+					input->redir_code[i],
+					ft_strlen(input->redir_code[i])))
 				i++;
 		}
 		else if (input->line)
@@ -100,7 +102,9 @@ int	count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote)
 void	treat_redirections(t_input *input, t_sh *shell)
 {
 	char	*cursor;
+	char	*head;
 
+	head = ft_strdup(shell->line);
 	if (shell->line)
 		transfer_shell_line(shell);
 	safe_init_redir_array(shell, input);
@@ -114,5 +118,6 @@ void	treat_redirections(t_input *input, t_sh *shell)
 	if (!apply_redir_logic(input, shell))
 		return (shell_exit(shell));
 	checkout_from_redir(shell);
+	shell->line = head;
 	free(cursor);
 }

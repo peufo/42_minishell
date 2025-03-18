@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/15 15:35:54 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 06:42:41 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,43 @@ void	check_quotes(char c, bool *dquote, bool *quote)
 	}
 }
 
-bool	check_redir(char *cursor)
+static void	suppress_last_line(char **newline, char *line)
 {
-	if (cursor && cursor[0] == '<' && cursor[1] == '<')
-		return (true);
-	return (false);
+	int		i;
+	int		newlines;
+	char	*buf;
+
+	i = 0;
+	newlines = 0;
+	while (line[i])
+		if (line[i++] == '\n')
+			newlines++;
+	i = 0;
+	while (line[i] && newlines > 1)
+		if (line[i++] == '\n')
+			newlines--;
+	newlines = 0;
+	buf = ft_calloc(i + 1, 1);
+	while (i-- > 0 && line[newlines])
+	{
+		buf[newlines] = line[newlines];
+		newlines++;
+	}
+	free(*newline);
+	*newline = buf;
 }
 
 void	checkout_from_redir(t_sh *shell)
 {
-	if (shell->input.stack)
-		shell->line = ft_strdup(shell->input.stack);
-	else if (shell->input.line)
-		shell->line = ft_strdup(shell->input.line);
+	int		i;
+	char	*line;
+
+	i = 0;
+	if (!shell->input.redir_input || !shell->input.redir_input[0])
+		return ;
+	line = ft_strchr(shell->input.redir_input[0], '\n');
+	suppress_last_line(&shell->input.redir_input[0], line);
+	while (shell->input.redir_input[i] && ++i < shell->input.nb_redir)
+		suppress_last_line(&shell->input.redir_input[i],
+			shell->input.redir_input[i]);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_parse_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:26:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/18 16:32:51 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:50:47 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,22 @@ static int	pick_redir(t_ast *node, char ***files, char *token)
 	}
 	return (0);
 }
+/*
+static void	debug_redir_struct(t_redir r)
+{
+	int	i;
+
+	i = 0;
+	printf("\nDEBUG REDIR STRUCT\n");
+	while (r.files_in && r.files_in[i])
+		printf("Files in : %s\n", r.files_in[i++]);
+	i = 0;
+	if (r.files_out && r.files_out[i])
+		printf("Files out : %s\n", r.files_out[i++]);
+	i = 0;
+	if (r.files_out_append && r.files_out_append[i])
+		printf("Files last append : %s\n", r.files_out_append[i++]);
+}*/
 
 void	ast_parse_command(t_ast *node)
 {
@@ -73,6 +89,7 @@ void	ast_parse_command(t_ast *node)
 	char	*last_append;
 
 	node->type = AST_COMMAND;
+	ast_parse_heredoc(node);
 	last_write = ast_tokens_find_last(node->line, ">");
 	last_append = ast_tokens_find_last(node->line, ">>");
 	node->redir.is_last_append = (last_append && last_append >= last_write - 1);

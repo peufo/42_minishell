@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/18 15:52:16 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:21:54 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ bool	is_empty_line(char *line);
 void	treat_redirections(t_input *input, t_sh *shell);
 char	*catch_the_redir_code(char *line);
 void	get_safe_readline_inputs(t_sh *shell, t_input *input);
+void	get_all_codes(t_input *input, char *cursor);
 
 // LEXER =======================================================================
 
@@ -257,6 +258,7 @@ struct s_ast
 	t_pipe	*pipes;
 	t_pipe	*pipe_out;
 	t_redir	redir;
+	t_redir	heredoc;
 };
 
 t_ast	*ast_create(t_sh *shell, char *line);
@@ -264,6 +266,7 @@ void	ast_parse_command(t_ast *node);
 void	ast_free(t_ast **node);
 void	ast_parse(t_ast *node);
 int		ast_parse_pipe(t_ast *node);
+void	ast_parse_heredoc(t_ast *node);
 int		ast_parse_subshell(t_ast *node);
 void	ast_parse_tilde(t_ast *node);
 void	ast_parse_wildcard(t_ast *node);
@@ -327,6 +330,7 @@ void	exec_child(t_ast *node, t_exe exe);
 int		exec_command(t_ast *node);
 int		exec_subshell(t_ast *node);
 int		exec_pipeline(t_ast *node);
+int		exec_heredoc(t_ast *node);
 int		exec_and(t_ast *node);
 int		exec_or(t_ast *node);
 t_exe	get_exe(t_ast *node);
@@ -338,6 +342,8 @@ bool	ft_include(char *str, char c);
 int		ft_isop(char *str);
 char	*ft_strchrstr(const char *str, char *to_find);
 char	*ft_strrchrstr(const char *str, char *to_find);
+char	*get_line(int fd);
+void	ft_suppress(char *from, char *to, char **line);
 
 // DEBUG =======================================================================
 void	debug_new_tokens(char **toks);
