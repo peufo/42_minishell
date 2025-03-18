@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:06:10 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/17 10:24:52 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:03:52 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,18 @@ int	throw_shell(t_sh *shell, char **error)
 
 int	throw(t_ast *node, char **error)
 {
-	ft_putstr_fd(node->shell->name, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	while (*error)
-		ft_putstr_fd(*(error++), STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
+	if (error)
+	{
+		ft_putstr_fd(node->shell->name, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		while (*error)
+			ft_putstr_fd(*(error++), STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+	}
+	else
+	{
+		perror(node->shell->name);
+	}
 	if (!node->status)
 	{
 		node->status = 1;

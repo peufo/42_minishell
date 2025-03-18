@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:07:24 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/18 14:40:26 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:00:55 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static void	ast_debug_line(t_ast *node)
 	if (!*line)
 	{
 		DEBUG("->[%s]->", line);
+		free(line);
 		return ;
 	}
 	cursor = line;
