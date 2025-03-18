@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:55:21 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 19:01:23 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/18 16:18:18 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	lex_eof(t_sh *shell)
 		lex_eof_read_input(shell, &shell->input);
 		add_history(shell->input.stack);
 	}
-	if (shell->input.stack)
+	if (shell->input.stack && 1)
 		shell->line = ft_strdup(shell->input.stack);
 	else
 		shell_exit(shell);
