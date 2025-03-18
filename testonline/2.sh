@@ -2,70 +2,72 @@
 #                                PARSING HELL                                  #
 # **************************************************************************** #
 
-# ">>" asd
+cd log
+
+">>" asd
 
 >">" asd
-# /bin/rm -f ">"
+/bin/rm -f ">"
 
-# >> '$USER'
-# cat $USER
-# /bin/rm -f '$USER'
+>> '$USER'
+cat $USER
+/bin/rm -f '$USER'
 
-# >> '$USER'
-# cat '$USER'
-# /bin/rm -f '$USER'
+>> '$USER'
+cat '$USER'
+/bin/rm -f '$USER'
 
-# "echo "
+"echo "
 
-# "echo -nnnnn"
+"echo -nnnnn"
 
-# "ECho" -n -nnn"" "-"nnnnn
+"ECho" -n -nnn"" "-"nnnnn
 
-# "ECHO" "-n"
+"ECHO" "-n"
 
-# ECHO '''''-''n'
+ECHO '''''-''n'
 
-# echo '' -n
+echo '' -n
 
-# echo "" "" "" -n -n -n -n
+echo "" "" "" -n -n -n -n
 
-# >> $HOME
+>> $HOME
 
-# >> "$H"OM"E"
-# cat OME
-# /bin/rm -f OME
+>> "$H"OM"E"
+cat OME
+/bin/rm -f OME
 
-# >> "$USER'$USER'"
-# cat "$USER'$USER'"
-# /bin/rm -f "$USER'$USER'"
+>> "$USER'$USER'"
+cat "$USER'$USER'"
+/bin/rm -f "$USER'$USER'"
 
-# >> "$USER"
-# cat $USER
-# /bin/rm -f $USER
+>> "$USER"
+cat $USER
+/bin/rm -f $USER
 
-# cd $HOME/Desktop/
-# pwd
+cd $HOME/Desktop/
+pwd
 
-# cd "$HOME"/Desktop/
-# pwd
+cd "$HOME"/Desktop/
+pwd
 
-# cd "$H"O"ME"/Desktop/
-# echo $?
+cd "$H"O"ME"/Desktop/
+echo $?
 
-# export T=n
-# echo "-"$T$T
+export T=n
+echo "-"$T$T
 
-# export T=ech
-# echo $To
+export T=ech
+echo $To
 
-# export T=ech
-# echo $T"o"
+export T=ech
+echo $T"o"
 
-# export T=ech
-# echo $T"o "
+export T=ech
+echo $T"o "
 
-# export T=ech
-# echo $T"o -n"
+export T=ech
+echo $T"o -n"
 
 # export T=ech
 # echo $T"o -n"

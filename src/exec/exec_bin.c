@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:12:21 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/17 13:47:32 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:25:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,10 @@ int	exec_bin(t_ast *node)
 	{
 		node->status = 127;
 		node->shell->exit_status = 127;
-		return (throw(node, (char *[]){*node->tokens, ": command not found", NULL}));
+		return (throw(node, (char *[]){
+				*node->tokens,
+				": command not found",
+				NULL}));
 	}
 	signal(SIGQUIT, SIG_DFL);
 	if (execve(bin_path, node->tokens, node->shell->env) == -1)

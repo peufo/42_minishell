@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/18 12:03:22 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:52:16 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input);
 # define CHARSET_META "|&;()<>"
 # define CHARSET_SPACE " \t\n"
 # define CHARSET_META_SPACE "|&;()<> \t\n"
+# define CHARSET_ALHANUM "0123456789abcdefghijklmnopABCDEFGHIJKLMNOP"
 
 typedef enum e_lexer_state
 {
