@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:26:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 12:22:20 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:47:02 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	pick_redir(t_ast *node, char ***files, char *token)
 		if (!word)
 			return (throw(node, (char *[]){"parse error", NULL}));
 		string_array_push(files, word);
-		delete_chars(cursor, ast_tokens_find(cursor + token_len + 1, " "));
+		delete_chars(cursor, ast_tokens_find(cursor + token_len, " "));
 		cursor = ast_tokens_find(cursor, token);
 	}
 	return (0);
