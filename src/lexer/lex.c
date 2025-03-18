@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/18 13:07:36 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:32:53 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static t_lexer_state	get_next_state(t_ast *node)
 	{LEXER_VAR, "'", LEXER_QUOTE, false},
 	{LEXER_VAR, CHARSET_META, LEXER_META, false},
 	{LEXER_VAR, CHARSET_SPACE, LEXER_END_TOKEN, false},
-	{LEXER_VAR, "?*", LEXER_DEFAULT, false},
+	{LEXER_VAR, "?*$", LEXER_DEFAULT, false},
 	{LEXER_VAR_DQUOTE, "\"", LEXER_DEFAULT, false},
 	{LEXER_VAR_DQUOTE, CHARSET_META_SPACE, LEXER_DQUOTE, false},
 	{LEXER_VAR_DQUOTE, "'?*", LEXER_DQUOTE, false},
