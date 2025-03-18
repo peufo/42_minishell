@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 15:16:39 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:03:22 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,13 +156,15 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input);
 
 // LEXER =======================================================================
 
-# define CHARSET_META "|&;()<> \t\n"
-# define CHARSET_META_VISIBLE "|&;()<>"
+# define CHARSET_META "|&;()<>"
+# define CHARSET_SPACE " \t\n"
+# define CHARSET_META_SPACE "|&;()<> \t\n"
 
 typedef enum e_lexer_state
 {
 	LEXER_NO_STATE,
 	LEXER_DEFAULT,
+	LEXER_END_TOKEN,
 	LEXER_META,
 	LEXER_QUOTE,
 	LEXER_DQUOTE,
@@ -185,6 +187,7 @@ typedef struct e_lexer_next_state
 	t_lexer_state	state;
 	char			*charset;
 	t_lexer_state	next_state;
+	bool			invert_match;
 }	t_lexer_next_state;
 
 typedef void				(*t_lexer_state_handler)(t_ast *);

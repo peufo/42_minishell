@@ -6,25 +6,32 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/17 16:00:03 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:07:36 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// TODO use reverse_match.
 static t_lexer_state	find_next_state_match(
 	t_ast *node,
 	t_lexer_next_state *next_states)
 {
-	t_lexer_next_state			*next;
+	t_lexer_next_state	*n;
+	t_lexer				*lexer;
 
-	next = next_states;
-	while (next->state)
+	n = next_states;
+	lexer = &node->lexer;
+	while (n->state)
 	{
-		if (next->state == node->lexer.state
-			&& ft_include(next->charset, *node->lexer.cursor))
-			return (next->next_state);
-		next++;
+		if (n->state == lexer->state)
+		{
+			if (!n->charset)
+				return (n->next_state);
+			if (ft_include(n->charset, *lexer->cursor) ^ n->invert_match)
+				return (n->next_state);
+		}
+		n++;
 	}
 	return (LEXER_NO_STATE);
 }
@@ -32,21 +39,26 @@ static t_lexer_state	find_next_state_match(
 static t_lexer_state	get_next_state(t_ast *node)
 {
 	static t_lexer_next_state	next_states[] = {
-	{LEXER_DEFAULT, "\"", LEXER_DQUOTE},
-	{LEXER_DEFAULT, "'", LEXER_QUOTE},
-	{LEXER_DEFAULT, "$", LEXER_VAR},
-	{LEXER_DEFAULT, CHARSET_META, LEXER_META},
-	{LEXER_QUOTE, "'", LEXER_DEFAULT},
-	{LEXER_DQUOTE, "\"", LEXER_DEFAULT},
-	{LEXER_DQUOTE, "$", LEXER_VAR_DQUOTE},
-	{LEXER_VAR, "\"", LEXER_DQUOTE},
-	{LEXER_VAR, "'", LEXER_QUOTE},
-	{LEXER_VAR, CHARSET_META, LEXER_META},
-	{LEXER_VAR, "?*", LEXER_DEFAULT},
-	{LEXER_VAR_DQUOTE, "\"", LEXER_DEFAULT},
-	{LEXER_VAR_DQUOTE, CHARSET_META, LEXER_DQUOTE},
-	{LEXER_VAR_DQUOTE, "'?*", LEXER_DQUOTE},
-	{0, NULL, 0}
+	{LEXER_DEFAULT, "\"", LEXER_DQUOTE, false},
+	{LEXER_DEFAULT, "'", LEXER_QUOTE, false},
+	{LEXER_DEFAULT, "$", LEXER_VAR, false},
+	{LEXER_DEFAULT, CHARSET_META, LEXER_META, false},
+	{LEXER_DEFAULT, CHARSET_SPACE, LEXER_END_TOKEN, false},
+	{LEXER_QUOTE, "'", LEXER_DEFAULT, false},
+	{LEXER_DQUOTE, "\"", LEXER_DEFAULT, false},
+	{LEXER_DQUOTE, "$", LEXER_VAR_DQUOTE, false},
+	{LEXER_VAR, "\"", LEXER_DQUOTE, false},
+	{LEXER_VAR, "'", LEXER_QUOTE, false},
+	{LEXER_VAR, CHARSET_META, LEXER_META, false},
+	{LEXER_VAR, CHARSET_SPACE, LEXER_END_TOKEN, false},
+	{LEXER_VAR, "?*", LEXER_DEFAULT, false},
+	{LEXER_VAR_DQUOTE, "\"", LEXER_DEFAULT, false},
+	{LEXER_VAR_DQUOTE, CHARSET_META_SPACE, LEXER_DQUOTE, false},
+	{LEXER_VAR_DQUOTE, "'?*", LEXER_DQUOTE, false},
+	{LEXER_META, CHARSET_SPACE, LEXER_END_TOKEN, false},
+	{LEXER_META, CHARSET_META, LEXER_END_TOKEN, true},
+	{LEXER_END_TOKEN, NULL, LEXER_DEFAULT, false},
+	{0, NULL, 0, false}
 	};
 
 	return (find_next_state_match(node, next_states));
@@ -73,7 +85,7 @@ void	lex(t_ast *node, char *line)
 		else
 			lexer_state(node);
 	}
-	lexer_action(node, LEXER_META);
+	lexer_action(node, LEXER_END_TOKEN);
 	node->tokens = string_array_dup(node->lexer.tokens);
 }
 
