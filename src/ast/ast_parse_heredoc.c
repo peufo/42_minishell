@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 08:36:55 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 19:00:07 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/18 16:52:06 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ static void	str_to_file(t_ast *node, t_input *input, int start)
 		files = 0;
 		str_to_file(node, input, start);
 	}
-	if (node->redir.fd_in)
-		printf("There is an fd in heredoc \n");
 	node->heredoc.fd_in = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	if (node->heredoc.fd_in == -1)
 		return (throw(node, (char *[]){"Fuck heredocs\n", NULL}),
@@ -64,6 +62,7 @@ static void	str_to_file(t_ast *node, t_input *input, int start)
 		input->redir_input[start - 1],
 		ft_strlen(input->redir_input[start - 1]));
 	string_array_push(&node->heredoc.files_in, ft_strdup(name));
+	string_array_push(&node->redir.files_in, ft_strdup(name));
 	close(node->heredoc.fd_in);
 }
 

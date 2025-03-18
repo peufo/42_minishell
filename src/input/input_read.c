@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_read.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 15:23:29 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:37:52 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,17 @@ static bool	iss_empty_line(char *line)
 	return (1);
 }
 
+static void	brut_force_heredoc(t_sh *shell)
+{
+	if (shell->line)
+		free(shell->line);
+	shell->line = get_line(STDIN_FILENO);
+	if (shell->line && !iss_empty_line(shell->line))
+		add_history(shell->line);
+	else
+		shell_exit(shell);
+}
+
 bool	input_read(t_sh	*shell)
 {
 	shell_update_prompt(shell);
@@ -49,6 +60,8 @@ bool	input_read(t_sh	*shell)
 		{
 			if (!iss_empty_line(shell->line))
 				add_history(shell->line);
+			else
+				brut_force_heredoc(shell);
 		}
 	}
 	else
