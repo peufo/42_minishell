@@ -282,18 +282,18 @@ echo '$'$'$'$'$'$'$'
 
 echo "$"$'$'$"$"$"$"$'$'
 
-# echo $/ $/ 
+echo $/ $/ 
 
-# echo $U/SER
+echo $U/SER
 
-# echo "$/ $/"
+echo "$/ $/"
 
-# echo $/"$/"
+echo $/"$/"
 
-# echo '$/'
+echo '$/'
 
 # <| echo ok
 
 # >| echo sure
 
-# cd --
+cd --
