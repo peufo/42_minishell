@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/18 17:56:45 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/19 10:35:39 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,11 @@ static int	exec_redirect_open(
 static void	exec_redir_save_std(t_ast *node, t_redir *rh)
 {
 	(void)node;
-	if (rh->files_out || rh->files_out_append)
+	if (rh->files_out || rh->files_out_append || rh->files_in)
+	{
 		rh->fd_std_out = dup(STDOUT_FILENO);
+		rh->fd_std_in = dup(STDIN_FILENO);
+	}
 }
 
 static void	exec_redir_restore_std(t_ast *node, t_redir *rh)
@@ -48,8 +51,16 @@ static void	exec_redir_restore_std(t_ast *node, t_redir *rh)
 	(void)node;
 	if (rh->files_out || rh->files_out_append)
 	{
-		dup2(rh->fd_std_out, STDOUT_FILENO);
-		close(rh->fd_std_out);
+		if (rh->fd_std_out != -1)
+		{
+			dup2(rh->fd_std_out, STDOUT_FILENO);
+			close(rh->fd_std_out);
+		}
+		if (rh->fd_std_in != -1)
+		{
+			dup2(rh->fd_std_in, STDIN_FILENO);
+			close(rh->fd_std_in);
+		}
 	}
 }
 
@@ -63,6 +74,8 @@ static void	exec_redirect(t_ast *node)
 	files_out = node->redir.files_out;
 	files_append = node->redir.files_out_append;
 	exec_redir_save_std(node, &node->redir);
+	if (node->heredoc.files_in)
+		exec_redirect_open(node, node->heredoc.files_in, O_RDONLY, STDIN_FILENO);
 	if (node->redir.is_last_append)
 	{
 		exec_redirect_open(node, files_out, f_create, STDOUT_FILENO);
@@ -81,7 +94,6 @@ int	exec_command(t_ast *node)
 	t_exe	builtin;
 
 	lex(node, node->line);
-	exec_redirect_open(node, node->heredoc.files_in, O_RDONLY, STDERR_FILENO);
 	exec_redirect(node);
 	if (!node->tokens)
 	{

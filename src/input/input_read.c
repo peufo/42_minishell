@@ -6,12 +6,13 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/18 17:37:52 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/19 10:31:20 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "get_next_line.h"
+#include <sys/time.h>
 
 static bool	lex_check_start(char *line, t_input *input)
 {
@@ -33,15 +34,11 @@ static bool	iss_empty_line(char *line)
 	return (1);
 }
 
-static void	brut_force_heredoc(t_sh *shell)
+void brut_force_heredoc(t_sh *shell)
 {
-	if (shell->line)
-		free(shell->line);
-	shell->line = get_line(STDIN_FILENO);
-	if (shell->line && !iss_empty_line(shell->line))
-		add_history(shell->line);
-	else
-		shell_exit(shell);
+	(void)shell;
+	printf("You're fucked\n");
+	shell_exit(shell);
 }
 
 bool	input_read(t_sh	*shell)
