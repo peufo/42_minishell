@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 15:09:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/06 10:43:00 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:25:52 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static char	*get_bracket_open(char *line)
 
 static char	*get_bracket_close(char *line)
 {
+	if (!*line)
+		return (false);
 	while (*line)
 		line++;
 	line--;
