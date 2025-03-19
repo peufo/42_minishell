@@ -300,8 +300,8 @@
     },
     {
       "type": "rectangle",
-      "version": 790,
-      "versionNonce": 69342507,
+      "version": 792,
+      "versionNonce": 1391778007,
       "isDeleted": false,
       "id": "JAmVPykGGpvft0MaF3C1c",
       "fillStyle": "solid",
@@ -348,7 +348,7 @@
           "type": "arrow"
         }
       ],
-      "updated": 1742309544021,
+      "updated": 1742375009241,
       "link": null,
       "locked": false,
       "index": "a6"
@@ -4583,8 +4583,8 @@
       "type": "arrow",
       "x": 821.6351423549044,
       "y": 927.7951997552292,
-      "width": 3.3802861157272446,
-      "height": 241.3539017702442,
+      "width": 3.2241060675609106,
+      "height": 230.20257826887678,
       "angle": 0,
       "strokeColor": "#e03131",
       "backgroundColor": "transparent",

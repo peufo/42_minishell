@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/17 18:21:54 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/19 10:09:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,9 +202,11 @@ void	lexer_state(t_ast *node);
 void	lexer_action(t_ast *node, t_lexer_state next_state);
 void	lexer_action_end_token(t_ast *node);
 void	lexer_action_expand_var(t_ast *node);
+void	lexer_action_expand_var_dquote(t_ast *node);
 void	lexer_action_expand_var_end_token(t_ast *node);
 void	lexer_action_skip_blank(t_ast *node);
 void	lexer_action_next_char(t_ast *node);
+void	expand_exit_status(t_ast *node);
 
 // PARSER ====================================================================
 
