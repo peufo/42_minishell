@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 22:55:38 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:02:51 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,27 @@ int	builtin_export(t_ast *node)
 {
 	char	*identifier;
 	char	*value;
-	char	*token;
+	char	**token;
 
-	token = node->tokens[1];
-	if (!token)
+	token = node->tokens + 1;
+	if (!*token)
 		return (builtin_export_print(node));
-	identifier = take_identifier(token);
-	if (!identifier)
-		return (shell_exit(node->shell), 1);
-	if (!is_correct_identifier(identifier))
-		return (identifier_error(node, identifier));
-	value = ft_strdup(token);
-	if (!value)
+	while (*token)
 	{
+		identifier = take_identifier(*token);
+		if (!identifier)
+			return (shell_exit(node->shell), 1);
+		if (!is_correct_identifier(identifier))
+			return (identifier_error(node, identifier));
+		value = ft_strdup(*(token++));
+		if (!value)
+		{
+			free(identifier);
+			shell_exit(node->shell);
+			return (1);
+		}
+		env_set(node->shell, identifier, value);
 		free(identifier);
-		shell_exit(node->shell);
-		return (1);
 	}
-	env_set(node->shell, identifier, value);
-	free(identifier);
 	return (0);
 }

@@ -69,59 +69,59 @@ echo $T"o "
 export T=ech
 echo $T"o -n"
 
-# export T=ech
-# echo $T"o -n"
+export T=ech
+echo $T"o -n"
 
-# export T=ech
-# echo $T'o'
+export T=ech
+echo $T'o'
 
-# export T="-n test1 -n test 2"
-# echo $T
+export T="-n test1 -n test 2"
+echo $T
 
-# export T=ech
-# echo $T'o '
+export T=ech
+echo $T'o '
 
-# "ECHO"
+"ECHO"
 
-# 'echo'
+'echo'
 
-# 'PWD'
+'PWD'
 
-# "PWD"
+"PWD"
 
-# echo "-nnnnn "
+echo "-nnnnn "
 
-# ECHO -nn
+ECHO -nn
 
-# ECHO -n -n
+ECHO -n -n
 
-# ECHO "-"""n""n""n""n""n""nnnnnn-n
+ECHO "-"""n""n""n""n""n""nnnnnn-n
 
-# ECHO "-"""n""n""n""n""n""nnnnnn -n
+ECHO "-"""n""n""n""n""n""nnnnnn -n
 
-# export T=nnnnnnnn
-# echo "-""$T"nnnnnnnnnnnnn -nnnnnnnn"$T" '-'"$T"
+export T=nnnnnnnn
+echo "-""$T"nnnnnnnnnnnnn -nnnnnnnn"$T" '-'"$T"
 
-# export T=nnnnnnnn
-# echo "-""$T"nnnnnnnnnnnnn -nnnnnnnn"$T" '-''$T'
+export T=nnnnnnnn
+echo "-""$T"nnnnnnnnnnnnn -nnnnnnnn"$T" '-''$T'
 
-# export T=nnnnnnnn
-# echo "-"'$T'nnnnnnnnnnnnn -nnnnnnnn'$T' '-'"$T "
+export T=nnnnnnnn
+echo "-"'$T'nnnnnnnnnnnnn -nnnnnnnn'$T' '-'"$T "
 
-# export T=nnnnnnnn
-# echo "-"'$T'nnnnnnnnnnnnn -nnnnnnnn$T '-''$T '
+export T=nnnnnnnn
+echo "-"'$T'nnnnnnnnnnnnn -nnnnnnnn$T '-''$T '
 
-# export T=e E=c S=h L=o
-# $T$E$S$L
+export T=e E=c S=h L=o
+$T$E$S$L
 
-# export T=e E=c S=h L=o L=ok
-# $T$E$S$L
+export T=e E=c S=h L=o L=ok
+$T$E$S$L
 
-# export T=e E=c S=h L=o
-# $T$E$S$L -n
+export T=e E=c S=h L=o
+$T$E$S$L -n
 
-# export T=E E=c S=h L=o
-# $T$E$S$L -n
+export T=E E=c S=h L=o
+$T$E$S$L -n
 
 # export T=E E=c S=h L=o
 # $T$E$S$L -nn
