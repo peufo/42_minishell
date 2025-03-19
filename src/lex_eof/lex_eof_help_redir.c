@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_eof_help_redir.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/18 06:42:41 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/19 10:56:49 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,5 @@ void	checkout_from_redir(t_sh *shell)
 	while (shell->input.redir_input[i] && ++i < shell->input.nb_redir)
 		suppress_last_line(&shell->input.redir_input[i],
 			shell->input.redir_input[i]);
+//	printf("New line is\nSTART LINE :%sEND OF LINE\n", shell->input.redir_input[i]);
 }
