@@ -6,11 +6,21 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:13:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/19 11:11:44 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:20:33 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static bool	is_end_with_space(char *value)
+{
+	if (!*value)
+		return (false);
+	while (*value)
+		value++;
+	value--;
+	return (ft_include(" \t\n", *value));
+}
 
 static void	expand_var(t_ast *node)
 {
@@ -25,16 +35,17 @@ static void	expand_var(t_ast *node)
 	tokens = ft_split(value, ' ');
 	if (!tokens)
 		shell_exit(node->shell);
+	if (ft_include(" \t\n", *value))
+		lexer_action_end_token(node);
 	t = tokens;
 	while (*t)
 	{
 		string_push_str(&node->lexer.token, *(t++));
 		if (*t)
-		{
-			string_array_push(&node->lexer.tokens, node->lexer.token.value);
-			node->lexer.token.value = NULL;
-		}
+			lexer_action_end_token(node);
 	}
+	if (is_end_with_space(value))
+		lexer_action_end_token(node);
 	string_array_free(&tokens);
 }
 
