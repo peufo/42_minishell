@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:12:21 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/18 15:25:30 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:15:48 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ static char	*get_bin_path(t_ast *node)
 	char	*bin;
 
 	paths = get_paths(node->shell);
+	if (!paths)
+		return (NULL);
 	dir = paths;
 	bin = NULL;
 	while (*dir && !bin)

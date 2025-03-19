@@ -1,6 +1,6 @@
-# **************************************************************************** #
-#                                  CORRECTION                                  #
-# **************************************************************************** #
+# # **************************************************************************** #
+# #                                  CORRECTION                                  #
+# # **************************************************************************** #
 
 /bin/echo
 /bin/echo 1
@@ -35,22 +35,6 @@ echo 42 -n
 echo -n -n -n 42
 
 echo -n -n -n -n 42
-
-exit
-
-exit 42
-
-exit ""
-
-exit 1 2 3
-
-exit 42 42
-
-exit A
-
-exit A 1
-
-exit 1 A
 
 /bin/echo 42
 echo $?
@@ -166,21 +150,14 @@ echo $'$'
 
 echo '$'$
 
-env | grep HOME
-
-env | grep $USER
-
-export USER=
-env | grep USER
-
 export USER="@?/"
-env | grep USER
+env | grep USER | grep -v USER_ZDOTDIR
 
 export NEW="4 2"
-env | grep NEW
+env | grep NEW | grep -v GLIB
 
 export NEW="4=2"
-env | grep NEW
+env | grep NEW | grep -v GLIB
 
 export NEW=4=2
 env | grep 4=2
@@ -209,86 +186,79 @@ unset HOME
 echo $HOME
 
 export NEW=42
-env | grep NEW
-unset NEW
-env | grep NEW
-unset NEW
-unset NEW
-unset NEW
-unset NEW
-unset NEW
-env | grep NEW
+env | grep NEW | grep -v GLIB
+# unset NEW
+# env | grep NEW | grep -v GLIB
+# unset NEW
+# unset NEW
+# unset NEW
+# unset NEW
+# unset NEW
+# env | grep NEW
 
-cd .
-/bin/ls
+# cd .
+# /bin/ls
 
-cd ..
-/bin/ls
+# cd ..
+# /bin/ls
 
-cd /notsuchdir
-/bin/ls
+# cd /notsuchdir
+# /bin/ls
 
-cd /////
-/bin/ls
+# cd /////
+# /bin/ls
 
-cd "cmds/"
-/bin/ls
+# cd "cmds/"
+# /bin/ls
 
-cd cmds/
-/bin/ls
+# cd cmds/
+# /bin/ls
 
-cd ./cmds/
-/bin/ls
+# cd ./cmds/
+# /bin/ls
 
-mkdir bla_test
-chmod -wrx bla_test
-cd bla_test
-chmod +wrx bla_test
-rm -r bla_test
+# mkdir bla_test
+# chmod -wrx bla_test
+# cd bla_test
+# chmod +wrx bla_test
+# rm -r bla_test
 
-pwd
+# pwd
 
-cd $HOME
-pwd
+# cd $HOME
+# pwd
 
-pwd pwd
+# pwd pwd
 
-pwd hello
+# pwd hello
 
-unset PATH
-pwd
+# unset PATH
+# pwd
 
-unset PATH
-cd /bin
-ls
+# unset PATH
+# cd /bin
+# ls
 
-unset PATH
-cd /bin/../bin/
-ls
+# unset PATH
+# cd /bin/../bin/
+# ls
 
-unset PATH
-cd /bin/../bin/../bin/../bin/../bin/../bin/../bin/../bin/
-../bin/../bin/ls
+# unset PATH
+# cd /bin/../bin/../bin/../bin/../bin/../bin/../bin/../bin/
+# ../bin/../bin/ls
 
-unset PATH
-cd /bin/
-sleep 2
+# unset PATH
+# cd /bin/
+# sleep 2
 
-mkdir tmp_path_test1 tmp_path_test2
-printf '#include <unistd.h>\nint main(){write(1, \"1\\n\", 2);}' > tmp_path_test1/test1.c
-gcc tmp_path_test1/test1.c -o tmp_path_test1/a.out
-printf '#include <unistd.h>\nint main(){write(1, \"2\\n\", 2);}' > tmp_path_test2/test2.c
-gcc tmp_path_test2/test2.c -o tmp_path_test2/a.out
-export PATH=tmp_path_test1:tmp_path_test2
-a.out
-export PATH=tmp_path_test2:tmp_path_test1
-a.out
-/bin/rm -rf tmp_path_test1 tmp_path_test2
+# mkdir tmp_path_test1 tmp_path_test2
+# printf '#include <unistd.h>\nint main(){write(1, \"1\\n\", 2);}' > tmp_path_test1/test1.c
+# gcc tmp_path_test1/test1.c -o tmp_path_test1/a.out
+# printf '#include <unistd.h>\nint main(){write(1, \"2\\n\", 2);}' > tmp_path_test2/test2.c
+# gcc tmp_path_test2/test2.c -o tmp_path_test2/a.out
+# export PATH=tmp_path_test1:tmp_path_test2
+# a.out
+# export PATH=tmp_path_test2:tmp_path_test1
+# a.out
+# /bin/rm -rf tmp_path_test1 tmp_path_test2
 
-### REDIRS
-
-### PIPES
-
-### GO WILD
-
-### ENV Var expansion

@@ -2,5 +2,5 @@
 # /bin/echo <123 <456 hi | /bin/echo 42
 # |ls | ls
 
-export X="  A  B  "
-/bin/echo "a"$X'b'
+export NEW=42
+env | grep NEW | grep -v GLIB
