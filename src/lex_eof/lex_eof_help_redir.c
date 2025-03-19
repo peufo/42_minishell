@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/19 10:56:49 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/19 11:07:29 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,12 @@ void	check_quotes(char c, bool *dquote, bool *quote)
 static void	suppress_last_line(char **newline, char *line)
 {
 	int		i;
+	int		j;
 	int		newlines;
 	char	*buf;
 
 	i = 0;
+	j = 0;
 	newlines = 0;
 	while (line[i])
 		if (line[i++] == '\n')
@@ -97,9 +99,9 @@ static void	suppress_last_line(char **newline, char *line)
 			newlines--;
 	newlines = 0;
 	buf = ft_calloc(i + 1, 1);
-	while (i-- > 0 && line[newlines])
+	while (i-- > 0 && line[newlines + j])
 	{
-		buf[newlines] = line[newlines];
+		buf[newlines] = line[newlines + j];
 		newlines++;
 	}
 	free(*newline);
