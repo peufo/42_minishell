@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/19 11:07:29 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/19 13:32:11 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,25 +83,23 @@ void	check_quotes(char c, bool *dquote, bool *quote)
 static void	suppress_last_line(char **newline, char *line)
 {
 	int		i;
-	int		j;
 	int		newlines;
 	char	*buf;
 
 	i = 0;
-	j = 0;
 	newlines = 0;
 	while (line[i])
 		if (line[i++] == '\n')
 			newlines++;
 	i = 0;
-	while (line[i] && newlines > 1)
+	while (line[i] && newlines >= 0)
 		if (line[i++] == '\n')
 			newlines--;
 	newlines = 0;
 	buf = ft_calloc(i + 1, 1);
-	while (i-- > 0 && line[newlines + j])
+	while (i-- > 0 && line[newlines + 3])
 	{
-		buf[newlines] = line[newlines + j];
+		buf[newlines] = line[newlines];
 		newlines++;
 	}
 	free(*newline);
@@ -117,9 +115,9 @@ void	checkout_from_redir(t_sh *shell)
 	if (!shell->input.redir_input || !shell->input.redir_input[0])
 		return ;
 	line = ft_strchr(shell->input.redir_input[0], '\n');
+	line++;
 	suppress_last_line(&shell->input.redir_input[0], line);
 	while (shell->input.redir_input[i] && ++i < shell->input.nb_redir)
 		suppress_last_line(&shell->input.redir_input[i],
 			shell->input.redir_input[i]);
-//	printf("New line is\nSTART LINE :%sEND OF LINE\n", shell->input.redir_input[i]);
 }
