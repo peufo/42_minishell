@@ -134,7 +134,7 @@
 
 # echo -n -n -n -n -n test1
 
-echo -
+# echo -
 # echo --
 
 # echo "  -nn "
@@ -171,7 +171,7 @@ echo -
 
 # ECHO
 
-# ### CD ###
+# # ### CD ###
 # pwd
 # cd
 # pwd
@@ -272,9 +272,9 @@ echo -
 # cd _
 # pwd
 
-# cd ../../
-# cd -
-# cd -
+cd ../../
+cd -
+cd -
 
 # pwd
 # cd echo
