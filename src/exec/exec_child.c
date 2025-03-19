@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:08:33 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/19 10:03:16 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/19 10:38:15 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	pipes_inv_connect(t_ast *node)
 		close_fd(node, node->pipe_out->in);
 	}
 }
+
 static void	pipes_connect(t_ast *node)
 {
 	pipe_debug(node, "CONNECT");

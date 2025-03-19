@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/19 10:31:20 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/19 10:38:47 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,6 @@ static bool	iss_empty_line(char *line)
 	return (1);
 }
 
-void brut_force_heredoc(t_sh *shell)
-{
-	(void)shell;
-	printf("You're fucked\n");
-	shell_exit(shell);
-}
-
 bool	input_read(t_sh	*shell)
 {
 	shell_update_prompt(shell);
@@ -57,8 +50,6 @@ bool	input_read(t_sh	*shell)
 		{
 			if (!iss_empty_line(shell->line))
 				add_history(shell->line);
-			else
-				brut_force_heredoc(shell);
 		}
 	}
 	else

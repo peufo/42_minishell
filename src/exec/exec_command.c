@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/19 10:35:39 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/19 10:37:22 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ static void	exec_redirect(t_ast *node)
 	files_append = node->redir.files_out_append;
 	exec_redir_save_std(node, &node->redir);
 	if (node->heredoc.files_in)
-		exec_redirect_open(node, node->heredoc.files_in, O_RDONLY, STDIN_FILENO);
+		exec_redirect_open(node,
+			node->heredoc.files_in,
+			O_RDONLY, STDIN_FILENO);
 	if (node->redir.is_last_append)
 	{
 		exec_redirect_open(node, files_out, f_create, STDOUT_FILENO);
