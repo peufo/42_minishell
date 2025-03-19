@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/17 10:27:10 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:31:54 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,6 @@ void	shell_exit(t_sh *shell)
 	if (errno)
 		perror(shell->name);
 	if (errno && !shell->exit_status)
-		exit(1);
+		exit(errno);
 	exit(shell->exit_status);
 }
