@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:38:02 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 15:35:51 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:47:52 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 int	builtin_unset(t_ast *node)
 {
-	if (!node->tokens[1])
-		return (0);
-	env_unset(node->shell, node->tokens[1]);
+	char	**token;
+
+	token = node->tokens + 1;
+
+	while (*token)
+		env_unset(node->shell, *(token++));
 	return (0);
 }

@@ -1,69 +1,117 @@
 # **************************************************************************** #
-#                                  PATH FAILS                                  #
+#                                     SCMD                                     #
 # **************************************************************************** #
 
-unset PATH
-echo $PATH
-/bin/ls
-echo 1
-cd -
-echo 42
+ls
 
-unset PATH
-echo 42
-unset PATH
-unset PATH
-unset PATH
-echo $PATH
-echo 1
-echo 42
+cat cmds.sh
 
-export PATH=""
-echo $PATH
+/bin/echo test1
 
-echo 1
+""
 
-cd -
+touch ""
 
-cd .
+touch "  "
+/bin/rm -f "  "
 
-cd ~
 
-cd ~/Desktop/
+touch "
+"
+/bin/rm -f "
+"
+
+mkdir " "
+/bin/rm -rf " "
+
+asd
+expr $? + $?
+
+expr 21 + 21
+
+"ls"
+
+"cat cmds.sh"
+
+"/bin/echo" test1
+
+'/bin/echo test1'
+
+awk '$1 ~ /^d/ {print $9}'
+
+awk 'BEGIN{for(i=1;i<=10;i++){for(j=1;j<=10;j++){printf("%4d ",i*j)} printf("\n")}}' /dev/null | tail -n 10
+
+awk 'BEGIN{for(i=1;i<=1000000;i++)print int(i)}' | awk '{sum+=$1} END {print sum/NR}'
+
+asd
+echo asd
+echo $?
+
+asd
+pwd
+echo $?
+
+asd
+unset USER
+asd
 pwd
 
-export PATH=
-echo $PATH
-echo 1
+asd
+pwd
+asd
+echo asd
+echo $?
 
-export PATH=1
-echo $PATH
-echo 1
+asd
+cd ..
+echo $?
 
-env -i ./minishell
-cd /bin/
-ls
-
-touch tmp_x_file1
-tmp_x_file1
-echo $?
-./tmp_x_file1
-echo $?
-export PATH=$HOME
-echo $PATH
-tmp_x_file1
-echo $?
-./tmp_x_file1
-echo $?
+asd
 unset PATH
-tmp_x_file1
 echo $?
-./tmp_x_file1
-echo $?
-echo 42
-/bin/rm -f tmp_x_file1
 
-cd doesntexist
+touch whatever
+cat <"./whatever" >"./whatever"
+rm -rf whatever
 
-export PATH=""
-ls
+ls >"./ with spaces"
+rm -rf " with spaces"
+
+# **************************************************************************** #
+#                                  BROKEN SCMD                                 #
+# **************************************************************************** #
+
+"."
+
+.ls
+
+./ls
+
+"./"ls
+
+"./""ls"
+
+"./"''"ls"
+
+3123
+
+lsa
+
+/ls
+
+EechoE
+
+/ls/
+
+/bin/
+
+/bin/cats
+
+./4242424242.sh
+
+rm -f something
+
+| echo -n oui
+
+| | |
+

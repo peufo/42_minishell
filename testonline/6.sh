@@ -1,173 +1,294 @@
 # **************************************************************************** #
-#                                  VARIABLES                                   #
+#                                  CORRECTION                                  #
 # **************************************************************************** #
 
-### SIMPLE VARS ###
-/bin/echo $?
+/bin/echo
+/bin/echo 1
+/bin/cat 42
 
-/bin/echo $HOME
+""
 
-/bin/echo $HOME$USER
+"   "
 
-/bin/echo $HOME$NOTHING$USER$
+"    "
 
-export a="asd"
+"		"
 
-export a="asd" b="de" o= c="hellomi" X
+"			"
 
-export miert ne lehetne ezt is
+/bin/echo hello 42
 
-export a="asd"
-unset a
+/bin/sleep 0
 
-export a="asd" b="de" o= c="hellomi" X
-unset o
+/bin/echo -n 1
 
-export a="asd" b="de" o= c="hellomi" X
-unset X
+echo
 
-export a="asd" b="de" o= c="hellomi" X
-unset o a X b c
+echo hello world
 
-export a="asd" b="de" o= c="hellomi" X
-unset o asd B x X wqd c
+echo -n 42
 
-export T=a T=b T=c
-echo $T
+echo -n 42 -n
 
-export miert ne lehetne ezt is
+echo 42 -n
 
-/bin/echo $"HOME"$USER
+echo -n -n -n 42
 
-/bin/echo $"HOM"E$USER
+echo -n -n -n -n 42
 
-/bin/echo $"'HOM'E"$USER
+exit
 
-/bin/echo $'HOM'E$USER
+exit 42
 
-/bin/echo $"HOME"
+exit ""
 
-/bin/echo $'HOME'
+exit 1 2 3
 
-/bin/echo $
+exit 42 42
 
-/bin/echo "$"
+exit A
 
-/bin/echo '$='
+exit A 1
 
-/bin/echo "$""$"
+exit 1 A
 
-/bin/echo $"$"
+/bin/echo 42
+echo $?
 
-/bin/echo $"42$"
+/bin/cat 42
+echo $?
 
-/bin/echo "$"$
+/bin/exe42 42
 
-/bin/echo $'$'
+42 42
 
-/bin/echo '$'$
+/bin/echo 42
+expr $? + $?
 
-/bin/echo "$ "
+/bin/cat 42
+expr $? + $?
 
-/bin/echo '$ '
+echo "Hello World"
 
-/bin/echo $TESTNOTFOUND
+echo "  ""Hello World"
 
-/bin/echo $HOME$TESTNOTFOUND
+echo "  "Hello "World "
 
-/bin/echo $TESTNOTFOUND$HOME
+"echo" 42
 
-/bin/echo $TESTNOTFOUND$HOME$
+"echo 42"
 
-cd ..$PWD
+echo " cat ' lol.c"
 
-mkdir test
-cd $PWD/test
-cd..
-rm -rf test
+/bin/echo @World"42"Hello
 
-/bin/echo $PWD/random_folder
+echo 'Hello World'
 
-/bin/echo ""$?""
-/bin/echo " "$?" "
-/bin/echo $?"42"
-/bin/echo ''$?''"42"
-/bin/echo 'HELLO'$?:''"42"
+echo '  ' Hello World
 
-/bin/echo "$?"
-/bin/echo '$?'
-/bin/echo "'$?'"
-/bin/echo '"$?"'
+echo '  'Hello 'World '
 
-### UPDATE PWD ###
-mkdir "tmp_test_folder"
-/bin/echo $PWD
-cd "tmp_test_folder"
-/bin/echo $PWD
+'echo' 42
+
+'e'cho 42
+
+echo 'cat lol.c << cat > lol.c'
+
+echo @World'42'Hello
+
+echo "" ''
+
+echo """"''""''""
+
+echo " "" " ' ' " " ' ' " "
+
+echo 1 '|' echo 2
+
+echo 1 '&&' echo 2
+
+echo 1 '||' echo 2
+
+echo 1 '>' echo 2
+
+echo 1 '>>' file 2
+
+'<<' lim echo 1 >>/dev/null
+
+echo "$USER"
+
+echo "   $   "
+
+echo '$USER'
+
+echo '   $   '
+
+echo "$HO ME"
+
+echo '$HO ME'
+
+echo $"HOME"
+
+echo $'HOME'
+
+echo ""$PWD""
+
+echo ''$PWD''
+
+echo $USE"R"$HOME
+
+echo $"HOME"$USER
+
+echo $"HOM"E$USER
+
+echo $"'HOM'E"$USER
+
+echo $'HOM'E$USER
+
+echo $"HOME"
+
+echo $'HOME'
+
+echo $
+
+echo "$"
+
+echo '$='
+
+echo "$""$"
+
+echo $"$"
+
+echo $"42$"
+
+echo "$"$
+
+echo $'$'
+
+echo '$'$
+
+env | grep HOME
+
+env | grep $USER
+
+export USER=
+env | grep USER
+
+export USER="@?/"
+env | grep USER
+
+export NEW="4 2"
+env | grep NEW
+
+export NEW="4=2"
+env | grep NEW
+
+export NEW=4=2
+env | grep 4=2
+
+export =
+
+export ''=''
+
+export ""=""
+
+export export
+
+export =============123
+
+export echo
+
+unset
+
+unset env
+
+unset PATH
+echo $PATH
+unset PATH
+echo $PATH
+unset HOME
+echo $HOME
+
+export NEW=42
+env | grep NEW
+unset NEW
+env | grep NEW
+unset NEW
+unset NEW
+unset NEW
+unset NEW
+unset NEW
+env | grep NEW
+
+cd .
+/bin/ls
+
 cd ..
-/bin/echo $PWD
-rm -rf "tmp_test_folder"
+/bin/ls
 
-mkdir "tmp_test folder"
-/bin/echo $PWD
-cd "tmp_test folder"
-/bin/echo $PWD
-cd ..
-/bin/echo $PWD
-rm -rf "tmp_test folder"
+cd /notsuchdir
+/bin/ls
 
-### SCMD IN VARIABLE ###
-export tmp_test="/bin/echo 42"
-$tmp_test
-$tmp_test 42
-export tmp_test="/bin/echo"
-$tmp_test 42 42
+cd /////
+/bin/ls
 
-export tmp_test="/bin/echo 42"
-"tmp_test"
+cd "cmds/"
+/bin/ls
 
-### VARIABLE SPLITTING ###
-export X="  A  B  "
-/bin/echo "1"$X'2'
+cd cmds/
+/bin/ls
 
-export X=" A  B  "
-/bin/echo "1"$X'2'
+cd ./cmds/
+/bin/ls
 
-export X="A  B  "
-/bin/echo "1"$X'2'
+mkdir bla_test
+chmod -wrx bla_test
+cd bla_test
+chmod +wrx bla_test
+rm -r bla_test
 
-export X="  A  B "
-/bin/echo "1"$X'2'
+pwd
 
-export X="  A  B"
-/bin/echo "1"$X'2'
+cd $HOME
+pwd
 
-export X="  A B  "
-/bin/echo "1"$X'2'
+pwd pwd
 
-export X="  AB  "
-/bin/echo "1"$X'2'
+pwd hello
 
-export X="  A  B  "
-/bin/echo $X'2'
+unset PATH
+pwd
 
-export X="  A  B  "
-/bin/echo $X"1"
+unset PATH
+cd /bin
+ls
 
-export X=""
-/bin/echo "1"$X'2'
+unset PATH
+cd /bin/../bin/
+ls
 
-export X=" "
-/bin/echo "1"$X'2'
+unset PATH
+cd /bin/../bin/../bin/../bin/../bin/../bin/../bin/../bin/
+../bin/../bin/ls
 
-export X="   "
-/bin/echo "1"$X'2'
+unset PATH
+cd /bin/
+sleep 2
 
-export X="  A  B  "
-/bin/echo ?$X'2'
+mkdir tmp_path_test1 tmp_path_test2
+printf '#include <unistd.h>\nint main(){write(1, \"1\\n\", 2);}' > tmp_path_test1/test1.c
+gcc tmp_path_test1/test1.c -o tmp_path_test1/a.out
+printf '#include <unistd.h>\nint main(){write(1, \"2\\n\", 2);}' > tmp_path_test2/test2.c
+gcc tmp_path_test2/test2.c -o tmp_path_test2/a.out
+export PATH=tmp_path_test1:tmp_path_test2
+a.out
+export PATH=tmp_path_test2:tmp_path_test1
+a.out
+/bin/rm -rf tmp_path_test1 tmp_path_test2
 
-export X="  A  B  "
-/bin/echo "1"$X?
+### REDIRS
 
-export X="  A  B  "
-/bin/echo "1"$X2?
+### PIPES
+
+### GO WILD
+
+### ENV Var expansion
