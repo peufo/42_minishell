@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:12:21 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/19 15:15:48 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:26:23 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@ static char	**get_paths(t_sh *shell)
 	char	*cursor_start;
 	char	*cursor_end;
 	char	**paths;
+	char	*cwd;
 
 	paths = NULL;
+	cwd = getcwd(NULL, 0);
+	string_array_push(&paths, cwd);
 	path_var = string_array_find_start_with(shell->env, "PATH=");
 	if (!path_var)
-		return (NULL);
+		return (paths);
 	cursor_start = *path_var + 5;
 	cursor_end = cursor_start;
 	while (*cursor_end)

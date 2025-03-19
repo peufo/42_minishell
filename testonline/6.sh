@@ -187,57 +187,57 @@ echo $HOME
 
 export NEW=42
 env | grep NEW | grep -v GLIB
-# unset NEW
-# env | grep NEW | grep -v GLIB
-# unset NEW
-# unset NEW
-# unset NEW
-# unset NEW
-# unset NEW
-# env | grep NEW
+unset NEW
+env | grep NEW | grep -v GLIB
+unset NEW
+unset NEW
+unset NEW
+unset NEW
+unset NEW
+env | grep NEW
 
-# cd .
-# /bin/ls
+cd .
+/bin/ls
 
-# cd ..
-# /bin/ls
+cd ..
+/bin/ls
 
-# cd /notsuchdir
-# /bin/ls
+cd /notsuchdir
+/bin/ls
 
-# cd /////
-# /bin/ls
+cd /////
+/bin/ls
 
-# cd "cmds/"
-# /bin/ls
+cd "cmds/"
+/bin/ls
 
-# cd cmds/
-# /bin/ls
+cd cmds/
+/bin/ls
 
-# cd ./cmds/
-# /bin/ls
+cd ./cmds/
+/bin/ls
 
-# mkdir bla_test
-# chmod -wrx bla_test
-# cd bla_test
-# chmod +wrx bla_test
-# rm -r bla_test
+mkdir bla_test
+chmod -wrx bla_test
+cd bla_test
+chmod +wrx bla_test
+rm -r bla_test
 
-# pwd
+pwd
 
-# cd $HOME
-# pwd
+cd $HOME
+pwd
 
-# pwd pwd
+pwd pwd
 
-# pwd hello
+pwd hello
 
-# unset PATH
-# pwd
+unset PATH
+pwd
 
-# unset PATH
-# cd /bin
-# ls
+unset PATH
+cd /bin
+ls
 
 # unset PATH
 # cd /bin/../bin/
