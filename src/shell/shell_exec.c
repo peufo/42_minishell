@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/17 18:56:18 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/19 10:04:44 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static void	basic_exec(t_sh *shell, int exec)
 {
 	if (exec)
 		lex_eof(shell);
-	// if (did_eye_of_sawron(shell))
-	// 	return ;
+	if (did_eye_of_sawron(shell))
+		return ;
 	treat_redirections(&shell->input, shell);
 	shell->ast = ast_create(shell, ft_strdup(shell->line));
 	ast_debug(shell->ast, 0);
@@ -44,13 +44,12 @@ void	shell_exec(t_sh *shell)
 		if (shell->signal != SIGINT)
 		{
 			exec = input_read(shell);
-			if (!shell->line && shell->is_interactive)
-				shell_exec(shell);
-			else if (!shell->line && !shell->is_interactive)
+			if (!shell->line && !shell->is_interactive)
 				shell_exit(shell);
 			if (*shell->line == '#')
 				continue ;
-			basic_exec(shell, exec);
+			if (shell->line)
+				basic_exec(shell, exec);
 		}
 	}
 	shell_exit(shell);

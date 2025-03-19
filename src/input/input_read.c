@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   input_read.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 15:23:29 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/19 10:38:47 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "get_next_line.h"
+#include <sys/time.h>
 
 static bool	lex_check_start(char *line, t_input *input)
 {
