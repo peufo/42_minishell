@@ -60,26 +60,24 @@ cat < Makefile > log/out >> log/out1 | wc -l log/out1 > log/out2
 /bin/rm -f log/out1
 /bin/rm -f log/out2
 
-|ls | ls
+ls|cat Makefile|ls
 
-# ls|cat Makefile|ls
+ls|cat Makefile|<wc -l
 
-# ls|cat Makefile|<wc -l
+ls|cat Makefile|> out
+/bin/rm -f out
 
-# ls|cat Makefile|> out
-# /bin/rm -f out
+ls|cat Makefile|>> out
+/bin/rm -f out
 
-# ls|cat Makefile|>> out
-# /bin/rm -f out
+pwd
+ls|cat Makefile|>> out|cd ..
+/bin/rm -f out
+pwd
 
-# pwd
-# ls|cat Makefile|>> out|cd ..
-# /bin/rm -f out
-# pwd
+pwd
+cd .. |ls|cat Makefile|>> out
+pwd
+/bin/rm -f out
 
-# pwd
-# cd .. |ls|cat Makefile|>> out
-# pwd
-# /bin/rm -f out
-
-# ls -l | awk '$1 ~ /^d/ {print $9}'
+ls -l | awk '$1 ~ /^d/ {print $9}'

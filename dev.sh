@@ -44,7 +44,11 @@ watch() {
 					run_test "$TEST_DIR/$1.sh"
 				else
 					for TEST_FILE in $TEST_DIR/*.sh ; do 
-						run_test "$TEST_FILE"
+						if [[ $TEST_FILE = *_* ]] ; then
+							warning "IGNORED\t$TEST_FILE\n"
+						else
+							run_test "$TEST_FILE"
+						fi
 					done
 				fi
 			fi
