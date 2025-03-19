@@ -2,7 +2,6 @@
 #                                  VARIABLES                                   #
 # **************************************************************************** #
 
-### SIMPLE VARS ###
 /bin/echo $?
 
 /bin/echo $HOME
@@ -105,7 +104,6 @@ rm -rf test
 /bin/echo "'$?'"
 /bin/echo '"$?"'
 
-### UPDATE PWD ###
 mkdir "tmp_test_folder"
 /bin/echo $PWD
 cd "tmp_test_folder"
@@ -122,7 +120,6 @@ cd ..
 /bin/echo $PWD
 rm -rf "tmp_test folder"
 
-### SCMD IN VARIABLE ###
 export tmp_test="/bin/echo 42"
 $tmp_test
 $tmp_test 42
@@ -132,48 +129,47 @@ $tmp_test 42 42
 export tmp_test="/bin/echo 42"
 "tmp_test"
 
-### VARIABLE SPLITTING ###
 export X="  A  B  "
 /bin/echo "1"$X'2'
 
-# export X=" A  B  "
-# /bin/echo "1"$X'2'
+export X=" A  B  "
+/bin/echo "1"$X'2'
 
-# export X="A  B  "
-# /bin/echo "1"$X'2'
+export X="A  B  "
+/bin/echo "1"$X'2'
 
-# export X="  A  B "
-# /bin/echo "1"$X'2'
+export X="  A  B "
+/bin/echo "1"$X'2'
 
-# export X="  A  B"
-# /bin/echo "1"$X'2'
+export X="  A  B"
+/bin/echo "1"$X'2'
 
-# export X="  A B  "
-# /bin/echo "1"$X'2'
+export X="  A B  "
+/bin/echo "1"$X'2'
 
-# export X="  AB  "
-# /bin/echo "1"$X'2'
+export X="  AB  "
+/bin/echo "1"$X'2'
 
-# export X="  A  B  "
-# /bin/echo $X'2'
+export X="  A  B  "
+/bin/echo $X'2'
 
-# export X="  A  B  "
-# /bin/echo $X"1"
+export X="  A  B  "
+/bin/echo $X"1"
 
-# export X=""
-# /bin/echo "1"$X'2'
+export X=""
+/bin/echo "1"$X'2'
 
-# export X=" "
-# /bin/echo "1"$X'2'
+export X=" "
+/bin/echo "1"$X'2'
 
-# export X="   "
-# /bin/echo "1"$X'2'
+export X="   "
+/bin/echo "1"$X'2'
 
-# export X="  A  B  "
-# /bin/echo ?$X'2'
+export X="  A  B  "
+/bin/echo ?$X'2'
 
-# export X="  A  B  "
-# /bin/echo "1"$X?
+export X="  A  B  "
+/bin/echo "1"$X?
 
-# export X="  A  B  "
-# /bin/echo "1"$X2?
+export X="  A  B  "
+/bin/echo "1"$X2?
