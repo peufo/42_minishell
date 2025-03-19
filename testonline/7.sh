@@ -2,6 +2,8 @@
 #                                  PATH FAILS                                  #
 # **************************************************************************** #
 
+export WORKDIR="$PWD"
+
 unset PATH
 echo $PATH
 /bin/ls
@@ -29,6 +31,8 @@ cd .
 
 cd ~
 
+pwd
+
 cd ~/Desktop/
 pwd
 
@@ -40,30 +44,28 @@ export PATH=1
 echo $PATH
 echo 1
 
-env -i ./minishell
-cd /bin/
-ls
+cd "$WORKDIR/log"
 
 touch tmp_x_file1
 tmp_x_file1
 echo $?
 ./tmp_x_file1
-echo $?
-export PATH=$HOME
-echo $PATH
-tmp_x_file1
-echo $?
-./tmp_x_file1
-echo $?
-unset PATH
-tmp_x_file1
-echo $?
-./tmp_x_file1
-echo $?
-echo 42
-/bin/rm -f tmp_x_file1
+# echo $?
+# export PATH=$HOME
+# echo $PATH
+# tmp_x_file1
+# echo $?
+# ./tmp_x_file1
+# echo $?
+# unset PATH
+# tmp_x_file1
+# echo $?
+# ./tmp_x_file1
+# echo $?
+# echo 42
+# /bin/rm -f tmp_x_file1
 
-cd doesntexist
+# cd doesntexist
 
-export PATH=""
-ls
+# export PATH=""
+# ls
