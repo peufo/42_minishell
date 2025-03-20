@@ -123,6 +123,10 @@
 
 /bin/echo $USER$TESTNOTFOUND$HOME$WTF$PWD
 
+/bin/echo "$USER$TESTNOTFOUND$HOME$"
+
+/bin/echo "$USER$TESTNOTFOUND$HOME$WTF$PWD"
+
 /bin/echo -n test1
 
 /bin/echo -n "test1 test2"

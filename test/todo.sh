@@ -12,4 +12,8 @@
 # rm -rf out.txt
 
 
+### REORDER EXPANDS [VARNAME -> TILD -> WILDCARD]
+# export VAR="*o*"
+# echo $VAR
+
 
