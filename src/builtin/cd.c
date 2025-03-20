@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/20 10:24:22 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/20 11:25:09 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	handle_chdir_error(t_ast *node, char *new_path, char *cwd)
 			": No such file or directory",
 			NULL});
 		errno = false;
-		return (ENOENT);
+		return (1);
 	}
 	error_name = ft_strcat(node->shell->name, ": cd: ");
 	if (!error_name)

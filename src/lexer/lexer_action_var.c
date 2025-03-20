@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:13:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/19 18:20:27 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/20 10:54:58 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void	lexer_action_expand_var(t_ast *node)
 		return (expand_no_varname(node));
 	expand_var(node);
 	cursor = *(node->lexer.cursor);
-	if (!ft_include("?*/= \t\n", cursor))
+	if (!ft_include(CHARSET_VAR_END, cursor)
+		&& !ft_include(CHARSET_SPACE, cursor))
 		lexer_action_next_char(node);
 }
 

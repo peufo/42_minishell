@@ -292,8 +292,4 @@ echo $/"$/"
 
 echo '$/'
 
-# <| echo ok
-
-# >| echo sure
-
 cd --

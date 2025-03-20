@@ -85,6 +85,7 @@ get_diff() {
 	local DIFF_FILE="$LOG_DIR/$TEST_NAME/diff.diff"
 	local DIFF_FILE_ERR="$LOG_DIR/$TEST_NAME/diff_error.diff"
 	bash $TEST_FILE > $LOG_FILE 2> $LOG_FILE_ERR
+	sed -i -r "s/ line [0-9]+://" $LOG_FILE_ERR
 	local DIFF=$(diff -u $LOG_FILE $LOG_FILE_MINI)
 	local DIFF_ERR=$(diff -u $LOG_FILE_ERR $LOG_FILE_MINI_ERR)
 	echo "$DIFF" > "$DIFF_FILE"
