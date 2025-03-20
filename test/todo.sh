@@ -20,7 +20,5 @@
 # |ls | ls
 # <| echo ok
 # >| echo sure
-
-
-cd "$H"O"ME"/Desktop/
-echo $?
+# | echo -n oui
+# | | |
