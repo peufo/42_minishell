@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/20 10:47:31 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/20 12:08:08 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void	get_all_codes(t_input *input, char *cursor);
 # define CHARSET_META "|&;()<>"
 # define CHARSET_SPACE " \t\n"
 # define CHARSET_META_SPACE "|&;()<> \t\n"
-# define CHARSET_VAR_END "?$=*/"
+# define CHARSET_VAR_END "?$=*/.!#%+,-:@[]\\^{}~"
 
 typedef enum e_lexer_state
 {

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:06:54 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/20 10:53:51 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/20 11:56:51 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,16 @@ static void	expand_var_dquote(t_ast *node)
 
 static void	expand_no_varname_dquote(t_ast *node)
 {
-	if (*node->lexer.cursor == '?')
+	char	cursor;
+
+	cursor = *(node->lexer.cursor);
+	if (cursor == '?')
 		return (expand_exit_status(node));
-	if (ft_include("/\" \t\n", *(node->lexer.cursor)))
+	if (ft_include("/\" \t\n", cursor))
 		string_push_str(&node->lexer.token, "$");
-	if (!ft_include("'?*/= \t\n", *(node->lexer.cursor)))
+	if (!ft_include(CHARSET_VAR_END, cursor)
+		&& !ft_include(CHARSET_SPACE, cursor)
+		&& !ft_include("'", cursor))
 		lexer_action_next_char(node);
 }
 
@@ -63,6 +68,7 @@ void	lexer_action_expand_var_dquote(t_ast *node)
 	expand_var_dquote(node);
 	cursor = *(node->lexer.cursor);
 	if (!ft_include(CHARSET_VAR_END, cursor)
+		&& !ft_include(CHARSET_META, cursor)
 		&& !ft_include(CHARSET_SPACE, cursor)
 		&& !ft_include("'", cursor))
 		lexer_action_next_char(node);
