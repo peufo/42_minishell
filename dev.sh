@@ -60,6 +60,10 @@ watch() {
 run_test() {
 	local TEST_FILE=$1
 	local COMMAND="$PROG $TEST_FILE"
+	if [[ ! -f $TEST_FILE ]] ; then
+		error "404 NOT FOUND\t$TEST_FILE\n"
+		exit 1
+	fi
 	if $LEAKS_CHECK ; then
 		COMMAND="$LEAKS_CMD $COMMAND"
 	fi
@@ -86,8 +90,8 @@ get_diff() {
 	local DIFF_FILE_ERR="$LOG_DIR/$TEST_NAME/diff_error.diff"
 	bash $TEST_FILE > $LOG_FILE 2> $LOG_FILE_ERR
 	sed -i -r "s/ line [0-9]+://" $LOG_FILE_ERR
-	local DIFF=$(diff -u $LOG_FILE $LOG_FILE_MINI)
-	local DIFF_ERR=$(diff -u $LOG_FILE_ERR $LOG_FILE_MINI_ERR)
+	local DIFF=$(diff -U 1 $LOG_FILE $LOG_FILE_MINI)
+	local DIFF_ERR=$(diff -U 1 $LOG_FILE_ERR $LOG_FILE_MINI_ERR)
 	echo "$DIFF" > "$DIFF_FILE"
 	echo "$DIFF_ERR" > "$DIFF_FILE_ERR"
 	echo -e "bash\t\t$LOG_FILE\t$LOG_FILE_ERR"
