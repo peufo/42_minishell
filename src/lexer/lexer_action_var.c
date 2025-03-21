@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:13:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/20 23:39:30 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/22 00:37:37 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,9 @@ static void	expand_no_varname(t_ast *node)
 	if (cursor == '?')
 		return (expand_exit_status(node));
 	if (cursor != '*' && (
-		ft_include(CHARSET_VAR_END, cursor)
-		|| ft_include(CHARSET_SPACE, cursor)))
+			ft_include(CHARSET_VAR_END, cursor)
+			|| ft_include(CHARSET_SPACE, cursor)
+		))
 		string_push_str(&node->lexer.token, "$");
 	if (cursor == '*'
 		|| !ft_include(CHARSET_VAR_END, cursor))

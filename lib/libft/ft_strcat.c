@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 19:15:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/17 12:03:44 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/22 00:38:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strcat(char *a, char *b)
 	int		len;
 	char	*cat;
 	char	*cursor;
-	
+
 	if (!a || !b)
 		return (NULL);
 	len = ft_strlen(a) + ft_strlen(b);

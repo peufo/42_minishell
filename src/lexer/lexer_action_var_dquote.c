@@ -6,19 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:06:54 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/20 22:59:08 by jvoisard         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer_action_var.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/04 18:13:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/18 15:53:35 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/22 00:49:40 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +27,6 @@ static void	expand_no_varname_dquote(t_ast *node)
 	char	cursor;
 
 	cursor = *(node->lexer.cursor);
-	
 	if (cursor == '?')
 		return (expand_exit_status(node));
 	if (cursor == '"' || cursor == '\''

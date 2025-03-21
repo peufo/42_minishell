@@ -28,7 +28,7 @@ void	lexer_action_skip_blank(t_ast *node)
 }
 
 void	lexer_action_end_token(t_ast *node)
-{	
+{
 	if (!node->lexer.token.value)
 		return ;
 	string_array_push(&node->lexer.tokens, node->lexer.token.value);
