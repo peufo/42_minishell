@@ -60,10 +60,9 @@ static void	expand_no_varname(t_ast *node)
 		ft_include(CHARSET_VAR_END, cursor)
 		|| ft_include(CHARSET_SPACE, cursor)))
 		string_push_str(&node->lexer.token, "$");
-	if (cursor == '*' || !ft_include(CHARSET_VAR_END, cursor)
-		|| ft_include(CHARSET_SPACE, cursor))
+	if (cursor == '*'
+		|| !ft_include(CHARSET_VAR_END, cursor))
 	{
-		DEBUG("skip: '%c'\n", cursor);
 		lexer_action_next_char(node);
 	}
 }
