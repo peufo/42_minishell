@@ -81,13 +81,11 @@ int	exec_command(t_ast *node)
 	t_exe	builtin;
 
 	lex(node, node->line);
+	exec_update_underscore(node);
 	exec_redirect_open(node, node->heredoc.files_in, O_RDONLY, STDERR_FILENO);
 	exec_redirect(node);
 	if (!node->tokens)
-	{
-		exec_redir_restore_std(node, &node->redir);
-		return (node->status);
-	}
+		return (exec_redir_restore_std(node, &node->redir), node->status);
 	builtin = get_builtin(*node->tokens);
 	if (builtin)
 		node->status = builtin(node);

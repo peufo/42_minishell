@@ -319,7 +319,7 @@ int		builtin_unset(t_ast *node);
 int		builtin_env(t_ast *node);
 int		builtin_exit(t_ast *node);
 
-void	env_set(t_sh *shell, char *key, char *value);
+void	env_set(t_sh *shell, char *key, char *env_row);
 char	*env_get(t_sh *shell, char *varname);
 void	env_unset(t_sh *shell, char *varname);
 
@@ -335,6 +335,7 @@ int		exec_heredoc(t_ast *node);
 int		exec_and(t_ast *node);
 int		exec_or(t_ast *node);
 t_exe	get_exe(t_ast *node);
+void	exec_update_underscore(t_ast *node);
 
 // UTILS =======================================================================
 int		throw(t_ast *node, char **error);
