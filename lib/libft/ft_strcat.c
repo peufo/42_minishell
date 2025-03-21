@@ -17,7 +17,9 @@ char	*ft_strcat(char *a, char *b)
 	int		len;
 	char	*cat;
 	char	*cursor;
-
+	
+	if (!a || !b)
+		return (NULL);
 	len = ft_strlen(a) + ft_strlen(b);
 	cat = ft_calloc(len + 1, 1);
 	cursor = cat;
