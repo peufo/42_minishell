@@ -41,6 +41,8 @@ static void	exec_redir_save_std(t_ast *node, t_redir *rh)
 	(void)node;
 	if (rh->files_out || rh->files_out_append)
 		rh->fd_std_out = dup(STDOUT_FILENO);
+	if (rh->files_in)
+		rh->fd_std_in = dup(STDIN_FILENO);
 }
 
 static void	exec_redir_restore_std(t_ast *node, t_redir *rh)
@@ -48,9 +50,14 @@ static void	exec_redir_restore_std(t_ast *node, t_redir *rh)
 	(void)node;
 	if (rh->files_out || rh->files_out_append)
 	{
-		dup2(rh->fd_std_out, STDOUT_FILENO);
-		close(rh->fd_std_out);
+		if (rh->fd_std_out != -1)
+		{
+			dup2(rh->fd_std_out, STDOUT_FILENO);
+			close(rh->fd_std_out);
+		}
 	}
+	if (rh->fd_std_in != -1)
+		dup2(rh->fd_std_in, STDIN_FILENO);
 }
 
 static void	exec_redirect(t_ast *node)
@@ -63,6 +70,10 @@ static void	exec_redirect(t_ast *node)
 	files_out = node->redir.files_out;
 	files_append = node->redir.files_out_append;
 	exec_redir_save_std(node, &node->redir);
+	if (node->heredoc.files_in)
+		exec_redirect_open(node,
+			node->heredoc.files_in,
+			O_RDONLY, STDIN_FILENO);
 	if (node->redir.is_last_append)
 	{
 		exec_redirect_open(node, files_out, f_create, STDOUT_FILENO);

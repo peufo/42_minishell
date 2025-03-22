@@ -78,7 +78,7 @@ run_test() {
 	check_leaks
 	echo
 }
-
+ 
 get_diff() {
 	TEST_FILE=$1
 	LOG_FILE_MINI=$2
