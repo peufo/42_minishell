@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/19 10:37:22 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/19 11:03:14 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,10 @@ static int	exec_redirect_open(
 static void	exec_redir_save_std(t_ast *node, t_redir *rh)
 {
 	(void)node;
-	if (rh->files_out || rh->files_out_append || rh->files_in)
-	{
+	if (rh->files_out || rh->files_out_append)
 		rh->fd_std_out = dup(STDOUT_FILENO);
+	if (rh->files_in)
 		rh->fd_std_in = dup(STDIN_FILENO);
-	}
 }
 
 static void	exec_redir_restore_std(t_ast *node, t_redir *rh)
@@ -56,12 +55,9 @@ static void	exec_redir_restore_std(t_ast *node, t_redir *rh)
 			dup2(rh->fd_std_out, STDOUT_FILENO);
 			close(rh->fd_std_out);
 		}
-		if (rh->fd_std_in != -1)
-		{
-			dup2(rh->fd_std_in, STDIN_FILENO);
-			close(rh->fd_std_in);
-		}
 	}
+	if (rh->fd_std_in != -1)
+		dup2(rh->fd_std_in, STDIN_FILENO);
 }
 
 static void	exec_redirect(t_ast *node)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_eof_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/18 06:37:39 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/22 06:38:00 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static bool	apply_redir_logic(t_input *input, t_sh *shell)
 		if (input->redir_line)
 		{
 			if (!ft_strncmp(input->redir_line,
-					input->redir_code[i],
-					ft_strlen(input->redir_code[i])))
+					input->redir_code[i], ft_strlen(input->redir_line) - 1)
+				&& !is_empty_line(input->redir_line))
 				i++;
 		}
 		else if (input->line)
