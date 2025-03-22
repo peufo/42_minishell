@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/19 13:32:11 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/22 06:39:09 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,45 +62,36 @@ void	safe_init_redir_array(t_sh *shell, t_input *input)
 		return (string_array_free(&input->redir_input));
 }
 
-void	check_quotes(char c, bool *dquote, bool *quote)
+static void	vladimir_poutin(int *a, int *b)
 {
-	if (c == '"')
-	{
-		if (*dquote)
-			*dquote = false;
-		else
-			*dquote = true;
-	}
-	if (c == '\'')
-	{
-		if (*quote)
-			*quote = false;
-		else
-			*quote = true;
-	}
+	*a = 0;
+	*b = 0;
 }
 
 static void	suppress_last_line(char **newline, char *line)
 {
-	int		i;
-	int		newlines;
+	t_utils	u;
 	char	*buf;
 
-	i = 0;
-	newlines = 0;
-	while (line[i])
-		if (line[i++] == '\n')
-			newlines++;
-	i = 0;
-	while (line[i] && newlines >= 0)
-		if (line[i++] == '\n')
-			newlines--;
-	newlines = 0;
-	buf = ft_calloc(i + 1, 1);
-	while (i-- > 0 && line[newlines + 3])
+	ft_bzero(&u, sizeof(t_utils));
+	while (line[u.i])
+		if (line[u.i++] == '\n')
+			u.x++;
+	while (line[u.j] && u.x > 0)
+		if (line[u.j++] == '\n')
+			u.x--;
+	buf = ft_calloc(u.j, 1);
+	vladimir_poutin(&u.i, &u.x);
+	while (--u.j > 0 && *line)
 	{
-		buf[newlines] = line[newlines];
-		newlines++;
+		buf[u.i++] = *line;
+		line++;
+		if (*line == '\n')
+		{
+			u.x++;
+			if (u.x % 2 == 0)
+				line++;
+		}
 	}
 	free(*newline);
 	*newline = buf;
@@ -117,7 +108,10 @@ void	checkout_from_redir(t_sh *shell)
 	line = ft_strchr(shell->input.redir_input[0], '\n');
 	line++;
 	suppress_last_line(&shell->input.redir_input[0], line);
-	while (shell->input.redir_input[i] && ++i < shell->input.nb_redir)
+	while (shell->input.redir_input[i] && i < shell->input.nb_redir)
+	{
 		suppress_last_line(&shell->input.redir_input[i],
 			shell->input.redir_input[i]);
+		i++;
+	}
 }
