@@ -1,69 +1,101 @@
 # **************************************************************************** #
-#                                  PATH FAILS                                  #
+#                                     SCMD                                     #
 # **************************************************************************** #
 
-unset PATH
-echo $PATH
-/bin/ls
-echo 1
-cd -
-echo 42
+cd log
 
-unset PATH
-echo 42
-unset PATH
-unset PATH
-unset PATH
-echo $PATH
-echo 1
-echo 42
+ls
 
-export PATH=""
-echo $PATH
+cat cmds.sh
 
-echo 1
+/bin/echo test1
 
-cd -
+""
 
-cd .
+touch ""
 
-cd ~
+touch "  "
+/bin/rm -f "  "
 
-cd ~/Desktop/
+
+mkdir " "
+/bin/rm -rf " "
+
+asd
+expr $? + $?
+
+expr 21 + 21
+
+"ls"
+
+"cat cmds.sh"
+
+"/bin/echo" test1
+
+'/bin/echo test1'
+
+asd
+echo asd
+echo $?
+
+asd
+pwd
+echo $?
+
+asd
+unset USER
+asd
 pwd
 
-export PATH=
-echo $PATH
-echo 1
+asd
+pwd
+asd
+echo asd
+echo $?
 
-export PATH=1
-echo $PATH
-echo 1
+asd
+cd ..
+echo $?
 
-env -i ./minishell
-cd /bin/
-ls
-
-touch tmp_x_file1
-tmp_x_file1
-echo $?
-./tmp_x_file1
-echo $?
-export PATH=$HOME
-echo $PATH
-tmp_x_file1
-echo $?
-./tmp_x_file1
-echo $?
+asd
 unset PATH
-tmp_x_file1
 echo $?
-./tmp_x_file1
-echo $?
-echo 42
-/bin/rm -f tmp_x_file1
 
-cd doesntexist
+touch whatever
+cat <"./whatever" >"./whatever"
+rm -rf whatever
+/bin/rm -rf whatever
 
-export PATH=""
-ls
+ls >"./ with spaces"
+rm -rf " with spaces"
+/bin/rm -rf " with spaces"
+
+"."
+
+.ls
+
+./ls
+
+"./"ls
+
+"./""ls"
+
+"./"''"ls"
+
+3123
+
+lsa
+
+/ls
+
+EechoE
+
+/ls/
+
+/bin/
+
+/bin/cats
+
+./4242424242.sh
+
+rm -f something

@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*   exec_undescore.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/16 19:15:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/22 00:38:30 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/03/22 00:38:24 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/03/22 00:38:24 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strcat(char *a, char *b)
+void	exec_update_underscore(t_ast *node)
 {
-	int		len;
-	char	*cat;
-	char	*cursor;
+	char	**tokens;
+	char	*env_underscore;
 
-	if (!a || !b)
-		return (NULL);
-	len = ft_strlen(a) + ft_strlen(b);
-	cat = ft_calloc(len + 1, 1);
-	cursor = cat;
-	if (!cat)
-		return (NULL);
-	while (*a)
-		*(cursor++) = *(a++);
-	while (*b)
-		*(cursor++) = *(b++);
-	return (cat);
+	tokens = node->tokens;
+	if (!tokens)
+		return ;
+	while (*tokens && *(tokens + 1))
+		tokens++;
+	env_underscore = ft_strcat("_=", *tokens);
+	if (!env_underscore)
+		shell_exit(node->shell);
+	env_set(node->shell, "_", env_underscore);
 }

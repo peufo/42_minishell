@@ -73,6 +73,8 @@ void	env_set(t_sh *shell, char *varname, char *env_row)
 {
 	char	**env_ptr;
 
+	if (!env_row)
+		shell_exit(shell);
 	env_ptr = get_env_ptr(shell, varname);
 	if (env_ptr)
 	{

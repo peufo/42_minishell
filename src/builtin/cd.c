@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 14:37:31 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 12:03:43 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/20 11:25:09 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,24 @@ static int	change_dir(t_ast *node, char *new_path)
 
 int	builtin_cd(t_ast *node)
 {
-	char	*home;
+	char	*path;
 
 	if (string_array_len(node->tokens) > 2)
 		return (throw(node, (char *[]){"cd: too many arguments", NULL}));
-	if (node->tokens[1])
-		return (change_dir(node, node->tokens[1]));
-	home = env_get(node->shell, "HOME");
-	if (!home)
-		return (throw(node, (char *[]){"cd: HOME not set", NULL}));
-	return (change_dir(node, home));
+	path = node->tokens[1];
+	if (!path || !ft_strcmp(path, "--"))
+	{
+		path = env_get(node->shell, "HOME");
+		if (!path)
+			return (throw(node, (char *[]){"cd: HOME not set", NULL}));
+	}
+	else if (!ft_strcmp(path, "-"))
+	{
+		path = env_get(node->shell, "OLDPWD");
+		if (!path)
+			return (throw(node, (char *[]){"cd: OLDPWD not set", NULL}));
+		ft_putstr(path);
+		ft_putstr("\n");
+	}
+	return (change_dir(node, path));
 }

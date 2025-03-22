@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_parse_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:26:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/18 16:38:50 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/19 18:19:08 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,6 @@ static int	pick_redir(t_ast *node, char ***files, char *token)
 	}
 	return (0);
 }
-/*
-static void	debug_redir_struct(t_redir r)
-{
-	int	i;
-
-	i = 0;
-	printf("\nDEBUG REDIR STRUCT\n");
-	while (r.files_in && r.files_in[i])
-		printf("Files in : %s\n", r.files_in[i++]);
-	i = 0;
-	if (r.files_out && r.files_out[i])
-		printf("Files out : %s\n", r.files_out[i++]);
-	i = 0;
-	if (r.files_out_append && r.files_out_append[i])
-		printf("Files last append : %s\n", r.files_out_append[i++]);
-}*/
 
 void	ast_parse_command(t_ast *node)
 {

@@ -28,7 +28,7 @@ void	lexer_action_skip_blank(t_ast *node)
 }
 
 void	lexer_action_end_token(t_ast *node)
-{	
+{
 	if (!node->lexer.token.value)
 		return ;
 	string_array_push(&node->lexer.tokens, node->lexer.token.value);
@@ -54,8 +54,8 @@ void	lexer_action(t_ast *node, t_lexer_state next_state)
 	[LEXER_VAR][LEXER_DQUOTE] = lexer_action_expand_var,
 	[LEXER_VAR][LEXER_META] = lexer_action_expand_var_end_token,
 	[LEXER_VAR][LEXER_END_TOKEN] = lexer_action_expand_var_end_token,
-	[LEXER_VAR_DQUOTE][LEXER_DQUOTE] = lexer_action_expand_var,
-	[LEXER_VAR_DQUOTE][LEXER_DEFAULT] = lexer_action_expand_var,
+	[LEXER_VAR_DQUOTE][LEXER_DQUOTE] = lexer_action_expand_var_dquote,
+	[LEXER_VAR_DQUOTE][LEXER_DEFAULT] = lexer_action_expand_var_dquote,
 	[LEXER_END_TOKEN][LEXER_DEFAULT] = lexer_action_skip_blank,
 	};
 

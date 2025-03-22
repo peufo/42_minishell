@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 19:10:39 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 15:25:04 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:21:14 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static bool	is_flag(char *str)
 	if (!*str || *str != '-')
 		return (false);
 	str++;
+	if (*str != 'n')
+		return (false);
 	while (*str)
 		if (*str++ != 'n')
 			return (false);

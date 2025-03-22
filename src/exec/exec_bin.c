@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:12:21 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/18 15:25:30 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/20 10:20:23 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static char	**get_paths(t_sh *shell)
 	paths = NULL;
 	path_var = string_array_find_start_with(shell->env, "PATH=");
 	if (!path_var)
-		return (NULL);
+	{
+		string_array_push(&paths, getcwd(NULL, 0));
+		return (paths);
+	}
 	cursor_start = *path_var + 5;
 	cursor_end = cursor_start;
 	while (*cursor_end)
@@ -87,6 +90,8 @@ static char	*get_bin_path(t_ast *node)
 	char	*bin;
 
 	paths = get_paths(node->shell);
+	if (!paths)
+		return (NULL);
 	dir = paths;
 	bin = NULL;
 	while (*dir && !bin)

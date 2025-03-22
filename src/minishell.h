@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/17 18:21:54 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/20 13:18:32 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void	get_all_codes(t_input *input, char *cursor);
 # define CHARSET_META "|&;()<>"
 # define CHARSET_SPACE " \t\n"
 # define CHARSET_META_SPACE "|&;()<> \t\n"
-# define CHARSET_ALHANUM "0123456789abcdefghijklmnopABCDEFGHIJKLMNOP"
+# define CHARSET_VAR_END "?$=*/.!#%+,-:@[]\\^{}~"
 
 typedef enum e_lexer_state
 {
@@ -189,7 +189,6 @@ typedef struct e_lexer_next_state
 	t_lexer_state	state;
 	char			*charset;
 	t_lexer_state	next_state;
-	bool			invert_match;
 }	t_lexer_next_state;
 
 typedef void				(*t_lexer_state_handler)(t_ast *);
@@ -202,9 +201,11 @@ void	lexer_state(t_ast *node);
 void	lexer_action(t_ast *node, t_lexer_state next_state);
 void	lexer_action_end_token(t_ast *node);
 void	lexer_action_expand_var(t_ast *node);
+void	lexer_action_expand_var_dquote(t_ast *node);
 void	lexer_action_expand_var_end_token(t_ast *node);
 void	lexer_action_skip_blank(t_ast *node);
 void	lexer_action_next_char(t_ast *node);
+void	expand_exit_status(t_ast *node);
 
 // PARSER ====================================================================
 
@@ -318,7 +319,7 @@ int		builtin_unset(t_ast *node);
 int		builtin_env(t_ast *node);
 int		builtin_exit(t_ast *node);
 
-void	env_set(t_sh *shell, char *key, char *value);
+void	env_set(t_sh *shell, char *key, char *env_row);
 char	*env_get(t_sh *shell, char *varname);
 void	env_unset(t_sh *shell, char *varname);
 
@@ -334,6 +335,7 @@ int		exec_heredoc(t_ast *node);
 int		exec_and(t_ast *node);
 int		exec_or(t_ast *node);
 t_exe	get_exe(t_ast *node);
+void	exec_update_underscore(t_ast *node);
 
 // UTILS =======================================================================
 int		throw(t_ast *node, char **error);

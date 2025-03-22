@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/17 10:27:10 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/19 18:31:54 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,29 @@ void	shell_free(t_sh *shell)
 	string_free(&shell->prompt);
 }
 
-static void	shell_update_shlvl(t_sh *shell)
+static void	shell_init_env(t_sh *shell)
 {
-	char	*shlvl_val;
-	char	*shlvl_env;
+	char	*env_val;
+	char	*env_row;
 
-	shlvl_val = ft_itoa(ft_atoi(env_get(shell, "SHLVL")) + 1);
-	if (!shlvl_val)
+	env_val = ft_itoa(ft_atoi(env_get(shell, "SHLVL")) + 1);
+	if (!env_val)
 		shell_exit(shell);
-	shlvl_env = ft_strcat("SHLVL=", shlvl_val);
-	free(shlvl_val);
-	if (!shlvl_env)
+	env_row = ft_strcat("SHLVL=", env_val);
+	free(env_val);
+	if (!env_row)
 		shell_exit(shell);
-	env_set(shell, "SHLVL", shlvl_env);
+	env_set(shell, "SHLVL", env_row);
+	env_val = getcwd(NULL, 0);
+	if (!env_val)
+		shell_exit(shell);
+	env_row = ft_strcat("PWD=", env_val);
+	free(env_val);
+	if (!env_row)
+		shell_exit(shell);
+	env_set(shell, "PWD", env_row);
+	if (!env_get(shell, "OLDPWD"))
+		env_set(shell, "OLDPWD", ft_strdup("OLDPWD"));
 }
 
 void	shell_init(t_sh *shell, char **env)
@@ -68,7 +78,7 @@ void	shell_init(t_sh *shell, char **env)
 	shell->pipe.in = STDIN_FILENO;
 	shell->pipe.out = STDOUT_FILENO;
 	shell->env = string_array_dup(env);
-	shell_update_shlvl(shell);
+	shell_init_env(shell);
 	if (!shell->env)
 		return (shell_exit(shell));
 }
@@ -83,6 +93,6 @@ void	shell_exit(t_sh *shell)
 	if (errno)
 		perror(shell->name);
 	if (errno && !shell->exit_status)
-		exit(1);
+		exit(errno);
 	exit(shell->exit_status);
 }

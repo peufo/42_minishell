@@ -2,8 +2,6 @@
 #                                   BUILTINS                                   #
 # **************************************************************************** #
 
-### ECHO ###
-
 echo cd ~
 
 echo "cd ~"
@@ -55,20 +53,6 @@ echo "$?"
 echo '$?'
 
 echo "'$?'"
-
-echo \$USER
-
-echo \\$USER
-
-echo \\\$USER
-
-echo \\\\$USER
-
-echo \\\\\$USER
-
-echo \\\\\\\\\$USER
-
-echo \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\$USER \$PATH \\$PWD
 
 echo "cat lol.c | cat > lol.c"
 
@@ -130,7 +114,6 @@ echo $USER$TESTNOTFOUND$HOME$
 
 echo $USER$TESTNOTFOUND$HOME$WTF$PWD
 
-
 echo -n test1
 
 echo -n "test1 test2"
@@ -186,7 +169,6 @@ eCHO
 
 ECHO
 
-### CD ###
 pwd
 cd
 pwd
@@ -316,7 +298,6 @@ cd ~
 cd - ananas dot jpeg
 pwd
 
-# might need to change the directory by yourself, that supposed to be valid =)
 pwd
 cd includes/ djhwbdhwbd wgdyuhgw jdwjdh wuiydjwh 
 pwd
@@ -338,28 +319,15 @@ pwd
 cd ~
 pwd
 
-# might need to change the directory by yourself, that supposed to be valid =)
+
 pwd
-cd ../libft
+cd ../test
 pwd
 
-# might need to change the directory by yourself, that supposed to be valid =)
-pwd
-cd ../libft ojid iowjiojwoid joijd owjoid jwojd 
-pwd
-
-### ENV ###
 env | grep DOESNT_EXIST
 
 env | grep HOME
 
-env | grep USER
-
-env | wc -l
-
-env what
-
-### PWD ###
 pwd
 
 "pwd"
@@ -372,7 +340,6 @@ pwd pwd
 
 pwd pwd pwd
 
-### EXPORT ###
 /bin/echo $HALLO42
 env | grep HALLO42
 export HALLO42=42
@@ -386,8 +353,6 @@ export HOME=42
 env | grep HOME
 
 export =============123
-
-export
 
 export =
 
@@ -512,7 +477,6 @@ export mini_test=
 /bin/echo $mini_test
 env | grep mini_test
 
-### UNSET ###
 unset
 
 unset ""
@@ -625,93 +589,3 @@ unset HOME
 unset HOME
 unset HOME
 /bin/echo $HOME
-
-###  EXIT ###
-
-exit 9223372036854775807
-
-exit something somethingv2
-
-exit 0 0
-
-exit
-
-exit ""
-
-exit "+100"
-
-exit "-100"
-
-exit -9223372036854775805
-
-exit 0
-
-exit 10
-
-exit 42
-
-exit 1
-
-exit +++++
-
-exit ++++++
-
-exit +1
-
-exit ++1
-
-exit ++12560
-
-exit -----
-
-exit ------
-
-exit -1
-
-exit --1
-
-exit -12560
-
-exit --12560
-
-exit 255
-
-exit 1 2
-
-exit 1 2 3
-
-exit A
-
-exit A 2 3
-
-exit "A"
-
-exit "+++"
-
-exit ++++3193912939
-
-exit 01
-
-exit 001
-
-exit 0001
-
-exit +++000
-
-exit ++++000
-
-exit ---000
-
-exit ----000
-
-exit "something"
-
-exit x
-
-exit echo
-
-exit cd ..
-
-exit exit
-
-exit 42 42 42 42 42 

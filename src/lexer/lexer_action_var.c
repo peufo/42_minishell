@@ -3,73 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_action_var.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:13:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/18 15:53:35 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/22 00:37:37 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static bool	is_end_with_space(char *value)
+{
+	if (!*value)
+		return (false);
+	while (*value)
+		value++;
+	value--;
+	return (ft_include(" \t\n", *value));
+}
+
 static void	expand_var(t_ast *node)
 {
 	char	*value;
+	char	**tokens;
+	char	**t;
 
 	value = env_get(node->shell, node->lexer.varname.value);
 	string_free(&node->lexer.varname);
-	if (value)
-		string_push_str(&node->lexer.token, value);
-}
-
-static void	expand_exit_status(t_ast *node)
-{
-	char	*exit_status;
-
-	exit_status = ft_itoa(node->shell->exit_status);
-	string_push_str(&node->lexer.token, exit_status);
-	free(exit_status);
-	node->lexer.cursor++;
+	if (!value)
+		return ;
+	tokens = ft_split(value, ' ');
+	if (!tokens)
+		shell_exit(node->shell);
+	if (ft_include(" \t\n", *value))
+		lexer_action_end_token(node);
+	t = tokens;
+	while (*t)
+	{
+		string_push_str(&node->lexer.token, *(t++));
+		if (*t)
+			lexer_action_end_token(node);
+	}
+	if (is_end_with_space(value))
+		lexer_action_end_token(node);
+	string_array_free(&tokens);
 }
 
 static void	expand_no_varname(t_ast *node)
 {
-	if (*node->lexer.cursor == '?')
+	char	cursor;
+
+	cursor = *(node->lexer.cursor);
+	if (cursor == '?')
 		return (expand_exit_status(node));
-	if (node->lexer.state == LEXER_VAR)
+	if (cursor != '*' && (
+			ft_include(CHARSET_VAR_END, cursor)
+			|| ft_include(CHARSET_SPACE, cursor)
+		))
+		string_push_str(&node->lexer.token, "$");
+	if (cursor == '*'
+		|| !ft_include(CHARSET_VAR_END, cursor))
 	{
-		if (ft_include(" \t\n", *(node->lexer.cursor)))
-			string_push_str(&node->lexer.token, "$");
-		if (!ft_include("?* \t\n", *(node->lexer.cursor)))
-			lexer_action_next_char(node);
-	}
-	if (node->lexer.state == LEXER_VAR_DQUOTE)
-	{
-		if (ft_include("\" \t\n", *(node->lexer.cursor)))
-			string_push_str(&node->lexer.token, "$");
-		if (!ft_include("'?* \t\n", *(node->lexer.cursor)))
-			lexer_action_next_char(node);
+		lexer_action_next_char(node);
 	}
 }
 
 void	lexer_action_expand_var(t_ast *node)
 {
 	char	cursor;
-	
+
 	if (!node->lexer.varname.value)
 		return (expand_no_varname(node));
 	expand_var(node);
 	cursor = *(node->lexer.cursor);
-	if (node->lexer.state == LEXER_VAR)
-	{
-		if (!ft_include("?*$/ \t\n", cursor))
-			lexer_action_next_char(node);
-	}
-	if (node->lexer.state == LEXER_VAR_DQUOTE)
-	{
-		if (!ft_include("'?* \t\n", cursor))
-			lexer_action_next_char(node);
-	}
+	if (!ft_include(CHARSET_VAR_END, cursor)
+		&& !ft_include(CHARSET_SPACE, cursor))
+		lexer_action_next_char(node);
 }
 
 void	lexer_action_expand_var_end_token(t_ast *node)
