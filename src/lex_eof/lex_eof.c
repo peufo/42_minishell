@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:55:21 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/24 12:01:55 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/24 13:02:01 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,8 @@ static bool	check_input_line(t_sh *shell)
 
 void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 {
-	char	*shit;
-
-	shit = NULL;
 	if (check_input_line(shell) && shell->line)
-		shit = transfer_shell_line(shell);
+		transfer_shell_line(shell);
 	else
 	{
 		while ((!input->line || !*input->line)
@@ -62,7 +59,6 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 				break ;
 		}
 	}
-	free(shit);
 }
 
 static void	check_sig_out(t_input *input, t_sh *shell)

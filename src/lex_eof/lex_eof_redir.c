@@ -6,21 +6,17 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/24 12:36:32 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/24 13:10:36 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*transfer_shell_line(t_sh *shell)
+void	transfer_shell_line(t_sh *shell)
 {
 	shell->input.line = ft_strdup(shell->line);
 	free(shell->line);
 	shell->line = NULL;
-	if (!shell->input.stack)
-		return (ft_strdup(shell->input.line));
-	else
-		return (ft_strdup(shell->input.stack));
 }
 
 void	get_all_codes(t_input *input, char *cursor)
@@ -127,18 +123,20 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 	char	*cursor;
 	char	*head;
 
-	cursor = transfer_shell_line(shell);
+	transfer_shell_line(shell);
+	if (!shell->input.stack)
+		cursor = ft_strdup(shell->input.line);
+	else
+		cursor = ft_strdup(shell->input.stack);
 	head = cursor;
 	safe_init_redir_array(shell, input);
 	get_all_codes(input, cursor);
 	if (!input)
 	if (!input->redir_line)
 		input->redir_line = input->line;
+	shell->line = head;
 	if (!apply_redir_logic(input, shell))
 		return (shell_exec(shell), true);
 	checkout_from_redir(shell);
-	shell->line = ft_strdup(head);
-	free(head);
-//	free(cursor);
 	return (true);
 }
