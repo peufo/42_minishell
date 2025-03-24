@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/19 10:59:48 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/23 15:22:34 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ bool	input_read(t_sh	*shell)
 		shell->line = readline(shell->prompt.value);
 		errno = false;
 		if (!shell->line)
-			input_read(shell);
+			shell_exec(shell);
 		if (!lex_check_start(shell->line, &shell->input))
 		{
 			if (!iss_empty_line(shell->line))
@@ -58,6 +58,6 @@ bool	input_read(t_sh	*shell)
 	if (errno)
 		shell_exit(shell);
 	if (shell->line && iss_empty_line(shell->line))
-		input_read(shell);
+		shell_exec(shell);
 	return (lex_check_start(shell->line, &shell->input));
 }
