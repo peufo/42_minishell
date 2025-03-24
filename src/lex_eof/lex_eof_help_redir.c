@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/22 06:39:09 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/24 11:56:50 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	vladimir_poutin(int *a, int *b)
 	*b = 0;
 }
 
-static void	suppress_last_line(char **newline, char *line)
+static void	suppress_last_line(char **newline, char *line, int mlen)
 {
 	t_utils	u;
 	char	*buf;
@@ -82,7 +82,7 @@ static void	suppress_last_line(char **newline, char *line)
 			u.x--;
 	buf = ft_calloc(u.j, 1);
 	vladimir_poutin(&u.i, &u.x);
-	while (--u.j > 0 && *line)
+	while (--u.j - mlen > 1 && *line)
 	{
 		buf[u.i++] = *line;
 		line++;
@@ -100,18 +100,15 @@ static void	suppress_last_line(char **newline, char *line)
 void	checkout_from_redir(t_sh *shell)
 {
 	int		i;
-	char	*line;
 
 	i = 0;
 	if (!shell->input.redir_input || !shell->input.redir_input[0])
 		return ;
-	line = ft_strchr(shell->input.redir_input[0], '\n');
-	line++;
-	suppress_last_line(&shell->input.redir_input[0], line);
 	while (shell->input.redir_input[i] && i < shell->input.nb_redir)
 	{
 		suppress_last_line(&shell->input.redir_input[i],
-			shell->input.redir_input[i]);
+			shell->input.redir_input[i],
+			(int)ft_strlen(shell->input.redir_code[i]));
 		i++;
 	}
 }

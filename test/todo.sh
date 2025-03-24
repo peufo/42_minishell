@@ -1,6 +1,9 @@
 # /bin/echo hi >./log/outfile01 | /bin/echo bye
 # /bin/echo <123 <456 hi | /bin/echo 42
 
+#	NE MARCHE PAS
+#		cat <a ou grep a <a
+#	NE MARCHE PAS
 ### FUCK OFF
 # cd log
 # export VAR="out.txt prout"
