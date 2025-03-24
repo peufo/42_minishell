@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/24 10:10:14 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/24 12:36:32 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static bool	checkout_from_logic(t_input *input)
 	input->is_redir = false;
 	if (!g_signal.is_sigint)
 		return (true);
-//	g_signal.is_sigint = false;
 	return (false);
 	if (input->redir_input)
 		string_array_free(&input->redir_input);
@@ -128,8 +127,8 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 	char	*cursor;
 	char	*head;
 
-	head = ft_strdup(shell->line);
 	cursor = transfer_shell_line(shell);
+	head = cursor;
 	safe_init_redir_array(shell, input);
 	get_all_codes(input, cursor);
 	if (!input)
@@ -140,6 +139,6 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 	checkout_from_redir(shell);
 	shell->line = ft_strdup(head);
 	free(head);
-	free(cursor);
+//	free(cursor);
 	return (true);
 }
