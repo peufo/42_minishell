@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/23 15:22:34 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/24 09:08:15 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ bool	input_read(t_sh	*shell)
 	if (shell->is_interactive)
 	{
 		shell->line = readline(shell->prompt.value);
-		errno = false;
-		if (!shell->line)
+		if (!shell->line || iss_empty_line(shell->line))
 			shell_exec(shell);
+		errno = false;
 		if (!lex_check_start(shell->line, &shell->input))
 		{
 			if (!iss_empty_line(shell->line))

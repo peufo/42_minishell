@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:55:21 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/18 16:18:18 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/24 10:07:47 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 		while ((!input->line || !*input->line)
 			|| (!input->redir_line || !*input->redir_line))
 		{
-			actualise(shell);
+			if (g_signal.is_sigint)
+				break ;
 			if (input->is_redir)
 			{
 				ft_putstr_fd(">>", 1);
@@ -60,6 +61,14 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 	}
 }
 
+static void	check_sig_out(t_input *input, t_sh *shell)
+{
+	(void)input;
+	if (!g_signal.is_sigint)
+		return ;
+	shell_exec(shell);
+}
+
 static void	lex_eof_read_input(t_sh *shell, t_input *input)
 {
 	while (input->state > 0 || input->last > 0)
@@ -74,7 +83,10 @@ static void	lex_eof_read_input(t_sh *shell, t_input *input)
 		input->state = check_string(input->stack);
 		input->last = get_last_token_type(input->stack, input);
 		stack_to_history(input->stack, shell);
+		if (g_signal.is_sigint)
+			break ;
 	}
+	check_sig_out(input, shell);
 }
 
 void	lex_eof(t_sh *shell)

@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/23 16:08:18 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/24 10:07:43 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,14 @@ void	shell_exec(t_sh *shell)
 	DEBUG("INIT SHELL AT : %s\n\n", __TIME__);
 	while (shell->is_running)
 	{
-		actualise(shell);
-		if (shell->signal != SIGINT)
-		{
-			exec = input_read(shell);
-			if (!shell->line && !shell->is_interactive)
-				shell_exit(shell);
-			if (*shell->line == '#')
-				continue ;
-			if (shell->line)
-				basic_exec(shell, exec);
-		}
+		g_signal.is_sigint = false;
+		exec = input_read(shell);
+		if (!shell->line && !shell->is_interactive)
+			shell_exit(shell);
+		if (*shell->line == '#')
+			continue ;
+		if (shell->line)
+			basic_exec(shell, exec);
 	}
 	shell_exit(shell);
 }
