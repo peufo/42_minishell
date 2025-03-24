@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/20 13:18:32 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/24 13:01:37 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int		get_the_fucking_line(t_sh *shell);
 bool	is_empty_line(char *line);
 
 //	REDIRECTION
-void	treat_redirections(t_input *input, t_sh *shell);
+bool	treat_redirections(t_input *input, t_sh *shell);
 char	*catch_the_redir_code(char *line);
 void	get_safe_readline_inputs(t_sh *shell, t_input *input);
 void	get_all_codes(t_input *input, char *cursor);

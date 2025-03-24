@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/22 06:38:00 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/24 13:10:36 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,28 @@ void	get_all_codes(t_input *input, char *cursor)
 	}
 }
 
+static bool	checkout_from_logic(t_input *input)
+{
+	input->is_redir = false;
+	if (!g_signal.is_sigint)
+		return (true);
+	return (false);
+	if (input->redir_input)
+		string_array_free(&input->redir_input);
+	if (input->redir_code)
+		string_array_free(&input->redir_code);
+	return (false);
+}
+
+static bool	check_heredoc_code(char *s1, char *s2)
+{
+	if (!s1 || !s2 || ft_strlen(s1) - 1 != ft_strlen(s2))
+		return (false);
+	if (!ft_strncmp(s1, s2, ft_strlen(s1) - 1))
+		return (true);
+	return (false);
+}
+
 static bool	apply_redir_logic(t_input *input, t_sh *shell)
 {
 	int	i;
@@ -52,22 +74,19 @@ static bool	apply_redir_logic(t_input *input, t_sh *shell)
 		stack_to_buffer(&input->redir_input[i], input->redir_line);
 		if (input->redir_line)
 		{
-			if (!ft_strncmp(input->redir_line,
-					input->redir_code[i], ft_strlen(input->redir_line) - 1)
-				&& !is_empty_line(input->redir_line))
+			if (check_heredoc_code(input->redir_line, input->redir_code[i]))
 				i++;
 		}
 		else if (input->line)
 		{
-			if (!ft_strcmp(input->line, input->redir_code[i]))
+			if (check_heredoc_code(input->line, input->redir_code[i]))
 				i++;
 		}
-		if (i == input->nb_redir)
+		if (i == input->nb_redir || g_signal.is_sigint)
 			break ;
 		get_safe_readline_inputs(shell, input);
 	}
-	input->is_redir = false;
-	return (true);
+	return (checkout_from_logic(input));
 }
 
 int	count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote)
@@ -86,7 +105,7 @@ int	count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote)
 		check_quotes(*cursor, &dquote, &quote);
 		if (!dquote && !quote && check_redir(cursor))
 		{
-			count++;
+		count++;
 			while (*cursor == '<' || ft_isspace(*cursor))
 				cursor++;
 			while (ft_isalnum(*cursor))
@@ -99,25 +118,25 @@ int	count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote)
 	return (free(head), count);
 }
 
-void	treat_redirections(t_input *input, t_sh *shell)
+bool	treat_redirections(t_input *input, t_sh *shell)
 {
 	char	*cursor;
 	char	*head;
 
-	head = ft_strdup(shell->line);
-	if (shell->line)
-		transfer_shell_line(shell);
-	safe_init_redir_array(shell, input);
-	if (!input->stack)
-		cursor = ft_strdup(input->line);
+	transfer_shell_line(shell);
+	if (!shell->input.stack)
+		cursor = ft_strdup(shell->input.line);
 	else
-		cursor = ft_strdup(input->stack);
+		cursor = ft_strdup(shell->input.stack);
+	head = cursor;
+	safe_init_redir_array(shell, input);
 	get_all_codes(input, cursor);
+	if (!input)
 	if (!input->redir_line)
 		input->redir_line = input->line;
-	if (!apply_redir_logic(input, shell))
-		return (shell_exit(shell));
-	checkout_from_redir(shell);
 	shell->line = head;
-	free(cursor);
+	if (!apply_redir_logic(input, shell))
+		return (shell_exec(shell), true);
+	checkout_from_redir(shell);
+	return (true);
 }

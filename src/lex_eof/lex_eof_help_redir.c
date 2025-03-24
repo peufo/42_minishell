@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/22 06:39:09 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/24 12:58:31 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,37 +62,26 @@ void	safe_init_redir_array(t_sh *shell, t_input *input)
 		return (string_array_free(&input->redir_input));
 }
 
-static void	vladimir_poutin(int *a, int *b)
-{
-	*a = 0;
-	*b = 0;
-}
-
-static void	suppress_last_line(char **newline, char *line)
+static void	suppress_last_line(char **newline, char *line, int mlen)
 {
 	t_utils	u;
 	char	*buf;
 
 	ft_bzero(&u, sizeof(t_utils));
-	while (line[u.i])
-		if (line[u.i++] == '\n')
-			u.x++;
-	while (line[u.j] && u.x > 0)
-		if (line[u.j++] == '\n')
-			u.x--;
-	buf = ft_calloc(u.j, 1);
-	vladimir_poutin(&u.i, &u.x);
+	u.j = (int)ft_strlen(*newline) - mlen;
+	buf = ft_calloc(u.j + 1, 1);
 	while (--u.j > 0 && *line)
 	{
 		buf[u.i++] = *line;
 		line++;
 		if (*line == '\n')
 		{
-			u.x++;
-			if (u.x % 2 == 0)
-				line++;
+			line++;
+			u.j--;
 		}
 	}
+	if (u.i > 2)
+		buf[u.i] = '\n';
 	free(*newline);
 	*newline = buf;
 }
@@ -100,18 +89,15 @@ static void	suppress_last_line(char **newline, char *line)
 void	checkout_from_redir(t_sh *shell)
 {
 	int		i;
-	char	*line;
 
 	i = 0;
 	if (!shell->input.redir_input || !shell->input.redir_input[0])
 		return ;
-	line = ft_strchr(shell->input.redir_input[0], '\n');
-	line++;
-	suppress_last_line(&shell->input.redir_input[0], line);
 	while (shell->input.redir_input[i] && i < shell->input.nb_redir)
 	{
 		suppress_last_line(&shell->input.redir_input[i],
-			shell->input.redir_input[i]);
+			shell->input.redir_input[i],
+			(int)ft_strlen(shell->input.redir_code[i]) + 1);
 		i++;
 	}
 }
