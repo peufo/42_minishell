@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:40:04 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 07:53:37 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 07:55:21 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ static void	check_sig_out(t_input *input, t_sh *shell)
 	(void)input;
 	if (!g_signal.is_sigint)
 		return ;
+	if (input->line)
+	{
+		free(input->line);
+		input->line = NULL;
+	}
 	input_free(input);
 	shell_exec(shell);
 }

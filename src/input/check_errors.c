@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:08:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/19 10:51:30 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 08:25:24 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,46 @@ static int	redir_sentinel(char *line)
 	return (1);
 }
 
+bool	check_start(t_sh *shell, char *cursor)
+{
+	if (*cursor == '&')
+	{
+		if (cursor[1] == '&')
+			return (help(shell, "&&"), false);
+		return (help(shell, "&"), false);
+	}
+	if (*cursor == '|')
+	{
+		if (cursor[1])
+			return (help(shell, "||"), false);
+		return (help(shell, "|"), false);
+	}
+	if (*cursor == ';')
+		return (help(shell, ";"), false);
+	return (true);
+}
+
 bool	did_eye_of_sawron(t_sh *shell)
 {
-	bool	indquote;
-	bool	insquote;
+	bool	quotes[2];
 	char	*cursor;
 	char	*head;
 
-	indquote = false;
-	insquote = false;
 	if (!shell->line)
 		return (true);
-	cursor = ft_strdup(shell->line);
-	head = cursor;
+	ft_bzero(&quotes, sizeof(quotes));
+	init_error_checker(&cursor, &head, shell);
+	if (!check_start(shell, cursor))
+		return (free(head), false);
 	while (*cursor)
 	{
-		check_quotes(*cursor, &indquote, &insquote);
-		if (!indquote && !insquote)
+		check_quotes(*cursor, &quotes[0], &quotes[1]);
+		if (!quotes[0] && !quotes[1])
 		{
 			if (pipe_sentinel(cursor))
-				return (free(head), help(shell, "Pipe"), true);
+				return (free(head), help(shell, "|"), true);
 			if (redir_sentinel(cursor))
-				return (free(head), help(shell, "Redir"), true);
+				return (free(head), help(shell, "><"), true);
 		}
 		cursor++;
 	}
