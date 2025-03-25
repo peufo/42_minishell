@@ -6,22 +6,11 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:40:04 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 10:58:23 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 11:12:43 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-bool	is_empty_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line && line[i])
-		if (!ft_isspace(line[i++]))
-			return (false);
-	return (true);
-}
 
 static bool	check_input_line(t_sh *shell)
 {
@@ -31,6 +20,39 @@ static bool	check_input_line(t_sh *shell)
 		shell->input.line = NULL;
 	}
 	return (true);
+}
+
+static void	check_sig_out(t_input *input, t_sh *shell)
+{
+	(void)shell;
+	if (!g_signal.is_sigint)
+		return ;
+	if (input->line)
+	{
+		free(input->line);
+		input->line = NULL;
+	}
+	input_free(input);
+}
+
+static void	lex_eof_read_input(t_sh *shell, t_input *input)
+{
+	while (input->state > 0 || input->last > 0)
+	{
+		get_safe_readline_inputs(shell, input);
+		stack_to_buffer(&input->stack, input->line);
+		if (shell->line)
+		{
+			free(shell->line);
+			shell->line = NULL;
+		}
+		input->state = check_string(input->stack);
+		input->last = get_last_token_type(input->stack, input);
+		stack_to_history(input->stack, shell);
+		if (g_signal.is_sigint)
+			break ;
+	}
+	check_sig_out(input, shell);
 }
 
 void	get_safe_readline_inputs(t_sh *shell, t_input *input)
@@ -67,39 +89,6 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 				break ;
 		}
 	}
-}
-
-static void	check_sig_out(t_input *input, t_sh *shell)
-{
-	(void)shell;
-	if (!g_signal.is_sigint)
-		return ;
-	if (input->line)
-	{
-		free(input->line);
-		input->line = NULL;
-	}
-	input_free(input);
-}
-
-static void	lex_eof_read_input(t_sh *shell, t_input *input)
-{
-	while (input->state > 0 || input->last > 0)
-	{
-		get_safe_readline_inputs(shell, input);
-		stack_to_buffer(&input->stack, input->line);
-		if (shell->line)
-		{
-			free(shell->line);
-			shell->line = NULL;
-		}
-		input->state = check_string(input->stack);
-		input->last = get_last_token_type(input->stack, input);
-		stack_to_history(input->stack, shell);
-		if (g_signal.is_sigint)
-			break ;
-	}
-	check_sig_out(input, shell);
 }
 
 void	lex_eof(t_sh *shell)
