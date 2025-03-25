@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/24 16:48:58 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 07:51:40 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,9 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 {
 	char	*cursor;
 	char	*head;
+	char	*copy;
 
+	copy = ft_strdup(shell->line);
 	transfer_shell_line(shell);
 	if (!shell->input.stack)
 		cursor = ft_strdup(shell->input.line);
@@ -138,9 +140,11 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 		input->redir_line = input->line;
 	shell->line = head;
 	if (!apply_redir_logic(input, shell))
+	{
+		shell->line = copy;
 		return (shell_exec(shell), true);
-	shell->line = ft_strdup(head);
-	free(head);
+	}
+	shell->line = copy;
 	checkout_from_redir(shell);
 	return (true);
 }
