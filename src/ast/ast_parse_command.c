@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:26:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/19 18:19:08 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:10:23 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,4 @@ void	ast_parse_command(t_ast *node)
 	pick_redir(node, &node->redir.files_out, ">");
 	pick_redir(node, &node->redir.files_in, "<");
 	ast_parse_tilde(node);
-	ast_parse_wildcard(node);
 }

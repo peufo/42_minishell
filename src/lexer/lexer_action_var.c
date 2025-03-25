@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_action_var.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:13:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/22 00:37:37 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:39:25 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static void	expand_var(t_ast *node)
 	t = tokens;
 	while (*t)
 	{
-		string_push_str(&node->lexer.token, *(t++));
+		string_push_str(&node->lexer.token, *t);
+		lexer_action_var_catch_wild(node, ft_strlen(*(t++)));
 		if (*t)
 			lexer_action_end_token(node);
 	}
@@ -55,7 +56,7 @@ static void	expand_no_varname(t_ast *node)
 
 	cursor = *(node->lexer.cursor);
 	if (cursor == '?')
-		return (expand_exit_status(node));
+		return (lexer_expand_exit_status(node));
 	if (cursor != '*' && (
 			ft_include(CHARSET_VAR_END, cursor)
 			|| ft_include(CHARSET_SPACE, cursor)

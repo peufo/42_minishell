@@ -3,40 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:08:33 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/19 10:53:28 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 17:51:03 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	pipe_debug(t_ast *node, char *msg)
-{
-	if (node->pipe_in && node->pipe_out)
-		DEBUG("[%d]\t%d→%d()%d→%d\t%s\n",
-			getpid(),
-			node->pipe_in->in,
-			node->pipe_in->out,
-			node->pipe_out->in,
-			node->pipe_out->out,
-			msg);
-	if (!node->pipe_in && node->pipe_out)
-		DEBUG("[%d]\t-→-()%d→%d\t%s\n",
-			getpid(),
-			node->pipe_out->in,
-			node->pipe_out->out,
-			msg);
-	if (node->pipe_in && !node->pipe_out)
-		DEBUG("[%d]\t%d→%d()-→-\t%s\n",
-			getpid(),
-			node->pipe_in->in,
-			node->pipe_in->out,
-			msg);
-	if (!node->pipe_in && !node->pipe_out)
-		DEBUG("[%d]\t-→-()-→-\t%s\n", getpid(), msg);
-}
 
 static void	close_fd(t_ast *node, int fd)
 {
@@ -46,7 +20,6 @@ static void	close_fd(t_ast *node, int fd)
 
 static void	pipes_connect(t_ast *node)
 {
-	pipe_debug(node, "CONNECT");
 	if (node->pipe_in)
 	{
 		close_fd(node, node->pipe_in->in);
@@ -65,7 +38,6 @@ static void	pipes_connect(t_ast *node)
 
 void	exec_child(t_ast *node, t_exe exe)
 {
-	pipe_debug(node, "FORK");
 	node->pid = fork();
 	if (node->pid)
 	{
@@ -76,8 +48,6 @@ void	exec_child(t_ast *node, t_exe exe)
 		}
 		return ;
 	}
-	pipe_debug(node, "CHILD");
-	ast_debug(node, 0);
 	node->is_child_process = true;
 	pipes_connect(node);
 	node->status = exe(node);

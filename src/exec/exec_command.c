@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/19 17:01:23 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:06:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static int	exec_redirect_open(
 	int open_flags,
 	int std_fd)
 {
-	int	fd;
+	int			fd;
+	static char	no_dir_err[] = ": No such file or directory";
 
 	if (!files)
 		return (0);
@@ -26,7 +27,15 @@ static int	exec_redirect_open(
 	{
 		fd = open(*files, open_flags, 0666);
 		if (fd == -1)
+		{
+			if (errno == ENOENT)
+			{
+				throw(node, (char *[]){*files, no_dir_err, NULL});
+				errno = false;
+				return (1);
+			}
 			return (throw(node, NULL));
+		}
 		if (dup2(fd, std_fd) == -1)
 			return (throw(node, NULL));
 		if (close(fd) == -1)
@@ -95,6 +104,8 @@ int	exec_command(t_ast *node)
 	exec_update_underscore(node);
 	exec_redirect_open(node, node->heredoc.files_in, O_RDONLY, STDERR_FILENO);
 	exec_redirect(node);
+	if (node->status)
+		return (node->status);
 	if (!node->tokens)
 		return (exec_redir_restore_std(node, &node->redir), node->status);
 	builtin = get_builtin(*node->tokens);

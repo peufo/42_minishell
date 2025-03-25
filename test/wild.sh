@@ -11,3 +11,13 @@ echo $DOT*i*
 ls *o*
 
 echo *not_exist
+export VAR="i*n*"
+echo *$VAR
+echo *"$VAR"
+export VAR="i"
+echo *"$VAR"*n*
+
+export VAR="*o*"
+echo $VAR
+ls $VAR
+ls "$VAR"

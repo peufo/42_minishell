@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:49:27 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/20 12:14:53 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:24:20 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,15 @@
 
 static void	push_char_token(t_ast *node)
 {
-	string_push_char(&node->lexer.token, *node->lexer.cursor);
+	char	*end_token;
+
+	end_token = string_push_char(&node->lexer.token, *node->lexer.cursor);
+	if (!end_token)
+		shell_exit(node->shell);
+	if (node->lexer.state == LEXER_DEFAULT && *node->lexer.cursor == '*')
+	{
+		string_array_push(&node->lexer.wilds, end_token - 1);
+	}
 	node->lexer.cursor++;
 }
 

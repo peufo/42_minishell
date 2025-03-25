@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_action_var_dquote.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 10:06:54 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/22 00:49:40 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:38:33 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	expand_no_varname_dquote(t_ast *node)
 
 	cursor = *(node->lexer.cursor);
 	if (cursor == '?')
-		return (expand_exit_status(node));
+		return (lexer_expand_exit_status(node));
 	if (cursor == '"' || cursor == '\''
 		|| (ft_include(CHARSET_VAR_END, cursor) && cursor != '*')
 		|| ft_include(CHARSET_SPACE, cursor)
@@ -38,7 +38,7 @@ static void	expand_no_varname_dquote(t_ast *node)
 		lexer_action_next_char(node);
 }
 
-void	expand_exit_status(t_ast *node)
+void	lexer_expand_exit_status(t_ast *node)
 {
 	char	*exit_status;
 

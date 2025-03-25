@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
 /*   Updated: 2025/03/25 12:13:24 by dyodlm           ###   ########.fr       */
@@ -33,7 +33,7 @@
 # include "input/get_next_line.h"
 # include "utils/string.h"
 # include "utils/string_array.h"
-# include "debug.h"
+# include "global.h"
 
 typedef union u_pipe
 {
@@ -50,14 +50,6 @@ typedef struct s_child
 	pid_t	pid;
 	int		status;
 }	t_child;
-
-typedef struct s_signal
-{
-	pid_t	pid;
-	bool	is_sigint;
-	bool	is_sigquit;
-	int		exit_status;
-}	t_signal;
 
 typedef struct s_utils
 {
@@ -113,13 +105,11 @@ typedef struct s_operator
 
 typedef struct s_wild
 {
-	char		*start;
-	char		*end;
-	char		*pattern;
+	char		*token;
 	char		**sections;
 	bool		is_wild_start;
 	bool		is_wild_end;
-	char		*files;
+	char		**files;
 }	t_wild;
 
 //	SIGNAL
@@ -131,9 +121,7 @@ int		check_string(char *input);
 void	stack_to_history(char *line, t_sh *shell);
 bool	did_eye_of_sawron(t_sh *shell);
 int		throw_shell(t_sh *shell, char **error);
-void	init_error_checker(
-		char **cursor, char **head, t_sh *shell);
-void	assure_shell_line(t_sh *shell, char *copy);
+void	init_error_checker(char **cursor, char **head, t_sh *shell);
 bool	apply_redir(t_sh *shell, char *copy);
 bool	apply_redir_logic(t_input *input, t_sh *shell);
 void	assure_heredoc_line(t_sh *shell);
@@ -153,7 +141,6 @@ void	checkout_from_redir(t_sh *shell);
 bool	check_redir(char *cursor);
 void	check_quotes(char c, bool *dquote, bool *quote);
 int		count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote);
-int		get_the_fucking_line(t_sh *shell);
 bool	is_empty_line(char *line);
 
 //	REDIRECTION
@@ -189,6 +176,7 @@ struct s_lexer
 	t_string			token;
 	t_string			varname;
 	char				**tokens;
+	char				**wilds;
 };
 
 typedef struct e_lexer_next_state
@@ -212,7 +200,9 @@ void	lexer_action_expand_var_dquote(t_ast *node);
 void	lexer_action_expand_var_end_token(t_ast *node);
 void	lexer_action_skip_blank(t_ast *node);
 void	lexer_action_next_char(t_ast *node);
-void	expand_exit_status(t_ast *node);
+void	lexer_expand_exit_status(t_ast *node);
+void	lexer_expand_wildcard(t_ast *node);
+void	lexer_action_var_catch_wild(t_ast *node, int var_len);
 
 // PARSER ====================================================================
 
@@ -277,7 +267,6 @@ int		ast_parse_pipe(t_ast *node);
 void	ast_parse_heredoc(t_ast *node);
 int		ast_parse_subshell(t_ast *node);
 void	ast_parse_tilde(t_ast *node);
-void	ast_parse_wildcard(t_ast *node);
 char	*ast_tokens_find(char *line, char *token);
 char	*ast_tokens_find_last(char *line, char *token);
 void	ast_debug(t_ast *node, int deep);
@@ -354,11 +343,5 @@ char	*ft_strchrstr(const char *str, char *to_find);
 char	*ft_strrchrstr(const char *str, char *to_find);
 char	*get_line(int fd);
 void	ft_suppress(char *from, char *to, char **line);
-
-// DEBUG =======================================================================
-void	debug_new_tokens(char **toks);
-void	debug_two_lists(t_list *l1, t_list *l2);
-
-extern t_signal	g_signal;
 
 #endif

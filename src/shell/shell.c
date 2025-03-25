@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/24 14:44:44 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 17:51:32 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,6 @@ void	shell_exit(t_sh *shell)
 	input_free(&shell->input);
 	ast_free(&shell->ast);
 	shell_free(shell);
-	DEBUG("\n[%d]\t🏁🏁🏁 CLEAN EXIT OK 🏁🏁🏁\n", getpid());
-	DEBUG_CLOSE();
 	if (errno)
 		perror(shell->name);
 	if (errno && !shell->exit_status)

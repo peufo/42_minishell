@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   check_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:08:40 by dyodlm            #+#    #+#             */
 /*   Updated: 2025/03/25 08:25:24 by dyodlm           ###   ########.fr       */
@@ -28,7 +28,7 @@ static int	pipe_sentinel(char *line)
 	while (line[i] && ft_isspace(line[i]))
 		i++;
 	if ((line[i] && ft_isalnum(line[i])) || line[1] == '|' || line[i] == '('
-		|| line[i] == '<' || line[i] == '>')
+		|| line[i] == '<' || line[i] == '>' || line[i] == '\\')
 		return (0);
 	return (1);
 }
@@ -38,7 +38,7 @@ static int	redir_sentinel(char *line)
 	int	i;
 
 	i = 1;
-	if (!line[0] || line[0] != '<' || line[0] != '>')
+	if (!line[0] || line[0] != '<' || line[0] != '>' || line[i] == '\\')
 		return (0);
 	while (line[i] && ft_isspace(line[i]))
 		i++;

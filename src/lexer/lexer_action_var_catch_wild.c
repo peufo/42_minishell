@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   lexer_action_var_catch_wild.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/04 13:12:11 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/05 12:19:57 by jvoisard         ###   ########.fr       */
+/*   Created: 2025/03/25 17:35:20 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/03/25 17:39:38 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEBUG_H
-# define DEBUG_H
+#include "minishell.h"
 
-int	debug_get_fd(void);
+void	lexer_action_var_catch_wild(t_ast *node, int var_len)
+{
+	char	*token;
 
-# define DEBUG(...)	dprintf(debug_get_fd(), __VA_ARGS__)
-# define DEBUG_CLOSE() close(debug_get_fd())
-
-#endif
+	token = node->lexer.token.value;
+	if (!token)
+		return ;
+	while (*token)
+		token++;
+	token -= var_len;
+	if (token < node->lexer.token.value)
+		return ;
+	while (*token)
+	{
+		if (*token == '*')
+			string_array_push(&node->lexer.wilds, token);
+		token++;
+	}
+}

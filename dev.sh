@@ -114,8 +114,7 @@ get_state() {
 	fi
 	SRC_STATE=$(find -L $SRC_DIR -type f -name "*.[ch]" -exec $MD5 {} \;)
 	TEST_STATE=$(find -L ./test -type f -name "*.sh" -exec $MD5 {} \;)
-	TEST2_STATE=$(find -L ./testonline -type f -name "*.sh" -exec $MD5 {} \;)
-	echo "$SRC_STATE $TEST_STATE $TEST2_STATE"
+	echo "$SRC_STATE $TEST_STATE"
 }
 
 sync_sources() {
