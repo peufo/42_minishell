@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 12:02:34 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 12:09:17 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static bool	check_heredoc_code(char *s1, char *s2)
 	return (false);
 }
 
-static bool	apply_redir_logic(t_input *input, t_sh *shell)
+bool	apply_redir_logic(t_input *input, t_sh *shell)
 {
 	int	i;
 
@@ -103,16 +103,8 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 	if (!input && !input->redir_line)
 		input->redir_line = input->line;
 	shell->line = head;
-	if (!apply_redir_logic(input, shell))
-	{
-		shell->line = copy;
-		if (shell->line2)
-		{
-			shell->line = shell->line2;
-			return (free(copy), true);
-		}
-		return (shell_exec(shell), true);
-	}
+	if (!apply_redir(shell, copy))
+		return (true);
 	shell->line = copy;
 	checkout_from_redir(shell);
 	return (true);

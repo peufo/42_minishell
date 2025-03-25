@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:09:57 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 12:02:28 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 12:08:50 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,19 @@ void	transfer_shell_line(t_sh *shell)
 	shell->input.line = ft_strdup(shell->line);
 	free(shell->line);
 	shell->line = NULL;
+}
+
+bool	apply_redir(t_sh *shell, char *copy)
+{
+	if (!apply_redir_logic(&shell->input, shell))
+	{
+		shell->line = copy;
+		if (shell->line2)
+		{
+			shell->line = shell->line2;
+			return (free(copy), false);
+		}
+		return (shell_exec(shell), false);
+	}
+	return (true);
 }
