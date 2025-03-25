@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/25 08:25:34 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 12:13:24 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,11 @@ bool	did_eye_of_sawron(t_sh *shell);
 int		throw_shell(t_sh *shell, char **error);
 void	init_error_checker(
 		char **cursor, char **head, t_sh *shell);
+void	assure_shell_line(t_sh *shell, char *copy);
+bool	apply_redir(t_sh *shell, char *copy);
+bool	apply_redir_logic(t_input *input, t_sh *shell);
+void	assure_heredoc_line(t_sh *shell);
+void	assure_eof_line(t_sh *shell);
 
 //	EOF LEXER
 void	lex_eof(t_sh *shell);
@@ -284,6 +289,7 @@ struct s_sh
 {
 	char		*name;
 	char		*line;
+	char		*line2;
 	char		**env;
 	t_string	prompt;
 	t_pipe		pipe;

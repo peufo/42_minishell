@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 07:51:54 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 11:09:21 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	shell_exec(t_sh *shell)
 	int					exec;
 
 	if (shell->input.redir_code || shell->input.redir_input
-			|| shell->input.redir_line)
+		|| shell->input.redir_line)
 		input_free(&shell->input);
 	ft_bzero(&shell->input, sizeof(t_input));
 	shell->input.state = LEXER_DEFAULT;
