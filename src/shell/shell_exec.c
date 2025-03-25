@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 17:29:45 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:52:53 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static void	basic_exec(t_sh *shell, int exec)
 	if (count_redir_in_line(shell, shell->line, 0, 0))
 		treat_redirections(&shell->input, shell);
 	shell->ast = ast_create(shell, ft_strdup(shell->line));
-	ast_debug(shell->ast, 0);
 	exec_ast(shell->ast);
 	if (!exec)
 		stack_to_history(shell->line, shell);
@@ -41,7 +40,6 @@ void	shell_exec(t_sh *shell)
 	shell->is_interactive = isatty(shell->pipe.in);
 	errno = false;
 	shell->is_running = true;
-	DEBUG("INIT SHELL AT : %s\n\n", __TIME__);
 	while (shell->is_running)
 	{
 		g_signal.is_sigint = false;

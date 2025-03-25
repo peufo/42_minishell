@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/25 17:46:54 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:52:12 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 # include "input/get_next_line.h"
 # include "utils/string.h"
 # include "utils/string_array.h"
-# include "debug.h"
 # include "global.h"
 
 typedef union u_pipe
@@ -142,7 +141,6 @@ void	checkout_from_redir(t_sh *shell);
 bool	check_redir(char *cursor);
 void	check_quotes(char c, bool *dquote, bool *quote);
 int		count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote);
-int		get_the_fucking_line(t_sh *shell);
 bool	is_empty_line(char *line);
 
 //	REDIRECTION
@@ -345,9 +343,5 @@ char	*ft_strchrstr(const char *str, char *to_find);
 char	*ft_strrchrstr(const char *str, char *to_find);
 char	*get_line(int fd);
 void	ft_suppress(char *from, char *to, char **line);
-
-// DEBUG =======================================================================
-void	debug_new_tokens(char **toks);
-void	debug_two_lists(t_list *l1, t_list *l2);
 
 #endif

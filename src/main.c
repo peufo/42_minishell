@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/24 10:33:04 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 17:51:42 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,4 @@ int	main(int ac, char **av, char **env)
 	shell_exec(&shell);
 	ast_free(&shell.ast);
 	return (0);
-}
-
-int	debug_get_fd(void)
-{
-	static int	debug_fd = -1;
-
-	if (debug_fd == -1)
-		debug_fd = open("./log/debug.log", O_RDWR | O_CREAT | O_TRUNC, 0666);
-	return (debug_fd);
 }
