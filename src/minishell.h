@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/25 08:25:34 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 10:25:58 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,7 @@ struct s_sh
 {
 	char		*name;
 	char		*line;
+	char		*line2;
 	char		**env;
 	t_string	prompt;
 	t_pipe		pipe;
