@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/25 17:41:31 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:46:54 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ void	stack_to_history(char *line, t_sh *shell);
 bool	did_eye_of_sawron(t_sh *shell);
 int		throw_shell(t_sh *shell, char **error);
 void	init_error_checker(char **cursor, char **head, t_sh *shell);
-void	assure_shell_line(t_sh *shell, char *copy);
 bool	apply_redir(t_sh *shell, char *copy);
 bool	apply_redir_logic(t_input *input, t_sh *shell);
 void	assure_heredoc_line(t_sh *shell);
@@ -204,6 +203,7 @@ void	lexer_action_expand_var_end_token(t_ast *node);
 void	lexer_action_skip_blank(t_ast *node);
 void	lexer_action_next_char(t_ast *node);
 void	lexer_expand_exit_status(t_ast *node);
+void	lexer_expand_wildcard(t_ast *node);
 void	lexer_action_var_catch_wild(t_ast *node, int var_len);
 
 // PARSER ====================================================================
