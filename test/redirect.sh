@@ -2,6 +2,9 @@ export FILE_A="log/redirect/a.out"
 export FILE_B="log/redirect/b.out"
 export FILE_C="log/redirect/c.out"
 
+cat < not_a_file
+cat < not_a_file < fuck_off
+
 echo "AAAA" > $FILE_A
 grep . $FILE_A
 echo "BBBB" > $FILE_A > $FILE_B
