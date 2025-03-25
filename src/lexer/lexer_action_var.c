@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_action_var.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:13:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/22 00:37:37 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:00:11 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,26 @@ static bool	is_end_with_space(char *value)
 		value++;
 	value--;
 	return (ft_include(" \t\n", *value));
+}
+
+static void	catch_var_wilds(t_ast *node, int var_len)
+{
+	char	*token;
+
+	token = node->lexer.token.value;
+	if (!token)
+		return ;
+	while (*token)
+		token++;
+	token -= var_len;
+	if (token < node->lexer.token.value)
+		return ;
+	while (*token)
+	{
+		if (*token == '*')
+			string_array_push(&node->lexer.wilds, token);
+		token++;
+	}
 }
 
 static void	expand_var(t_ast *node)
@@ -40,7 +60,8 @@ static void	expand_var(t_ast *node)
 	t = tokens;
 	while (*t)
 	{
-		string_push_str(&node->lexer.token, *(t++));
+		string_push_str(&node->lexer.token, *t);
+		catch_var_wilds(node, ft_strlen(*(t++)));
 		if (*t)
 			lexer_action_end_token(node);
 	}

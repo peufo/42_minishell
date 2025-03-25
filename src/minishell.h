@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/24 13:01:37 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 15:40:23 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,13 +113,11 @@ typedef struct s_operator
 
 typedef struct s_wild
 {
-	char		*start;
-	char		*end;
-	char		*pattern;
+	char		*token;
 	char		**sections;
 	bool		is_wild_start;
 	bool		is_wild_end;
-	char		*files;
+	char		**files;
 }	t_wild;
 
 //	SIGNAL
@@ -182,6 +180,7 @@ struct s_lexer
 	t_string			token;
 	t_string			varname;
 	char				**tokens;
+	char				**wilds;
 };
 
 typedef struct e_lexer_next_state
@@ -206,6 +205,7 @@ void	lexer_action_expand_var_end_token(t_ast *node);
 void	lexer_action_skip_blank(t_ast *node);
 void	lexer_action_next_char(t_ast *node);
 void	expand_exit_status(t_ast *node);
+void	lexer_expand_wildcard(t_ast *node);
 
 // PARSER ====================================================================
 
@@ -270,7 +270,6 @@ int		ast_parse_pipe(t_ast *node);
 void	ast_parse_heredoc(t_ast *node);
 int		ast_parse_subshell(t_ast *node);
 void	ast_parse_tilde(t_ast *node);
-void	ast_parse_wildcard(t_ast *node);
 char	*ast_tokens_find(char *line, char *token);
 char	*ast_tokens_find_last(char *line, char *token);
 void	ast_debug(t_ast *node, int deep);

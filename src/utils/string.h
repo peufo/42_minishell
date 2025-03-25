@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 19:22:34 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/14 16:16:29 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:20:57 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ typedef struct s_string
 	unsigned int	len;
 }	t_string;
 
-t_string_result	string_push_char(t_string *string, char c);
-t_string_result	string_push_str(t_string *string, char *str);
+char			*string_push_char(t_string *string, char c);
+char			*string_push_str(t_string *string, char *str);
 void			string_free(t_string *string);
 t_string_result	string_replace(
 					t_string *string,

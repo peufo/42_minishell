@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/20 13:18:50 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:51:33 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,9 @@ void	lex_free(t_lexer *lexer)
 	string_free(&lexer->token);
 	string_free(&lexer->varname);
 	string_array_free(&lexer->tokens);
+	if (lexer->wilds)
+	{
+		free(lexer->wilds);
+		lexer->wilds = NULL;
+	}
 }

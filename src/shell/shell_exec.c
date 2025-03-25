@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/24 14:56:45 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 15:21:19 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	shell_exec(t_sh *shell)
 	int					exec;
 
 	if (shell->input.redir_code || shell->input.redir_input
-			|| shell->input.redir_line)
+		|| shell->input.redir_line)
 		input_free(&shell->input);
 	ft_bzero(&shell->input, sizeof(t_input));
 	shell->input.state = LEXER_DEFAULT;

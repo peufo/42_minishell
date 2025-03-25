@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 19:21:40 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/15 11:51:45 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:40:43 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,22 @@ static t_string_result	string_ensure_malloc(
 	return (STRING_SUCCESS);
 }
 
-t_string_result	string_push_char(t_string *string, char c)
+char	*string_push_char(t_string *string, char c)
 {
 	if (string_ensure_malloc(string, 1))
-		return (STRING_ERROR);
+		return (NULL);
 	ft_strlcat(string->value, (char []){c, '\0'}, string->len);
-	return (STRING_SUCCESS);
+	return (string->value + ft_strlen(string->value));
 }
 
-t_string_result	string_push_str(t_string *string, char *str)
+char	*string_push_str(t_string *string, char *str)
 {
 	if (!str)
-		return (STRING_ERROR);
+		return (NULL);
 	if (string_ensure_malloc(string, ft_strlen(str)))
-		return (STRING_ERROR);
+		return (NULL);
 	ft_strlcat(string->value, str, string->len);
-	return (STRING_SUCCESS);
+	return (string->value + ft_strlen(string->value));
 }
 
 t_string_result	string_replace(
