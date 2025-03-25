@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/24 14:45:50 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/24 16:48:58 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 	if (!input)
 	if (!input->redir_line)
 		input->redir_line = input->line;
+	shell->line = head;
 	if (!apply_redir_logic(input, shell))
 		return (shell_exec(shell), true);
 	shell->line = ft_strdup(head);
