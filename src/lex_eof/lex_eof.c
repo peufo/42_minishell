@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:40:04 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 11:12:43 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 12:13:00 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,9 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 			if (g_signal.is_sigint)
 				break ;
 			if (input->is_redir)
-			{
-				ft_putstr_fd(">>", 1);
-				input->redir_line = get_line(STDIN_FILENO);
-				if (g_signal.is_sigint)
-					shell->line2 = ft_strdup(input->redir_line);
-			}
+				assure_heredoc_line(shell);
 			else
-			{
-				ft_putstr_fd("> ", 1);
-				input->line = get_line(STDIN_FILENO);
-				if (g_signal.is_sigint)
-					shell->line2 = ft_strdup(input->line);
-			}
+				assure_eof_line(shell);
 			if (!input->line && !input->redir_line)
 				shell_exit(shell);
 			if (input->line && is_empty_line(input->line))
