@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 18:13:28 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/25 15:00:11 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:39:25 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,6 @@ static bool	is_end_with_space(char *value)
 		value++;
 	value--;
 	return (ft_include(" \t\n", *value));
-}
-
-static void	catch_var_wilds(t_ast *node, int var_len)
-{
-	char	*token;
-
-	token = node->lexer.token.value;
-	if (!token)
-		return ;
-	while (*token)
-		token++;
-	token -= var_len;
-	if (token < node->lexer.token.value)
-		return ;
-	while (*token)
-	{
-		if (*token == '*')
-			string_array_push(&node->lexer.wilds, token);
-		token++;
-	}
 }
 
 static void	expand_var(t_ast *node)
@@ -61,7 +41,7 @@ static void	expand_var(t_ast *node)
 	while (*t)
 	{
 		string_push_str(&node->lexer.token, *t);
-		catch_var_wilds(node, ft_strlen(*(t++)));
+		lexer_action_var_catch_wild(node, ft_strlen(*(t++)));
 		if (*t)
 			lexer_action_end_token(node);
 	}
@@ -76,7 +56,7 @@ static void	expand_no_varname(t_ast *node)
 
 	cursor = *(node->lexer.cursor);
 	if (cursor == '?')
-		return (expand_exit_status(node));
+		return (lexer_expand_exit_status(node));
 	if (cursor != '*' && (
 			ft_include(CHARSET_VAR_END, cursor)
 			|| ft_include(CHARSET_SPACE, cursor)
