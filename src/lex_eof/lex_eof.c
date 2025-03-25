@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:40:04 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 10:31:33 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 10:58:23 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static bool	check_input_line(t_sh *shell)
 
 void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 {
+	shell->line2 = NULL;
 	if (check_input_line(shell) && shell->line)
 		transfer_shell_line(shell);
 	else
@@ -52,7 +53,12 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 					shell->line2 = ft_strdup(input->redir_line);
 			}
 			else
-				input->line = readline("> ");
+			{
+				ft_putstr_fd("> ", 1);
+				input->line = get_line(STDIN_FILENO);
+				if (g_signal.is_sigint)
+					shell->line2 = ft_strdup(input->line);
+			}
 			if (!input->line && !input->redir_line)
 				shell_exit(shell);
 			if (input->line && is_empty_line(input->line))
@@ -65,7 +71,7 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 
 static void	check_sig_out(t_input *input, t_sh *shell)
 {
-	(void)input;
+	(void)shell;
 	if (!g_signal.is_sigint)
 		return ;
 	if (input->line)
@@ -74,7 +80,6 @@ static void	check_sig_out(t_input *input, t_sh *shell)
 		input->line = NULL;
 	}
 	input_free(input);
-	shell_exec(shell);
 }
 
 static void	lex_eof_read_input(t_sh *shell, t_input *input)
@@ -111,6 +116,9 @@ void	lex_eof(t_sh *shell)
 	}
 	if (shell->input.stack && 1)
 		shell->line = ft_strdup(shell->input.stack);
-	else
-		shell_exit(shell);
+	if (shell->line2)
+	{
+		free(shell->line);
+		shell->line = shell->line2;
+	}
 }
