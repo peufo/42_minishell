@@ -31,7 +31,7 @@ void	lexer_action_end_token(t_ast *node)
 {
 	if (!node->lexer.token.value)
 		return ;
-	lexer_expand_exit_status(node);
+	lexer_expand_wildcard(node);
 	if (!node->lexer.token.value)
 		return ;
 	string_array_push(&node->lexer.tokens, node->lexer.token.value);
