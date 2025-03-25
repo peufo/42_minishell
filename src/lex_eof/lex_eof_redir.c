@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 10:32:14 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 10:55:03 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,10 +140,8 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 	if (!input->redir_line)
 		input->redir_line = input->line;
 	shell->line = head;
-	printf("BEGIN\n");
 	if (!apply_redir_logic(input, shell))
 	{
-		printf("NEWWWW\n");
 		shell->line = copy;
 		if (shell->line2)
 		{
