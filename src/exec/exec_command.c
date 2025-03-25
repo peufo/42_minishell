@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 11:50:59 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:06:30 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static int	exec_redirect_open(
 	int open_flags,
 	int std_fd)
 {
-	int		fd;
-	static	char no_dir_err[] = ": No such file or directory";
+	int			fd;
+	static char	no_dir_err[] = ": No such file or directory";
 
 	if (!files)
 		return (0);
@@ -30,7 +30,7 @@ static int	exec_redirect_open(
 		{
 			if (errno == ENOENT)
 			{
-				throw(node, (char *[]){ *files, no_dir_err, NULL});
+				throw(node, (char *[]){*files, no_dir_err, NULL});
 				errno = false;
 				return (1);
 			}
