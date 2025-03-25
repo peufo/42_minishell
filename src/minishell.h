@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/25 17:29:23 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:29:34 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ bool	did_eye_of_sawron(t_sh *shell);
 int		throw_shell(t_sh *shell, char **error);
 void	init_error_checker(
 		char **cursor, char **head, t_sh *shell);
+void	assure_shell_line(t_sh *shell, char *copy);
 
 //	EOF LEXER
 void	lex_eof(t_sh *shell);

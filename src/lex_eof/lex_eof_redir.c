@@ -6,18 +6,11 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 10:55:03 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/25 12:02:34 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	transfer_shell_line(t_sh *shell)
-{
-	shell->input.line = ft_strdup(shell->line);
-	free(shell->line);
-	shell->line = NULL;
-}
 
 void	get_all_codes(t_input *input, char *cursor)
 {
@@ -91,35 +84,6 @@ static bool	apply_redir_logic(t_input *input, t_sh *shell)
 	return (checkout_from_logic(input));
 }
 
-int	count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote)
-{
-	char	*head;
-	char	*cursor;
-	int		count;
-
-	count = 0;
-	head = ft_strdup(line);
-	cursor = head;
-	if (!cursor)
-		return (0);
-	while (*cursor)
-	{
-		check_quotes(*cursor, &dquote, &quote);
-		if (!dquote && !quote && check_redir(cursor))
-		{
-		count++;
-			while (*cursor == '<' || ft_isspace(*cursor))
-				cursor++;
-			while (ft_isalnum(*cursor))
-				cursor++;
-		}
-		else
-			cursor++;
-	}
-	(void)shell;
-	return (free(head), count);
-}
-
 bool	treat_redirections(t_input *input, t_sh *shell)
 {
 	char	*cursor;
@@ -136,8 +100,7 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 	head = cursor;
 	safe_init_redir_array(shell, input);
 	get_all_codes(input, cursor);
-	if (!input)
-	if (!input->redir_line)
+	if (!input && !input->redir_line)
 		input->redir_line = input->line;
 	shell->line = head;
 	if (!apply_redir_logic(input, shell))
