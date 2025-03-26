@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/26 07:51:34 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/26 09:39:25 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,21 +95,18 @@ typedef enum s_errors
 	SENT_OTHER
 }	t_errors;
 
-typedef bool				(*t_sent)(char *);
+typedef bool				(*t_sent)(char *, bool);
 
-typedef struct s_etype
-{
-	t_sent		func;
-	t_errors	error;
-}	t_etype;
-
-bool	did_eye_of_sawron(t_sh *shell);
+bool	did_eye_of_sawron(t_sh *shell, bool in_eof);
 void	init_error_checker(char **cursor, char **head, t_sh *shell);
-bool	did_pipe_sentinel_see(char *line);
-bool	did_less_sentinel_see(char *line);
-bool	did_great_sentinel_see(char *line);
-bool	did_logical_sentinel_see(char *line);
-bool	did_other_sentinel_see(char *line);
+bool	did_pipe_sentinel_see(char *line, bool in_eof);
+bool	did_less_sentinel_see(char *line, bool in_eof);
+bool	did_great_sentinel_see(char *line, bool in_eof);
+bool	did_logical_sentinel_see(char *line, bool in_eof);
+bool	did_other_sentinel_see(char *line, bool in_eof);
+void	error_display(t_sh *shell, char *error);
+bool	is_token_valid(char *line, char *token, bool in_eof);
+bool	is_eof_token(char *token);
 
 //	INPUT LOGIC BLOC + HEREDOCS
 
@@ -155,7 +152,7 @@ void	assure_heredoc_line(t_sh *shell);
 void	assure_eof_line(t_sh *shell);
 
 //	EOF LEXER
-void	lex_eof(t_sh *shell);
+bool	lex_eof(t_sh *shell);
 void	input_free(t_input *input);
 
 //	UTILS

@@ -6,16 +6,24 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:08:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/26 08:11:18 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/26 09:39:58 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	error_display(t_sh *shell, char *error)
+bool	is_token_valid(char *line, char *token, bool in_eof)
 {
-	throw_shell(shell, (char *[]){"Your syntax is shit. What's with <<",
-		error, ">> ?", NULL});
+	short int	i;
+	bool		ignore_end_op;
+	static char	*eof_tok[] = {"|", "&&", "||", NULL};
+
+	i = 0;
+	ignore_end_op = is_eof_token(token);
+	while (line[i] && ft_isspace(line[i]))
+		i++;
+	(void)token;
+	return (true);
 }
 
 bool	check_start(t_sh *shell, char *s)
@@ -53,7 +61,7 @@ static t_sent	get_sentinel(t_errors i)
 	return (sentinels[i]);
 }
 
-static char	*look_for_problems(char *cursor)
+static char	*look_for_problems(char *cursor, bool in_eof)
 {
 	t_sent			handler;
 	t_errors		i;
@@ -62,35 +70,40 @@ static char	*look_for_problems(char *cursor)
 	};
 
 	i = 0;
-	while (i < 6)
+	while (i++ < 6)
 	{
-		handler = get_sentinel(i++);
-		if (handler && handler(cursor))
-			return (message[i]);
+		handler = get_sentinel(i - 1);
+		if (handler && handler(cursor, in_eof))
+			return (message[i - 1]);
 	}
 	return (NULL);
 }
 
-bool	did_eye_of_sawron(t_sh *shell)
+bool	did_eye_of_sawron(t_sh *shell, bool in_eof)
 {
 	bool	quotes[2];
 	char	*cursor;
 	char	*head;
 	char	*problem;
+	int		i;
 
-	problem = NULL;
 	ft_bzero(&quotes, sizeof(quotes));
 	init_error_checker(&cursor, &head, shell);
 	if (!check_start(shell, cursor))
 		return (free(head), true);
 	while (*cursor)
 	{
+		i = 0;
 		check_quotes(*cursor, &quotes[0], &quotes[1]);
 		if (!quotes[0] && !quotes[1])
-			problem = look_for_problems(cursor);
+			problem = look_for_problems(cursor, in_eof);
 		if (problem)
 			return (free(head), error_display(shell, problem), true);
 		cursor++;
+		while (ft_isspace(cursor[i]))
+			i++;
+		if (!cursor[i])
+			break ;
 	}
 	return (free(head), false);
 }
