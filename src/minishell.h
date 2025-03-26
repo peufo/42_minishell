@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/25 12:13:24 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/26 07:51:34 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,35 @@ typedef struct s_sh			t_sh;
 # define PROMPT_BLUE "36"
 # define PROMPT_PURPLE "35"
 
+//	ERROR HANDLING
+
+typedef enum s_errors
+{
+	SENT_PIPE,
+	SENT_LOGICAL,
+	SENT_LESS,
+	SENT_GREAT,
+	SENT_OTHER
+}	t_errors;
+
+typedef bool				(*t_sent)(char *);
+
+typedef struct s_etype
+{
+	t_sent		func;
+	t_errors	error;
+}	t_etype;
+
+bool	did_eye_of_sawron(t_sh *shell);
+void	init_error_checker(char **cursor, char **head, t_sh *shell);
+bool	did_pipe_sentinel_see(char *line);
+bool	did_less_sentinel_see(char *line);
+bool	did_great_sentinel_see(char *line);
+bool	did_logical_sentinel_see(char *line);
+bool	did_other_sentinel_see(char *line);
+
+//	INPUT LOGIC BLOC + HEREDOCS
+
 typedef struct s_input
 {
 	char	*line;
@@ -119,9 +148,7 @@ void	actualise(t_sh *shell);
 bool	input_read(t_sh *shell);
 int		check_string(char *input);
 void	stack_to_history(char *line, t_sh *shell);
-bool	did_eye_of_sawron(t_sh *shell);
 int		throw_shell(t_sh *shell, char **error);
-void	init_error_checker(char **cursor, char **head, t_sh *shell);
 bool	apply_redir(t_sh *shell, char *copy);
 bool	apply_redir_logic(t_input *input, t_sh *shell);
 void	assure_heredoc_line(t_sh *shell);
@@ -137,17 +164,17 @@ int		get_last_token_type(char *line, t_input *input);
 void	stack_to_buffer(char **buffer, char *line);
 void	transfer_shell_line(t_sh *shell);
 void	safe_init_redir_array(t_sh *shell, t_input *input);
-void	checkout_from_redir(t_sh *shell);
 bool	check_redir(char *cursor);
 void	check_quotes(char c, bool *dquote, bool *quote);
-int		count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote);
 bool	is_empty_line(char *line);
 
-//	REDIRECTION
+//	HEREDOCS
 bool	treat_redirections(t_input *input, t_sh *shell);
 char	*catch_the_redir_code(char *line);
 void	get_safe_readline_inputs(t_sh *shell, t_input *input);
 void	get_all_codes(t_input *input, char *cursor);
+void	checkout_from_redir(t_sh *shell);
+int		count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote);
 
 // LEXER =======================================================================
 
