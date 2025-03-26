@@ -6,12 +6,38 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/25 10:58:30 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/26 14:01:47 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "get_next_line.h"
+
+void	input_free(t_input *input)
+{
+	if (!input)
+		return ;
+	if (input->redir_code)
+		string_array_free(&input->redir_code);
+	if (input->redir_input)
+		string_array_free(&input->redir_input);
+	if (input->line)
+	{
+		free(input->line);
+		input->line = NULL;
+	}
+	if (input->stack)
+	{
+		free(input->stack);
+		input->stack = NULL;
+	}
+	if (input->redir_line)
+	{
+		free(input->redir_line);
+		input->redir_line = NULL;
+	}
+	ft_memset(input, 0, sizeof(t_input));
+}
 
 static bool	lex_check_start(char *line, t_input *input)
 {

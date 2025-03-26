@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:08:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/26 09:39:58 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/26 13:56:46 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@ bool	is_token_valid(char *line, char *token, bool in_eof)
 {
 	short int	i;
 	bool		ignore_end_op;
-	static char	*eof_tok[] = {"|", "&&", "||", NULL};
 
-	i = 0;
-	ignore_end_op = is_eof_token(token);
+	i = 1;
+	ignore_end_op = is_eof_token(token, in_eof);
 	while (line[i] && ft_isspace(line[i]))
 		i++;
-	(void)token;
+	if ((!line[i] || (i == 1 && ft_isalpha(line[i]))) && ignore_end_op)
+		return (true);
+	if (line[i] == '<' || line[i] == '>' || line[i] == '&')
+		return (false);
 	return (true);
 }
 

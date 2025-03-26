@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/26 09:39:25 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/26 14:04:00 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ bool	did_logical_sentinel_see(char *line, bool in_eof);
 bool	did_other_sentinel_see(char *line, bool in_eof);
 void	error_display(t_sh *shell, char *error);
 bool	is_token_valid(char *line, char *token, bool in_eof);
-bool	is_eof_token(char *token);
+bool	is_eof_token(char *token, bool in_eof);
 
 //	INPUT LOGIC BLOC + HEREDOCS
 
@@ -313,6 +313,7 @@ struct s_sh
 	t_ast		*ast;
 	int			exit_status;
 	int			signal;
+	bool		shell_inception;
 };
 
 void	shell_init(t_sh *shell, char **env);

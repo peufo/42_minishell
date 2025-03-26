@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:41:11 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/26 09:31:32 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/26 12:42:15 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ bool	did_less_sentinel_see(char *line, bool in_eof)
 
 	(void)in_eof;
 	i = 1;
+	(void)i;
 	if (!line[0] || line[0] != '<')
 		return (false);
-	if ()
 	return (true);
 }
 
@@ -42,6 +42,7 @@ bool	did_great_sentinel_see(char *line, bool in_eof)
 
 	(void)in_eof;
 	i = 1;
+	(void)i;
 	if (!line[0] || line[0] != '>')
 		return (false);
 	while (line[i] && ft_isspace(line[i]))
@@ -57,6 +58,7 @@ bool	did_other_sentinel_see(char *line, bool in_eof)
 
 	(void)in_eof;
 	i = 1;
+	(void)i;
 	if (!line[0] || line[0] != ';')
 		return (false);
 	return (is_token_valid(line, ":", in_eof));
@@ -67,9 +69,10 @@ bool	did_logical_sentinel_see(char *line, bool in_eof)
 	int	i;
 
 	i = 1;
+	(void)i;
 	if (!line[0] || line[0] != '&')
 		return (false);
-	if (line[1] == '&');
+	if (line[1] == '&')
 	{
 		line++;
 		return (!is_token_valid(line, "&&", in_eof));
