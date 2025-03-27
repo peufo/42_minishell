@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 17:58:53 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:46:10 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 static void	basic_exec(t_sh *shell, int exec)
 {
-	if (exec)
-		lex_eof(shell);
-	if (did_eye_of_sawron(shell))
+	if ((exec && !lex_eof(shell)) || did_eye_of_sawron(shell, 1))
 		return ;
 	if (count_redir_in_line(shell, shell->line, 0, 0))
 		treat_redirections(&shell->input, shell);

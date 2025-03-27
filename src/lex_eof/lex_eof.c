@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:40:04 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 12:13:00 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/26 13:46:16 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,10 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 	}
 }
 
-void	lex_eof(t_sh *shell)
+bool	lex_eof(t_sh *shell)
 {
+	if (did_eye_of_sawron(shell, 1))
+		return (false);
 	if (shell->line)
 		shell->input.state = check_string(shell->line);
 	else
@@ -100,4 +102,5 @@ void	lex_eof(t_sh *shell)
 		free(shell->line);
 		shell->line = shell->line2;
 	}
+	return (true);
 }

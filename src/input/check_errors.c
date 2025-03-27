@@ -3,91 +3,106 @@
 /*                                                        :::      ::::::::   */
 /*   check_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:08:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 08:25:24 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/27 09:16:02 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	help(t_sh *shell, char *error)
+bool	is_token_valid(char *line, char *token, bool in_eof)
 {
-	throw_shell(shell, (char *[]){"Your syntax is shit. What's with <<",
-		error, ">> ?", NULL});
-}
-
-static int	pipe_sentinel(char *line)
-{
-	int	i;
+	short int	i;
+	bool		ignore_end_op;
 
 	i = 1;
-	if (!line[0] || line[0] != '|')
-		return (0);
+	ignore_end_op = is_eof_token(token, in_eof);
 	while (line[i] && ft_isspace(line[i]))
 		i++;
-	if ((line[i] && ft_isalnum(line[i])) || line[1] == '|' || line[i] == '('
-		|| line[i] == '<' || line[i] == '>' || line[i] == '\\')
-		return (0);
-	return (1);
-}
-
-static int	redir_sentinel(char *line)
-{
-	int	i;
-
-	i = 1;
-	if (!line[0] || line[0] != '<' || line[0] != '>' || line[i] == '\\')
-		return (0);
-	while (line[i] && ft_isspace(line[i]))
-		i++;
-	if (line[i] && ft_isalnum(line[i]))
-		return (0);
-	return (1);
-}
-
-bool	check_start(t_sh *shell, char *cursor)
-{
-	if (*cursor == '&')
-	{
-		if (cursor[1] == '&')
-			return (help(shell, "&&"), false);
-		return (help(shell, "&"), false);
-	}
-	if (*cursor == '|')
-	{
-		if (cursor[1])
-			return (help(shell, "||"), false);
-		return (help(shell, "|"), false);
-	}
-	if (*cursor == ';')
-		return (help(shell, ";"), false);
+	if ((!line[i] || (i == 1 && ft_isalpha(line[i]))) && ignore_end_op)
+		return (true);
+	if (line[i] == '<' || line[i] == '>' || line[i] == '&' || line[i] == '|')
+		return (false);
 	return (true);
 }
 
-bool	did_eye_of_sawron(t_sh *shell)
+bool	check_start(t_sh *shell, char *s)
+{
+	if (*s == '&')
+	{
+		if (s[1] == '&')
+			return (error_display(shell, "&&"), false);
+		return (error_display(shell, "&"), false);
+	}
+	if (*s == '|')
+	{
+		if (s[1])
+			return (error_display(shell, "||"), false);
+		return (error_display(shell, "|"), false);
+	}
+	if (*s == ';')
+		return (error_display(shell, ";"), false);
+	if ((*s == '<' && s[1] == '|') || (*s == '>' && s[1] == '|'))
+		return (error_display(shell, "|"), false);
+	return (true);
+}
+
+static t_sent	get_sentinel(t_errors i)
+{
+	static t_sent	sentinels[] = {
+	did_pipe_sentinel_see,
+	did_logical_sentinel_see,
+	did_less_sentinel_see,
+	did_great_sentinel_see,
+	did_other_sentinel_see,
+	NULL
+	};
+
+	return (sentinels[i]);
+}
+
+static char	*look_for_problems(char *cursor, bool in_eof)
+{
+	t_sent			handler;
+	t_errors		i;
+	static char		*message[] = {
+		"|", "&", "newline", ">", ";", NULL
+	};
+
+	i = 0;
+	while (i++ < 6)
+	{
+		handler = get_sentinel(i - 1);
+		if (handler && handler(cursor, in_eof))
+			return (message[i - 1]);
+	}
+	return (NULL);
+}
+
+bool	did_eye_of_sawron(t_sh *shell, bool in_eof)
 {
 	bool	quotes[2];
 	char	*cursor;
 	char	*head;
+	char	*problem;
 
-	if (!shell->line)
-		return (true);
-	ft_bzero(&quotes, sizeof(quotes));
+	problem = NULL;
+	quotes[0] = false;
+	quotes[1] = false;
 	init_error_checker(&cursor, &head, shell);
+	if (!cursor)
+		return (free(head), true);
 	if (!check_start(shell, cursor))
-		return (free(head), false);
-	while (*cursor)
+		return (free(head), true);
+	while (*cursor && cursor[1])
 	{
 		check_quotes(*cursor, &quotes[0], &quotes[1]);
 		if (!quotes[0] && !quotes[1])
-		{
-			if (pipe_sentinel(cursor))
-				return (free(head), help(shell, "|"), true);
-			if (redir_sentinel(cursor))
-				return (free(head), help(shell, "><"), true);
-		}
+			problem = look_for_problems(cursor, in_eof);
+		if (problem)
+			return (free(head), error_display(shell, problem), true);
 		cursor++;
 	}
 	return (free(head), false);
