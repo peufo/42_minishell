@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:41:11 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/27 10:58:40 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/27 11:04:44 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@ bool	did_great_sentinel_see(char *line, bool in_eof)
 	i = 1;
 	if (!line[0] || line[0] != '>')
 		return (false);
+	if (line[1] == '>')
+	{
+		line++;
+		while (ft_isspace(line[i]))
+			i++;
+		if (ft_isalnum(line[i]))
+			return (true);
+	}
 	while (line[i] && ft_isspace(line[i]))
 		i++;
 	if (line[i] && ft_isalnum(line[i]))
