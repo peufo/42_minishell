@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:08:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/27 08:58:32 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/27 09:16:02 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static char	*look_for_problems(char *cursor, bool in_eof)
 	t_sent			handler;
 	t_errors		i;
 	static char		*message[] = {
-		"|", "&", "<", ">", ";", NULL
+		"|", "&", "newline", ">", ";", NULL
 	};
 
 	i = 0;

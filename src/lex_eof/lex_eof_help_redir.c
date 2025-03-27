@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/24 14:19:16 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/27 09:07:55 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char	*catch_the_redir_code(char *line)
 
 	i = 0;
 	len = 0;
+	res = NULL;
 	tmp = ft_strchrstr(line, "<<");
 	if (!tmp)
 		return (NULL);
