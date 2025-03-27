@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:41:11 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/27 06:55:46 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/27 09:04:59 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool	did_less_sentinel_see(char *line, bool in_eof)
 	(void)in_eof;
 	if (!line[0] || line[0] != '<')
 		return (false);
-	return (true);
+	return (false);
 }
 
 bool	did_great_sentinel_see(char *line, bool in_eof)
@@ -44,7 +44,7 @@ bool	did_great_sentinel_see(char *line, bool in_eof)
 		i++;
 	if (line[i] && ft_isalnum(line[i]))
 		return (false);
-	return (true);
+	return (false);
 }
 
 bool	did_other_sentinel_see(char *line, bool in_eof)

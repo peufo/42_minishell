@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:08:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/27 06:33:48 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/27 08:58:32 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,12 @@ bool	did_eye_of_sawron(t_sh *shell, bool in_eof)
 	char	*head;
 	char	*problem;
 
-	ft_bzero(&quotes, sizeof(quotes));
+	problem = NULL;
+	quotes[0] = false;
+	quotes[1] = false;
 	init_error_checker(&cursor, &head, shell);
+	if (!cursor)
+		return (free(head), true);
 	if (!check_start(shell, cursor))
 		return (free(head), true);
 	while (*cursor && cursor[1])
