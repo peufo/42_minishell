@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:08:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/26 13:56:46 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/27 06:33:48 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	is_token_valid(char *line, char *token, bool in_eof)
 		i++;
 	if ((!line[i] || (i == 1 && ft_isalpha(line[i]))) && ignore_end_op)
 		return (true);
-	if (line[i] == '<' || line[i] == '>' || line[i] == '&')
+	if (line[i] == '<' || line[i] == '>' || line[i] == '&' || line[i] == '|')
 		return (false);
 	return (true);
 }
@@ -87,25 +87,19 @@ bool	did_eye_of_sawron(t_sh *shell, bool in_eof)
 	char	*cursor;
 	char	*head;
 	char	*problem;
-	int		i;
 
 	ft_bzero(&quotes, sizeof(quotes));
 	init_error_checker(&cursor, &head, shell);
 	if (!check_start(shell, cursor))
 		return (free(head), true);
-	while (*cursor)
+	while (*cursor && cursor[1])
 	{
-		i = 0;
 		check_quotes(*cursor, &quotes[0], &quotes[1]);
 		if (!quotes[0] && !quotes[1])
 			problem = look_for_problems(cursor, in_eof);
 		if (problem)
 			return (free(head), error_display(shell, problem), true);
 		cursor++;
-		while (ft_isspace(cursor[i]))
-			i++;
-		if (!cursor[i])
-			break ;
 	}
 	return (free(head), false);
 }
