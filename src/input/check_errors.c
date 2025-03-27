@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:08:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/27 09:16:02 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/27 11:00:38 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ bool	check_start(t_sh *shell, char *s)
 static t_sent	get_sentinel(t_errors i)
 {
 	static t_sent	sentinels[] = {
-	did_pipe_sentinel_see,
-	did_logical_sentinel_see,
-	did_less_sentinel_see,
-	did_great_sentinel_see,
-	did_other_sentinel_see,
-	NULL
+		did_pipe_sentinel_see,
+		did_logical_sentinel_see,
+		did_less_sentinel_see,
+		did_great_sentinel_see,
+		did_other_sentinel_see,
+		NULL
 	};
 
 	return (sentinels[i]);
