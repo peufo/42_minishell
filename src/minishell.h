@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/26 14:04:00 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/28 07:20:16 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,8 @@ typedef struct s_wild
 
 //	SIGNAL
 void	handle_signal(int sig);
-void	actualise(t_sh *shell);
 
+//	INPUT
 bool	input_read(t_sh *shell);
 int		check_string(char *input);
 void	stack_to_history(char *line, t_sh *shell);
@@ -353,7 +353,6 @@ void	exec_child(t_ast *node, t_exe exe);
 int		exec_command(t_ast *node);
 int		exec_subshell(t_ast *node);
 int		exec_pipeline(t_ast *node);
-int		exec_heredoc(t_ast *node);
 int		exec_and(t_ast *node);
 int		exec_or(t_ast *node);
 t_exe	get_exe(t_ast *node);

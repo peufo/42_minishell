@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:08:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/27 11:00:38 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/28 08:05:14 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ bool	is_token_valid(char *line, char *token, bool in_eof)
 	while (line[i] && ft_isspace(line[i]))
 		i++;
 	if ((!line[i] || (i == 1 && ft_isalpha(line[i]))) && ignore_end_op)
+		return (true);
+	if (line[i] == '>' && token[0] == '|' && !token[1])
 		return (true);
 	if (line[i] == '<' || line[i] == '>' || line[i] == '&' || line[i] == '|')
 		return (false);
