@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 13:36:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/26 14:01:47 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/28 11:39:44 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,24 @@ static bool	iss_empty_line(char *line)
 	return (1);
 }
 
-bool	input_read(t_sh	*shell)
+static void	norminette_shell(char **line)
+{
+	free(*line);
+	*line = NULL;
+}
+
+int	input_read(t_sh	*shell)
 {
 	shell_update_prompt(shell);
 	if (shell->line)
-	{
-		free(shell->line);
-		shell->line = NULL;
-	}
+		norminette_shell(&shell->line);
 	if (shell->is_interactive)
 	{
 		shell->line = readline(shell->prompt.value);
-		if (!shell->line || iss_empty_line(shell->line))
-			shell_exec(shell);
+		if (!shell->line)
+			shell_exit(shell);
+		if (iss_empty_line(shell->line))
+			return (shell_exec(shell), -1);
 		errno = false;
 		if (!lex_check_start(shell->line, &shell->input))
 		{
@@ -84,6 +89,6 @@ bool	input_read(t_sh	*shell)
 	if (errno)
 		shell_exit(shell);
 	if (shell->line && iss_empty_line(shell->line))
-		shell_exec(shell);
+		return (shell_exec(shell), -1);
 	return (lex_check_start(shell->line, &shell->input));
 }

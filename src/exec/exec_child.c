@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:08:33 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/25 17:51:03 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/28 10:00:01 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	exec_child(t_ast *node, t_exe exe)
 		}
 		return ;
 	}
+	signal(SIGINT, SIG_DFL);
 	node->is_child_process = true;
 	pipes_connect(node);
 	node->status = exe(node);

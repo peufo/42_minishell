@@ -6,23 +6,11 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 21:07:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/18 06:36:00 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/28 09:34:37 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static bool	is_cat_or_grep(char *line)
-{
-	char	*iscat;
-	char	*isgrep;
-
-	iscat = ft_strchrstr(line, "cat");
-	isgrep = ft_strchrstr(line, "grep");
-	if (iscat || (isgrep && ft_strlen(isgrep) >= 6))
-		return (true);
-	return (false);
-}
 
 static void	add(t_sh *shell, char *msg, char *color)
 {
@@ -53,8 +41,6 @@ void	shell_update_prompt(t_sh *shell)
 
 	string_free(&shell->prompt);
 	string_push_str(&shell->prompt, "");
-	if (g_signal.is_sigint && shell->line && is_cat_or_grep(shell->line))
-		g_signal.is_sigint = false;
 	if (shell->exit_status)
 		base_color = PROMPT_RED;
 	else

@@ -6,24 +6,11 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/26 14:25:10 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/28 09:51:23 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static bool	get_shell_lvl(t_sh *shell)
-{
-	int	i;
-
-	i = 0;
-	while (shell->env && shell->env[i])
-		if (!ft_strncmp(shell->env[i++], "SHLVL=", 6))
-			break ;
-	if (shell->env[i] && shell->env[i - 1][6] >= '4')
-		return (true);
-	return (false);
-}
 
 void	shell_free(t_sh *shell)
 {
@@ -73,7 +60,6 @@ void	shell_init(t_sh *shell, char **env)
 	shell_init_env(shell);
 	if (!shell->env)
 		return (shell_exit(shell));
-	shell->shell_inception = get_shell_lvl(shell);
 }
 
 void	shell_exit(t_sh *shell)

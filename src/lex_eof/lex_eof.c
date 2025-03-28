@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:40:04 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/26 13:46:16 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/28 10:24:05 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static void	check_sig_out(t_input *input, t_sh *shell)
 
 static void	lex_eof_read_input(t_sh *shell, t_input *input)
 {
+	if (g_signal.is_sigint)
+		g_signal.is_sigint = false;
 	while (input->state > 0 || input->last > 0)
 	{
 		get_safe_readline_inputs(shell, input);
@@ -93,7 +95,8 @@ bool	lex_eof(t_sh *shell)
 	if (shell->input.state > 0 || shell->input.last > 0)
 	{
 		lex_eof_read_input(shell, &shell->input);
-		add_history(shell->input.stack);
+		if (!is_empty_line(shell->input.stack))
+			add_history(shell->input.stack);
 	}
 	if (shell->input.stack && 1)
 		shell->line = ft_strdup(shell->input.stack);
