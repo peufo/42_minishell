@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/28 10:52:26 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/28 11:37:25 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void	shell_exec(t_sh *shell)
 	{
 		g_signal.is_sigint = false;
 		exec = input_read(shell);
-		if (!shell->line && !shell->is_interactive)
+		printf("Shell line %p\n", &shell->line);
+		if (!shell->line || g_signal.is_sigquit)
 			shell_exit(shell);
 		if (*shell->line == '#')
 			continue ;

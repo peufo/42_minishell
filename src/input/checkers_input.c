@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 09:00:56 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/28 10:17:55 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/28 11:39:56 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	check_string(char *input)
 {
 	t_utils	u;
 
-//	printf("into check_string line is : %s\n", input);
 	if (!input)
 		return (-1);
 	ft_bzero(&u, sizeof(t_utils));
