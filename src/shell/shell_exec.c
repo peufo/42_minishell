@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/28 11:41:26 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/28 16:56:26 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void	shell_exec(t_sh *shell)
 	ft_bzero(&shell->input, sizeof(t_input));
 	shell->input.state = LEXER_DEFAULT;
 	shell->is_interactive = isatty(shell->pipe.in);
-	errno = false;
 	shell->is_running = true;
 	while (shell->is_running)
 	{
+		errno = false;
 		g_signal.is_sigint = false;
 		exec = input_read(shell);
 		if (!shell->line || g_signal.is_sigquit)
