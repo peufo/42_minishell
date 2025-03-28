@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/27 08:52:35 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/28 07:18:27 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@ void	handle_signal(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-}
-
-void	actualise(t_sh *shell)
-{
-	(void)shell;
 }
 
 int	main(int ac, char **av, char **env)
