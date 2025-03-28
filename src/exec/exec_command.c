@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 12:06:30 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/28 09:50:14 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,10 @@ int	exec_command(t_ast *node)
 		node->status = exec_bin(node);
 	else
 	{
+		signal(SIGINT, SIG_IGN);
 		exec_child(node, exec_bin);
 		node->status = waitstatus(node->pid);
+		signal(SIGINT, &handle_signal);
 	}
 	exec_redir_restore_std(node, &node->redir);
 	node->shell->exit_status = node->status;
