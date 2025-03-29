@@ -12,6 +12,34 @@
 
 #include "minishell.h"
 
+static void	exec_redir_save_std(t_ast *node)
+{
+	t_redir	*rh;
+
+	rh = &node->redir;
+	if (rh->files_out || rh->files_out_append)
+		rh->fd_std_out = dup(STDOUT_FILENO);
+	if (rh->files_in)
+		rh->fd_std_in = dup(STDIN_FILENO);
+}
+
+static void	exec_redir_restore_std(t_ast *node)
+{
+	t_redir *rh;
+
+	rh = &node->redir;
+	if (rh->files_out || rh->files_out_append)
+	{
+		if (rh->fd_std_out != -1)
+		{
+			dup2(rh->fd_std_out, STDOUT_FILENO);
+			close(rh->fd_std_out);
+		}
+	}
+	if (rh->fd_std_in != -1)
+		dup2(rh->fd_std_in, STDIN_FILENO);
+}
+
 static int	exec_redirect_open(
 	t_ast *node,
 	char **files,
@@ -19,7 +47,8 @@ static int	exec_redirect_open(
 	int std_fd)
 {
 	int			fd;
-	static char	no_dir_err[] = ": No such file or directory";
+	static char	no_file_err[] = ": No such file or directory";
+	static char	is_dir_err[] = ": Is a directory";
 
 	if (!files)
 		return (0);
@@ -28,9 +57,16 @@ static int	exec_redirect_open(
 		fd = open(*files, open_flags, 0666);
 		if (fd == -1)
 		{
+			exec_redir_restore_std(node);
 			if (errno == ENOENT)
 			{
-				throw(node, (char *[]){*files, no_dir_err, NULL});
+				throw(node, (char *[]){*files, no_file_err, NULL});
+				errno = false;
+				return (1);
+			}
+			if (errno == EISDIR)
+			{
+				throw(node, (char *[]){*files, is_dir_err, NULL});
 				errno = false;
 				return (1);
 			}
@@ -45,30 +81,6 @@ static int	exec_redirect_open(
 	return (0);
 }
 
-static void	exec_redir_save_std(t_ast *node, t_redir *rh)
-{
-	(void)node;
-	if (rh->files_out || rh->files_out_append)
-		rh->fd_std_out = dup(STDOUT_FILENO);
-	if (rh->files_in)
-		rh->fd_std_in = dup(STDIN_FILENO);
-}
-
-static void	exec_redir_restore_std(t_ast *node, t_redir *rh)
-{
-	(void)node;
-	if (rh->files_out || rh->files_out_append)
-	{
-		if (rh->fd_std_out != -1)
-		{
-			dup2(rh->fd_std_out, STDOUT_FILENO);
-			close(rh->fd_std_out);
-		}
-	}
-	if (rh->fd_std_in != -1)
-		dup2(rh->fd_std_in, STDIN_FILENO);
-}
-
 static void	exec_redirect(t_ast *node)
 {
 	static int	f_create = O_CREAT | O_WRONLY | O_TRUNC;
@@ -78,7 +90,7 @@ static void	exec_redirect(t_ast *node)
 
 	files_out = node->redir.files_out;
 	files_append = node->redir.files_out_append;
-	exec_redir_save_std(node, &node->redir);
+	exec_redir_save_std(node);
 	if (node->heredoc.files_in)
 		exec_redirect_open(node,
 			node->heredoc.files_in,
@@ -107,20 +119,26 @@ int	exec_command(t_ast *node)
 	if (node->status)
 		return (node->status);
 	if (!node->tokens)
-		return (exec_redir_restore_std(node, &node->redir), node->status);
+		return (exec_redir_restore_std(node), node->status);
 	builtin = get_builtin(*node->tokens);
 	if (builtin)
+	{
 		node->status = builtin(node);
+		exec_redir_restore_std(node);
+	}
 	else if (node->is_child_process)
+	{
 		node->status = exec_bin(node);
+		exec_redir_restore_std(node);
+	}
 	else
 	{
+		exec_redir_restore_std(node);
 		signal(SIGINT, SIG_IGN);
 		exec_child(node, exec_bin);
 		node->status = waitstatus(node->pid);
 		signal(SIGINT, &handle_signal);
 	}
-	exec_redir_restore_std(node, &node->redir);
 	node->shell->exit_status = node->status;
 	return (node->status);
 }

@@ -3,19 +3,18 @@
 ## **************************************************************************** #
 
 cd log
+export VAR="YOLO"
 
 ">>" asd
 
 >">" asd
 /bin/rm -f ">"
 
->> '$USER'
-cat $USER
-/bin/rm -f '$USER'
+>> '$VAR'
 
->> '$USER'
-cat '$USER'
-/bin/rm -f '$USER'
+>> '$VAR'
+cat '$VAR'
+/bin/rm -f '$VAR'
 
 "echo "
 
@@ -32,18 +31,19 @@ echo '' -n
 echo "" "" "" -n -n -n -n
 
 >> $HOME
+echo $?
 
 >> "$H"OM"E"
 cat OME
 /bin/rm -f OME
 
->> "$USER'$USER'"
-cat "$USER'$USER'"
-/bin/rm -f "$USER'$USER'"
+>> "$VAR'$VAR'"
+cat "$VAR'$VAR'"
+/bin/rm -f "$VAR'$VAR'"
 
->> "$USER"
-cat $USER
-/bin/rm -f $USER
+>> "$VAR"
+cat $VAR
+/bin/rm -f $VAR
 
 cd $HOME/Desktop/
 pwd
@@ -208,9 +208,9 @@ EXIT 123
 
 Exit
 
-UNSET USER
+UNSET VAR
 
-Unset USER
+Unset VAR
 
 EXPORT T=LA
 echo $T
@@ -224,14 +224,13 @@ echo $T
 e""""""""""""cho
 
 export T='|'
-echo $T echo lala $T echo $T echo ?
-
+echo $T echo lala $T echo $T echo
 export T="<<"
 $T.
 
 OLDPWD
 
-USER
+VAR
 
 " ls"
 

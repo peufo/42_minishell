@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/28 11:35:26 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/29 17:09:57 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	main(int ac, char **av, char **env)
 	shell_init(&shell, env);
 	ft_bzero(&g_signal, sizeof(t_signal));
 	signal(SIGINT, &handle_signal);
-	signal(SIGQUIT, SIG_IGN);
 	if (ac == 2)
 	{
 		shell.pipe.in = open(av[1], O_RDONLY);
