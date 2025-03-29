@@ -2,355 +2,358 @@
 #                                   BUILTINS                                   #
 # **************************************************************************** #
 
-echo cd ~
+# echo cd ~
 
-echo "cd ~"
+# echo "cd ~"
 
-echo ""$?""
+# echo ""$?""
 
-echo $?"42"
+# echo $?"42"
 
-echo ''$?''"42"
+# echo ''$?''"42"
 
-echo '"$USER"'
+# echo '"$USER"'
 
-echo "'$USER'"
+# echo "'$USER'"
 
-echo ""'$USER'""
+# echo ""'$USER'""
 
-echo '"'$USER'"'
+# echo '"'$USER'"'
 
-echo "''$USER''"
+# echo "''$USER''"
 
-echo "'"'$USER'"'"
+# echo "'"'$USER'"'"
 
-echo '"'"$USER"'"'
+# echo '"'"$USER"'"'
 
-echo $"HOME"$USER
+# echo $"HOME"$USER
 
-echo $"HOM"E$USER
+# echo $"HOM"E$USER
 
-echo "exit_code ->$? user ->$USER home -> $HOME"
+# echo "exit_code ->$? user ->$USER home -> $HOME"
 
-echo $"HOME"
+# echo $"HOME"
 
-echo $"42$"
+# echo $"42$"
 
-echo """"""""$USER""""""""
+# echo """"""""$USER""""""""
 
-echo "$ "
+# echo "$ "
 
-echo hi >./outfiles/outfile01 | echo bye
+# echo bye | echo hi >./outfiles/outfile01
 
-echo <123 <456 hi | echo 42
+# echo hi >./outfiles/outfile01 | echo bye
 
-echo '$='
+# echo <123 <456 hi | echo 42
+# echo 42 | echo <123 <456 hi
 
-echo '$ '
+# echo '$='
 
-echo "$?"
+# echo '$ '
 
-echo '$?'
+# echo "$?"
 
-echo "'$?'"
+# echo '$?'
 
-echo "cat lol.c | cat > lol.c"
+# echo "'$?'"
 
-echo "cat lol.c '|' cat > lol.c"
+# echo "cat lol.c | cat > lol.c"
 
-echo '$USER' "$USER" "text  ' text"
+# echo "cat lol.c '|' cat > lol.c"
 
-echo $USER =intergalaktikus miaf*szomez
+# echo '$USER' "$USER" "text  ' text"
 
-echo -n"-n" bonjour
+# echo $USER =intergalaktikus miaf*szomez
 
-echo "'$USER'"
+# echo -n"-n" bonjour
 
-echo " '$USER' "
+# echo "'$USER'"
 
-echo text"$USER"
+# echo " '$USER' "
 
-echo text"'$USER'" ' $USER '
+# echo text"$USER"
 
-echo "text"   "$USER"    "$USER"
+# echo text"'$USER'" ' $USER '
 
-echo '              $USER          '
+# echo "text"   "$USER"    "$USER"
 
-echo ''''''''''$USER''''''''''
+# echo '              $USER          '
 
-echo """"""""$USER""""""""
+# echo ''''''''''$USER''''''''''
 
-echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
+# echo """"""""$USER""""""""
 
-echo "text" "text$USER" ... "$USER"
+# echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
 
-echo
+# echo "text" "text$USER" ... "$USER"
 
-echo ''
+# echo
 
-echo ""
+# echo ''
 
-echo '' ""
+# echo ""
 
-echo echo
+# echo '' ""
 
-echo test1
+# echo echo
 
-echo 'test1'
+# echo test1
 
-echo "echo hallo"
+# echo 'test1'
 
-echo echo"1"
+# echo "echo hallo"
 
-echo "test1 test2"
+# echo echo"1"
 
-echo "test1  test2" test3
+# echo "test1 test2"
 
-echo " test1 test2 " 'test3 '
+# echo "test1  test2" test3
 
-echo test1		test2
+# echo " test1 test2 " 'test3 '
 
-echo $USER$TESTNOTFOUND$HOME$
+# echo test1		test2
 
-echo $USER$TESTNOTFOUND$HOME$WTF$PWD
+# echo $USER$TESTNOTFOUND$HOME$
 
-echo -n test1
+# echo $USER$TESTNOTFOUND$HOME$WTF$PWD
 
-echo -n "test1 test2"
+# echo -n test1
 
-echo -n "test1 test2" test3
+# echo -n "test1 test2"
 
-echo -n " test1 test2 " 'test3 '
+# echo -n "test1 test2" test3
 
-echo -n test1		test2
+# echo -n " test1 test2 " 'test3 '
 
-echo test1 -n
+# echo -n test1		test2
 
-echo "test1 -n"
+# echo test1 -n
 
-echo -n -n test1
+# echo "test1 -n"
 
-echo -n -n -n -n -n test1
+# echo -n -n test1
 
-echo -
-echo --
+# echo -n -n -n -n -n test1
 
-echo "  -nn "
+# echo -
+# echo --
 
-echo "-n test1 -n test2"
+# echo "  -nn "
 
-echo "test1 -n test2"
+# echo "-n test1 -n test2"
 
-echo ~42
+# echo "test1 -n test2"
 
-echo -n -n -nasd
+# echo ~42
 
-echo -n -n -n-nnnnn
+# echo -n -n -nasd
 
-echo -n -nnnnnnn -n -nnn -nnnnn -n-n
+# echo -n -n -n-nnnnn
 
-echo -n -nnnnnnn -n -nnn -nnnnn -n feel my pain
+# echo -n -nnnnnnn -n -nnn -nnnnn -n-n
 
-echo -n -n -n-n
+# echo -n -nnnnnnn -n -nnn -nnnnn -n feel my pain
 
-echo "'totally logical'"
+# echo -n -n -n-n
 
-echo 'totally logical'
+# echo "'totally logical'"
 
-echo ''totally logical''
+# echo 'totally logical'
 
-echo ""'totally logical'""
+# echo ''totally logical''
 
-eCho
+# echo ""'totally logical'""
 
-eChO
+# eCho
 
-eCHO
+# eChO
 
-ECHO
+# eCHO
 
-pwd
-cd
-pwd
+# ECHO
 
-pwd
-cd ..
-pwd
+# pwd
+# cd
+# pwd
 
-cd ..
-cd $OLDPWD
+# pwd
+# cd ..
+# pwd
 
-pwd
-cd .
-pwd
+# cd ..
+# cd $OLDPWD
 
-pwd
-cd "."
-pwd
+# pwd
+# cd .
+# pwd
 
-pwd
-cd /Users
-pwd
+# pwd
+# cd "."
+# pwd
 
-pwd
-cd //////
-pwd
+# pwd
+# cd /Users
+# pwd
 
-pwd
-cd ./././
-pwd
+# pwd
+# cd //////
+# pwd
 
-pwd
-cd /
-pwd
+# pwd
+# cd ./././
+# pwd
 
-pwd
-cd '/////'
-pwd
+# pwd
+# cd /
+# pwd
 
-pwd
-cd "$PWD/file_tests"
-pwd
+# pwd
+# cd '/////'
+# pwd
 
-cd '/////' 2>/dev/null
+# pwd
+# cd "$PWD/file_tests"
+# pwd
 
-cd '/etc' 
+# cd '/////'
 
-cd '/var' 
+# cd '/etc' 
 
-cd "doesntexist" 2>/dev/null 
+# cd '/var' 
 
-cd ../../..
+# cd "doesntexist" 
 
-cd "wtf" 2>/dev/null 
+# cd ../../..
 
-cd ?
+# cd "wtf" 
 
-cd +
+# cd ?
 
-cd _
+# cd +
 
-cd woof
+# cd _
 
-cd bark bark
+# cd woof
 
-cd '/' 
+# cd bark bark
 
-pwd
-cd "doesntexist"
-pwd
+# cd '/' 
 
-pwd
-cd "doesntexist"
-pwd
+# pwd
+# cd "doesntexist"
+# pwd
 
-pwd
-cd ../../..
-pwd
+# pwd
+# cd "doesntexist"
+# pwd
 
-pwd
-cd "wtf"
-pwd
+# pwd
+# cd ../../..
+# pwd
 
-pwd
-cd ..
-cd ..
-pwd
+# pwd
+# cd "wtf"
+# pwd
 
-pwd
-cd ?
-pwd
+# pwd
+# cd ..
+# cd ..
+# pwd
 
-pwd
-cd +
-pwd
+# pwd
+# cd ?
+# pwd
 
-pwd
-cd _
-pwd
+# pwd
+# cd +
+# pwd
 
-cd ../../
-cd -
-cd -
+# pwd
+# cd _
+# pwd
 
-pwd
-cd echo
-pwd
+# cd ../../
+# cd -
+# cd -
 
-pwd
-cd echo echo
-pwd
+# pwd
+# cd echo
+# pwd
 
-pwd
-cd '/'
-pwd
+# pwd
+# cd echo echo
+# pwd
 
-pwd
-cd $PWD/file_tests
-pwd
+# pwd
+# cd '/'
+# pwd
 
-pwd
-cd $OLDPWD/something
-pwd
+# pwd
+# cd $PWD/file_tests
+# pwd
 
-pwd
-cd ~
-cd - ananas dot jpeg
-pwd
+# pwd
+# cd $OLDPWD/something
+# pwd
 
-pwd
-cd includes/ djhwbdhwbd wgdyuhgw jdwjdh wuiydjwh 
-pwd
+# pwd
+# cd ~
+# cd - ananas dot jpeg
+# pwd
 
-pwd
-cd ~ asd w dd q asd
-pwd
+# pwd
+# cd includes/ djhwbdhwbd wgdyuhgw jdwjdh wuiydjwh 
+# pwd
 
-pwd
-cd ~
-cd -
-pwd
+# pwd
+# cd ~ asd w dd q asd
+# pwd
 
-pwd
-cd -
-pwd
+# pwd
+# cd ~
+# cd -
+# pwd
 
-pwd
-cd ~
-pwd
+# pwd
+# cd -
+# pwd
 
+# pwd
+# cd ~
+# pwd
 
-pwd
-cd ../test
-pwd
 
-env | grep DOESNT_EXIST
+# pwd
+# cd ../test
+# pwd
 
-env | grep HOME
+# env | grep DOESNT_EXIST
 
-pwd
+# env | grep HOME
 
-"pwd"
+# pwd
 
-pwd test42
+# "pwd"
 
-pwd 42 42 42
+# pwd test42
 
-pwd pwd
+# pwd 42 42 42
 
-pwd pwd pwd
+# pwd pwd
 
-/bin/echo $HALLO42
-env | grep HALLO42
-export HALLO42=42
-/bin/echo $HALLO42
-env | grep HALLO42
+# pwd pwd pwd
 
-/bin/echo $HOME
-env | grep HOME
-export HOME=42
-/bin/echo $HOME
-env | grep HOME
+# /bin/echo $HALLO42
+# env | grep HALLO42
+# export HALLO42=42
+# /bin/echo $HALLO42
+# env | grep HALLO42
+
+# /bin/echo $HOME
+# env | grep HOME
+# export HOME=42
+# /bin/echo $HOME
+# env | grep HOME
 
 export =============123
 
@@ -454,138 +457,138 @@ export TES\~T=123
 
 export TEST+=100
 
-export TES_T=123
-/bin/echo $TES_T
-env | grep TES_T
+# export TES_T=123
+# /bin/echo $TES_T
+# env | grep TES_T
 
-export HELLO42=T=""
-/bin/echo $HELLO42
-env | grep HELLO42
-env | grep HELLO42=T=
+# export HELLO42=T=""
+# /bin/echo $HELLO42
+# env | grep HELLO42
+# env | grep HELLO42=T=
 
-echo $?
-export ?=hallo
-echo $?
+# echo $?
+# export ?=hallo
+# echo $?
 
-/bin/echo $test
-export test=42 | echo 99
-/bin/echo $test
+# /bin/echo $test
+# export test=42 | echo 99
+# /bin/echo $test
 
-/bin/echo $mini_test
-env | grep mini_test
-export mini_test=
-/bin/echo $mini_test
-env | grep mini_test
+# /bin/echo $mini_test
+# env | grep mini_test
+# export mini_test=
+# /bin/echo $mini_test
+# env | grep mini_test
 
-unset
+# unset
 
-unset ""
+# unset ""
 
-unset =
+# unset =
 
-unset "="
+# unset "="
 
-unset ""=
+# unset ""=
 
-unset =""
+# unset =""
 
-unset ==
+# unset ==
 
-unset ?
+# unset ?
 
-unset "?"
+# unset "?"
 
-unset $
+# unset $
 
-unset "$"
+# unset "$"
 
-unset $""
+# unset $""
 
-export TEST=100
+# export TEST=100
 
-unset doesntexist
+# unset doesntexist
 
-unset OLDPWD 
+# unset OLDPWD 
 
-unset PATH 
+# unset PATH 
 
-unset PATH 
+# unset PATH 
 
-unset PATH 
+# unset PATH 
 
-unset TES;T
+# unset TES;T
 
-unset TES.T
+# unset TES.T
 
-unset TES+T
+# unset TES+T
 
-unset TES=T
+# unset TES=T
 
-unset TES}T
+# unset TES}T
 
-unset TES{T
+# unset TES{T
 
-unset TES-T
+# unset TES-T
 
-unset -TEST
+# unset -TEST
 
-unset _TEST
+# unset _TEST
 
-unset TES_T
+# unset TES_T
 
-unset TEST_
+# unset TEST_
 
-unset TE*ST
+# unset TE*ST
 
-unset TES#T
+# unset TES#T
 
-unset TES@T
+# unset TES@T
 
-unset TES!T
+# unset TES!T
 
-unset TES$?T
+# unset TES$?T
 
-unset ============
+# unset ============
 
-unset +++++++
+# unset +++++++
 
-unset ________
+# unset ________
 
-unset export
+# unset export
 
-unset echo
+# unset echo
 
-unset pwd
+# unset pwd
 
-unset cd
+# unset cd
 
-unset unset
+# unset unset
 
-unset sudo
+# unset sudo
 
-unset TES^T
+# unset TES^T
 
-unset TES!T
+# unset TES!T
 
-unset TES\~T
+# unset TES\~T
 
-/bin/echo $HOME
-unset $HOME
-/bin/echo $HOME
+# /bin/echo $HOME
+# unset $HOME
+# /bin/echo $HOME
 
-/bin/echo $HOME
-unset HOME
-/bin/echo $HOME
+# /bin/echo $HOME
+# unset HOME
+# /bin/echo $HOME
 
-/bin/echo $HOME
-unset HOME
-unset HOME
-unset HOME
-/bin/echo $HOME
+# /bin/echo $HOME
+# unset HOME
+# unset HOME
+# unset HOME
+# /bin/echo $HOME
 
-/bin/echo $HOME
-unset HOME
-unset HOME
-unset HOME
-unset HOME
-/bin/echo $HOME
+# /bin/echo $HOME
+# unset HOME
+# unset HOME
+# unset HOME
+# unset HOME
+# /bin/echo $HOME

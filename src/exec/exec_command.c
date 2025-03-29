@@ -18,9 +18,17 @@ static void	exec_redir_save_std(t_ast *node)
 
 	rh = &node->redir;
 	if (rh->files_out || rh->files_out_append)
+	{
 		rh->fd_std_out = dup(STDOUT_FILENO);
+		if (rh->fd_std_out == -1)
+			shell_exit(node->shell);
+	}
 	if (rh->files_in)
+	{
 		rh->fd_std_in = dup(STDIN_FILENO);
+		if (rh->fd_std_in == -1)
+			shell_exit(node->shell);
+	}
 }
 
 static void	exec_redir_restore_std(t_ast *node)
@@ -30,14 +38,14 @@ static void	exec_redir_restore_std(t_ast *node)
 	rh = &node->redir;
 	if (rh->files_out || rh->files_out_append)
 	{
-		if (rh->fd_std_out != -1)
-		{
-			dup2(rh->fd_std_out, STDOUT_FILENO);
-			close(rh->fd_std_out);
-		}
+		dup2(rh->fd_std_out, STDOUT_FILENO);
+		close(rh->fd_std_out);
 	}
-	if (rh->fd_std_in != -1)
+	if (rh->files_in)
+	{
 		dup2(rh->fd_std_in, STDIN_FILENO);
+		close(rh->fd_std_in);
+	}
 }
 
 static int	exec_redirect_open(
@@ -59,17 +67,9 @@ static int	exec_redirect_open(
 		{
 			exec_redir_restore_std(node);
 			if (errno == ENOENT)
-			{
-				throw(node, (char *[]){*files, no_file_err, NULL});
-				errno = false;
-				return (1);
-			}
+				return (throw(node, (char *[]){*files, no_file_err, NULL}), 1);
 			if (errno == EISDIR)
-			{
-				throw(node, (char *[]){*files, is_dir_err, NULL});
-				errno = false;
-				return (1);
-			}
+				return (throw(node, (char *[]){*files, is_dir_err, NULL}), 1);
 			return (throw(node, NULL));
 		}
 		if (dup2(fd, std_fd) == -1)

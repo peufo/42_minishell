@@ -37,6 +37,7 @@ int	throw(t_ast *node, char **error)
 	{
 		perror(node->shell->name);
 	}
+	errno = false;
 	if (!node->status)
 	{
 		node->status = 1;
