@@ -103,9 +103,23 @@ static char	*get_bin_path(t_ast *node)
 	return (bin);
 }
 
-// TODO: preshot command not found + permission denied
 int	try_execv(t_ast *node, char *path)
 {
+	if (access(path, X_OK) == -1)
+	{
+		if (errno == ENOENT)
+		{
+			node->status = 127;
+			throw(node, (char *[]){ path, ": No such file or directory", NULL});
+			return (127);
+		}
+		if (errno == EACCES)
+		{
+			node->status = 126;
+			throw(node, (char *[]){ path, ": Permission denied", NULL});
+			return (126);
+		}
+	}
 	if (execve(path, node->tokens, node->shell->env) == -1)
 		shell_exit(node->shell);
 	return (0);

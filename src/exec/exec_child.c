@@ -52,5 +52,6 @@ void	exec_child(t_ast *node, t_exe exe)
 	node->is_child_process = true;
 	pipes_connect(node);
 	node->status = exe(node);
+	node->shell->exit_status = node->status;
 	shell_exit(node->shell);
 }
