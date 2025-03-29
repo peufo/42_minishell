@@ -253,6 +253,7 @@ typedef struct s_ttype
 	t_atype		op;
 }	t_ttype;
 
+typedef int	(*t_exe)(t_ast *);
 typedef struct s_redir
 {
 	char	**files_in;
@@ -275,6 +276,7 @@ struct s_ast
 	pid_t	pid;
 	bool	is_child_process;
 	int		status;
+	t_exe	builtin;
 	t_atype	type;
 	t_pipe	*pipe_in;
 	t_pipe	*pipes;
@@ -324,7 +326,6 @@ void	shell_update_prompt(t_sh *shell);
 
 // BUILTINS ====================================================================
 
-typedef int					(*t_exe)(t_ast *);
 typedef struct s_builtin
 {
 	char	*name;
@@ -357,6 +358,8 @@ int		exec_and(t_ast *node);
 int		exec_or(t_ast *node);
 t_exe	get_exe(t_ast *node);
 void	exec_update_underscore(t_ast *node);
+void	exec_redir_save_std(t_ast *node);
+void	exec_redir_restore_std(t_ast *node);
 
 // UTILS =======================================================================
 int		throw(t_ast *node, char **error);

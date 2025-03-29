@@ -103,27 +103,30 @@ static char	*get_bin_path(t_ast *node)
 	return (bin);
 }
 
+// TODO: preshot command not found + permission denied
+int	try_execv(t_ast *node, char *path)
+{
+	if (execve(path, node->tokens, node->shell->env) == -1)
+		shell_exit(node->shell);
+	return (0);
+}
+
 int	exec_bin(t_ast *node)
 {
 	char	*bin_path;
 
 	if (**node->tokens == '.' || **node->tokens == '/')
-	{
-		if (execve(*node->tokens, node->tokens, node->shell->env) == -1)
-			shell_exit(node->shell);
-		return (0);
-	}
+		return (try_execv(node,*node->tokens));
 	bin_path = get_bin_path(node);
 	if (!bin_path)
 	{
 		node->status = 127;
 		node->shell->exit_status = 127;
+		exec_redir_restore_std(node);
 		return (throw(node, (char *[]){
-				*node->tokens,
-				": command not found",
-				NULL}));
+			*node->tokens,
+			": command not found",
+			NULL}));
 	}
-	if (execve(bin_path, node->tokens, node->shell->env) == -1)
-		shell_exit(node->shell);
-	return (0);
+	return (try_execv(node, bin_path));
 }

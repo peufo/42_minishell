@@ -12,42 +12,6 @@
 
 #include "minishell.h"
 
-static void	exec_redir_save_std(t_ast *node)
-{
-	t_redir	*rh;
-
-	rh = &node->redir;
-	if (rh->files_out || rh->files_out_append)
-	{
-		rh->fd_std_out = dup(STDOUT_FILENO);
-		if (rh->fd_std_out == -1)
-			shell_exit(node->shell);
-	}
-	if (rh->files_in)
-	{
-		rh->fd_std_in = dup(STDIN_FILENO);
-		if (rh->fd_std_in == -1)
-			shell_exit(node->shell);
-	}
-}
-
-static void	exec_redir_restore_std(t_ast *node)
-{
-	t_redir *rh;
-
-	rh = &node->redir;
-	if (rh->files_out || rh->files_out_append)
-	{
-		dup2(rh->fd_std_out, STDOUT_FILENO);
-		close(rh->fd_std_out);
-	}
-	if (rh->files_in)
-	{
-		dup2(rh->fd_std_in, STDIN_FILENO);
-		close(rh->fd_std_in);
-	}
-}
-
 static int	exec_redirect_open(
 	t_ast *node,
 	char **files,
@@ -110,8 +74,6 @@ static void	exec_redirect(t_ast *node)
 
 int	exec_command(t_ast *node)
 {
-	t_exe	builtin;
-
 	lex(node, node->line);
 	exec_update_underscore(node);
 	exec_redirect_open(node, node->heredoc.files_in, O_RDONLY, STDERR_FILENO);
@@ -120,25 +82,19 @@ int	exec_command(t_ast *node)
 		return (node->status);
 	if (!node->tokens)
 		return (exec_redir_restore_std(node), node->status);
-	builtin = get_builtin(*node->tokens);
-	if (builtin)
-	{
-		node->status = builtin(node);
-		exec_redir_restore_std(node);
-	}
+	node->builtin = get_builtin(*node->tokens);
+	if (node->builtin)
+		node->status = node->builtin(node);
 	else if (node->is_child_process)
-	{
 		node->status = exec_bin(node);
-		exec_redir_restore_std(node);
-	}
 	else
 	{
-		exec_redir_restore_std(node);
 		signal(SIGINT, SIG_IGN);
 		exec_child(node, exec_bin);
 		node->status = waitstatus(node->pid);
 		signal(SIGINT, &handle_signal);
 	}
+	exec_redir_restore_std(node);
 	node->shell->exit_status = node->status;
 	return (node->status);
 }
