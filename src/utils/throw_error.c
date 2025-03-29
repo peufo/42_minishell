@@ -39,11 +39,9 @@ int	throw(t_ast *node, char **error)
 	}
 	errno = false;
 	if (!node->status)
-	{
 		node->status = 1;
-		node->shell->exit_status = 1;
-	}
+	node->shell->exit_status = node->status;
 	if (node->is_child_process)
 		shell_exit(node->shell);
-	return (1);
+	return (node->status);
 }

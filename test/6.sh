@@ -15,6 +15,9 @@ export PATH=tmp_path_test1:tmp_path_test2
 a.out
 export PATH=tmp_path_test2:tmp_path_test1
 a.out
+/bin/chmod -x tmp_path_test2/a.out
+a.out
+echo $?
 /bin/rm -rf tmp_path_test1 tmp_path_test2
 
 # /bin/echo
@@ -26,10 +29,6 @@ a.out
 # "   "
 
 # "    "
-
-# "		"
-
-# "			"
 
 # /bin/echo hello 42
 
@@ -57,7 +56,7 @@ a.out
 # /bin/cat 42
 # echo $?
 
-# /bin/exe42 42
+/bin/exe42 42
 
 # 42 42
 
