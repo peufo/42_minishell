@@ -56,9 +56,9 @@ int	exec_pipeline(t_ast *node)
 	exec_child(node->children[i], exec_ast);
 	while (node->children[i])
 	{
-		node->status = waitstatus(node->children[i]->pid);
+		node->children[i]->status = waitstatus(node->children[i]->pid);
 		i++;
 	}
 	node->shell->exit_status = node->children[i - 1]->status;
-	return (node->children[i - 1]->status);
+	return (node->shell->exit_status);
 }
