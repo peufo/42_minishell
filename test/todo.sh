@@ -1,3 +1,5 @@
+echo YO | cat prout
+
 ## EXPORT APPEND
 # export TEST+=100
 # export TEST+=100
