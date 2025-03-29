@@ -37,14 +37,13 @@ static char	*take_identifier(char *token)
 	return (ft_strcut(token, equal));
 }
 
-static int	identifier_error(t_ast *node, char *identifier)
+static int	identifier_error(t_ast *node, char *token)
 {
 	throw(node, (char *[]){
 		"export: `",
-		identifier,
+		token,
 		"': not a valid identifier",
 		NULL});
-	free(identifier);
 	return (1);
 }
 
@@ -63,7 +62,10 @@ int	builtin_export(t_ast *node)
 		if (!identifier)
 			return (shell_exit(node->shell), 1);
 		if (!is_correct_identifier(identifier))
-			return (identifier_error(node, identifier));
+		{
+			free(identifier);
+			return (identifier_error(node, *token));
+		}
 		value = ft_strdup(*(token++));
 		if (!value)
 		{

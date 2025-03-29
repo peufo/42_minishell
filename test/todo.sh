@@ -1,14 +1,7 @@
-### OVER CATCH
-/bin/echo hi >./log/outfile01 | /bin/echo bye
-#/bin/echo <123 <456 hi | /bin/echo 42
-### IDK  Syntax error
-
-#	ERREURS REDIRECTION
-#<| echo ok
-#>| echo sure
-# echo "prout" >
-# echo "prout" >>
-# >> echo
+## EXPORT APPEND
+# export TEST+=100
+# export TEST+=100
+# echo $TEST
 
 #	ERREURS PIPE
 #|ls | ls
@@ -17,11 +10,6 @@
 # echo &&| (echo)
 # echo |&& (echo)
 # 
-
-
-
-#	ERREURS LOGICAL
-
 
 ### FUCK OFF
 # cd log
