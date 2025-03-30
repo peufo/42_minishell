@@ -4,4 +4,3 @@
 >| echo sure
 echo "prout" >
 echo "prout" >>
->> echo
