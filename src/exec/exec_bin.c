@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:12:21 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/29 17:10:28 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/30 11:51:53 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,66 +100,6 @@ static char	*get_bin_path(t_ast *node)
 	return (bin);
 }
 
-bool	is_directory(char *path) {
-	struct stat	statbuf;
-
-	if (stat(path, &statbuf) != 0)
-		return 0;
-	return S_ISDIR(statbuf.st_mode);
-}
-
-static int	try_execv(t_ast *node, char *path)
-{
-	if (ft_strcmp(path, ".") == 0)
-	{
-		node->status = 2;
-		throw(node, (char *[]){
-			".: filename argument required\n",
-			".: usage: . filename [arguments]",
-			 NULL});
-		return (2);
-	}
-	if (is_directory(path))
-	{
-		node->status = 126;
-		throw(node, (char *[]){ path, ": Is a directory", NULL});
-		return (126);
-	}
-	if (access(path, X_OK) == -1)
-	{
-		exec_redir_restore_std(node);
-		if (errno == ENOENT)
-		{
-			node->status = 127;
-			throw(node, (char *[]){ path, ": No such file or directory", NULL});
-			return (127);
-		}
-		if (errno == EISDIR)
-		{
-			node->status = 127;
-			throw(node, (char *[]){ path, ": Is a directory", NULL});
-			return (127);
-		}
-		if (errno == EACCES)
-		{
-			node->status = 126;
-			throw(node, (char *[]){ path, ": Permission denied", NULL});
-			return (126);
-		}
-	}
-	if (execve(path, node->tokens, node->shell->env) == -1)
-		shell_exit(node->shell);
-	return (0);
-}
-
-static bool	is_env_path_defined(t_ast	*node)
-{
-	char	*env_path;
-	
-	env_path = env_get(node->shell, "PATH");
-	return (!!env_path && !!*env_path);
-}
-
 int	exec_bin(t_ast *node)
 {
 	char	*bin_path;
@@ -167,7 +107,7 @@ int	exec_bin(t_ast *node)
 	if (!is_env_path_defined(node)
 		|| **node->tokens == '.'
 		|| **node->tokens == '/')
-		return (try_execv(node, *node->tokens));
+		return (exec_bin_try(node, *node->tokens));
 	bin_path = get_bin_path(node);
 	if (!bin_path)
 	{
@@ -175,9 +115,9 @@ int	exec_bin(t_ast *node)
 		node->shell->exit_status = 127;
 		exec_redir_restore_std(node);
 		return (throw(node, (char *[]){
-			*node->tokens,
-			": command not found",
-			NULL}));
+				*node->tokens,
+				": command not found",
+				NULL}));
 	}
-	return (try_execv(node, bin_path));
+	return (exec_bin_try(node, bin_path));
 }

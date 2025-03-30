@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/28 09:51:06 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/30 11:51:35 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,6 @@ typedef struct s_ttype
 	t_atype		op;
 }	t_ttype;
 
-typedef int	(*t_exe)(t_ast *);
 typedef struct s_redir
 {
 	char	**files_in;
@@ -266,6 +265,7 @@ typedef struct s_redir
 	int		is_last_append;
 }	t_redir;
 
+typedef int					(*t_exe)(t_ast *);
 struct s_ast
 {
 	t_sh	*shell;
@@ -360,6 +360,8 @@ t_exe	get_exe(t_ast *node);
 void	exec_update_underscore(t_ast *node);
 void	exec_redir_save_std(t_ast *node);
 void	exec_redir_restore_std(t_ast *node);
+bool	is_env_path_defined(t_ast	*node);
+int		exec_bin_try(t_ast *node, char *path);
 
 // UTILS =======================================================================
 int		throw(t_ast *node, char **error);
