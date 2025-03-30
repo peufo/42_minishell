@@ -22,10 +22,7 @@ static char	**get_paths(t_sh *shell)
 	paths = NULL;
 	path_var = string_array_find_start_with(shell->env, "PATH=");
 	if (!path_var)
-	{
-		string_array_push(&paths, getcwd(NULL, 0));
 		return (paths);
-	}
 	cursor_start = *path_var + 5;
 	cursor_end = cursor_start;
 	while (*cursor_end)
@@ -103,14 +100,44 @@ static char	*get_bin_path(t_ast *node)
 	return (bin);
 }
 
-int	try_execv(t_ast *node, char *path)
+bool	is_directory(char *path) {
+	struct stat	statbuf;
+
+	if (stat(path, &statbuf) != 0)
+		return 0;
+	return S_ISDIR(statbuf.st_mode);
+}
+
+static int	try_execv(t_ast *node, char *path)
 {
+	if (ft_strcmp(path, ".") == 0)
+	{
+		node->status = 2;
+		throw(node, (char *[]){
+			".: filename argument required\n",
+			".: usage: . filename [arguments]",
+			 NULL});
+		return (2);
+	}
+	if (is_directory(path))
+	{
+		node->status = 126;
+		throw(node, (char *[]){ path, ": Is a directory", NULL});
+		return (126);
+	}
 	if (access(path, X_OK) == -1)
 	{
+		exec_redir_restore_std(node);
 		if (errno == ENOENT)
 		{
 			node->status = 127;
 			throw(node, (char *[]){ path, ": No such file or directory", NULL});
+			return (127);
+		}
+		if (errno == EISDIR)
+		{
+			node->status = 127;
+			throw(node, (char *[]){ path, ": Is a directory", NULL});
 			return (127);
 		}
 		if (errno == EACCES)
@@ -125,12 +152,22 @@ int	try_execv(t_ast *node, char *path)
 	return (0);
 }
 
+static bool	is_env_path_defined(t_ast	*node)
+{
+	char	*env_path;
+	
+	env_path = env_get(node->shell, "PATH");
+	return (!!env_path && !!*env_path);
+}
+
 int	exec_bin(t_ast *node)
 {
 	char	*bin_path;
 
-	if (**node->tokens == '.' || **node->tokens == '/')
-		return (try_execv(node,*node->tokens));
+	if (!is_env_path_defined(node)
+		|| **node->tokens == '.'
+		|| **node->tokens == '/')
+		return (try_execv(node, *node->tokens));
 	bin_path = get_bin_path(node);
 	if (!bin_path)
 	{

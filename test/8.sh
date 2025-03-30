@@ -61,6 +61,9 @@ asd
 unset PATH
 echo $?
 
+mkdir -p ~/tmp
+cd ~/tmp
+
 touch whatever
 cat <"./whatever" >"./whatever"
 rm -rf whatever
