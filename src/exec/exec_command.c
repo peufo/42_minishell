@@ -59,6 +59,7 @@ static void	exec_redirect(t_ast *node)
 		exec_redirect_open(node,
 			node->heredoc.files_in,
 			O_RDONLY, STDIN_FILENO);
+	exec_redirect_open(node, node->redir.files_in, O_RDONLY, STDIN_FILENO);
 	if (node->redir.is_last_append)
 	{
 		exec_redirect_open(node, files_out, f_create, STDOUT_FILENO);
@@ -69,7 +70,6 @@ static void	exec_redirect(t_ast *node)
 		exec_redirect_open(node, files_append, f_append, STDOUT_FILENO);
 		exec_redirect_open(node, files_out, f_create, STDOUT_FILENO);
 	}
-	exec_redirect_open(node, node->redir.files_in, O_RDONLY, STDIN_FILENO);
 }
 
 int	exec_command(t_ast *node)

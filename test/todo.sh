@@ -1,5 +1,3 @@
-export USER="@?/"
-env | grep USER | grep -v USER_ZDOTDIR
 
 # Don't log std err on non interactive mode
 # ls > log/out >> log/out1 >log/out3 | cat log/out1
