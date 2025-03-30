@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_redir_std.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/30 11:44:42 by jvoisard          #+#    #+#             */
+/*   Updated: 2025/03/30 11:44:56 by jvoisard         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -24,7 +35,7 @@ void	exec_redir_save_std(t_ast *node)
 
 void	exec_redir_restore_std(t_ast *node)
 {
-	t_redir *rh;
+	t_redir	*rh;
 
 	rh = &node->redir;
 	if (rh->fd_std_out && (rh->files_out || rh->files_out_append))
