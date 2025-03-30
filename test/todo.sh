@@ -1,4 +1,3 @@
-
 # Don't log std err on non interactive mode
 # ls > log/out >> log/out1 >log/out3 | cat log/out1
 # /bin/rm -f log/out

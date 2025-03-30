@@ -21,7 +21,11 @@ static void	clone_pipes(t_ast *parent, t_ast *child)
 int	exec_subshell(t_ast *node)
 {
 	clone_pipes(node, *node->children);
-	return (exec_ast(*node->children));
+	signal(SIGINT, SIG_IGN);
+	exec_child(*node->children, exec_ast);
+	(*node->children)->status = waitstatus((*node->children)->pid);
+	signal(SIGINT, &handle_signal);
+	return ((*node->children)->status);
 }
 
 int	exec_and(t_ast *node)
