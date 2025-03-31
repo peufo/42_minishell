@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 12:09:17 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/31 06:07:35 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	get_all_codes(t_input *input, char *cursor)
 static bool	checkout_from_logic(t_input *input)
 {
 	input->is_redir = false;
-	if (!g_signal.is_sigint)
+	if (!g_is_sigint)
 		return (true);
 	return (false);
 	if (input->redir_input)
@@ -77,7 +77,7 @@ bool	apply_redir_logic(t_input *input, t_sh *shell)
 		}
 		free(input->redir_line);
 		input->redir_line = NULL;
-		if (i == input->nb_redir || g_signal.is_sigint)
+		if (i == input->nb_redir || g_is_sigint)
 			break ;
 		get_safe_readline_inputs(shell, input);
 	}

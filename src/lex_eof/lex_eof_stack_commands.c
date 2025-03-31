@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:51:49 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 12:14:17 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/31 06:07:50 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	assure_heredoc_line(t_sh *shell)
 {
 	ft_putstr_fd(">>", 1);
 	shell->input.redir_line = get_line(STDIN_FILENO);
-	if (g_signal.is_sigint)
+	if (g_is_sigint)
 		shell->line2 = ft_strdup(shell->input.redir_line);
 }
 
@@ -72,6 +72,6 @@ void	assure_eof_line(t_sh *shell)
 {
 	ft_putstr_fd("> ", 1);
 	shell->input.line = get_line(STDIN_FILENO);
-	if (g_signal.is_sigint)
+	if (g_is_sigint)
 		shell->line2 = ft_strdup(shell->input.line);
 }

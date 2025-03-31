@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:40:04 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/28 10:24:05 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/31 06:08:19 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static bool	check_input_line(t_sh *shell)
 static void	check_sig_out(t_input *input, t_sh *shell)
 {
 	(void)shell;
-	if (!g_signal.is_sigint)
+	if (!g_is_sigint)
 		return ;
 	if (input->line)
 	{
@@ -37,8 +37,8 @@ static void	check_sig_out(t_input *input, t_sh *shell)
 
 static void	lex_eof_read_input(t_sh *shell, t_input *input)
 {
-	if (g_signal.is_sigint)
-		g_signal.is_sigint = false;
+	if (g_is_sigint)
+		g_is_sigint = false;
 	while (input->state > 0 || input->last > 0)
 	{
 		get_safe_readline_inputs(shell, input);
@@ -51,7 +51,7 @@ static void	lex_eof_read_input(t_sh *shell, t_input *input)
 		input->state = check_string(input->stack);
 		input->last = get_last_token_type(input->stack, input);
 		stack_to_history(input->stack, shell);
-		if (g_signal.is_sigint)
+		if (g_is_sigint)
 			break ;
 	}
 	check_sig_out(input, shell);
@@ -67,7 +67,7 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 		while ((!input->line || !*input->line)
 			|| (!input->redir_line || !*input->redir_line))
 		{
-			if (g_signal.is_sigint)
+			if (g_is_sigint)
 				break ;
 			if (input->is_redir)
 				assure_heredoc_line(shell);
