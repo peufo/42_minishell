@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/29 17:09:57 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/31 06:07:14 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_signal	g_signal;
+bool	g_is_sigint;
 
 void	handle_signal(int sig)
 {
 	if (sig == SIGINT)
-		g_signal.is_sigint = true;
+		g_is_sigint = true;
 	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -29,7 +29,7 @@ int	main(int ac, char **av, char **env)
 	t_sh	shell;
 
 	shell_init(&shell, env);
-	ft_bzero(&g_signal, sizeof(t_signal));
+	g_is_sigint = false;
 	signal(SIGINT, &handle_signal);
 	if (ac == 2)
 	{

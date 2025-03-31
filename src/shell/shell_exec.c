@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/28 16:56:26 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/03/31 06:08:42 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void	shell_exec(t_sh *shell)
 	while (shell->is_running)
 	{
 		errno = false;
-		g_signal.is_sigint = false;
+		g_is_sigint = false;
 		exec = input_read(shell);
-		if (!shell->line || g_signal.is_sigquit)
+		if (!shell->line)
 			shell_exit(shell);
 		if (*shell->line == '#')
 			continue ;
