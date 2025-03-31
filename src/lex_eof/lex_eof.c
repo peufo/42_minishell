@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:40:04 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/31 06:08:19 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/03/31 14:28:32 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,10 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 			if (!input->line && !input->redir_line)
 				shell_exit(shell);
 			if (input->line && is_empty_line(input->line))
+			{
+				free(input->line);
 				input->line = NULL;
+			}
 			else
 				break ;
 		}
