@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/31 06:07:35 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/01 09:53:17 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,10 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 		input->redir_line = input->line;
 	shell->line = head;
 	if (!apply_redir(shell, copy))
-		return (true);
+	{
+		g_is_sigint = false;
+		return (false);
+	}
 	shell->line = copy;
 	checkout_from_redir(shell);
 	return (true);

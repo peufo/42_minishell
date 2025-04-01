@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:40:04 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/31 14:28:32 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/01 09:52:31 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	check_sig_out(t_input *input, t_sh *shell)
 	input_free(input);
 }
 
-static void	lex_eof_read_input(t_sh *shell, t_input *input)
+static bool	lex_eof_read_input(t_sh *shell, t_input *input)
 {
 	if (g_is_sigint)
 		g_is_sigint = false;
@@ -54,7 +54,9 @@ static void	lex_eof_read_input(t_sh *shell, t_input *input)
 		if (g_is_sigint)
 			break ;
 	}
-	check_sig_out(input, shell);
+	if (g_is_sigint)
+		return (check_sig_out(input, shell), false);
+	return (check_sig_out(input, shell), true);
 }
 
 void	get_safe_readline_inputs(t_sh *shell, t_input *input)
@@ -97,7 +99,14 @@ bool	lex_eof(t_sh *shell)
 	shell->input.last = get_last_token_type(shell->line, &shell->input);
 	if (shell->input.state > 0 || shell->input.last > 0)
 	{
-		lex_eof_read_input(shell, &shell->input);
+		if (!lex_eof_read_input(shell, &shell->input))
+		{
+			shell->input.line = ft_strdup(shell->line2);
+			while (!lex_eof_read_input(shell, &shell->input))
+				continue ;
+		}
+		printf("line 1: %s\n", shell->line);
+		printf("Line 2: %s\n", shell->line2);
 		if (!is_empty_line(shell->input.stack))
 			add_history(shell->input.stack);
 	}
