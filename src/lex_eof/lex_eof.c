@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:40:04 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/01 09:52:31 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/01 12:30:15 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	get_safe_readline_inputs(t_sh *shell, t_input *input)
 				assure_heredoc_line(shell);
 			else
 				assure_eof_line(shell);
-			if (!input->line && !input->redir_line)
+			if (!input->line && !input->redir_line && !input->is_redir)
 				shell_exit(shell);
 			if (input->line && is_empty_line(input->line))
 			{
