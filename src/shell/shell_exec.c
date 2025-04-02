@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/02 07:44:37 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/02 07:44:37 by dyodlm           ###   ########.fr       *
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@ static void	basic_exec(t_sh *shell, int exec)
 		while (!treat_redirections(&shell->input, shell))
 			if (!treat_redirections(&shell->input, shell))
 				continue ;
+	shell->ast_error = false;
 	shell->ast = ast_create(shell, ft_strdup(shell->line));
-	exec_ast(shell->ast);
+	if (shell->ast_error)
+		throw(shell->ast, (char *[]){"AST parsing error", NULL});
+	else
+		exec_ast(shell->ast);
 	input_free(&shell->input);
 	ast_free(&shell->ast);
 }

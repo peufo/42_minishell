@@ -314,6 +314,7 @@ struct s_sh
 	bool		is_running;
 	bool		is_interactive;
 	t_ast		*ast;
+	bool		ast_error;
 	int			exit_status;
 	int			signal;
 	bool		shell_inception;

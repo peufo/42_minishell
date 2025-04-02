@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:15:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/17 17:48:52 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:00:14 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static char	**get_env_ptr(t_sh *shell, char *varname)
 	ft_strlcat(key, "=", len);
 	arr_ptr = string_array_find_start_with(shell->env, key);
 	free(key);
+	if (!arr_ptr)
+		arr_ptr = string_array_find_match(shell->env, varname);
 	return (arr_ptr);
 }
 
@@ -65,7 +67,8 @@ char	*env_get(t_sh *shell, char *varname)
 	value = *arr_ptr;
 	while (*value && *value != '=')
 		value++;
-	value++;
+	if (*value == '=')
+		value++;
 	return (value);
 }
 
