@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/02 07:41:52 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/02 11:23:50 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,43 +63,24 @@ void	safe_init_redir_array(t_sh *shell, t_input *input)
 		return (string_array_free(&input->redir_input));
 }
 
-static void	suppress_last_line(char **newline, char *line, int mlen)
-{
-	t_utils	u;
-	char	*buf;
-
-	ft_bzero(&u, sizeof(t_utils));
-	u.j = (int)ft_strlen(*newline) - mlen;
-	buf = ft_calloc(u.j + 1, 1);
-	while (--u.j > 0 && *line)
-	{
-		buf[u.i++] = *line;
-		line++;
-		if (*line == '\n')
-		{
-			line++;
-			u.j--;
-		}
-	}
-	if (u.i > 2)
-		buf[u.i] = '\n';
-	free(*newline);
-	*newline = buf;
-}
-
 void	checkout_from_redir(t_sh *shell)
 {
 	int		i;
+	char	*end;
+	char	*newline;
 
 	i = 0;
+	newline = NULL;
 	if (!shell->input.redir_input || !shell->input.redir_input[0])
 		return ;
 	while (shell->input.redir_input[i] && i < shell->input.nb_redir)
 	{
-		suppress_last_line(&shell->input.redir_input[i],
-			shell->input.redir_input[i],
-			(int)ft_strlen(shell->input.redir_code[i]) + 1);
-		i++;
+		end = ft_strrchr(shell->input.redir_input[i], '\n');
+		end++;
+		newline = ft_strcut(shell->input.redir_input[i], end);
+		printf("newline is : %s\n", newline);
+		free(shell->input.redir_input[i]);
+		shell->input.redir_input[i++] = newline;
 	}
 	//	EXPAND ENV VARIABLES
 }
