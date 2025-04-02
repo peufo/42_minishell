@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/27 09:07:55 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/02 07:41:52 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,5 @@ void	checkout_from_redir(t_sh *shell)
 			(int)ft_strlen(shell->input.redir_code[i]) + 1);
 		i++;
 	}
+	//	EXPAND ENV VARIABLES
 }

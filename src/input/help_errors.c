@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 08:06:38 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/27 08:54:07 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/02 07:53:46 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ void	init_error_checker(char **cursor, char **head, t_sh *shell)
 
 void	error_display(t_sh *shell, char *error)
 {
-	if (!error)
-		return ;
-	throw_shell(shell, (char *[]){"Your syntax is shit. What's with <<",
-		error, ">> ?", NULL});
+	(void)shell;
+	printf("Your syntax is shit. What's with <<%s>> ?\n", error);
 }
 
 bool	is_eof_token(char *token, bool in_eof)

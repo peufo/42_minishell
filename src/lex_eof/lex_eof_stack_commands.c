@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:51:49 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/31 06:07:50 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/02 07:22:00 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,9 @@
 void	check_quotes(char c, bool *dquote, bool *quote)
 {
 	if (c == '"')
-	{
-		if (*dquote)
-			*dquote = false;
-		else
-			*dquote = true;
-	}
+		*dquote = !(*dquote);
 	if (c == '\'')
-	{
-		if (*quote)
-			*quote = false;
-		else
-			*quote = true;
-	}
+		*quote = !(*quote);
 }
 
 void	stack_to_buffer(char **buffer, char *line)
