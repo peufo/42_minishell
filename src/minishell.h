@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/02 13:57:48 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:00:17 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,11 +167,13 @@ bool	is_empty_line(char *line);
 
 //	HEREDOCS
 bool	treat_redirections(t_input *input, t_sh *shell);
-char	*catch_the_redir_code(char *line);
+//char	*catch_the_redir_code(char *line);
 void	get_safe_readline_inputs(t_sh *shell, t_input *input);
 void	get_all_codes(t_input *input, char *cursor);
 void	checkout_from_redir(t_sh *shell);
 int		count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote);
+void	find_vars_in_line(char **line, char ***vars);
+void	expand_vars_in_line(t_sh *shell, char **line, char ***vars);
 
 // LEXER =======================================================================
 
@@ -372,5 +374,8 @@ char	*ft_strchrstr(const char *str, char *to_find);
 char	*ft_strrchrstr(const char *str, char *to_find);
 char	*get_line(int fd);
 void	ft_suppress(char *from, char *to, char **line);
+void	custom_sprintf(char *buffer, const char *format, const char *str_arg,
+			int int_arg);
+void	ft_strcpy(char *s1, const char *s2);
 
 #endif

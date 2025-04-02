@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:09:57 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/25 12:08:50 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/02 11:34:56 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,16 @@ int	count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote)
 
 void	transfer_shell_line(t_sh *shell)
 {
+	if (shell->line2)
+	{
+		free(shell->line2);
+		shell->line2 = NULL;
+	}
+	if (!shell->line)
+	{
+		shell->input.line = NULL;
+		return ;
+	}
 	shell->input.line = ft_strdup(shell->line);
 	free(shell->line);
 	shell->line = NULL;

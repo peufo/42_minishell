@@ -6,33 +6,11 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/01 09:53:17 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/02 14:13:29 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	get_all_codes(t_input *input, char *cursor)
-{
-	int		i;
-	char	*tmp;
-	char	*buf;
-
-	i = 0;
-	if (!cursor)
-		return ;
-	buf = ft_strchrstr(cursor, "<<");
-	while (buf && i < input->nb_redir)
-	{
-		input->redir_code[i++] = catch_the_redir_code(buf);
-		while (*buf == '<' || ft_isspace(*buf))
-			buf++;
-		while (ft_isalnum(*buf))
-			buf++;
-		tmp = ft_strchrstr(buf, "<<");
-		buf = tmp;
-	}
-}
 
 static bool	checkout_from_logic(t_input *input)
 {
@@ -49,9 +27,9 @@ static bool	checkout_from_logic(t_input *input)
 
 static bool	check_heredoc_code(char *s1, char *s2)
 {
-	if (!s1 || !s2 || ft_strlen(s1) - 1 != ft_strlen(s2))
+	if (!s1 || !s2 || ft_strlen(s1) != ft_strlen(s2))
 		return (false);
-	if (!ft_strncmp(s1, s2, ft_strlen(s1) - 1))
+	if (!ft_strncmp(s1, s2, ft_strlen(s1)))
 		return (true);
 	return (false);
 }
@@ -84,16 +62,26 @@ bool	apply_redir_logic(t_input *input, t_sh *shell)
 	return (checkout_from_logic(input));
 }
 
+static void	shell_is_shit(t_sh *shell, char **str, char *copy)
+{
+	if (str && *str)
+		free(*str);
+	*str = NULL;
+	if (shell->line)
+		free(shell->line);
+	shell->line = copy;
+}
+
 bool	treat_redirections(t_input *input, t_sh *shell)
 {
 	char	*cursor;
 	char	*head;
 	char	*copy;
 
-	shell->line2 = NULL;
+	input_free(input);
 	copy = ft_strdup(shell->line);
 	transfer_shell_line(shell);
-	if (!shell->input.stack)
+	if (!shell->input.stack && shell->input.line)
 		cursor = ft_strdup(shell->input.line);
 	else
 		cursor = ft_strdup(shell->input.stack);
@@ -106,9 +94,9 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 	if (!apply_redir(shell, copy))
 	{
 		g_is_sigint = false;
-		return (false);
+		free(cursor);
+		return (input_free(input), false);
 	}
-	shell->line = copy;
-	checkout_from_redir(shell);
-	return (true);
+	shell_is_shit(shell, &input->line, copy);
+	return (checkout_from_redir(shell), true);
 }
