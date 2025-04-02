@@ -6,12 +6,12 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 05:26:28 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/02 07:35:14 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/02 11:07:22 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
+
 static char	*ft_strndup(const char *s, size_t n)
 {
 	char	*dup;
@@ -77,7 +77,7 @@ static char	*extract_code(char **line, bool dq, bool sq)
 	return newcode;
 }
 
-char	*catch_the_redir_code(char *line)
+static char	*catch_the_redir_code(char *line)
 {
 	char *tmp;
 	
@@ -89,4 +89,25 @@ char	*catch_the_redir_code(char *line)
 	    tmp++;
 	return (extract_code(&tmp, false, false));
 }
-*/
+
+void	get_all_codes(t_input *input, char *cursor)
+{
+	int		i;
+	char	*tmp;
+	char	*buf;
+
+	i = 0;
+	if (!cursor)
+		return ;
+	buf = ft_strchrstr(cursor, "<<");
+	while (buf && i < input->nb_redir)
+	{
+		input->redir_code[i++] = catch_the_redir_code(buf);
+		while (*buf == '<' || ft_isspace(*buf))
+			buf++;
+		while (ft_isalnum(*buf))
+			buf++;
+		tmp = ft_strchrstr(buf, "<<");
+		buf = tmp;
+	}
+}

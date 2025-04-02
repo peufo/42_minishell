@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/30 12:20:50 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:07:39 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ bool	is_empty_line(char *line);
 
 //	HEREDOCS
 bool	treat_redirections(t_input *input, t_sh *shell);
-char	*catch_the_redir_code(char *line);
+//char	*catch_the_redir_code(char *line);
 void	get_safe_readline_inputs(t_sh *shell, t_input *input);
 void	get_all_codes(t_input *input, char *cursor);
 void	checkout_from_redir(t_sh *shell);
