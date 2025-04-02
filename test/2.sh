@@ -7,43 +7,43 @@ export VAR="YOLO"
 
 ">>" asd
 
-# >">" asd
-# /bin/rm -f ">"
+>">" asd
+/bin/rm -f ">"
 
-# >> '$VAR'
+>> '$VAR'
 
-# >> '$VAR'
-# cat '$VAR'
-# /bin/rm -f '$VAR'
+>> '$VAR'
+cat '$VAR'
+/bin/rm -f '$VAR'
 
-# "echo "
+"echo "
 
-# "echo -nnnnn"
+"echo -nnnnn"
 
-# "ECho" -n -nnn"" "-"nnnnn
+"ECho" -n -nnn"" "-"nnnnn
 
-# "ECHO" "-n"
+"ECHO" "-n"
 
-# ECHO '''''-''n'
+ECHO '''''-''n'
 
-# echo '' -n
+echo '' -n
 
-# echo "" "" "" -n -n -n -n
+echo "" "" "" -n -n -n -n
 
-# >> $HOME
-# echo $?
+>> $HOME
+echo $?
 
-# >> "$H"OM"E"
-# cat OME
-# /bin/rm -f OME
+>> "$H"OM"E"
+cat OME
+/bin/rm -f OME
 
-# >> "$VAR'$VAR'"
-# cat "$VAR'$VAR'"
-# /bin/rm -f "$VAR'$VAR'"
+>> "$VAR'$VAR'"
+cat "$VAR'$VAR'"
+/bin/rm -f "$VAR'$VAR'"
 
-# >> "$VAR"
-# cat $VAR
-# /bin/rm -f $VAR
+>> "$VAR"
+cat $VAR
+/bin/rm -f $VAR
 
 ls
 
@@ -53,114 +53,114 @@ pwd
 cd "$HOME"/Desktop/
 pwd
 
-# cd "$H"O"ME"/Desktop/
-# echo $?
+cd "$H"O"ME"/Desktop/
+echo $?
 
-# export T=n
-# echo "-"$T$T
+export T=n
+echo "-"$T$T
 
-# export T=ech
-# echo $To
+export T=ech
+echo $To
 
-# export T=ech
-# echo $T"o"
+export T=ech
+echo $T"o"
 
-# export T=ech
-# echo $T"o "
+export T=ech
+echo $T"o "
 
-# export T=ech
-# echo $T"o -n"
+export T=ech
+echo $T"o -n"
 
-# export T=ech
-# echo $T"o -n"
+export T=ech
+echo $T"o -n"
 
-# export T=ech
-# echo $T'o'
+export T=ech
+echo $T'o'
 
-# export T="-n test1 -n test 2"
-# echo $T
+export T="-n test1 -n test 2"
+echo $T
 
-# export T=ech
-# echo $T'o '
+export T=ech
+echo $T'o '
 
-# "ECHO"
+"ECHO"
 
-# 'echo'
+'echo'
 
-# 'PWD'
+'PWD'
 
-# "PWD"
+"PWD"
 
-# echo "-nnnnn "
+echo "-nnnnn "
 
-# ECHO -nn
+ECHO -nn
 
-# ECHO -n -n
+ECHO -n -n
 
-# ECHO "-"""n""n""n""n""n""nnnnnn-n
+ECHO "-"""n""n""n""n""n""nnnnnn-n
 
-# ECHO "-"""n""n""n""n""n""nnnnnn -n
+ECHO "-"""n""n""n""n""n""nnnnnn -n
 
-# export T=nnnnnnnn
-# echo "-""$T"nnnnnnnnnnnnn -nnnnnnnn"$T" '-'"$T"
+export T=nnnnnnnn
+echo "-""$T"nnnnnnnnnnnnn -nnnnnnnn"$T" '-'"$T"
 
-# export T=nnnnnnnn
-# echo "-""$T"nnnnnnnnnnnnn -nnnnnnnn"$T" '-''$T'
+export T=nnnnnnnn
+echo "-""$T"nnnnnnnnnnnnn -nnnnnnnn"$T" '-''$T'
 
-# export T=nnnnnnnn
-# echo "-"'$T'nnnnnnnnnnnnn -nnnnnnnn'$T' '-'"$T "
+export T=nnnnnnnn
+echo "-"'$T'nnnnnnnnnnnnn -nnnnnnnn'$T' '-'"$T "
 
-# export T=nnnnnnnn
-# echo "-"'$T'nnnnnnnnnnnnn -nnnnnnnn$T '-''$T '
+export T=nnnnnnnn
+echo "-"'$T'nnnnnnnnnnnnn -nnnnnnnn$T '-''$T '
 
-# export T=e E=c S=h L=o
-# $T$E$S$L
+export T=e E=c S=h L=o
+$T$E$S$L
 
-# export T=e E=c S=h L=o L=ok
-# $T$E$S$L
+export T=e E=c S=h L=o L=ok
+$T$E$S$L
 
-# export T=e E=c S=h L=o
-# $T$E$S$L -n
+export T=e E=c S=h L=o
+$T$E$S$L -n
 
-# export T=E E=c S=h L=o
-# $T$E$S$L -n
+export T=E E=c S=h L=o
+$T$E$S$L -n
 
-# export T=E E=c S=h L=o
-# $T$E$S$L -nn
+export T=E E=c S=h L=o
+$T$E$S$L -nn
 
-# export T=e E=c S=h L=o
-# $T$E$S$L -nn
+export T=e E=c S=h L=o
+$T$E$S$L -nn
 
-# export T=e E=c S=h L=o
-# $T$E"c"$L -nn
+export T=e E=c S=h L=o
+$T$E"c"$L -nn
 
-# export T=e E=c S=h L=o
-# $T$E"C"$L -nn
+export T=e E=c S=h L=o
+$T$E"C"$L -nn
 
-# export T=e E=c S=h L=o
-# $T$E"C"$L "" -""n
+export T=e E=c S=h L=o
+$T$E"C"$L "" -""n
 
-# $NOVAR
+$NOVAR
 
-# export T="s"
-# l$T
+export T="s"
+l$T
 
-# export T="s"
-# l$T -a
+export T="s"
+l$T -a
 
-# export T="l"
-# $Ts
+export T="l"
+$Ts
 
-# export T="l"
-# $Ts -a
+export T="l"
+$Ts -a
 
-# LS
+LS
 
-# Ls
+Ls
 
-# lS
+lS
 
-# ls
+ls
 
 PWD
 
