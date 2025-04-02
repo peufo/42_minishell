@@ -42,3 +42,11 @@ export LOVED='JUST "$HOME"'
 echo 16 "I LOVE $LOVED"
 unset LOVED
 echo 17 "I LOVE $LOVED"
+
+export PEUF
+echo "YO $PEUF"
+env | grep PEUF
+export | grep PEUF
+unset PEUF
+env | grep PEUF
+export | grep PEUF
