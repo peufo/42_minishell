@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/02 11:23:50 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/02 11:49:36 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ void	checkout_from_redir(t_sh *shell)
 	int		i;
 	char	*end;
 	char	*newline;
+	char	**vars;
 
 	i = 0;
+	vars = NULL;
 	newline = NULL;
 	if (!shell->input.redir_input || !shell->input.redir_input[0])
 		return ;
@@ -82,5 +84,10 @@ void	checkout_from_redir(t_sh *shell)
 		free(shell->input.redir_input[i]);
 		shell->input.redir_input[i++] = newline;
 	}
-	//	EXPAND ENV VARIABLES
+	i = 0;
+	while (shell->input.redir_input[i] && i < shell->input.nb_redir)
+	{
+		find_vars_in_line(&shell->input.redir_input[i], &vars);
+		expand_vars_in_line(shell, &shell->input.redir_input[i++], &vars);
+	}
 }

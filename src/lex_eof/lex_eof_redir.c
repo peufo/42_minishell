@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/02 11:16:54 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/02 11:31:18 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static void	shell_is_shit(t_sh *shell, char **str, char *copy)
 	if (shell->line)
 		free(shell->line);
 	shell->line = copy;
-
 }
 
 bool	treat_redirections(t_input *input, t_sh *shell)
