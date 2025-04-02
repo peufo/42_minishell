@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:40:04 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/01 12:30:15 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/02 10:45:52 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ bool	lex_eof(t_sh *shell)
 			while (!lex_eof_read_input(shell, &shell->input))
 				continue ;
 		}
-		printf("line 1: %s\n", shell->line);
-		printf("Line 2: %s\n", shell->line2);
 		if (!is_empty_line(shell->input.stack))
 			add_history(shell->input.stack);
 	}

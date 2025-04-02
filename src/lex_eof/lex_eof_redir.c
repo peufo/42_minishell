@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/01 09:53:17 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/02 11:00:05 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 	char	*head;
 	char	*copy;
 
-	shell->line2 = NULL;
+	input_free(input);
 	copy = ft_strdup(shell->line);
 	transfer_shell_line(shell);
-	if (!shell->input.stack)
+	if (!shell->input.stack && shell->input.line)
 		cursor = ft_strdup(shell->input.line);
 	else
 		cursor = ft_strdup(shell->input.stack);
@@ -106,8 +106,14 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 	if (!apply_redir(shell, copy))
 	{
 		g_is_sigint = false;
-		return (false);
+		free(cursor);
+		return (input_free(input), false);
 	}
+	if (input->line)
+		free(input->line);
+	input->line = NULL;
+	if (shell->line)
+		free(shell->line);
 	shell->line = copy;
 	checkout_from_redir(shell);
 	return (true);

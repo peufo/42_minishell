@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:51:49 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/02 07:22:00 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/02 10:48:20 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,14 @@ void	stack_to_history(char *line, t_sh *shell)
 
 void	assure_heredoc_line(t_sh *shell)
 {
-	ft_putstr_fd(">>", 1);
-	shell->input.redir_line = get_line(STDIN_FILENO);
+	shell->input.redir_line = readline("heredoc>");
 	if (g_is_sigint)
 		shell->line2 = ft_strdup(shell->input.redir_line);
 }
 
 void	assure_eof_line(t_sh *shell)
 {
-	ft_putstr_fd("> ", 1);
-	shell->input.line = get_line(STDIN_FILENO);
+	shell->input.line = readline(">");
 	if (g_is_sigint)
 		shell->line2 = ft_strdup(shell->input.line);
 }
