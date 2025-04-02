@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_create.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 00:30:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/19 08:08:31 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/02 14:06:05 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ t_ast	*ast_create(t_sh *shell, char *line)
 		return (shell_exit(shell), NULL);
 	node->shell = shell;
 	node->line = line;
-	ast_parse(node);
+	if (ft_isempty(node->line))
+		shell->ast_error = true;
+	else
+		ast_parse(node);
 	return (node);
 }
 
