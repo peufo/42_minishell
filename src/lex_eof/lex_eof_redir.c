@@ -6,11 +6,22 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 10:55:29 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 16:18:50 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	heredoc_handler(int sig)
+{
+	if (sig == SIGINT)
+		g_is_sigint = true;
+	printf("\n");
+	rl_replace_line("", 0);
+	printf("╭─(dyodlm@)─[/ZONE/42_cursus/minishell/42_minishell]");
+	printf("\n");
+	rl_redisplay();
+}
 
 static bool	checkout_from_logic(t_input *input)
 {
@@ -81,6 +92,8 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 	char	*copy;
 
 	input_free(input);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, &heredoc_handler);
 	copy = ft_strdup(shell->line);
 	transfer_shell_line(shell);
 	if (!shell->input.stack && shell->input.line)
@@ -94,7 +107,7 @@ bool	treat_redirections(t_input *input, t_sh *shell)
 		input->redir_line = input->line;
 	shell->line = head;
 	if (!apply_redir(shell, copy))
-		return (false);
+		return (signal(SIGINT, SIG_IGN), signal(SIGINT, &handle_signal), false);
 	shell_is_shit(shell, &input->line, copy);
 	return (checkout_from_redir(shell), true);
 }
