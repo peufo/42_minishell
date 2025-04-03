@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 06:24:54 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 06:28:20 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,11 @@ void	safe_init_redir_array(t_sh *shell, t_input *input)
 		return (string_array_free(&input->redir_input));
 }
 
-void	checkout_from_redir(t_sh *shell)
+static void	sub_last_line(t_sh *shell, char *end, char *newline)
 {
-	int		i;
-	char	*end;
-	char	*newline;
-	char	**vars;
+	int	i;
 
 	i = 0;
-	vars = NULL;
-	newline = NULL;
-	if (!shell->input.redir_input || !shell->input.redir_input[0])
-		return ;
 	while (shell->input.redir_input[i] && i < shell->input.nb_redir)
 	{
 		end = ft_strrchr(shell->input.redir_input[i], '\n');
@@ -89,7 +82,22 @@ void	checkout_from_redir(t_sh *shell)
 		free(shell->input.redir_input[i]);
 		shell->input.redir_input[i++] = newline;
 	}
+}
+
+void	checkout_from_redir(t_sh *shell)
+{
+	int		i;
+	char	*end;
+	char	*newline;
+	char	**vars;
+
 	i = 0;
+	end = NULL;
+	vars = NULL;
+	newline = NULL;
+	if (!shell->input.redir_input || !shell->input.redir_input[0])
+		return ;
+	sub_last_line(shell, end, newline);
 	while (shell->input.redir_input[i] && i < shell->input.nb_redir)
 	{
 		find_vars_in_line(&shell->input.redir_input[i], &vars);
