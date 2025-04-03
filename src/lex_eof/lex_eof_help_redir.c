@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 06:28:57 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 09:21:38 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,17 @@ static void	sub_last_line(t_sh *shell, char *end, char *newline)
 	int	i;
 
 	i = 0;
+	if (is_empty_line(shell->input.redir_input[i]))
+		return ;
 	while (shell->input.redir_input[i] && i < shell->input.nb_redir)
 	{
 		end = ft_strrchr(shell->input.redir_input[i], '\n');
-		end++;
+		if (!end)
+		{
+			free(shell->input.redir_input[i]);
+			shell->input.redir_input[i] = NULL;
+			continue ;
+		}
 		newline = ft_strcut(shell->input.redir_input[i], end);
 		if (!check_heredoc_code(end, shell->input.redir_code[i]))
 		{
