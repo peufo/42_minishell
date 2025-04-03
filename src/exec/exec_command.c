@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/28 11:20:40 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 06:39:51 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int	exec_command(t_ast *node)
 {
 	lex(node, node->line);
 	exec_update_underscore(node);
-	exec_redirect_open(node, node->heredoc.files_in, O_RDONLY, STDERR_FILENO);
 	exec_redirect(node);
 	if (node->status)
 		return (node->status);

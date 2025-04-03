@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:51:49 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/02 10:48:20 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 07:07:35 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ void	stack_to_history(char *line, t_sh *shell)
 
 void	assure_heredoc_line(t_sh *shell)
 {
-	shell->input.redir_line = readline("heredoc>");
+	if (!g_is_sigint)
+		shell->input.redir_line = readline("heredoc>");
+	else
+		shell->input.redir_line = readline("BackToShell>");
 	if (g_is_sigint)
 		shell->line2 = ft_strdup(shell->input.redir_line);
 }

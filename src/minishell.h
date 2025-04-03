@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/02 14:00:17 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 06:22:09 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ void	checkout_from_redir(t_sh *shell);
 int		count_redir_in_line(t_sh *shell, char *line, bool dquote, bool quote);
 void	find_vars_in_line(char **line, char ***vars);
 void	expand_vars_in_line(t_sh *shell, char **line, char ***vars);
+bool	check_heredoc_code(char *s1, char *s2);
 
 // LEXER =======================================================================
 
