@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 09:08:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/02 07:50:10 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 09:41:46 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,9 @@ bool	did_eye_of_sawron(t_sh *shell, bool in_eof)
 		check_quotes(*cursor, &quotes[0], &quotes[1]);
 		if (!quotes[0] && !quotes[1])
 			problem = look_for_problems(cursor, in_eof);
-		if (problem)
+		if (problem && !ft_strcmp(problem, "newline"))
+			return (simu_heredoc(problem, shell), true);
+		else if (problem)
 			return (error_display(shell, problem), true);
 		cursor++;
 	}

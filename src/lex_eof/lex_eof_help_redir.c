@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 09:21:38 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 10:26:01 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static void	sub_last_line(t_sh *shell, char *end, char *newline)
 			continue ;
 		}
 		newline = ft_strcut(shell->input.redir_input[i], end);
+		end++;
 		if (!check_heredoc_code(end, shell->input.redir_code[i]))
 		{
 			free(newline);
