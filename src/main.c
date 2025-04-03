@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/03 18:52:35 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/03 20:57:15 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@ bool	g_is_sigint;
 
 void	handle_signal(int sig)
 {
+	static const char	eot = '\004';
+
 	if (sig == SIGINT)
 		g_is_sigint = true;
-	printf("\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	ioctl(STDIN_FILENO, TIOCSTI,  &eot);
 }
 
 int	main(int ac, char **av, char **env)
@@ -29,7 +28,6 @@ int	main(int ac, char **av, char **env)
 	t_sh	shell;
 
 	shell_init(&shell, env);
-	g_is_sigint = false;
 	signal(SIGINT, &handle_signal);
 	signal(SIGQUIT, SIG_IGN);
 	if (ac == 2)
