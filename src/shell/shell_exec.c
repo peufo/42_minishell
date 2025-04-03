@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 05:58:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 18:51:56 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:56:12 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	ast_build_and_exec(t_sh *shell)
 	shell->ast_error = false;
 	shell->ast = ast_create(shell, ft_strdup(shell->line));
 	if (shell->ast_error && !g_is_sigint)
-		throw(shell->ast, (char *[]){"AST parsing error", NULL});
+		throw(shell->ast, (char *[]){"Parsing failed 🤨", NULL});
 	else
 		exec_ast(shell->ast);
 	ast_free(&shell->ast);
@@ -34,7 +34,7 @@ void	shell_exec(t_sh *shell)
 		input_read(shell);
 		if (!shell->line)
 			break ;
-		if (*shell->line == '#')
+		if (ft_isempty(shell->line) || *shell->line == '#')
 			continue ;
 		ast_build_and_exec(shell);
 	}

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/03 18:52:21 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:00:45 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	shell_init_env(t_sh *shell)
 
 void	shell_init(t_sh *shell, char **env)
 {
-	ft_memset(shell, 0, sizeof(*shell));
+	ft_bzero(shell, sizeof(*shell));
 	shell->name = "minishell";
 	shell->fd_in = STDIN_FILENO;
 	shell->env = string_array_dup(env);

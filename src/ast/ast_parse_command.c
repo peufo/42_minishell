@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:26:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/03 18:44:44 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:52:51 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,14 @@ static void	delete_chars(char *from, char *to)
 		*(from++) = '\0';
 }
 
+static int	throw_redir_parse_error(t_ast *node)
+{
+	node->shell->ast_error = true;
+	node->status = 2;
+	throw(node, (char *[]){"Redirection syntax error", NULL});
+	return (node->status);
+}
+
 static int	pick_redir(t_ast *node, char ***files, char *token)
 {
 	char	*cursor;
@@ -53,10 +61,10 @@ static int	pick_redir(t_ast *node, char ***files, char *token)
 	while (cursor)
 	{
 		if (!*(cursor + token_len))
-			return (throw(node, (char *[]){"parse error", NULL}));
+			return (throw_redir_parse_error(node));
 		word = ast_take_word(node, cursor + token_len);
 		if (!word)
-			return (throw(node, (char *[]){"parse error", NULL}));
+			return (throw_redir_parse_error(node));
 		string_array_push(files, word);
 		word_start = cursor + token_len;
 		if (*word_start == ' ')
