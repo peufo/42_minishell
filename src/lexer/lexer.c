@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex.c                                              :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/25 12:51:33 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:44:44 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static t_lexer_state	get_next_state(t_ast *node)
 	return (find_next_state_match(node, next_states));
 }
 
-void	lex(t_ast *node, char *line)
+void	lexer(t_ast *node, char *line)
 {
 	t_lexer_state	next_state;
 
@@ -86,7 +86,7 @@ void	lex(t_ast *node, char *line)
 	node->tokens = string_array_dup(node->lexer.tokens);
 }
 
-void	lex_free(t_lexer *lexer)
+void	lexer_free(t_lexer *lexer)
 {
 	string_free(&lexer->token);
 	string_free(&lexer->varname);

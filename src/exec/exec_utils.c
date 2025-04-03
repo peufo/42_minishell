@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:13:23 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/02/24 15:28:19 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:56:47 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,4 @@ t_exe	get_builtin(char *cmd)
 		i++;
 	}
 	return (NULL);
-}
-
-t_exe	get_exe(t_ast *node)
-{
-	t_exe	builtin;
-
-	builtin = get_builtin(*node->tokens);
-	if (builtin)
-		return (builtin);
-	return (exec_bin);
 }

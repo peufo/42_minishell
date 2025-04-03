@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:26:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/25 13:10:23 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:44:44 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ char	*ast_take_word(t_ast *node, char *cursor)
 {
 	char	*word;
 
-	lex(node, cursor);
+	lexer(node, cursor);
 	if (!node->tokens)
 		return (NULL);
 	word = ft_strdup(*node->tokens);
-	lex_free(&node->lexer);
+	lexer_free(&node->lexer);
 	string_array_free(&node->tokens);
 	return (word);
 }
@@ -73,7 +73,6 @@ void	ast_parse_command(t_ast *node)
 	char	*last_append;
 
 	node->type = AST_COMMAND;
-	ast_parse_heredoc(node);
 	last_write = ast_tokens_find_last(node->line, ">");
 	last_append = ast_tokens_find_last(node->line, ">>");
 	node->redir.is_last_append = (last_append && last_append >= last_write - 1);

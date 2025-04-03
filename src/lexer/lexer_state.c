@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:49:27 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/25 13:24:20 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:43:48 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static void	handle_meta(t_ast *node)
 
 void	lexer_state(t_ast *node)
 {
-	t_lexer_state_handler			handler;
-	static t_lexer_state_handler	handlers[] = {
+	t_lexer_handler			handler;
+	static t_lexer_handler	handlers[] = {
 	[LEXER_DEFAULT] = push_char_token,
 	[LEXER_META] = handle_meta,
 	[LEXER_QUOTE] = push_char_token,

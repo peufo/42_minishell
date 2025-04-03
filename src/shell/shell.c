@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:21:29 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/28 09:51:23 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 18:52:21 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	shell_free(t_sh *shell)
 		free(shell->line);
 		shell->line = NULL;
 	}
-	if (shell->pipe.in)
-		close(shell->pipe.in);
+	if (shell->fd_in)
+		close(shell->fd_in);
 	string_array_free(&shell->env);
 	string_free(&shell->prompt);
 }
@@ -54,8 +54,7 @@ void	shell_init(t_sh *shell, char **env)
 {
 	ft_memset(shell, 0, sizeof(*shell));
 	shell->name = "minishell";
-	shell->pipe.in = STDIN_FILENO;
-	shell->pipe.out = STDOUT_FILENO;
+	shell->fd_in = STDIN_FILENO;
 	shell->env = string_array_dup(env);
 	shell_init_env(shell);
 	if (!shell->env)
@@ -64,7 +63,6 @@ void	shell_init(t_sh *shell, char **env)
 
 void	shell_exit(t_sh *shell)
 {
-	input_free(&shell->input);
 	ast_free(&shell->ast);
 	shell_free(shell);
 	if (errno)

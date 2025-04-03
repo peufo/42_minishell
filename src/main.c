@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/02 14:12:02 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 18:52:35 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ int	main(int ac, char **av, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	if (ac == 2)
 	{
-		shell.pipe.in = open(av[1], O_RDONLY);
-		if (shell.pipe.in == -1)
+		shell.fd_in = open(av[1], O_RDONLY);
+		if (shell.fd_in == -1)
 			return (shell_exit(&shell), 1);
 		shell.name = av[1];
 	}
 	shell_exec(&shell);
-	ast_free(&shell.ast);
+	shell_exit(&shell);
 	return (0);
 }

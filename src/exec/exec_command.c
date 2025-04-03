@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 06:39:51 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 18:49:03 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,6 @@ static void	exec_redirect(t_ast *node)
 	files_out = node->redir.files_out;
 	files_append = node->redir.files_out_append;
 	exec_redir_save_std(node);
-	if (node->heredoc.files_in)
-		exec_redirect_open(node,
-			node->heredoc.files_in,
-			O_RDONLY, STDIN_FILENO);
 	exec_redirect_open(node, node->redir.files_in, O_RDONLY, STDIN_FILENO);
 	if (node->redir.is_last_append)
 	{
@@ -74,7 +70,7 @@ static void	exec_redirect(t_ast *node)
 
 int	exec_command(t_ast *node)
 {
-	lex(node, node->line);
+	lexer(node, node->line);
 	exec_update_underscore(node);
 	exec_redirect(node);
 	if (node->status)

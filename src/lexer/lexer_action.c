@@ -46,8 +46,8 @@ void	lexer_action_ensure_token(t_ast *node)
 
 void	lexer_action(t_ast *node, t_lexer_state next_state)
 {
-	t_lexer_action_handler			handler;
-	static t_lexer_action_handler	handlers[][8] = {
+	t_lexer_handler			handler;
+	static t_lexer_handler	handlers[][8] = {
 	[LEXER_DEFAULT][LEXER_QUOTE] = lexer_action_ensure_token,
 	[LEXER_DEFAULT][LEXER_DQUOTE] = lexer_action_ensure_token,
 	[LEXER_DEFAULT][LEXER_META] = lexer_action_end_token,
