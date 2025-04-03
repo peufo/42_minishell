@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 05:58:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 06:05:33 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 06:09:49 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	basic_exec(t_sh *shell, int exec)
 		return (shell_exec(shell));
 	if (count_redir_in_line(shell, shell->line, 0, 0))
 		while (!treat_redirections(&shell->input, shell) && !g_is_sigint)
-				continue ;
+			continue ;
 	if (g_is_sigint)
 		return (shell_exec(shell));
 	shell->ast_error = false;
