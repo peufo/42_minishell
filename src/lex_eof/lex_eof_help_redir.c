@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:28:40 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/02 13:30:11 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 06:24:54 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,12 @@ void	checkout_from_redir(t_sh *shell)
 		end = ft_strrchr(shell->input.redir_input[i], '\n');
 		end++;
 		newline = ft_strcut(shell->input.redir_input[i], end);
+		if (!check_heredoc_code(end, shell->input.redir_code[i]))
+		{
+			free(newline);
+			i++;
+			continue ;
+		}
 		free(shell->input.redir_input[i]);
 		shell->input.redir_input[i++] = newline;
 	}

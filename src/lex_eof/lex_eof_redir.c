@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 06:07:32 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 06:25:11 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static bool	checkout_from_logic(t_input *input)
 	return (false);
 }
 
-static bool	check_heredoc_code(char *s1, char *s2)
+bool	check_heredoc_code(char *s1, char *s2)
 {
 	if (!s1 || !s2 || ft_strlen(s1) != ft_strlen(s2))
 		return (false);
