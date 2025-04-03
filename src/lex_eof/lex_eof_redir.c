@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 09:21:50 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 10:55:29 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	apply_redir_logic(t_input *input, t_sh *shell)
 
 	i = 0;
 	input->is_redir = true;
-	while ((input->line || input->redir_line) && i < input->nb_redir)
+	while (i < input->nb_redir)// &&input->line || input->redir_line) &&
 	{
 		stack_to_buffer(&input->redir_input[i], input->redir_line);
 		if (input->redir_line)
@@ -58,6 +58,8 @@ bool	apply_redir_logic(t_input *input, t_sh *shell)
 		if (i == input->nb_redir || g_is_sigint)
 			break ;
 		get_safe_readline_inputs(shell, input);
+		if (!input->redir_line && !input->line)
+			i++;
 	}
 	return (checkout_from_logic(input));
 }

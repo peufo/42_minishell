@@ -6,24 +6,31 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 09:24:48 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 10:17:41 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 10:50:46 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	ask_for_line(t_input *input, int index)
+static int	ask_for_line(t_sh *shell, t_input *input, int index)
 {
-	int		fd;
 	char	*line;
 
-	fd = 0;
-	printf("Code to check : %s\n", input->redir_code[index]);
-	ft_putstr_fd("heredoc>", 1);
-	line = get_line(fd);
+//	printf("Code to check : %s\n", input->redir_code[index]);
+	line = readline("╰─$");
+	if (g_is_sigint)
+	{
+		g_is_sigint = false;
+		shell->line2 = line;
+		return (-2);
+	}
+//	printf("Line is : %s\n", line);
 	if (!line)
-		return (true);
-	if (!ft_strcmp(line, input->redir_code[index]))
+	{
+		input->state = -1;
+		return (error_display(shell, "newline"), true);
+	}
+	if (!ft_strncmp(line, input->redir_code[index], ft_strlen(line) - 1))
 	{
 		printf("nice\n");
 		return (free(line), true);
@@ -37,21 +44,24 @@ static void	make_them_believe(t_sh *shell, char *newline, int count)
 	t_input	tmp;
 	char	*cursor;
 
-	(void)shell;
 	i = 0;
 	cursor = newline;
-	printf("cursor : %s\n", cursor);
+//	printf("cursor : %s\n", cursor);
 	ft_memset(&tmp, 0, sizeof(t_utils));
 	get_all_codes(&tmp, cursor);
-	printf("Code 1 : %s\n", tmp.redir_code[0]);
-	printf("code 2 : %s\n", tmp.redir_code[1]);
-	printf("count is : %d\n", count);
+//	printf("Code 1 : %s\n", tmp.redir_code[0]);
+//	printf("code 2 : %s\n", tmp.redir_code[1]);
+//	printf("count is : %d\n", count);
 	while (i < count)
 	{
-		if (ask_for_line(&tmp, i))
+		tmp.state = 0;
+		if (ask_for_line(shell, &tmp, i) == 1)
 			i++;
+		if (tmp.state == -1)
+			i++;
+		if (tmp.state == -2)
+			break ;
 	}
-//	input_free(&tmp);
 	free(newline);
 }
 

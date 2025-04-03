@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 05:58:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 09:15:00 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 10:43:13 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 static void	basic_exec(t_sh *shell, int exec)
 {
-	if ((exec == 1 && !lex_eof(shell)) || did_eye_of_sawron(shell, 0))
+	if ((exec == 1 && !lex_eof(shell)))
+		return (shell_exec(shell));
+	if (did_eye_of_sawron(shell, 0) && !shell->line2)
 		return (shell_exec(shell));
 	if (count_redir_in_line(shell, shell->line, 0, 0))
 		while (!treat_redirections(&shell->input, shell) && !g_is_sigint)
