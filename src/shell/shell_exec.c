@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/19 10:42:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/02 07:44:37 by dyodlm           ###   ########.fr       *
+/*   Created: 2025/04/03 05:58:39 by dyodlm            #+#    #+#             */
+/*   Updated: 2025/04/03 06:05:33 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ static void	basic_exec(t_sh *shell, int exec)
 	if ((exec == 1 && !lex_eof(shell)) || did_eye_of_sawron(shell, 0))
 		return (shell_exec(shell));
 	if (count_redir_in_line(shell, shell->line, 0, 0))
-		while (!treat_redirections(&shell->input, shell))
-			if (!treat_redirections(&shell->input, shell))
+		while (!treat_redirections(&shell->input, shell) && !g_is_sigint)
 				continue ;
+	if (g_is_sigint)
+		return (shell_exec(shell));
 	shell->ast_error = false;
 	shell->ast = ast_create(shell, ft_strdup(shell->line));
 	if (shell->ast_error)
