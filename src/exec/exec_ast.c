@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 14:08:17 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/19 05:48:37 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 06:54:22 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int	exec_ast(t_ast *node)
 		return (node->status);
 	handler = handlers[node->type];
 	if (!handler)
-		return (shell_exit(node->shell), 1);
+		return (1);
 	return (handler(node));
 }
