@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/04 15:09:20 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:41:01 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	exec_command(t_ast *node)
 	{
 		signal(SIGINT, SIG_IGN);
 		exec_child(node, exec_bin);
-		node->status = waitstatus(node->pid);
+		node->status = waitstatus(node, node->pid);
 		signal(SIGINT, &handle_signal_int);
 	}
 	exec_redir_restore_std(node);

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:14:54 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/04 15:09:20 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:41:16 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	exec_subshell(t_ast *node)
 	clone_pipes(node, *node->children);
 	signal(SIGINT, SIG_IGN);
 	exec_child(*node->children, exec_ast);
-	(*node->children)->status = waitstatus((*node->children)->pid);
+	(*node->children)->status = waitstatus(node, (*node->children)->pid);
 	signal(SIGINT, &handle_signal_int);
 	return ((*node->children)->status);
 }

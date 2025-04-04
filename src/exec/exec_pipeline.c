@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:53:27 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/03/07 20:23:29 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:41:21 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	exec_pipeline(t_ast *node)
 		return (shell_exit(node->shell), false);
 	children_count = get_children_count(node);
 	i = children_count;
+	signal(SIGINT, SIG_IGN);
 	while (--i)
 	{
 		p = &node->pipes[i - 1];
@@ -56,9 +57,10 @@ int	exec_pipeline(t_ast *node)
 	exec_child(node->children[i], exec_ast);
 	while (node->children[i])
 	{
-		node->children[i]->status = waitstatus(node->children[i]->pid);
+		node->children[i]->status = waitstatus(node, node->children[i]->pid);
 		i++;
 	}
+	signal(SIGINT, &handle_signal_int);
 	node->shell->exit_status = node->children[i - 1]->status;
 	return (node->shell->exit_status);
 }

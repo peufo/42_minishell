@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/04 15:09:20 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/04 15:37:07 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,6 @@ void	exec_redir_restore_std(t_ast *node);
 bool	is_env_path_defined(t_ast	*node);
 int		exec_bin_try(t_ast *node, char *path);
 int		throw(t_ast *node, char **error);
-int		waitstatus(pid_t pid);
+int		waitstatus(t_ast *node, pid_t pid);
 
 #endif
