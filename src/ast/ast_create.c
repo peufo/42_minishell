@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 00:30:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/04 23:28:25 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 00:15:36 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_ast	*ast_create(t_sh *shell, char *line)
 
 static void	redir_free(void *data)
 {
-	t_redir *redir;
+	t_redir	*redir;
 
 	redir = (t_redir*)data;
 	free(redir->name);
