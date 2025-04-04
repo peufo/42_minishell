@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/04 15:49:31 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:06:31 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ bool	g_is_sigint;
 void	handle_signal_int(int sig)
 {
 	struct termios	term;
-	char			new_line;
+	static char		new_line = '\n';
 
 	(void)sig;
-	new_line = '\n';
 	g_is_sigint = true;
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~ECHO;
@@ -35,7 +34,7 @@ int	main(int ac, char **av, char **env)
 	t_sh	shell;
 
 	shell_init(&shell, env);
-	signal(SIGINT, &handle_signal_int);
+	signal(SIGINT, handle_signal_int);
 	signal(SIGQUIT, SIG_IGN);
 	if (ac == 2)
 	{

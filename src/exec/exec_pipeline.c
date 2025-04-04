@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:53:27 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/04 15:49:22 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/04 19:18:38 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,11 @@ int	exec_pipeline(t_ast *node)
 {
 	int		i;
 	t_pipe	*p;
-	int		children_count;
 
 	node->pipes = pipes_create(node);
 	if (!node->pipes)
 		return (shell_exit(node->shell), false);
-	children_count = get_children_count(node);
-	i = children_count;
+	i = get_children_count(node);
 	signal(SIGINT, SIG_IGN);
 	while (--i)
 	{
@@ -69,6 +67,6 @@ int	exec_pipeline(t_ast *node)
 	}
 	exec_child(node->children[i], exec_ast);
 	node->shell->exit_status = await_children(node);
-	signal(SIGINT, &handle_signal_int);
+	signal(SIGINT, handle_signal_int);
 	return (node->shell->exit_status);
 }

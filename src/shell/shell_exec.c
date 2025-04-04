@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 05:58:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/04 15:08:42 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/04 18:52:38 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ void	shell_exec(t_sh *shell)
 		g_is_sigint = false;
 		input_read(shell);
 		if (g_is_sigint)
+		{
+			shell->exit_status = 130;
 			continue ;
+		}
 		if (!shell->line)
 			break ;
 		if (ft_isempty(shell->line) || *shell->line == '#')

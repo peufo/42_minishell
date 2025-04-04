@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/04 15:37:07 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/04 19:19:45 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,13 +140,19 @@ typedef enum e_ast_state
 	AST_STATE_DQUOTE
 }	t_ast_state;
 
+typedef struct s_file
+{
+	char	*name;
+	t_pipe	pipe;
+	int		open_flags;
+}	t_file;
+
 typedef struct s_redir
 {
+	char	**files;
 	char	**files_in;
 	char	**files_out;
 	char	**files_out_append;
-	int		fd_in;
-	int		fd_out;
 	int		fd_std_in;
 	int		fd_std_out;
 	int		is_last_append;
