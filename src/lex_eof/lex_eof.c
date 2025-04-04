@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 14:40:04 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 06:57:30 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 17:24:54 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	check_sig_out(t_input *input, t_sh *shell)
 	(void)shell;
 	if (!g_is_sigint)
 		return ;
+	shell->exit_status = 130;
 	if (input->line)
 	{
 		free(input->line);
@@ -38,7 +39,10 @@ static void	check_sig_out(t_input *input, t_sh *shell)
 static bool	lex_eof_read_input(t_sh *shell, t_input *input)
 {
 	if (g_is_sigint)
+	{
+		shell->exit_status = 130;
 		g_is_sigint = false;
+	}
 	while (input->state > 0 || input->last > 0)
 	{
 		get_safe_readline_inputs(shell, input);

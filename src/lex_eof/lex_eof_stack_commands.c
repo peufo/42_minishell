@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:51:49 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 17:13:03 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 17:24:24 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	assure_heredoc_line(t_sh *shell)
 	shell->input.redir_line = readline("╰─$");
 	if (g_is_sigint)
 	{
+		shell->exit_status = 130;
 		if (shell->input.redir_line)
 			shell->line2 = ft_strdup(shell->input.redir_line);
 	}
@@ -64,5 +65,8 @@ void	assure_eof_line(t_sh *shell)
 {
 	shell->input.line = readline("╰─$");
 	if (g_is_sigint)
+	{
+		shell->exit_status = 130;
 		shell->line2 = ft_strdup(shell->input.line);
+	}
 }

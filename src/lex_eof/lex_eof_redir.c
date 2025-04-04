@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 08:07:05 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 17:13:39 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 17:29:05 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,12 @@ static void	heredoc_handler(int sig)
 	rl_redisplay();
 }
 
-static bool	checkout_from_logic(t_input *input)
+static bool	checkout_from_logic(t_input *input, t_sh *shell)
 {
 	input->is_redir = false;
 	if (!g_is_sigint)
 		return (true);
+	shell->exit_status = 130;
 	return (false);
 	if (input->redir_input)
 		string_array_free(&input->redir_input);
@@ -68,7 +69,7 @@ bool	apply_redir_logic(t_input *input, t_sh *shell)
 		if (!input->redir_line && !input->line)
 			i++;
 	}
-	return (checkout_from_logic(input));
+	return (checkout_from_logic(input, shell));
 }
 
 static void	shell_is_shit(t_sh *shell, char **str, char *copy)

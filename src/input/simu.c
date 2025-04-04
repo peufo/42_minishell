@@ -6,7 +6,7 @@
 /*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 09:24:48 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/03 10:50:46 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/03 17:23:04 by dyodlm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	ask_for_line(t_sh *shell, t_input *input, int index)
 	{
 		g_is_sigint = false;
 		shell->line2 = line;
+		shell->exit_status = 130;
 		return (-2);
 	}
 //	printf("Line is : %s\n", line);
