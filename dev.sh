@@ -136,8 +136,8 @@ norminette_pretty() {
 		AWK_SCRIPT='{
 			if ($2 == "Error!") {
 				filename = $1;
-				if (filename == "./src/debug.h:") print "\n[./src/debug.h]\tThe macros bro 🧙🧙🧙"
-				else print "";
+				sub(/^\.\//, "", filename);
+				print "";
 			} else if (filename != "./src/debug.h:") {
 				printf "[%s%d:%d]\t", filename, $4, $6;
 				for(i = 7; i <= NF; i++) {
