@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_utils.c                                        :+:      :+:    :+:   */
+/*   ast_tokens.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 14:40:59 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/12 12:51:46 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/04 23:43:39 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,7 @@ static t_ast_state	get_next_state(t_ast_state state, char token)
 	return (state);
 }
 
-char	*ast_tokens_find_last(char *line, char *token)
-{
-	char	*cursor;
-	char	*last_result;
-
-	cursor = ast_tokens_find(line, token);
-	last_result = cursor;
-	while (cursor && *cursor)
-	{
-		cursor = ast_tokens_find(cursor + 1, token);
-		if (!cursor || !*cursor)
-			return (last_result);
-		last_result = cursor;
-	}
-	return (last_result);
-}
-
-char	*ast_tokens_find(char *line, char *token)
+static char	*ast_tokens_each(char *line, void *data, int(stop)(char *, void *))
 {
 	char		*cursor;
 	int			in_brackets;
@@ -60,7 +43,7 @@ char	*ast_tokens_find(char *line, char *token)
 				in_brackets++;
 			else if (*cursor == ')')
 				in_brackets--;
-			if (!in_brackets && ft_startwith(cursor, token))
+			if (!in_brackets && stop(cursor, data))
 				break ;
 		}
 		cursor++;
@@ -68,4 +51,30 @@ char	*ast_tokens_find(char *line, char *token)
 	if (!*cursor)
 		return (NULL);
 	return (cursor);
+}
+
+static int	some_token_start_with(char *cursor, void *data)
+{
+	char	**tokens;
+
+	tokens = (char **)data;
+	while (*tokens)
+		if (ft_startwith(cursor, *(tokens++)))
+			return (true);
+	return (false);
+}
+
+static	int	ft_startwhith_data(char *cursor, void *data)
+{
+	return (ft_startwith(cursor, (char *)data));
+}
+
+char	*ast_tokens_find_multi(char *line, char **tokens)
+{
+	return (ast_tokens_each(line, tokens, some_token_start_with));
+}
+
+char	*ast_tokens_find(char *line, char *token)
+{
+	return (ast_tokens_each(line, token, ft_startwhith_data));
 }

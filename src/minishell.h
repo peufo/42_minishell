@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/04 19:19:45 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 00:11:59 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,22 +140,20 @@ typedef enum e_ast_state
 	AST_STATE_DQUOTE
 }	t_ast_state;
 
-typedef struct s_file
+typedef enum e_redir_type
 {
-	char	*name;
-	t_pipe	pipe;
-	int		open_flags;
-}	t_file;
+	REDIR_INPUT,
+	REDIR_HERDOC,
+	REDIR_OUTPOUT,
+	REDIR_APPEND
+}	t_redir_type;
 
 typedef struct s_redir
 {
-	char	**files;
-	char	**files_in;
-	char	**files_out;
-	char	**files_out_append;
-	int		fd_std_in;
-	int		fd_std_out;
-	int		is_last_append;
+	t_redir_type	type;
+	char			*name;
+	int				open_flags;
+	int				fd_std;
 }	t_redir;
 
 typedef int					(*t_exe)(t_ast *);
@@ -174,7 +172,9 @@ struct s_ast
 	t_pipe	*pipe_in;
 	t_pipe	*pipes;
 	t_pipe	*pipe_out;
-	t_redir	redir;
+	int		fd_std_in;
+	int		fd_std_out;
+	t_list	*redir;
 };
 
 t_ast	*ast_create(t_sh *shell, char *line);
@@ -185,8 +185,7 @@ int		ast_parse_pipe(t_ast *node);
 int		ast_parse_subshell(t_ast *node);
 void	ast_parse_tilde(t_ast *node);
 char	*ast_tokens_find(char *line, char *token);
-char	*ast_tokens_find_last(char *line, char *token);
-char	*ast_take_word(t_ast *node, char *cursor);
+char	*ast_tokens_find_multi(char *line, char **tokens);
 
 // SHELL =======================================================================
 
@@ -245,11 +244,16 @@ int		exec_pipeline(t_ast *node);
 int		exec_and(t_ast *node);
 int		exec_or(t_ast *node);
 void	exec_update_underscore(t_ast *node);
-void	exec_redir_save_std(t_ast *node);
+void	exec_redir_save_std(t_ast *node, int fd_std);
 void	exec_redir_restore_std(t_ast *node);
 bool	is_env_path_defined(t_ast	*node);
 int		exec_bin_try(t_ast *node, char *path);
 int		throw(t_ast *node, char **error);
 int		waitstatus(t_ast *node, pid_t pid);
+
+// ERRORS ======================================================================
+
+# define ENOENT_MSG ": No such file or directory"
+# define EISDIR_MSG ": Is a directory"
 
 #endif

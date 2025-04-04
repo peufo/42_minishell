@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_create.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 00:30:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/03 18:48:46 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/04 23:28:25 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@ t_ast	*ast_create(t_sh *shell, char *line)
 	return (node);
 }
 
-static void	ast_free_redir(t_ast **node)
+static void	redir_free(void *data)
 {
-	string_array_free(&(*node)->redir.files_in);
-	string_array_free(&(*node)->redir.files_out);
-	string_array_free(&(*node)->redir.files_out_append);
+	t_redir *redir;
+
+	redir = (t_redir*)data;
+	free(redir->name);
+	free(redir);
 }
 
 void	ast_free(t_ast **node)
@@ -51,7 +53,7 @@ void	ast_free(t_ast **node)
 		free((*node)->children);
 		(*node)->children = NULL;
 	}
-	ast_free_redir(node);
+	ft_lstclear(&(*node)->redir, redir_free);
 	string_array_free(&(*node)->tokens);
 	lexer_free(&(*node)->lexer);
 	if ((*node)->pipes)

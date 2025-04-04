@@ -52,6 +52,12 @@
 		"cstdlib": "c",
 		"new": "c",
 		"*.tcc": "c",
-		"cwchar": "c"
+		"cwchar": "c",
+		"__locale": "c",
+		"typeindex": "c",
+		"typeinfo": "c",
+		"istream": "c",
+		"stdexcept": "c",
+		"variant": "c"
 	}
 }

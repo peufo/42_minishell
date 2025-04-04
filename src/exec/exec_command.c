@@ -6,73 +6,52 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/04 15:54:34 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 00:13:03 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	exec_redirect_open(
-	t_ast *node,
-	char **files,
-	int open_flags,
-	int std_fd)
+static int	exec_redirect_herdoc(t_ast *node, t_redir *redir)
 {
-	int			fd;
-	static char	no_file_err[] = ": No such file or directory";
-	static char	is_dir_err[] = ": Is a directory";
-
-	if (!files)
-		return (0);
-	while (*files)
-	{
-		fd = open(*files, open_flags, 0666);
-		if (fd == -1)
-		{
-			exec_redir_restore_std(node);
-			if (errno == ENOENT)
-				return (throw(node, (char *[]){*files, no_file_err, NULL}), 1);
-			if (errno == EISDIR)
-				return (throw(node, (char *[]){*files, is_dir_err, NULL}), 1);
-			return (throw(node, NULL));
-		}
-		if (dup2(fd, std_fd) == -1)
-			return (throw(node, NULL));
-		if (close(fd) == -1)
-			return (throw(node, NULL));
-		files++;
-	}
+	(void)node;
+	printf("DO SOMTHING WHITE HEREDOC: %s\n", redir->name);
 	return (0);
 }
 
-static void	exec_redirect(t_ast *node)
+static int	exec_redirect(void *data, void *element)
 {
-	static int	f_create = O_CREAT | O_WRONLY | O_TRUNC;
-	static int	f_append = O_CREAT | O_WRONLY | O_APPEND;
-	char		**files_append;
-	char		**files_out;
+	t_ast	*node;
+	t_redir	*redir;
+	int		fd;
 
-	files_out = node->redir.files_out;
-	files_append = node->redir.files_out_append;
-	exec_redir_save_std(node);
-	exec_redirect_open(node, node->redir.files_in, O_RDONLY, STDIN_FILENO);
-	if (node->redir.is_last_append)
+	node = (t_ast *)data;
+	redir = (t_redir *)element;
+	exec_redir_save_std(node, redir->fd_std);
+	if (redir->type == REDIR_HERDOC)
+		return (exec_redirect_herdoc(node, redir));
+	fd = open(redir->name, redir->open_flags, 0666);
+	if (fd == -1)
 	{
-		exec_redirect_open(node, files_out, f_create, STDOUT_FILENO);
-		exec_redirect_open(node, files_append, f_append, STDOUT_FILENO);
+		exec_redir_restore_std(node);
+		if (errno == ENOENT)
+			return (throw(node, (char *[]){redir->name, ENOENT_MSG, NULL}));
+		if (errno == EISDIR)
+			return (throw(node, (char *[]){redir->name, EISDIR_MSG, NULL}));
+		return (throw(node, NULL));
 	}
-	else
-	{
-		exec_redirect_open(node, files_append, f_append, STDOUT_FILENO);
-		exec_redirect_open(node, files_out, f_create, STDOUT_FILENO);
-	}
+	if (dup2(fd, redir->fd_std) == -1)
+		return (throw(node, NULL));
+	if (close(fd) == -1)
+		return (throw(node, NULL));
+	return (0);
 }
 
 int	exec_command(t_ast *node)
 {
 	lexer(node, node->line);
 	exec_update_underscore(node);
-	exec_redirect(node);
+	ft_lstiter(node->redir, node, exec_redirect);
 	if (node->status)
 		return (node->status);
 	if (!node->tokens)
