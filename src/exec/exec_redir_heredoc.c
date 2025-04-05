@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:20:00 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 13:55:53 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:06:18 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	exec_redirect_heredoc(t_ast *node, t_redir *redir)
 	{
 		line = readline("heredoc> ");
 		if (is_heredoc_end(node, redir, line))
-			break;
+			break ;
 		string_push_str(&doc, line);
 		string_push_char(&doc, '\n');
 	}

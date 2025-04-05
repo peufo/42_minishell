@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 13:10:45 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:16:40 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,8 @@ void	ast_parse(t_ast *node);
 int		ast_parse_pipe(t_ast *node);
 int		ast_parse_subshell(t_ast *node);
 void	ast_parse_tilde(t_ast *node);
+int		ast_parse_redir(t_ast *node);
+char	*ast_tokens_each(char *line, void *data, int (stop)(char *, void *));
 char	*ast_tokens_find(char *line, char *token);
 char	*ast_tokens_find_multi(char *line, char **tokens);
 
