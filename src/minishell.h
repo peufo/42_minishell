@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 15:04:36 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 20:43:09 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ typedef struct s_redir
 	char			*name;
 	int				open_flags;
 	int				fd_std;
+	int				fd;
 }	t_redir;
 
 typedef int					(*t_exe)(t_ast *);

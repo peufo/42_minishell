@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/05 14:52:59 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 20:45:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@ static int	exec_redirect(void *void_node, void *void_redir)
 {
 	t_ast	*node;
 	t_redir	*redir;
-	int		fd;
 
 	node = (t_ast *)void_node;
 	redir = (t_redir *)void_redir;
-	if (redir->type == REDIR_HEREDOC || redir->type == REDIR_HEREDOC_QUOTED)
-		return (0);
 	exec_redir_save_std(node, redir->fd_std);
-	fd = open(redir->name, redir->open_flags, 0666);
-	if (fd == -1)
+	if (!redir->fd)
+		redir->fd = open(redir->name, redir->open_flags, 0666);
+	if (redir->fd == -1)
 	{
 		exec_redir_restore_std(node);
 		if (errno == ENOENT)
@@ -33,9 +31,9 @@ static int	exec_redirect(void *void_node, void *void_redir)
 			return (throw(node, (char *[]){redir->name, EISDIR_MSG, NULL}));
 		return (throw(node, NULL));
 	}
-	if (dup2(fd, redir->fd_std) == -1)
+	if (dup2(redir->fd, redir->fd_std) == -1)
 		return (throw(node, NULL));
-	if (close(fd) == -1)
+	if (close(redir->fd) == -1)
 		return (throw(node, NULL));
 	return (0);
 }
@@ -50,6 +48,8 @@ int	exec_command(t_ast *node)
 	node->tokens = lexer(node, node->line);
 	exec_update_underscore(node);
 	ft_lstiter(node->redir, node, exec_redirect_heredoc_void);
+	if (node->status)
+		return (node->status);
 	ft_lstiter(node->redir, node, exec_redirect);
 	if (node->status)
 		return (node->status);

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:20:00 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 17:00:56 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 21:02:48 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,19 @@ static bool	is_heredoc_end(t_ast *node, t_redir *redir, char *line)
 	return (!*line && !*name);
 }
 
-static int	write_heredoc(t_ast *node, t_string *doc)
+static int	heredoc_to_fd(t_ast *node, t_string *doc)
 {
-	t_pipe	p;
+	t_pipe	herepipe;
 
-	if (node->shell->exit_status)
-		return (node->shell->exit_status);
-	exec_redir_save_std(node, STDIN_FILENO);
-	if (pipe(p.fildes) == -1)
+	if (pipe(herepipe.fildes) == -1)
 	{
 		string_free(doc);
-		exec_redir_restore_std(node);
 		shell_exit(node->shell);
-		return (1);
+		return (-1);
 	}
-	if (dup2(p.out, STDIN_FILENO) == -1 || close(p.out) == -1)
-	{
-		close(p.in);
-		string_free(doc);
-		exec_redir_restore_std(node);
-		return (throw(node, NULL));
-	}
-	ft_putstr_fd(doc->value, p.in);
-	close(p.in);
-	return (0);
+	ft_putstr_fd(doc->value, herepipe.in);
+	close(herepipe.in);
+	return (herepipe.out);
 }
 
 static void	expand_var(t_ast *node, t_string *doc)
@@ -76,10 +65,29 @@ static void	expand_var(t_ast *node, t_string *doc)
 	return ;
 }
 
+static void	fill_heredoc(t_ast *node, t_redir *redir, t_string *doc)
+{
+	char	*line;
+	char	*prompt;
+
+	prompt = ft_strcat_arr((char *[]){"herdoc(", redir->name, ")> ", NULL});
+	while (true)
+	{
+		line = readline(prompt);
+		if (is_heredoc_end(node, redir, line))
+			break ;
+		string_push_str(doc, line);
+		string_push_char(doc, '\n');
+		free(line);
+	}
+	free(prompt);
+	if (line)
+		free(line);
+}
+
 int	exec_redirect_heredoc(t_ast *node, t_redir *redir)
 {
 	t_string	doc;
-	char		*line;
 
 	if (redir->type != REDIR_HEREDOC && redir->type != REDIR_HEREDOC_QUOTED)
 		return (0);
@@ -87,23 +95,13 @@ int	exec_redirect_heredoc(t_ast *node, t_redir *redir)
 	doc.value = NULL;
 	if (redir->type == REDIR_HEREDOC)
 		string_push_char(&doc, '"');
-	while (true)
-	{
-		line = readline("heredoc> ");
-		if (is_heredoc_end(node, redir, line))
-			break ;
-		string_push_str(&doc, line);
-		string_push_char(&doc, '\n');
-		free(line);
-	}
-	if (line)
-		free(line);
+	fill_heredoc(node, redir, &doc);
 	if (redir->type == REDIR_HEREDOC)
 	{
 		string_push_char(&doc, '"');
 		expand_var(node, &doc);
 	}
-	write_heredoc(node, &doc);
+	redir->fd = heredoc_to_fd(node, &doc);
 	string_free(&doc);
 	return (node->status > 1);
 }
