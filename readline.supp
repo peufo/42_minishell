@@ -3,24 +3,50 @@
 	Memcheck:Leak
 	match-leak-kinds: reachable
 	fun:malloc
-	...
+        ...
 	obj:*/libreadline*
 }
-
 {
-        readline_still_reachable_calloc
-        Memcheck:Leak
-        match-leak-kinds: reachable
+	readline_still_reachable_malloc
+	Memcheck:Leak
+	match-leak-kinds: reachable
         fun:realloc
         ...
-        obj:*/libreadline*
+	obj:*/libreadline*
 }
-
 {
-        readline_still_reachable_realloc
-        Memcheck:Leak
-        match-leak-kinds: reachable
+	readline_still_reachable_malloc
+	Memcheck:Leak
+	match-leak-kinds: reachable
         fun:calloc
         ...
-        obj:*/libreadline*
+	obj:*/libreadline*
+}
+{
+   READLINE POOP
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/lib/ld-musl-aarch64.so.1
+}
+{
+   READLINE POOP
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:setenv
+}
+{
+   READLINE POOP
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:tsearch
+}
+{
+   READLINE POOP
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:strdup
 }

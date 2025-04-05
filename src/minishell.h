@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 20:43:09 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 22:38:14 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ int		exec_or(t_ast *node);
 void	exec_update_underscore(t_ast *node);
 void	exec_redir_save_std(t_ast *node, int fd_std);
 void	exec_redir_restore_std(t_ast *node);
-int		exec_redirect_heredoc(t_ast *node, t_redir *redir);
+int		exec_redir_heredoc(t_ast *node, t_redir *redir);
 bool	is_env_path_defined(t_ast	*node);
 int		exec_bin_try(t_ast *node, char *path);
 int		throw(t_ast *node, char **error);

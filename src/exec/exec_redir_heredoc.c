@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:20:00 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 21:02:48 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 22:31:34 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static void	fill_heredoc(t_ast *node, t_redir *redir, t_string *doc)
 		free(line);
 }
 
-int	exec_redirect_heredoc(t_ast *node, t_redir *redir)
+int	exec_redir_heredoc(t_ast *node, t_redir *redir)
 {
 	t_string	doc;
 

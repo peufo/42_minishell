@@ -8,5 +8,6 @@ VALGRIND+=" --track-origins=yes"
 VALGRIND+=" --log-file=leaks.log"
 VALGRIND+=" --suppressions=readline.supp"
 VALGRIND+=" --trace-children=yes"
+# VALGRIND+=" --gen-suppressions=all"
 
 $VALGRIND ./minishell

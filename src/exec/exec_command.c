@@ -6,22 +6,17 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/05 20:45:41 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 22:38:19 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	exec_redirect(void *void_node, void *void_redir)
+static int	exec_redir(t_ast *node, t_redir *redir)
 {
-	t_ast	*node;
-	t_redir	*redir;
-
-	node = (t_ast *)void_node;
-	redir = (t_redir *)void_redir;
 	exec_redir_save_std(node, redir->fd_std);
 	if (!redir->fd)
-		redir->fd = open(redir->name, redir->open_flags, 0666);
+		redir->fd = open(redir->name, redir->open_flags);
 	if (redir->fd == -1)
 	{
 		exec_redir_restore_std(node);
@@ -38,19 +33,14 @@ static int	exec_redirect(void *void_node, void *void_redir)
 	return (0);
 }
 
-static int	exec_redirect_heredoc_void(void *void_node, void *void_redir)
-{
-	return (exec_redirect_heredoc((t_ast *)void_node, (t_redir *)void_redir));
-}
-
 int	exec_command(t_ast *node)
 {
 	node->tokens = lexer(node, node->line);
 	exec_update_underscore(node);
-	ft_lstiter(node->redir, node, exec_redirect_heredoc_void);
+	ft_lstiter(node->redir, node, (int (*)(void *, void *))exec_redir_heredoc);
 	if (node->status)
 		return (node->status);
-	ft_lstiter(node->redir, node, exec_redirect);
+	ft_lstiter(node->redir, node, (int (*)(void *, void *))exec_redir);
 	if (node->status)
 		return (node->status);
 	if (!node->tokens)
