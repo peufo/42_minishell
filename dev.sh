@@ -8,7 +8,13 @@ LEAKS_CHECK=true
 make re
 
 if [ $(uname) = "Linux" ]; then
-	LEAKS_CMD="valgrind --leak-check=full --track-fds=yes --show-leak-kinds=all --track-origins=yes --log-file=log/leaks.log" 	  #LEAKS_CMD="$LEAKS_CMD --trace-children=yes"
+	LEAKS_CMD="valgrind"
+	LEAKS_CMD+=" --leak-check=full"
+	LEAKS_CMD+=" --track-fds=yes"
+	LEAKS_CMD+=" --show-leak-kinds=all"
+	LEAKS_CMD+=" --track-origins=yes"
+	LEAKS_CMD+=" --log-file=log/leaks.log"
+	#LEAKS_CMD+=" --trace-children=yes"
 else
 	LEAKS_CMD="leaks -quiet --atExit --"
 	LEAKS_CMD=""

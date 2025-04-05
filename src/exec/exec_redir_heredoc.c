@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:20:00 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 15:25:56 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:00:56 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static bool	is_heredoc_end(t_ast *node, t_redir *redir, char *line)
 	if (g_is_sigint)
 	{
 		node->status = 130;
-		node->shell->exit_status = node->status;
 		return (true);
 	}
 	name = redir->name;
@@ -95,11 +94,16 @@ int	exec_redirect_heredoc(t_ast *node, t_redir *redir)
 			break ;
 		string_push_str(&doc, line);
 		string_push_char(&doc, '\n');
+		free(line);
 	}
+	if (line)
+		free(line);
 	if (redir->type == REDIR_HEREDOC)
 	{
 		string_push_char(&doc, '"');
 		expand_var(node, &doc);
 	}
-	return (write_heredoc(node, &doc) > 1);
+	write_heredoc(node, &doc);
+	string_free(&doc);
+	return (node->status > 1);
 }
