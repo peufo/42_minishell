@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:20:00 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 15:11:58 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:25:56 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ static void	expand_var(t_ast *node, t_string *doc)
 	tokens = lexer(node, doc->value);
 	if (!tokens)
 		return ;
-	printf("DOC VALUE:[%s]\n", doc->value);
-	printf("TOKEN:[%s]\n", *tokens);
 	string_free(doc);
 	doc->value = ft_strdup(*tokens);
 	string_array_free(&tokens);
