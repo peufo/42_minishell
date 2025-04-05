@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:26:32 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/04 23:40:43 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 13:13:01 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static t_redir_type	get_redir_type(char *cursor)
 	if (cursor[0] == '>')
 		return (REDIR_OUTPOUT);
 	if (cursor[0] == '<' && cursor[1] == '<')
-		return (REDIR_HERDOC);
+		return (REDIR_HEREDOC);
 	return (REDIR_INPUT);
 }
 
@@ -62,13 +62,13 @@ static void	add_redir(t_ast *node, char *cursor, char *name)
 {
 	static int	open_flags[] = {
 	[REDIR_INPUT] = O_RDONLY,
-	[REDIR_HERDOC] = -1,
+	[REDIR_HEREDOC] = -1,
 	[REDIR_APPEND] = O_CREAT | O_WRONLY | O_APPEND,
 	[REDIR_OUTPOUT] = O_CREAT | O_WRONLY | O_TRUNC,
 	};
 	static int	fd_std[] = {
 	[REDIR_INPUT] = STDIN_FILENO,
-	[REDIR_HERDOC] = STDIN_FILENO,
+	[REDIR_HEREDOC] = STDIN_FILENO,
 	[REDIR_APPEND] = STDOUT_FILENO,
 	[REDIR_OUTPOUT] = STDOUT_FILENO,
 	};

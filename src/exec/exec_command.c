@@ -6,30 +6,23 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/05 00:13:03 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 12:15:20 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	exec_redirect_herdoc(t_ast *node, t_redir *redir)
-{
-	(void)node;
-	printf("DO SOMTHING WHITE HEREDOC: %s\n", redir->name);
-	return (0);
-}
-
-static int	exec_redirect(void *data, void *element)
+static int	exec_redirect(void *void_node, void *void_redir)
 {
 	t_ast	*node;
 	t_redir	*redir;
 	int		fd;
 
-	node = (t_ast *)data;
-	redir = (t_redir *)element;
+	node = (t_ast *)void_node;
+	redir = (t_redir *)void_redir;
+	if (redir->type == REDIR_HEREDOC)
+		return (0);
 	exec_redir_save_std(node, redir->fd_std);
-	if (redir->type == REDIR_HERDOC)
-		return (exec_redirect_herdoc(node, redir));
 	fd = open(redir->name, redir->open_flags, 0666);
 	if (fd == -1)
 	{
@@ -47,10 +40,16 @@ static int	exec_redirect(void *data, void *element)
 	return (0);
 }
 
+static int	exec_redirect_heredoc_void(void *void_node, void *void_redir)
+{
+	return (exec_redirect_heredoc((t_ast *)void_node, (t_redir *)void_redir));
+}
+
 int	exec_command(t_ast *node)
 {
 	lexer(node, node->line);
 	exec_update_underscore(node);
+	ft_lstiter(node->redir, node, exec_redirect_heredoc_void);
 	ft_lstiter(node->redir, node, exec_redirect);
 	if (node->status)
 		return (node->status);
