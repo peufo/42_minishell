@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:06:53 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 14:12:12 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:11:45 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@
 static char	*ast_take_word(t_ast *node, char *cursor)
 {
 	char	*word;
+	char	**tokens;
 
-	lexer(node, cursor);
-	if (!node->tokens)
+	tokens = lexer(node, cursor);
+	if (!tokens)
 		return (NULL);
-	word = ft_strdup(*node->tokens);
-	lexer_free(&node->lexer);
-	string_array_free(&node->tokens);
+	word = ft_strdup(*tokens);
+	string_array_free(&tokens);
 	return (word);
 }
 
@@ -52,7 +52,15 @@ static t_redir_type	get_redir_type(char *cursor)
 	if (cursor[0] == '>')
 		return (REDIR_OUTPOUT);
 	if (cursor[0] == '<' && cursor[1] == '<')
+	{
+		cursor += 2;
+		while (ft_isspace(*cursor))
+			cursor++;
+		while (*cursor && !ft_isspace(*cursor))
+			if (*(cursor++) == '\'')
+				return (REDIR_HEREDOC_QUOTED);
 		return (REDIR_HEREDOC);
+	}
 	return (REDIR_INPUT);
 }
 

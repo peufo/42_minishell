@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 00:30:25 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 14:06:22 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:11:35 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	ast_free(t_ast **node)
 	}
 	ft_lstclear(&(*node)->redir, redir_free);
 	string_array_free(&(*node)->tokens);
-	lexer_free(&(*node)->lexer);
 	if ((*node)->pipes)
 	{
 		free((*node)->pipes);

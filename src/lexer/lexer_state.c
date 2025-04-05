@@ -3,48 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_state.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:49:27 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/03 18:43:48 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:06:17 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	push_char_token(t_ast *node)
+static void	push_char_token(t_lexer *lexer)
 {
 	char	*end_token;
 
-	end_token = string_push_char(&node->lexer.token, *node->lexer.cursor);
+	end_token = string_push_char(&lexer->token, *lexer->cursor);
 	if (!end_token)
-		shell_exit(node->shell);
-	if (node->lexer.state == LEXER_DEFAULT && *node->lexer.cursor == '*')
+		shell_exit(lexer->node->shell);
+	if (lexer->state == LEXER_DEFAULT && *lexer->cursor == '*')
 	{
-		string_array_push(&node->lexer.wilds, end_token - 1);
+		string_array_push(&lexer->wilds, end_token - 1);
 	}
-	node->lexer.cursor++;
+	lexer->cursor++;
 }
 
-static void	push_char_varname(t_ast *node)
+static void	push_char_varname(t_lexer *lexer)
 {
-	string_push_char(&node->lexer.varname, *node->lexer.cursor);
-	node->lexer.cursor++;
+	string_push_char(&lexer->varname, *lexer->cursor);
+	lexer->cursor++;
 }
 
-static void	reset_default(t_ast *node)
+static void	reset_default(t_lexer *lexer)
 {
-	node->lexer.state = LEXER_DEFAULT;
+	lexer->state = LEXER_DEFAULT;
 }
 
-static void	handle_meta(t_ast *node)
+static void	handle_meta(t_lexer *lexer)
 {
-	while (ft_include(CHARSET_META, *node->lexer.cursor))
-		push_char_token(node);
-	reset_default(node);
+	while (ft_include(CHARSET_META, *lexer->cursor))
+		push_char_token(lexer);
+	reset_default(lexer);
 }
 
-void	lexer_state(t_ast *node)
+void	lexer_state(t_lexer *lexer)
 {
 	t_lexer_handler			handler;
 	static t_lexer_handler	handlers[] = {
@@ -57,7 +57,7 @@ void	lexer_state(t_ast *node)
 	[LEXER_END_TOKEN] = reset_default
 	};
 
-	handler = handlers[node->lexer.state];
+	handler = handlers[lexer->state];
 	if (handler)
-		handler(node);
+		handler(lexer);
 }

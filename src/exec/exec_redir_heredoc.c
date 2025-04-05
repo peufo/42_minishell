@@ -6,34 +6,11 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:20:00 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 14:06:18 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:11:58 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static bool	get_is_quoted(char *name)
-{
-	while (*name)
-		if (*(name++) == '\'')
-			return (true);
-	return (false);
-}
-
-static void	rm_quote(char *name)
-{
-	char	*read;
-
-	read = name;
-	while (*read)
-	{
-		while (*read == '\'' || *read == '"')
-			read++;
-		*(name++) = *read;
-		if (*read)
-			read++;
-	}
-}
 
 static bool	is_heredoc_end(t_ast *node, t_redir *redir, char *line)
 {
@@ -77,6 +54,7 @@ static int	write_heredoc(t_ast *node, t_string *doc)
 	}
 	if (dup2(p.out, STDIN_FILENO) == -1 || close(p.out) == -1)
 	{
+		close(p.in);
 		string_free(doc);
 		exec_redir_restore_std(node);
 		return (throw(node, NULL));
@@ -86,22 +64,32 @@ static int	write_heredoc(t_ast *node, t_string *doc)
 	return (0);
 }
 
-// if !is_quoted, double quote "doc" and run lexer
-// once write doc on redirected STD_IN
+static void	expand_var(t_ast *node, t_string *doc)
+{
+	char	**tokens;
+
+	tokens = lexer(node, doc->value);
+	if (!tokens)
+		return ;
+	printf("DOC VALUE:[%s]\n", doc->value);
+	printf("TOKEN:[%s]\n", *tokens);
+	string_free(doc);
+	doc->value = ft_strdup(*tokens);
+	string_array_free(&tokens);
+	return ;
+}
+
 int	exec_redirect_heredoc(t_ast *node, t_redir *redir)
 {
-	bool		is_quoted;
 	t_string	doc;
 	char		*line;
 
-	if (redir->type != REDIR_HEREDOC)
+	if (redir->type != REDIR_HEREDOC && redir->type != REDIR_HEREDOC_QUOTED)
 		return (0);
 	node->status = 0;
 	doc.value = NULL;
-	is_quoted = get_is_quoted(redir->name);
-	if (!is_quoted)
+	if (redir->type == REDIR_HEREDOC)
 		string_push_char(&doc, '"');
-	rm_quote(redir->name);
 	while (true)
 	{
 		line = readline("heredoc> ");
@@ -110,7 +98,10 @@ int	exec_redirect_heredoc(t_ast *node, t_redir *redir)
 		string_push_str(&doc, line);
 		string_push_char(&doc, '\n');
 	}
-	if (!is_quoted)
+	if (redir->type == REDIR_HEREDOC)
+	{
 		string_push_char(&doc, '"');
+		expand_var(node, &doc);
+	}
 	return (write_heredoc(node, &doc) > 1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_wilcard.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:17:56 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/25 16:02:23 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:10:42 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static bool	match(char *filename, t_wild *wild)
 	return (true);
 }
 
-static void	wild_get_files(t_ast *node, t_wild *wild)
+static void	wild_get_files(t_lexer *lexer, t_wild *wild)
 {
 	DIR				*dirp;
 	struct dirent	*dp;
@@ -50,7 +50,7 @@ static void	wild_get_files(t_ast *node, t_wild *wild)
 	getcwd(cwd, 4096);
 	dirp = opendir(cwd);
 	if (!dirp)
-		return (shell_exit(node->shell));
+		return (shell_exit(lexer->node->shell));
 	dp = (struct dirent *)1;
 	while (dp)
 	{
@@ -69,13 +69,13 @@ static void	wild_free(t_wild *wild)
 	string_array_free(&wild->files);
 }
 
-static bool	wild_init(t_ast *node, t_wild *wild)
+static bool	wild_init(t_lexer *lexer, t_wild *wild)
 {
 	char	*cursor;
 	char	**wilds;
 
-	cursor = node->lexer.token.value;
-	wilds = node->lexer.wilds;
+	cursor = lexer->token.value;
+	wilds = lexer->wilds;
 	wild->is_wild_start = cursor == *wilds;
 	while (*wilds)
 	{
@@ -83,13 +83,13 @@ static bool	wild_init(t_ast *node, t_wild *wild)
 		{
 			string_array_push(&wild->sections, ft_strcut(cursor, *wilds));
 			if (!wild->sections)
-				return (wild_free(wild), shell_exit(node->shell), false);
+				return (wild_free(wild), shell_exit(lexer->node->shell), false);
 		}
 		cursor = *wilds + 1;
 		wilds++;
 	}
 	wilds--;
-	cursor = node->lexer.token.value;
+	cursor = lexer->token.value;
 	while (*cursor)
 		cursor++;
 	wild->is_wild_end = (cursor - 1) == *wilds;
@@ -98,26 +98,26 @@ static bool	wild_init(t_ast *node, t_wild *wild)
 	return (true);
 }
 
-void	lexer_expand_wildcard(t_ast *node)
+void	lexer_expand_wildcard(t_lexer *lexer)
 {
 	t_wild	wild;
 	char	**files;
 
 	ft_bzero(&wild, sizeof(wild));
-	if (!node->lexer.wilds)
+	if (!lexer->wilds)
 		return ;
-	if (wild_init(node, &wild))
+	if (wild_init(lexer, &wild))
 	{
-		wild_get_files(node, &wild);
+		wild_get_files(lexer, &wild);
 		files = wild.files;
 		if (files)
 		{
-			string_free(&node->lexer.token);
+			string_free(&lexer->token);
 			while (*files)
-				string_array_push(&node->lexer.tokens, ft_strdup(*(files++)));
+				string_array_push(&lexer->tokens, ft_strdup(*(files++)));
 		}
 	}
 	wild_free(&wild);
-	free(node->lexer.wilds);
-	node->lexer.wilds = NULL;
+	free(lexer->wilds);
+	lexer->wilds = NULL;
 }

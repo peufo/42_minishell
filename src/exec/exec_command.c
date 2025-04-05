@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/05 12:15:20 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 14:52:59 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	exec_redirect(void *void_node, void *void_redir)
 
 	node = (t_ast *)void_node;
 	redir = (t_redir *)void_redir;
-	if (redir->type == REDIR_HEREDOC)
+	if (redir->type == REDIR_HEREDOC || redir->type == REDIR_HEREDOC_QUOTED)
 		return (0);
 	exec_redir_save_std(node, redir->fd_std);
 	fd = open(redir->name, redir->open_flags, 0666);
@@ -47,7 +47,7 @@ static int	exec_redirect_heredoc_void(void *void_node, void *void_redir)
 
 int	exec_command(t_ast *node)
 {
-	lexer(node, node->line);
+	node->tokens = lexer(node, node->line);
 	exec_update_underscore(node);
 	ft_lstiter(node->redir, node, exec_redirect_heredoc_void);
 	ft_lstiter(node->redir, node, exec_redirect);

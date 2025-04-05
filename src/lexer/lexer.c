@@ -6,21 +6,19 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:34:52 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/04 15:34:45 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:15:33 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static t_lexer_state	find_next_state_match(
-	t_ast *node,
+	t_lexer	*lexer,
 	t_lexer_next_state *next_states)
 {
 	t_lexer_next_state	*n;
-	t_lexer				*lexer;
 
 	n = next_states;
-	lexer = &node->lexer;
 	while (n->state)
 	{
 		if (n->state == lexer->state)
@@ -35,7 +33,7 @@ static t_lexer_state	find_next_state_match(
 	return (LEXER_NO_STATE);
 }
 
-static t_lexer_state	get_next_state(t_ast *node)
+static t_lexer_state	get_next_state(t_lexer *lexer)
 {
 	static t_lexer_next_state	next_states[] = {
 	{LEXER_DEFAULT, "\"", LEXER_DQUOTE},
@@ -59,40 +57,39 @@ static t_lexer_state	get_next_state(t_ast *node)
 	{0, NULL, 0}
 	};
 
-	return (find_next_state_match(node, next_states));
+	return (find_next_state_match(lexer, next_states));
 }
 
-void	lexer(t_ast *node, char *line)
-{
-	t_lexer_state	next_state;
-
-	node->lexer.state = LEXER_DEFAULT;
-	node->lexer.cursor = line;
-	lexer_action_skip_blank(node);
-	while (*(node->lexer.cursor))
-	{
-		next_state = get_next_state(node);
-		if (node->lexer.state == LEXER_DQUOTE
-			|| node->lexer.state == LEXER_QUOTE
-			|| node->lexer.state == LEXER_VAR_DQUOTE)
-			node->lexer.entry_state = node->lexer.state;
-		if (next_state)
-			lexer_action(node, next_state);
-		else
-			lexer_state(node);
-	}
-	lexer_action(node, LEXER_END_TOKEN);
-	node->tokens = string_array_dup(node->lexer.tokens);
-}
-
-void	lexer_free(t_lexer *lexer)
+static void	lexer_free(t_lexer *lexer)
 {
 	string_free(&lexer->token);
 	string_free(&lexer->varname);
-	string_array_free(&lexer->tokens);
 	if (lexer->wilds)
 	{
 		free(lexer->wilds);
 		lexer->wilds = NULL;
 	}
+}
+
+char	**lexer(t_ast *node, char *line)
+{
+	t_lexer			lexer;
+	t_lexer_state	next_state;
+
+	ft_bzero(&lexer, sizeof(lexer));
+	lexer.node = node;
+	lexer.state = LEXER_DEFAULT;
+	lexer.cursor = line;
+	lexer_action_skip_blank(&lexer);
+	while (*(lexer.cursor))
+	{
+		next_state = get_next_state(&lexer);
+		if (next_state)
+			lexer_action(&lexer, next_state);
+		else
+			lexer_state(&lexer);
+	}
+	lexer_action(&lexer, LEXER_END_TOKEN);
+	lexer_free(&lexer);
+	return (lexer.tokens);
 }

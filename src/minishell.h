@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 14:16:40 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:04:36 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ typedef enum e_lexer_state
 
 struct s_lexer
 {
-	t_lexer_state		entry_state;
+	t_ast				*node;
 	t_lexer_state		state;
 	char				*cursor;
 	t_string			token;
@@ -104,22 +104,21 @@ typedef struct e_lexer_next_state
 	t_lexer_state	next_state;
 }	t_lexer_next_state;
 
-typedef void				(*t_lexer_handler)(t_ast *);
+typedef void				(*t_lexer_handler)(t_lexer *);
 
 //	COMMANDE LEXER
-void	lexer(t_ast *node, char *line);
-void	lexer_free(t_lexer *lexer);
-void	lexer_state(t_ast *node);
-void	lexer_action(t_ast *node, t_lexer_state next_state);
-void	lexer_action_end_token(t_ast *node);
-void	lexer_action_expand_var(t_ast *node);
-void	lexer_action_expand_var_dquote(t_ast *node);
-void	lexer_action_expand_var_end_token(t_ast *node);
-void	lexer_action_skip_blank(t_ast *node);
-void	lexer_action_next_char(t_ast *node);
-void	lexer_expand_exit_status(t_ast *node);
-void	lexer_expand_wildcard(t_ast *node);
-void	lexer_action_var_catch_wild(t_ast *node, int var_len);
+char	**lexer(t_ast *node, char *line);
+void	lexer_state(t_lexer *lexer);
+void	lexer_action(t_lexer *lexer, t_lexer_state next_state);
+void	lexer_action_end_token(t_lexer *lexer);
+void	lexer_action_expand_var(t_lexer *lexer);
+void	lexer_action_expand_var_dquote(t_lexer *lexer);
+void	lexer_action_expand_var_end_token(t_lexer *lexer);
+void	lexer_action_skip_blank(t_lexer *lexer);
+void	lexer_action_next_char(t_lexer *lexer);
+void	lexer_expand_exit_status(t_lexer *lexer);
+void	lexer_expand_wildcard(t_lexer *lexer);
+void	lexer_action_var_catch_wild(t_lexer *lexer, int var_len);
 
 // PARSER ====================================================================
 
@@ -144,6 +143,7 @@ typedef enum e_redir_type
 {
 	REDIR_INPUT,
 	REDIR_HEREDOC,
+	REDIR_HEREDOC_QUOTED,
 	REDIR_OUTPOUT,
 	REDIR_APPEND
 }	t_redir_type;
@@ -163,7 +163,6 @@ struct s_ast
 	t_ast	**children;
 	char	*line;
 	char	**tokens;
-	t_lexer	lexer;
 	pid_t	pid;
 	bool	is_child_process;
 	int		status;

@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_action_var_catch_wild.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:35:20 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/25 17:39:38 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/05 15:11:07 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	lexer_action_var_catch_wild(t_ast *node, int var_len)
+void	lexer_action_var_catch_wild(t_lexer *lexer, int var_len)
 {
 	char	*token;
 
-	token = node->lexer.token.value;
+	token = lexer->token.value;
 	if (!token)
 		return ;
 	while (*token)
 		token++;
 	token -= var_len;
-	if (token < node->lexer.token.value)
+	if (token < lexer->token.value)
 		return ;
 	while (*token)
 	{
 		if (*token == '*')
-			string_array_push(&node->lexer.wilds, token);
+			string_array_push(&lexer->wilds, token);
 		token++;
 	}
 }
