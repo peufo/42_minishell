@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:20:00 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 22:31:34 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/06 12:11:09 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	exec_redir_heredoc(t_ast *node, t_redir *redir)
 	t_string	doc;
 
 	if (redir->type != REDIR_HEREDOC && redir->type != REDIR_HEREDOC_QUOTED)
+		return (0);
+	if (redir->fd)
 		return (0);
 	node->status = 0;
 	doc.value = NULL;
