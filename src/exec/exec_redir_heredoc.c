@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:20:00 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/06 12:11:09 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/06 12:51:33 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ static bool	is_heredoc_end(t_ast *node, t_redir *redir, char *line)
 
 	if (!line)
 	{
+		node->is_herdoc = true;
 		throw(node, (char *[]){
 			"warning: heredoc delimited by end-of-file (wanted `",
 			redir->name,
 			"')",
 			NULL});
+		node->is_herdoc = false;
 		return (true);
 	}
 	if (g_is_sigint)

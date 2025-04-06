@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/06 12:29:02 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/06 12:46:41 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ struct s_ast
 	int		fd_std_in;
 	int		fd_std_out;
 	t_list	*redir;
+	bool	is_herdoc;
 };
 
 t_ast	*ast_create(t_sh *shell, char *line);

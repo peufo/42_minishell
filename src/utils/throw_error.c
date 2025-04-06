@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:06:10 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 00:12:04 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/06 12:46:27 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	throw(t_ast *node, char **error)
 	if (!node->status)
 		node->status = 1;
 	node->shell->exit_status = node->status;
-	if (node->is_child_process)
+	if (node->is_child_process && !node->is_herdoc)
 		shell_exit(node->shell);
 	return (node->status);
 }
