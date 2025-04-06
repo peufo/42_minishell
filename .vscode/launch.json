@@ -5,19 +5,34 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Lancer (Linux)",
+			"name": "Lancer interactif",
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/minishell",
-			"args": ["./test/todo.sh"],
+			"args": [],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
-			"MIMode": "gdb"
+			"MIMode": "gdb",
 		},
 		{
-			"name": "Lancer child (Linux)",
+			"name": "Lancer interactif (child)",
+			"type": "cppdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/minishell",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
+			"environment": [],
+			"externalConsole": false,
+			"MIMode": "gdb",
+			"setupCommands": [
+				{ "text": "-gdb-set follow-fork-mode child" }
+			]
+		},
+		{
+			"name": "Lancer todo",
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/minishell",
@@ -27,21 +42,20 @@
 			"environment": [],
 			"externalConsole": false,
 			"MIMode": "gdb",
-			"setupCommands": [{ "text": "-gdb-set follow-fork-mode child" }]
 		},
 		{
-			"name": "Lancer (MacOS)",
+			"name": "Lancer todo child",
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/minishell",
-			"args": ["./test/wild.sh"],
+			"args": ["./test/todo.sh"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
-			"MIMode": "lldb",
+			"MIMode": "gdb",
 			"setupCommands": [
-				{ "text": "settings set target.process.follow-fork-mode child" }
+				{ "text": "-gdb-set follow-fork-mode child" }
 			]
 		}
 	]

@@ -6,6 +6,7 @@ RUN apk add --no-cache curl
 RUN apk add --no-cache git
 RUN apk add --no-cache gcc
 RUN apk add --no-cache make
+RUN apk add --no-cache gdb
 RUN apk add --no-cache mandoc man-pages
 RUN apk add --no-cache libx11
 RUN apk add --no-cache libxv
