@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:06:53 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 15:11:45 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/06 02:37:57 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	throw_redir_parse_error(t_ast *node)
 	return (node->status);
 }
 
-static t_redir_type	get_redir_type(char *cursor)
+static t_redir_type	get_redir_type(t_ast *node, char *cursor)
 {
 	if (cursor[0] == '>' && cursor[1] == '>')
 		return (REDIR_APPEND);
@@ -53,6 +53,7 @@ static t_redir_type	get_redir_type(char *cursor)
 		return (REDIR_OUTPOUT);
 	if (cursor[0] == '<' && cursor[1] == '<')
 	{
+		node->is_heredoc = true;
 		cursor += 2;
 		while (ft_isspace(*cursor))
 			cursor++;
@@ -83,7 +84,7 @@ static void	add_redir(t_ast *node, char *cursor, char *name)
 	redir = ft_calloc(1, sizeof(*redir));
 	if (!redir)
 		return (shell_exit(node->shell));
-	redir->type = get_redir_type(cursor);
+	redir->type = get_redir_type(node, cursor);
 	redir->open_flags = open_flags[redir->type];
 	redir->fd_std = fd_std[redir->type];
 	redir->name = ast_take_word(node, name);

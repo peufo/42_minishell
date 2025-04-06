@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 22:38:14 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/06 02:36:23 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ struct s_ast
 	t_pipe	*pipe_out;
 	int		fd_std_in;
 	int		fd_std_out;
+	bool	is_heredoc;
 	t_list	*redir;
 };
 

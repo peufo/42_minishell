@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dyodlm <dyodlm@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:08:33 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/03/31 06:12:11 by dyodlm           ###   ########.fr       */
+/*   Updated: 2025/04/06 02:38:44 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	pipes_connect(t_ast *node)
 	if (node->pipe_in)
 	{
 		close_fd(node, node->pipe_in->in);
-		if (dup2(node->pipe_in->out, STDIN_FILENO) == -1)
+		if (!node->is_heredoc && dup2(node->pipe_in->out, STDIN_FILENO) == -1)
 			shell_exit(node->shell);
 		close_fd(node, node->pipe_in->out);
 	}
