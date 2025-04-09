@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:47:50 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/06 12:27:07 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:23:07 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	exec_redir(t_ast *node, t_redir *redir)
 		return (node->status);
 	exec_redir_save_std(node, redir->fd_std);
 	if (!redir->fd)
-		redir->fd = open(redir->name, redir->open_flags);
+		redir->fd = open(redir->name, redir->open_flags, 0666);
 	if (redir->fd == -1)
 	{
 		exec_redir_restore_std(node);

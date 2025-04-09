@@ -2,8 +2,9 @@
 # #                                  CORRECTION                                  #
 # # **************************************************************************** #
 
-mkdir -p ~/tmp
-cd ~/tmp
+rm -rf ./tmp
+mkdir -p ./tmp
+cd ./tmp
 
 mkdir tmp_path_test1 tmp_path_test2
 echo '#include <unistd.h>' > tmp_path_test1/test1.c
@@ -19,7 +20,8 @@ a.out
 /bin/chmod -x tmp_path_test2/a.out
 a.out
 echo $?
-/bin/rm -rf tmp_path_test1 tmp_path_test2
+cd ..
+/bin/rm -rf ./tmp
 
 /bin/echo
 /bin/echo 1
