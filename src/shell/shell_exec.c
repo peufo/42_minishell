@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 05:58:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/04 18:52:38 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:38:40 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 
 static void	ast_build_and_exec(t_sh *shell)
 {
+	if (!ast_is_syntax_ok(shell->line))
+	{
+		shell->exit_status = 2;
+		ft_putstr_fd(shell->name, STDERR_FILENO);
+		ft_putstr_fd(": Syntax error\n", STDERR_FILENO);
+		return ;
+	}
 	shell->ast_error = false;
 	shell->ast = ast_create(shell, ft_strdup(shell->line));
 	if (shell->ast_error)

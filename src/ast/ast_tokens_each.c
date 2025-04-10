@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_tokens_each.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 14:40:59 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 14:16:24 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:32:43 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,32 @@ char	*ast_tokens_each(char *line, void *data, int (stop)(char *, void *))
 	if (!*cursor)
 		return (NULL);
 	return (cursor);
+}
+
+bool	ast_is_syntax_ok(char *line)
+{
+	char		*cursor;
+	int			in_brackets;
+	t_ast_state	state;
+
+	in_brackets = 0;
+	cursor = line;
+	state = AST_STATE_DEFAULT;
+	while (*cursor)
+	{
+		state = get_next_state(state, *cursor);
+		if (state == AST_STATE_DEFAULT)
+		{
+			if (*cursor == '(')
+				in_brackets++;
+			else if (*cursor == ')')
+				in_brackets--;
+		}
+		cursor++;
+	}
+	if (in_brackets)
+		return (false);
+	if (state != AST_STATE_DEFAULT)
+		return (false);
+	return (true);
 }

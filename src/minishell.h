@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/06 12:46:41 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:25:43 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ int		ast_parse_subshell(t_ast *node);
 void	ast_parse_tilde(t_ast *node);
 int		ast_parse_redir(t_ast *node);
 char	*ast_tokens_each(char *line, void *data, int (stop)(char *, void *));
+bool	ast_is_syntax_ok(char *line);
 char	*ast_tokens_find(char *line, char *token);
 char	*ast_tokens_find_multi(char *line, char **tokens);
 

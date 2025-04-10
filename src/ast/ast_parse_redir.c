@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_parse_redir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 14:06:53 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/06 12:51:12 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:55:40 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	throw_redir_parse_error(t_ast *node)
 {
 	node->shell->ast_error = true;
 	node->status = 2;
-	throw(node, (char *[]){"Redirection syntax error", NULL});
+	throw(node, (char *[]){"Syntax error", NULL});
 	return (node->status);
 }
 
