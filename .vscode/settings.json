@@ -58,6 +58,10 @@
 		"typeinfo": "c",
 		"istream": "c",
 		"stdexcept": "c",
-		"variant": "c"
+		"variant": "c",
+		"ioctl.h": "c",
+		"termios.h": "c",
+		"readline.h": "c",
+		"rlconf.h": "c"
 	}
 }

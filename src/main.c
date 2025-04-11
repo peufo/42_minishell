@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 22:16:52 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/11 11:43:00 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,23 @@ bool	g_is_sigint;
 
 void	handle_signal_int(int sig)
 {
-	struct termios	term;
-	static char		new_line = '\n';
+	//struct termios	term;
+	// static char		new_line = '\n';
 
 	(void)sig;
-	g_is_sigint = true;
-	tcgetattr(STDIN_FILENO, &term);
-	term.c_lflag &= ~ECHO;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-	ioctl(STDIN_FILENO, TIOCSTI, &new_line);
-	term.c_lflag |= ECHO;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	//(void)sig;
+	//g_is_sigint = true;
+	//tcgetattr(STDIN_FILENO, &term);
+	//term.c_lflag &= ~ECHO;
+	//tcsetattr(STDIN_FILENO, TCSANOW, &term);
+	//ioctl(STDIN_FILENO, TIOCSTI, &new_line);
+	//ioctl(STDOUT_FILENO, TIOCSTI, &prout);
+	//term.c_lflag |= ECHO;
+	//tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
 int	main(int ac, char **av, char **env)

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:57 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/10 17:25:43 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/11 11:35:42 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <readline/history.h>
 # include <stdbool.h>
 # include <errno.h>
+# include <linux/ioctl.h>
 # include "libft.h"
 # include "input/get_next_line.h"
 # include "utils/string.h"
