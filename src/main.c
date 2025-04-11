@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 22:16:52 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/11 12:12:31 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	handle_signal_int(int sig)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	ioctl(STDIN_FILENO, TIOCSTI, &new_line);
 	term.c_lflag |= ECHO;
+	printf("termios.c_lflags: %d\n", term.c_lflag);
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
