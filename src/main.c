@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:55:06 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/05 22:16:52 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/14 12:05:29 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,23 @@ bool	g_is_sigint;
 
 void	handle_signal_int(int sig)
 {
-	struct termios	term;
-	static char		new_line = '\n';
+	char	*prompt;
+	char	*cursor;
 
 	(void)sig;
+	prompt = ft_strdup(rl_prompt);
+	if (!prompt)
+		return ;
+	cursor = prompt;
+	while (*cursor && *cursor != '\n')
+		cursor++;
+	*cursor = '\0';
+	printf("\n%s\n", prompt);
+	free(prompt);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 	g_is_sigint = true;
-	tcgetattr(STDIN_FILENO, &term);
-	term.c_lflag &= ~ECHO;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-	ioctl(STDIN_FILENO, TIOCSTI, &new_line);
-	term.c_lflag |= ECHO;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
 int	main(int ac, char **av, char **env)
