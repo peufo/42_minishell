@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 20:08:33 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/06 12:19:10 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/14 16:06:36 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	exec_child(t_ast *node, t_exe exe)
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 	node->is_child_process = true;
-	ft_lstiter(node->redir, node, (int (*)(void *, void *))exec_redir_heredoc);
 	pipes_connect(node);
 	node->status = exe(node);
 	node->shell->exit_status = node->status;

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:20:00 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/06 12:51:33 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/14 16:15:06 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,11 @@ static bool	is_heredoc_end(t_ast *node, t_redir *redir, char *line)
 		node->is_herdoc = false;
 		return (true);
 	}
-	if (g_is_sigint)
-	{
-		node->status = 130;
-		return (true);
-	}
 	name = redir->name;
 	while (*line && *name)
 		if (*(line++) != *(name++))
 			return (false);
 	return (!*line && !*name);
-}
-
-static int	heredoc_to_fd(t_ast *node, t_string *doc)
-{
-	t_pipe	herepipe;
-
-	if (pipe(herepipe.fildes) == -1)
-	{
-		string_free(doc);
-		shell_exit(node->shell);
-		return (-1);
-	}
-	ft_putstr_fd(doc->value, herepipe.in);
-	close(herepipe.in);
-	return (herepipe.out);
 }
 
 static void	expand_var(t_ast *node, t_string *doc)
@@ -87,15 +67,12 @@ static void	fill_heredoc(t_ast *node, t_redir *redir, t_string *doc)
 		free(line);
 }
 
-int	exec_redir_heredoc(t_ast *node, t_redir *redir)
+static int	heredoc(t_ast *node, t_redir *redir, t_pipe *herepipe)
 {
 	t_string	doc;
 
-	if (redir->type != REDIR_HEREDOC && redir->type != REDIR_HEREDOC_QUOTED)
-		return (0);
-	if (redir->fd)
-		return (0);
-	node->status = 0;
+	signal(SIGINT, SIG_DFL);
+	close(herepipe->out);
 	doc.value = NULL;
 	if (redir->type == REDIR_HEREDOC)
 		string_push_char(&doc, '"');
@@ -105,7 +82,36 @@ int	exec_redir_heredoc(t_ast *node, t_redir *redir)
 		string_push_char(&doc, '"');
 		expand_var(node, &doc);
 	}
-	redir->fd = heredoc_to_fd(node, &doc);
+	ft_putstr_fd(doc.value, herepipe->in);
+	close(herepipe->in);
 	string_free(&doc);
+	shell_exit(node->shell);
 	return (node->status > 1);
+}
+
+int	exec_redir_heredoc(t_ast *node, t_redir *redir)
+{
+	t_pipe		herepipe;
+	int			pid;
+
+	if (redir->type != REDIR_HEREDOC && redir->type != REDIR_HEREDOC_QUOTED)
+		return (0);
+	if (redir->fd)
+		return (0);
+	if (pipe(herepipe.fildes) == -1)
+		return (shell_exit(node->shell), 1);
+	node->status = 0;
+	redir->fd = herepipe.out;
+	pid = fork();
+	if (pid)
+	{
+		signal(SIGINT, SIG_IGN);
+		close(herepipe.in);
+		node->status = waitstatus(node, pid);
+		signal(SIGINT, handle_signal_int);
+		if (node->status == 130)
+			return (close(herepipe.out), redir->fd = -1, 1);
+		return (0);
+	}
+	return (heredoc(node, redir, &herepipe));
 }

@@ -6,7 +6,7 @@
 /*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 12:53:27 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/04 19:18:38 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/14 16:11:58 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,27 @@ static int	await_children(t_ast *node)
 	return (node->children[i - 1]->status);
 }
 
+static void	handle_pipe_herdocs(t_ast *node)
+{
+	t_ast	**child;
+
+	child = node->children;
+	while (*child)
+	{
+		ft_lstiter(
+			(*child)->redir,
+			*child,
+			(int (*)(void *, void *))exec_redir_heredoc);
+		if ((*child)->status)
+		{
+			node->status = (*child)->status;
+			node->shell->exit_status = node->status;
+			break ;
+		}
+		child++;
+	}
+}
+
 int	exec_pipeline(t_ast *node)
 {
 	int		i;
@@ -55,6 +76,9 @@ int	exec_pipeline(t_ast *node)
 	node->pipes = pipes_create(node);
 	if (!node->pipes)
 		return (shell_exit(node->shell), false);
+	handle_pipe_herdocs(node);
+	if (node->status > 1)
+		return (node->status);
 	i = get_children_count(node);
 	signal(SIGINT, SIG_IGN);
 	while (--i)
