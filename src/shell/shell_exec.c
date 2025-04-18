@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 05:58:39 by dyodlm            #+#    #+#             */
-/*   Updated: 2025/04/14 12:05:47 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/18 11:46:10 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,14 @@ static void	ast_build_and_exec(t_sh *shell)
 	shell->ast_error = false;
 	shell->ast = ast_create(shell, ft_strdup(shell->line));
 	if (shell->ast_error)
+	{
 		throw(shell->ast, (char *[]){"Parsing failed 🤨", NULL});
-	else
-		exec_ast(shell->ast);
+		ast_free(&shell->ast);
+		return ;
+	}
+	exec_ast(shell->ast);
+	if (shell->exit_status == 131)
+		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 	ast_free(&shell->ast);
 }
 
