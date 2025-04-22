@@ -6,7 +6,7 @@
 /*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 10:24:44 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/18 11:46:25 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/22 11:14:55 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,5 @@ int	waitstatus(t_ast *node, pid_t pid)
 	}
 	if (sig == SIGQUIT)
 		return (131);
-	if (status == 22)
-		status = 127;
 	return (status);
 }

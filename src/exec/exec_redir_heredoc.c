@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir_heredoc.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvoisard <jonas.voisard@gmail.com>         +#+  +:+       +#+        */
+/*   By: jvoisard <jvoisard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/05 00:20:00 by jvoisard          #+#    #+#             */
-/*   Updated: 2025/04/14 16:15:06 by jvoisard         ###   ########.fr       */
+/*   Updated: 2025/04/22 11:20:01 by jvoisard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ static bool	is_heredoc_end(t_ast *node, t_redir *redir, char *line)
 			"')",
 			NULL});
 		node->is_herdoc = false;
+		node->status = 0;
+		node->shell->exit_status = 0;
+		errno = false;
 		return (true);
 	}
 	name = redir->name;
@@ -86,7 +89,7 @@ static int	heredoc(t_ast *node, t_redir *redir, t_pipe *herepipe)
 	close(herepipe->in);
 	string_free(&doc);
 	shell_exit(node->shell);
-	return (node->status > 1);
+	return (node->status);
 }
 
 int	exec_redir_heredoc(t_ast *node, t_redir *redir)
@@ -108,6 +111,7 @@ int	exec_redir_heredoc(t_ast *node, t_redir *redir)
 		signal(SIGINT, SIG_IGN);
 		close(herepipe.in);
 		node->status = waitstatus(node, pid);
+		node->shell->exit_status = node->status;
 		signal(SIGINT, handle_signal_int);
 		if (node->status == 130)
 			return (close(herepipe.out), redir->fd = -1, 1);
